@@ -20,7 +20,7 @@
 (function(){
   window.SD_CONFIG = {
     /* ── Stripe ─────────────────────────────────────────────────────── */
-    STRIPE_PUBLISHABLE_KEY: null,          // SWAP: 'pk_live_...'
+    STRIPE_PUBLISHABLE_KEY: 'pk_live_51TMPUEGwsCHM3Ft2VeAo6SSBmIhtb5XxbxJhPsPRIh4dzFUWnxlMC55LFpLqu0RTpBX7ibkhNAJKdZsDwsuJZUS100Yg8AlqLR',
 
     STRIPE_PRODUCTS: {
       core:     'prod_UL9cNLWwDAk9PG',

@@ -12,6 +12,8 @@
 <meta property="og:type" content="website">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/sd-theme.css">
+<!-- Tidio chat (SourceDeck support bot) -->
+<script src="//code.tidio.co/80d20949327f4c7c81e2295df563dc46.js" async></script>
 </head>
 <body>
 
@@ -23,9 +25,7 @@
   <div class="links">
     <a href="/#features">Features</a>
     <a href="#pricing">Pricing</a>
-    <a href="/app/demo/">Demo</a>
-    <a href="/sales/">Sales</a>
-    <a class="cta" href="#pricing">Choose Plan</a>
+    <a href="/app/demo/">Demo</a><a class="cta" href="#pricing">Choose Plan</a>
   </div>
 </nav>
 
@@ -97,14 +97,6 @@
           <div class="sd-body">
             <div class="sd-t">Request Proposal <span class="tag sales">Operator</span></div>
             <div class="sd-d">Scoped quote for multi-seat teams and implementation-heavy rollouts.</div>
-          </div>
-          <div class="sd-arrow">→</div>
-        </a>
-        <a class="sd-opt" href="/sales/">
-          <div class="sd-ico a">👥</div>
-          <div class="sd-body">
-            <div class="sd-t">Talk to Sales</div>
-            <div class="sd-d">Direct line to the operator who sells and sets up SourceDeck.</div>
           </div>
           <div class="sd-arrow">→</div>
         </a>
@@ -184,7 +176,7 @@
       <div class="why">Sales-led rollout — we scope the workflow before quoting so the system actually fits how you operate.</div>
       <div class="ctas">
         <a href="/quote/operator/" class="sd-btn ghost" style="color:var(--gold);border-color:rgba(212,168,67,0.3)">Run your operation like a system</a>
-        <a href="/sales/" class="sd-btn secondary">Talk to Sales</a>
+        
       </div>
     </div>
 
@@ -208,8 +200,7 @@
   <span class="sep">·</span> <a href="/app/demo/">Demo</a>
   <span class="sep">·</span> <a href="/download/html/">Download</a>
   <span class="sep">·</span> <a href="/invoice/">Invoice</a>
-  <span class="sep">·</span> <a href="/sales/">Sales</a>
-</footer>
+  <span class="sep">·</span></footer>
 
 <!-- Centralized billing config + checkout resolver. Live Stripe price IDs wired in /assets/sd-config.js; one remaining swap = STRIPE_PUBLISHABLE_KEY. -->
 <script src="/assets/sd-config.js"></script>
