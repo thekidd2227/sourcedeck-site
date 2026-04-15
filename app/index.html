@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-<title>ARCG Systems — Lead Command Center v6</title>
+<title>SourceDeck — Lead Command Center</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:wght@400;500;600&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -479,8 +479,8 @@ input.input:focus,select.select:focus,textarea.textarea:focus{border-color:rgba(
   <div class="logo-block">
     <div class="logo-mark"><img src="arcg-systems-logo.png" alt="ARCG Systems" onerror="this.parentElement.textContent='A'"></div>
     <div>
-      <div class="brand-name">ARCG Systems</div>
-      <div class="brand-ver">Lead Command Center · v6</div>
+      <div class="brand-name">SourceDeck</div>
+      <div class="brand-ver">Lead Command Center</div>
     </div>
   </div>
   <div class="topbar-sep"></div>
@@ -7932,6 +7932,62 @@ document.addEventListener('DOMContentLoaded',()=>{
     openSubTab(g,fb);
   });
 });
+</script>
+
+<!-- SourceDeck first-run welcome (Workstream 3 entry experience) -->
+<style>
+.sd-welcome-overlay{position:fixed;inset:0;z-index:10000;background:rgba(4,6,12,0.82);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:24px;font-family:'Instrument Sans',sans-serif}
+.sd-welcome-overlay.open{display:flex}
+.sd-welcome-box{max-width:520px;width:100%;background:linear-gradient(180deg,#0E2040 0%,#0B1829 100%);border:1px solid rgba(201,148,26,0.3);border-radius:14px;padding:36px 32px;box-shadow:0 24px 80px rgba(0,0,0,0.6),0 0 0 1px rgba(255,255,255,0.02);color:#EAEEF5}
+.sd-welcome-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:4px 12px;border-radius:999px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.25);color:#22C55E;font-family:'Azeret Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;font-weight:600;margin-bottom:16px}
+.sd-welcome-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:#22C55E;box-shadow:0 0 6px #22C55E;animation:sdPulse 2s infinite}
+@keyframes sdPulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.sd-welcome-title{font-family:'Syne',sans-serif;font-size:24px;font-weight:700;letter-spacing:-0.01em;margin-bottom:10px;line-height:1.2}
+.sd-welcome-sub{font-size:14px;color:#C4CFD9;line-height:1.55;margin-bottom:22px}
+.sd-welcome-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
+.sd-welcome-step{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(255,255,255,0.02);border:1px solid rgba(21,38,56,0.7);border-radius:10px}
+.sd-welcome-step-num{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:rgba(201,148,26,0.15);border:1px solid rgba(201,148,26,0.35);color:#E8B84B;display:flex;align-items:center;justify-content:center;font-family:'Azeret Mono',monospace;font-size:11px;font-weight:700;margin-top:1px}
+.sd-welcome-step-text{font-size:13px;color:#C4CFD9;line-height:1.5}
+.sd-welcome-step-text strong{color:#EAEEF5;font-weight:600}
+.sd-welcome-actions{display:flex;gap:10px;align-items:center;justify-content:flex-end}
+.sd-welcome-btn{padding:10px 22px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all 0.18s;font-family:'Instrument Sans',sans-serif}
+.sd-welcome-btn-primary{background:#C9941A;color:#0B1829}
+.sd-welcome-btn-primary:hover{background:#E8B84B;transform:translateY(-1px)}
+.sd-welcome-btn-ghost{background:transparent;color:#7A8FA6;border:1px solid rgba(122,143,166,0.25)}
+.sd-welcome-btn-ghost:hover{color:#C4CFD9;border-color:rgba(196,207,217,0.4)}
+@media(max-width:540px){.sd-welcome-box{padding:26px 22px}.sd-welcome-title{font-size:20px}}
+</style>
+
+<div class="sd-welcome-overlay" id="sd-welcome" role="dialog" aria-labelledby="sd-welcome-title" aria-modal="true">
+  <div class="sd-welcome-box">
+    <div class="sd-welcome-eyebrow"><span class="dot"></span>Welcome to SourceDeck</div>
+    <div class="sd-welcome-title" id="sd-welcome-title">Your lead command center is ready.</div>
+    <div class="sd-welcome-sub">One place to track leads, manage follow-up, organize workflow, and see what is slowing the business down. Start with the first action below.</div>
+    <div class="sd-welcome-steps">
+      <div class="sd-welcome-step"><div class="sd-welcome-step-num">1</div><div class="sd-welcome-step-text"><strong>Generate your first leads.</strong> Open the AI Generate tab and describe your ideal target profile.</div></div>
+      <div class="sd-welcome-step"><div class="sd-welcome-step-num">2</div><div class="sd-welcome-step-text"><strong>Triage and push.</strong> Review results, then push qualified leads into your pipeline.</div></div>
+      <div class="sd-welcome-step"><div class="sd-welcome-step-num">3</div><div class="sd-welcome-step-text"><strong>Track follow-up.</strong> Use the pipeline view to see what is moving, stalled, and due next.</div></div>
+    </div>
+    <div class="sd-welcome-actions">
+      <button class="sd-welcome-btn sd-welcome-btn-ghost" onclick="sdDismissWelcome()">Skip tour</button>
+      <button class="sd-welcome-btn sd-welcome-btn-primary" onclick="sdDismissWelcome()">Get started</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  function show(){ var el=document.getElementById('sd-welcome'); if(el) el.classList.add('open'); }
+  window.sdDismissWelcome=function(){
+    var el=document.getElementById('sd-welcome'); if(el) el.classList.remove('open');
+    try{ localStorage.setItem('sd_welcome_seen','1'); }catch(e){}
+  };
+  try{
+    if(!localStorage.getItem('sd_welcome_seen')){
+      if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', function(){ setTimeout(show,400); }); }
+      else { setTimeout(show,400); }
+    }
+  }catch(e){}
+})();
 </script>
 </body>
 </html>
