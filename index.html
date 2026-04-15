@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SourceDeck — AI-Powered Business Operations</title>
-<meta name="description" content="SourceDeck by ARCG Systems — the AI operating system for small business operations. Discover, evaluate, decide, act, monitor, prove.">
+<title>SourceDeck.app | Lead Command Center for Outreach, Workflow, and Business Operations</title>
+<meta name="description" content="SourceDeck is a lead command center for founders, agencies, contractors, consultants, and service businesses. Track outreach, follow-up, workflow, and operational bottlenecks in one dashboard.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<meta property="og:title" content="SourceDeck — AI-Powered Business Operations">
-<meta property="og:description" content="The AI operating system for small business operators. Discover, evaluate, decide, act, monitor, prove.">
+<meta property="og:title" content="SourceDeck.app | Lead Command Center for Outreach, Workflow, and Business Operations">
+<meta property="og:description" content="Track leads, manage follow-up, organize workflow, and see what is slowing execution. One dashboard for founders, agencies, contractors, consultants, and small teams.">
 <meta property="og:image" content="https://sourcedeck.app/assets/sourcedeck-logo.png">
 <meta property="og:url" content="https://sourcedeck.app/">
 <meta property="og:type" content="website">
@@ -82,7 +82,7 @@ a{text-decoration:none;color:inherit}
 /* ── HERO ── */
 .hero{
   position:relative;z-index:1;
-  padding:160px max(24px, calc((100vw - 1000px)/2)) 100px;
+  padding:160px max(24px, calc((100vw - 1000px)/2)) 80px;
   text-align:center;
 }
 .hero-eyebrow{
@@ -97,18 +97,19 @@ a{text-decoration:none;color:inherit}
 }
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
 .hero h1{
-  font-size:clamp(42px,6.5vw,76px);font-weight:800;
-  letter-spacing:-0.035em;line-height:1.05;
-  margin-bottom:20px;
-  background:linear-gradient(to bottom, #f5f5f7 30%, rgba(245,245,247,0.5));
+  font-size:clamp(34px,5.4vw,62px);font-weight:800;
+  letter-spacing:-0.03em;line-height:1.08;
+  margin-bottom:22px;
+  max-width:980px;margin-left:auto;margin-right:auto;
+  background:linear-gradient(to bottom, #f5f5f7 30%, rgba(245,245,247,0.55));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
 }
-.hero p{
-  font-size:clamp(17px,2vw,21px);color:var(--sub);
-  max-width:580px;margin:0 auto 36px;font-weight:400;
-  line-height:1.5;letter-spacing:-0.01em;
+.hero p.lede{
+  font-size:clamp(16px,1.7vw,19px);color:var(--sub);
+  max-width:760px;margin:0 auto 32px;font-weight:400;
+  line-height:1.55;letter-spacing:-0.005em;
 }
-.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:18px}
 .btn{
   padding:12px 28px;border-radius:980px;font-size:15px;font-weight:600;
   cursor:pointer;border:none;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px;
@@ -117,6 +118,9 @@ a{text-decoration:none;color:inherit}
 .btn-primary:hover{background:var(--accent2);transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,113,227,0.4)}
 .btn-secondary{background:rgba(255,255,255,0.08);color:var(--text);border:0.5px solid rgba(255,255,255,0.12)}
 .btn-secondary:hover{background:rgba(255,255,255,0.12)}
+.hero-support{
+  font-size:13px;color:var(--muted);margin-top:6px;letter-spacing:-0.005em;
+}
 
 /* ── PRODUCT PREVIEW (mock UI) ── */
 .preview{
@@ -162,45 +166,63 @@ a{text-decoration:none;color:inherit}
 }
 @keyframes growBar{from{height:0}}
 
+/* ── SECTION SHELL ── */
+.section{
+  position:relative;z-index:1;
+  padding:90px max(24px, calc((100vw - 1100px)/2));
+}
+.section-narrow{
+  max-width:820px;margin:0 auto;
+}
+.section h2{
+  font-size:clamp(26px,3.6vw,40px);font-weight:800;
+  letter-spacing:-0.03em;line-height:1.15;margin-bottom:18px;
+}
+.section h2.center{text-align:center}
+.section .lede{
+  font-size:17px;color:var(--sub);line-height:1.65;letter-spacing:-0.005em;
+  max-width:720px;
+}
+.section .lede.center{margin-left:auto;margin-right:auto;text-align:center}
+.section .lede + .lede{margin-top:14px}
+.eyebrow{
+  display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;
+  color:var(--accent2);text-transform:uppercase;letter-spacing:0.14em;
+  margin-bottom:14px;font-weight:500;
+}
+
 /* ── FLOW STRIP ── */
 .flow-section{
   position:relative;z-index:1;
-  padding:100px 24px 60px;text-align:center;
+  padding:80px 24px 40px;text-align:center;
 }
 .flow-section h3{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:0.12em;font-weight:600;margin-bottom:24px}
 .flow-strip{
   display:flex;justify-content:center;gap:2px;flex-wrap:wrap;
-  max-width:700px;margin:0 auto;
+  max-width:920px;margin:0 auto;
 }
 .flow-chip{
-  padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;
+  padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;
   letter-spacing:0.02em;transition:all 0.2s;cursor:default;
   background:rgba(255,255,255,0.03);border:0.5px solid rgba(255,255,255,0.06);
 }
 .flow-chip:nth-child(1){color:var(--accent2)}
-.flow-chip:nth-child(2){color:var(--gold)}
-.flow-chip:nth-child(3){color:var(--green)}
-.flow-chip:nth-child(4){color:#ff6b6b}
-.flow-chip:nth-child(5){color:var(--purple)}
-.flow-chip:nth-child(6){color:#ff9f43}
+.flow-chip:nth-child(3){color:var(--gold)}
+.flow-chip:nth-child(5){color:var(--green)}
+.flow-chip:nth-child(7){color:#ff6b6b}
+.flow-chip:nth-child(9){color:var(--purple)}
+.flow-chip:nth-child(11){color:#ff9f43}
 .flow-chip:hover{background:rgba(255,255,255,0.06);transform:translateY(-1px)}
 .flow-arrow{color:rgba(255,255,255,0.15);display:flex;align-items:center;font-size:14px}
 
 /* ── FEATURES ── */
-.features{
-  position:relative;z-index:1;
-  padding:80px max(24px, calc((100vw - 1100px)/2));
-}
-.features h2{
-  font-size:clamp(28px,4vw,44px);font-weight:800;text-align:center;
-  letter-spacing:-0.03em;margin-bottom:16px;
-}
-.features .subtitle{text-align:center;color:var(--sub);font-size:17px;margin-bottom:56px;max-width:500px;margin-left:auto;margin-right:auto}
+.features h2{text-align:center;margin-bottom:14px}
+.features .subtitle{text-align:center;color:var(--sub);font-size:17px;margin:0 auto 48px;max-width:640px;line-height:1.55}
 .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .feat-card{
   background:rgba(255,255,255,0.02);
   border:0.5px solid rgba(255,255,255,0.06);
-  border-radius:16px;padding:32px 28px;
+  border-radius:16px;padding:28px 26px;
   transition:all 0.3s cubic-bezier(0.16,1,0.3,1);
   position:relative;overflow:hidden;
 }
@@ -216,24 +238,62 @@ a{text-decoration:none;color:inherit}
 }
 .feat-card:hover::before{opacity:1}
 .feat-card *{position:relative;z-index:1}
-.feat-icon{font-size:28px;margin-bottom:16px;display:block}
+.feat-icon{font-size:24px;margin-bottom:14px;display:block}
 .feat-name{font-size:17px;font-weight:700;letter-spacing:-0.01em;margin-bottom:8px}
-.feat-desc{font-size:13px;color:var(--sub);line-height:1.6}
-.feat-tier{
-  display:inline-block;margin-top:14px;
-  font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;
-  padding:3px 10px;border-radius:6px;letter-spacing:0.04em;
+.feat-desc{font-size:13.5px;color:var(--sub);line-height:1.6}
+
+/* ── AUDIENCE GRID ── */
+.audience h2{text-align:center;margin-bottom:14px}
+.audience .subtitle{text-align:center;color:var(--sub);font-size:16px;margin:0 auto 44px;max-width:640px;line-height:1.55}
+.aud-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.aud-card{
+  background:rgba(255,255,255,0.02);
+  border:0.5px solid rgba(255,255,255,0.06);
+  border-radius:14px;padding:22px 22px;
+  transition:all 0.25s;
 }
-.t-core{background:rgba(48,209,88,0.08);border:0.5px solid rgba(48,209,88,0.2);color:var(--green)}
-.t-pro{background:rgba(0,113,227,0.08);border:0.5px solid rgba(0,113,227,0.2);color:var(--accent2)}
-.t-op{background:rgba(191,90,242,0.08);border:0.5px solid rgba(191,90,242,0.2);color:var(--purple)}
+.aud-card:hover{border-color:rgba(255,255,255,0.12);background:rgba(255,255,255,0.035)}
+.aud-tag{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;
+  color:var(--accent2);letter-spacing:0.12em;text-transform:uppercase;
+  margin-bottom:8px;font-weight:600;
+}
+.aud-desc{font-size:13.5px;color:var(--sub);line-height:1.6}
+
+/* ── PAIN POINTS ── */
+.pain h2{text-align:center;margin-bottom:14px;max-width:760px;margin-left:auto;margin-right:auto}
+.pain .subtitle{text-align:center;color:var(--sub);font-size:16px;margin:0 auto 36px;max-width:640px}
+.pain-list{
+  max-width:720px;margin:0 auto;
+  background:rgba(255,255,255,0.02);
+  border:0.5px solid rgba(255,255,255,0.06);
+  border-radius:16px;padding:8px 8px;
+}
+.pain-item{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:16px 22px;
+  border-bottom:0.5px solid rgba(255,255,255,0.05);
+  font-size:14.5px;color:var(--sub);line-height:1.5;
+}
+.pain-item:last-child{border-bottom:none}
+.pain-mark{
+  flex-shrink:0;width:20px;height:20px;border-radius:50%;
+  background:rgba(255,107,107,0.12);
+  border:0.5px solid rgba(255,107,107,0.3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;color:#ff6b6b;font-weight:700;margin-top:1px;
+}
+.pain-close{
+  text-align:center;color:var(--text);font-size:15px;margin-top:28px;
+  max-width:640px;margin-left:auto;margin-right:auto;line-height:1.55;font-weight:500;
+}
 
 /* ── PRICING ── */
 .pricing{
   position:relative;z-index:1;
-  padding:100px max(24px, calc((100vw - 960px)/2));
+  padding:90px max(24px, calc((100vw - 960px)/2));
 }
-.pricing h2{font-size:clamp(28px,4vw,44px);font-weight:800;text-align:center;letter-spacing:-0.03em;margin-bottom:48px}
+.pricing h2{font-size:clamp(28px,4vw,40px);font-weight:800;text-align:center;letter-spacing:-0.03em;margin-bottom:48px}
 .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .price-card{
   background:rgba(255,255,255,0.02);border:0.5px solid rgba(255,255,255,0.06);
@@ -275,13 +335,14 @@ a{text-decoration:none;color:inherit}
 .price-btn-secondary{background:rgba(255,255,255,0.06);color:var(--text);border:0.5px solid rgba(255,255,255,0.1)}
 .price-btn-secondary:hover{background:rgba(255,255,255,0.1)}
 
-/* ── CTA ── */
+/* ── FINAL CTA ── */
 .cta{
   position:relative;z-index:1;
-  padding:120px 24px;text-align:center;
+  padding:110px 24px;text-align:center;
 }
-.cta h2{font-size:clamp(28px,4vw,48px);font-weight:800;letter-spacing:-0.03em;margin-bottom:12px}
-.cta p{color:var(--sub);font-size:17px;margin-bottom:32px}
+.cta h2{font-size:clamp(28px,4vw,46px);font-weight:800;letter-spacing:-0.03em;margin-bottom:14px;line-height:1.15}
+.cta p{color:var(--sub);font-size:17px;margin:0 auto 30px;max-width:640px;line-height:1.55}
+.cta .support{color:var(--muted);font-size:13px;margin-top:18px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.55}
 
 /* ── FOOTER ── */
 .footer{
@@ -294,15 +355,17 @@ a{text-decoration:none;color:inherit}
 
 /* ── RESPONSIVE ── */
 @media(max-width:900px){
-  .feat-grid,.price-grid{grid-template-columns:1fr}
+  .feat-grid,.price-grid,.aud-grid{grid-template-columns:1fr}
   .preview-content{grid-template-columns:1fr;gap:12px}
   .preview-chart{grid-column:span 1}
   .nav-links a:not(.nav-cta){display:none}
+  .section{padding:64px 20px}
 }
 @media(max-width:600px){
-  .hero{padding:120px 16px 60px}
+  .hero{padding:120px 16px 50px}
   .flow-arrow{display:none}
   .flow-strip{gap:6px}
+  .pain-item{padding:14px 16px;font-size:13.5px}
 }
 </style>
 </head>
@@ -317,9 +380,11 @@ a{text-decoration:none;color:inherit}
     <img src="/assets/sourcedeck-logo.png" alt="SourceDeck" width="138" height="30" style="display:block;height:30px;width:auto">
   </a>
   <div class="nav-links">
-    <a href="#features">Features</a>
+    <a href="#what">What it is</a>
+    <a href="#features">What it does</a>
+    <a href="#who">Who it's for</a>
     <a href="#pricing">Pricing</a>
-    <a href="/app/" class="nav-cta">Open App →</a>
+    <a href="/app/" class="nav-cta">Download</a>
   </div>
 </nav>
 
@@ -327,14 +392,15 @@ a{text-decoration:none;color:inherit}
 <section class="hero">
   <div class="hero-eyebrow">
     <span class="dot"></span>
-    AI-powered operations platform
+    Lead Command Center for Operators
   </div>
-  <h1>Run your business<br>like a system.</h1>
-  <p>SourceDeck replaces guesswork with structured decisions. Discover opportunities, score deals, track pipelines, and prove results — powered by AI.</p>
+  <h1>SourceDeck is the Lead Command Center for Outreach, Workflow, and Business Operations</h1>
+  <p class="lede">SourceDeck helps founders, operators, agencies, contractors, consultants, and service businesses track leads, manage follow-up, organize workflow, and see what is slowing execution &mdash; in one clear dashboard.</p>
   <div class="hero-actions">
-    <a href="/app/" class="btn btn-primary">Get Started Free →</a>
-    <a href="#features" class="btn btn-secondary">See how it works</a>
+    <a href="/app/" class="btn btn-primary">Download SourceDeck</a>
+    <a href="#features" class="btn btn-secondary">See How It Works</a>
   </div>
+  <div class="hero-support">Built for businesses that have outgrown spreadsheets, scattered tools, and disconnected systems.</div>
 </section>
 
 <!-- PRODUCT PREVIEW -->
@@ -347,19 +413,19 @@ a{text-decoration:none;color:inherit}
     </div>
     <div class="preview-content">
       <div class="preview-kpi">
-        <div class="label">Pipeline Value</div>
-        <div class="value blue">$247K</div>
-        <div class="sub">12 active deals</div>
+        <div class="label">Active Leads</div>
+        <div class="value blue">142</div>
+        <div class="sub">23 awaiting follow-up</div>
       </div>
       <div class="preview-kpi">
-        <div class="label">Win Rate</div>
-        <div class="value green">68%</div>
-        <div class="sub">+14% vs last quarter</div>
+        <div class="label">Outreach in Motion</div>
+        <div class="value green">68</div>
+        <div class="sub">12 replied this week</div>
       </div>
       <div class="preview-kpi">
-        <div class="label">Avg Deal Score</div>
-        <div class="value purple">82</div>
-        <div class="sub">5-axis weighted</div>
+        <div class="label">Stalled Items</div>
+        <div class="value purple">9</div>
+        <div class="sub">flagged for attention</div>
       </div>
       <div class="preview-chart">
         <div class="bar" style="height:40%"></div>
@@ -379,102 +445,149 @@ a{text-decoration:none;color:inherit}
   </div>
 </div>
 
-<!-- FLOW -->
-<section class="flow-section">
-  <h3>One connected flow</h3>
-  <div class="flow-strip">
-    <div class="flow-chip">Discover</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-chip">Evaluate</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-chip">Decide</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-chip">Act</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-chip">Monitor</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-chip">Prove</div>
+<!-- WHAT IS SOURCEDECK -->
+<section class="section" id="what">
+  <div class="section-narrow">
+    <div class="eyebrow">What is SourceDeck</div>
+    <h2>One operating view of leads, outreach, follow-up, and execution.</h2>
+    <p class="lede">SourceDeck is a business operations and lead command center built to help small teams and operators manage outreach, follow-up, workflow, and execution from one place.</p>
+    <p class="lede">Instead of bouncing between spreadsheets, inboxes, notes, and disconnected tools, SourceDeck gives you one operating view of what is happening, what is stalled, and what needs attention next. It is designed for businesses that need more control, more visibility, and less operational drag.</p>
   </div>
 </section>
 
-<!-- FEATURES -->
-<section class="features" id="features">
-  <h2>Built for operators,<br>not observers.</h2>
-  <p class="subtitle">Every feature connects to the next. No isolated widgets. One machine.</p>
+<!-- FLOW -->
+<section class="flow-section">
+  <h3>From lead to follow-through, in one place</h3>
+  <div class="flow-strip">
+    <div class="flow-chip">Track Leads</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-chip">Manage Outreach</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-chip">Organize Workflow</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-chip">Spot Bottlenecks</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-chip">Improve Visibility</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-chip">Execute Better</div>
+  </div>
+</section>
+
+<!-- FEATURES / WHAT IT DOES -->
+<section class="section features" id="features">
+  <div class="eyebrow" style="display:block;text-align:center">What SourceDeck does</div>
+  <h2>Run the parts of the business that usually get scattered across too many tools.</h2>
+  <p class="subtitle">Lead activity, outreach, workflow, and execution &mdash; visible in one dashboard so opportunities, follow-ups, and tasks stop falling through the cracks.</p>
   <div class="feat-grid">
     <div class="feat-card">
-      <span class="feat-icon">⚡</span>
-      <div class="feat-name">Command Mode</div>
-      <div class="feat-desc">Mission-control dashboard. KPIs, active deals, action queue, leak alerts, and proof shortcuts — one screen.</div>
-      <span class="feat-tier t-core">CORE</span>
+      <span class="feat-icon">📋</span>
+      <div class="feat-name">Track Leads</div>
+      <div class="feat-desc">Keep lead activity visible in one place so opportunities do not get lost in the shuffle.</div>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">✉️</span>
+      <div class="feat-name">Manage Outreach</div>
+      <div class="feat-desc">Monitor outreach and follow-up so conversations keep moving instead of dying in someone's inbox.</div>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">🗂️</span>
+      <div class="feat-name">Organize Workflow</div>
+      <div class="feat-desc">See tasks, movement, delays, and handoffs more clearly so work does not stall behind the scenes.</div>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">🚧</span>
+      <div class="feat-name">Spot Bottlenecks</div>
+      <div class="feat-desc">Identify where time, momentum, and execution are getting stuck before the problem gets expensive.</div>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">🔭</span>
+      <div class="feat-name">Improve Visibility</div>
+      <div class="feat-desc">Get one clearer view of operational activity instead of piecing together updates from different systems.</div>
     </div>
     <div class="feat-card">
       <span class="feat-icon">🎯</span>
-      <div class="feat-name">Opportunity Feed</div>
-      <div class="feat-desc">AI-discovered leads flow in automatically. Search, filter, score, and route from a single view.</div>
-      <span class="feat-tier t-core">CORE</span>
-    </div>
-    <div class="feat-card">
-      <span class="feat-icon">📐</span>
-      <div class="feat-name">Deal Score Engine</div>
-      <div class="feat-desc">5-axis scoring: fit, revenue, feasibility, competition, confidence. Automatic verdict: PURSUE / CONDITIONAL / KILL.</div>
-      <span class="feat-tier t-pro">PRO</span>
-    </div>
-    <div class="feat-card">
-      <span class="feat-icon">💰</span>
-      <div class="feat-name">Margin Simulator</div>
-      <div class="feat-desc">Contract value × subcontractor cost × internal overhead = real-time margin with pass/fail threshold.</div>
-      <span class="feat-tier t-pro">PRO</span>
-    </div>
-    <div class="feat-card">
-      <span class="feat-icon">🔍</span>
-      <div class="feat-name">Pipeline Leak Detector</div>
-      <div class="feat-desc">Stale deals, missed follow-ups, missing decision-makers, weak data confidence — caught automatically.</div>
-      <span class="feat-tier t-pro">PRO</span>
-    </div>
-    <div class="feat-card">
-      <span class="feat-icon">📞</span>
-      <div class="feat-name">Follow-Up Engine</div>
-      <div class="feat-desc">No deal dies from silence. Scheduled follow-ups, overdue alerts, and recommended timing.</div>
-      <span class="feat-tier t-pro">PRO</span>
-    </div>
-    <div class="feat-card">
-      <span class="feat-icon">📊</span>
-      <div class="feat-name">Proof Builder</div>
-      <div class="feat-desc">Branded pipeline reports, qualification outcomes, and monthly snapshots. Export-ready.</div>
-      <span class="feat-tier t-op">OPERATOR</span>
-    </div>
-    <div class="feat-card">
-      <span class="feat-icon">🤝</span>
-      <div class="feat-name">Subcontractor Match</div>
-      <div class="feat-desc">AI-matched subcontractors by skill, cost, availability, and past performance. Margin impact included.</div>
-      <span class="feat-tier t-op">OPERATOR</span>
-    </div>
-    <div class="feat-card">
-      <span class="feat-icon">🚀</span>
-      <div class="feat-name">Execution Timeline</div>
-      <div class="feat-desc">Auto-generated milestones, risk flags, and readiness assessment for every qualified deal.</div>
-      <span class="feat-tier t-op">OPERATOR</span>
+      <div class="feat-name">Support Better Execution</div>
+      <div class="feat-desc">Know what to fix first, what needs follow-up, and where the business is slowing down.</div>
     </div>
   </div>
+</section>
+
+<!-- WHY DISCONNECTED SYSTEMS -->
+<section class="section" id="why">
+  <div class="section-narrow">
+    <div class="eyebrow">Why people need it</div>
+    <h2>Most businesses are not failing from lack of effort. They are slowing down from disconnected systems.</h2>
+    <p class="lede">When leads, follow-up, workflow, and reporting live in different places, things get missed.</p>
+    <p class="lede">That usually looks like delayed responses, dropped handoffs, unclear ownership, inconsistent follow-up, and wasted effort trying to figure out what is going on.</p>
+    <p class="lede">SourceDeck helps make those problems visible so you can manage the operation with more clarity and less guesswork.</p>
+  </div>
+</section>
+
+<!-- WHO IT'S FOR -->
+<section class="section audience" id="who">
+  <div class="eyebrow" style="display:block;text-align:center">Who SourceDeck is for</div>
+  <h2>Built for operators who need a better way to manage business activity &mdash; without adding more chaos.</h2>
+  <p class="subtitle">Founders, agencies, contractors, consultants, service businesses, and small teams that need real workflow visibility.</p>
+  <div class="aud-grid">
+    <div class="aud-card">
+      <div class="aud-tag">Founders</div>
+      <div class="aud-desc">For founders who need visibility into leads, follow-up, and workflow without living in five different tools.</div>
+    </div>
+    <div class="aud-card">
+      <div class="aud-tag">Agencies</div>
+      <div class="aud-desc">For agencies managing outreach, internal tasks, and moving client work that easily gets fragmented.</div>
+    </div>
+    <div class="aud-card">
+      <div class="aud-tag">Contractors</div>
+      <div class="aud-desc">For contractors who need a clearer command center for leads, workflow, follow-up, and execution.</div>
+    </div>
+    <div class="aud-card">
+      <div class="aud-tag">Consultants</div>
+      <div class="aud-desc">For consultants who need a better operational view of pipeline activity, next steps, and client movement.</div>
+    </div>
+    <div class="aud-card">
+      <div class="aud-tag">Service Businesses</div>
+      <div class="aud-desc">For service businesses that have outgrown duct-tape systems and need more structure around daily execution.</div>
+    </div>
+    <div class="aud-card">
+      <div class="aud-tag">Small Teams</div>
+      <div class="aud-desc">For teams that need one place to see what is moving, what is delayed, and what needs attention now.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAIN POINTS -->
+<section class="section pain">
+  <div class="eyebrow" style="display:block;text-align:center">Common pain points</div>
+  <h2>If this sounds familiar, SourceDeck is probably for you.</h2>
+  <p class="subtitle">The everyday signals that your operation has outgrown its current setup.</p>
+  <div class="pain-list">
+    <div class="pain-item"><span class="pain-mark">!</span><span>Leads are tracked in one place, follow-up happens somewhere else.</span></div>
+    <div class="pain-item"><span class="pain-mark">!</span><span>Workflow depends too much on memory, inboxes, or manual handoffs.</span></div>
+    <div class="pain-item"><span class="pain-mark">!</span><span>You spend too much time trying to see what is happening.</span></div>
+    <div class="pain-item"><span class="pain-mark">!</span><span>Tasks move, but visibility does not.</span></div>
+    <div class="pain-item"><span class="pain-mark">!</span><span>Work gets delayed because systems are disconnected.</span></div>
+    <div class="pain-item"><span class="pain-mark">!</span><span>Important follow-up slips through cracks.</span></div>
+  </div>
+  <div class="pain-close">SourceDeck helps bring those moving parts into one clearer operating view.</div>
 </section>
 
 <!-- PRICING -->
 <section class="pricing" id="pricing">
-  <h2>Start free. Scale when ready.</h2>
+  <h2>Pricing built for operators, not bloated SaaS.</h2>
   <div class="price-grid">
     <div class="price-card">
       <div class="price-name">Core</div>
       <div class="price-price">$0</div>
       <div class="price-note">Free forever</div>
       <ul class="price-list">
-        <li>Command Mode</li>
-        <li>Opportunity Feed</li>
-        <li>Basic pipeline tracking</li>
-        <li>Brand overlay</li>
-        <li class="locked">Upgrade for Deal Scoring</li>
+        <li>Lead tracking</li>
+        <li>Outreach view</li>
+        <li>Workflow board</li>
+        <li>Single operator</li>
+        <li class="locked">Upgrade for follow-up engine</li>
       </ul>
-      <a href="/app/" class="price-btn price-btn-secondary">Get Started →</a>
+      <a href="/app/" class="price-btn price-btn-secondary">Download SourceDeck</a>
     </div>
     <div class="price-card pop">
       <div class="price-name">Pro</div>
@@ -482,39 +595,40 @@ a{text-decoration:none;color:inherit}
       <div class="price-note">Per operator</div>
       <ul class="price-list">
         <li>Everything in Core</li>
-        <li>Deal Score Engine</li>
-        <li>Margin Simulator</li>
-        <li>Pipeline Leak Detector</li>
-        <li>Follow-Up Engine</li>
+        <li>Follow-up engine</li>
+        <li>Bottleneck alerts</li>
+        <li>Workflow handoffs</li>
+        <li>Operational reports</li>
       </ul>
-      <a href="/app/" class="price-btn price-btn-primary">Start Free Trial →</a>
+      <a href="/app/" class="price-btn price-btn-primary">Download SourceDeck</a>
     </div>
     <div class="price-card">
       <div class="price-name">Operator</div>
       <div class="price-price">$149<span>/mo</span></div>
-      <div class="price-note">For federal + enterprise ops</div>
+      <div class="price-note">For teams and agencies</div>
       <ul class="price-list">
         <li>Everything in Pro</li>
-        <li>Proof Builder</li>
-        <li>Subcontractor Match</li>
-        <li>Execution Timelines</li>
-        <li>GovCon Pipeline</li>
+        <li>Multi-seat workflow</li>
+        <li>Client and project views</li>
+        <li>Advanced reporting</li>
+        <li>Priority support</li>
       </ul>
-      <a href="mailto:jeanmax@arcgsystems.com?subject=SourceDeck Operator" class="price-btn price-btn-secondary" style="border-color:rgba(191,90,242,0.3);color:var(--purple)">Contact Sales →</a>
+      <a href="mailto:jeanmax@arcgsystems.com?subject=SourceDeck Operator" class="price-btn price-btn-secondary" style="border-color:rgba(191,90,242,0.3);color:var(--purple)">Contact Sales</a>
     </div>
   </div>
 </section>
 
-<!-- CTA -->
+<!-- FINAL CTA -->
 <section class="cta">
-  <h2>Your business runs on decisions.<br>Make them provable.</h2>
-  <p>SourceDeck — the AI operating system for small business operators.</p>
-  <a href="/app/" class="btn btn-primary" style="font-size:17px;padding:14px 36px">Launch SourceDeck →</a>
+  <h2>See what is slowing your business down.</h2>
+  <p>SourceDeck helps you track leads, manage follow-up, organize workflow, and see the bottlenecks affecting execution.</p>
+  <a href="/app/" class="btn btn-primary" style="font-size:17px;padding:14px 36px">Download SourceDeck at SourceDeck.app</a>
+  <div class="support">Built for founders, agencies, contractors, consultants, service businesses, and small teams that need more operational clarity.</div>
 </section>
 
 <!-- FOOTER -->
 <footer class="footer">
-  SourceDeck is an <a href="https://arcgsystems.com" style="color:var(--muted);opacity:0.75" target="_blank" rel="noopener">ARCG Systems</a> product · &copy; 2026 Ariel's River Contracting Group LLC
+  SourceDeck is an <a href="https://arcgsystems.com" style="color:var(--muted);opacity:0.75" target="_blank" rel="noopener">ARCG Systems</a> product &middot; &copy; 2026 Ariel's River Contracting Group LLC
 </footer>
 
 <script>
