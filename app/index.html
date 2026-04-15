@@ -3525,7 +3525,7 @@ async function callAI(systemPrompt, userMessage, maxTokens){
 // Airtable — set PAT for live data mode
 const AT_BASE='appfQRV1tGk3sWMCb';
 const AT_TABLE='tbl695ilVYkzMxHso';
-const AT_PAT='';
+const AT_PAT=(typeof localStorage!=='undefined'&&localStorage.getItem('AT_PAT'))||'';
 
 let currentMode='image',lastVisualPrompt='',lastVideoPrompt='',lastPipelineOut=null;
 let actLog=[],checkState={};
