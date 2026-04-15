@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SourceDeck | Talk to Sales</title>
+<meta name="description" content="Direct line to the operator who sells and sets up SourceDeck. No SDR chain. One call, clear next step.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sd-theme.css">
+</head>
+<body>
+
+<div class="sd-bg"></div><div class="sd-grid"></div>
+
+<nav class="sd-nav">
+  <a class="sd-brand" href="/"><span class="glyph">S</span> SourceDeck</a>
+  <div class="links">
+    <a href="/app/">Launch</a>
+    <a href="/app/#pricing">Pricing</a>
+    <a href="/invoice/">Invoice</a>
+    <a class="cta" href="#form">Talk to Sales</a>
+  </div>
+</nav>
+
+<section class="sd-hero">
+  <div class="sd-eyebrow"><span class="dot"></span> Sales</div>
+  <h1>Talk to a human who ships.</h1>
+  <p class="lede">No SDR chain. No auto-scheduler roulette. One message reaches the operator who sells, sets up, and supports SourceDeck.</p>
+</section>
+
+<section class="sd-section narrow">
+  <div class="sd-card">
+    <h3>What to ask about</h3>
+    <ul>
+      <li>Operator or Enterprise scoping and proposal</li>
+      <li>Annual invoicing, PO terms, or procurement review</li>
+      <li>Security review, DPA, or vendor questionnaire</li>
+      <li>Multi-seat rollout, onboarding, or migration from existing tools</li>
+      <li>Custom integrations and implementation support</li>
+    </ul>
+    <p>If you just want to try it, <a href="/app/demo/" style="color:var(--accent2)">start with the demo</a> — no call needed.</p>
+  </div>
+
+  <div class="sd-card" id="form">
+    <h3>Send a note</h3>
+    <!-- PLACEHOLDER: swap action for a real form endpoint (Formspree / Basin / HubSpot) when live. -->
+    <form class="sd-form" action="mailto:sales@arcgsystems.com" method="POST" enctype="text/plain">
+      <div>
+        <label for="sl-name">Name</label>
+        <input id="sl-name" name="name" type="text" required>
+      </div>
+      <div>
+        <label for="sl-email">Work email</label>
+        <input id="sl-email" name="email" type="email" required>
+      </div>
+      <div>
+        <label for="sl-company">Company</label>
+        <input id="sl-company" name="company" type="text">
+      </div>
+      <div>
+        <label for="sl-role">Role</label>
+        <input id="sl-role" name="role" type="text" placeholder="Owner · Ops · BD · Finance">
+      </div>
+      <div class="full">
+        <label for="sl-topic">Topic</label>
+        <select id="sl-topic" name="topic">
+          <option>Request Proposal — Operator</option>
+          <option>Request Proposal — Enterprise</option>
+          <option>Purchase by Invoice</option>
+          <option>Security / vendor review</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="full">
+        <label for="sl-note">What do you need?</label>
+        <textarea id="sl-note" name="message" placeholder="Team size, timeline, buying path, anything else we should know."></textarea>
+      </div>
+      <div class="full submit">
+        <button type="submit" class="sd-btn primary lg" style="width:100%">Send to sales</button>
+      </div>
+    </form>
+    <p style="font-size:11.5px;color:var(--muted);margin-top:10px">We reply within one business day. Direct: <a href="mailto:sales@arcgsystems.com" style="color:var(--accent2)">sales@arcgsystems.com</a></p>
+  </div>
+</section>
+
+<footer class="sd-foot">
+  SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">·</span> &copy; 2026 Ariel's River Contracting Group LLC
+  <span class="sep">·</span> <a href="/app/">Launch</a>
+  <span class="sep">·</span> <a href="/invoice/">Invoice</a>
+</footer>
+
+</body>
+</html>

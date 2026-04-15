@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SourceDeck | Pro — Request Annual Invoice</title>
+<meta name="description" content="Request an annual invoice for SourceDeck Pro. Seats, start date, and PO number — we handle the rest.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sd-theme.css">
+</head>
+<body>
+
+<div class="sd-bg"></div><div class="sd-grid"></div>
+
+<nav class="sd-nav">
+  <a class="sd-brand" href="/"><span class="glyph">S</span> SourceDeck</a>
+  <div class="links">
+    <a href="/app/">Launch</a>
+    <a href="/app/#pricing">Pricing</a>
+    <a href="/invoice/">Invoice</a>
+    <a class="cta" href="/sales/">Talk to Sales</a>
+  </div>
+</nav>
+
+<section class="sd-hero">
+  <div class="sd-eyebrow"><span class="dot"></span> Pro · Annual Invoice</div>
+  <h1>Request a Pro annual invoice.</h1>
+  <p class="lede">For teams that would rather have one invoice than twelve card charges. Quote delivered within one business day.</p>
+</section>
+
+<section class="sd-section narrow">
+  <div class="sd-card">
+    <h3>What you get</h3>
+    <ul>
+      <li>SourceDeck Pro — everything in Starter plus follow-up tools, bottleneck alerts, workflow handoffs, and operational reporting</li>
+      <li>Formal quote referencing your PO number</li>
+      <li>Annual invoice at list price — <strong>$49/seat/month, billed annually</strong></li>
+      <li>ACH, wire, or check; net-30 available for qualifying buyers</li>
+    </ul>
+    <p class="mono">LIST · $49 / SEAT / MONTH · ANNUAL = $588 / SEAT / YEAR · USD</p>
+  </div>
+
+  <div class="sd-card">
+    <h3>Request form</h3>
+    <!-- PLACEHOLDER: swap action for a real form endpoint (Formspree / Basin / HubSpot) when live. -->
+    <form class="sd-form" action="mailto:sales@arcgsystems.com?subject=SourceDeck%20Pro%20Annual%20Invoice%20Request" method="POST" enctype="text/plain">
+      <div>
+        <label for="qp-name">Name</label>
+        <input id="qp-name" name="name" type="text" required>
+      </div>
+      <div>
+        <label for="qp-email">Work email</label>
+        <input id="qp-email" name="email" type="email" required>
+      </div>
+      <div>
+        <label for="qp-company">Company</label>
+        <input id="qp-company" name="company" type="text" required>
+      </div>
+      <div>
+        <label for="qp-seats">Seats</label>
+        <input id="qp-seats" name="seats" type="number" min="1" value="1" required>
+      </div>
+      <div>
+        <label for="qp-start">Target start date</label>
+        <input id="qp-start" name="start_date" type="date">
+      </div>
+      <div>
+        <label for="qp-po">PO number (if known)</label>
+        <input id="qp-po" name="po_number" type="text">
+      </div>
+      <div class="full">
+        <label for="qp-billing">Billing contact + address</label>
+        <textarea id="qp-billing" name="billing" placeholder="Finance contact name, email, and billing address"></textarea>
+      </div>
+      <div class="full">
+        <label for="qp-notes">Anything else</label>
+        <textarea id="qp-notes" name="notes" placeholder="Payment terms preference, procurement requirements, etc."></textarea>
+      </div>
+      <div class="full submit">
+        <button type="submit" class="sd-btn primary lg" style="width:100%">Request quote</button>
+      </div>
+    </form>
+    <p style="font-size:11.5px;color:var(--muted);margin-top:10px">Prefer a card? <a href="/app/#pricing" style="color:var(--accent2)">Choose Plan on pricing page</a>. Need multi-seat scoping? <a href="/quote/operator/" style="color:var(--accent2)">Request the Operator proposal</a>.</p>
+  </div>
+</section>
+
+<footer class="sd-foot">
+  SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">·</span> &copy; 2026 Ariel's River Contracting Group LLC
+  <span class="sep">·</span> <a href="/invoice/">Invoice</a>
+  <span class="sep">·</span> <a href="/sales/">Sales</a>
+</footer>
+
+</body>
+</html>

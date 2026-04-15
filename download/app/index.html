@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SourceDeck | Desktop app — waitlist</title>
+<meta name="description" content="Join the waitlist for the SourceDeck desktop app. Signed macOS build in progress; Windows and Linux to follow.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sd-theme.css">
+</head>
+<body>
+
+<div class="sd-bg"></div><div class="sd-grid"></div>
+
+<nav class="sd-nav">
+  <a class="sd-brand" href="/"><span class="glyph">S</span> SourceDeck</a>
+  <div class="links">
+    <a href="/app/">Launch</a>
+    <a href="/app/#pricing">Pricing</a>
+    <a href="/sales/">Sales</a>
+    <a class="cta" href="/app/#pricing">Choose Plan</a>
+  </div>
+</nav>
+
+<section class="sd-hero">
+  <div class="sd-eyebrow"><span class="dot" style="background:var(--gold)"></span> Download · Desktop App</div>
+  <h1>Desktop build is on the way.</h1>
+  <p class="lede">A signed macOS build is in final testing. Windows and Linux follow. Drop your email to be notified when the signed installer ships.</p>
+</section>
+
+<section class="sd-section narrow">
+  <div class="sd-card">
+    <h3>What the desktop app adds over the web</h3>
+    <ul>
+      <li>Offline-first workspace — full functionality without network</li>
+      <li>Native file handles for local ledger, export, and backup</li>
+      <li>Signed updates (Sparkle on macOS) — no manual download of new versions</li>
+      <li>Menubar quick-capture for leads and follow-ups</li>
+    </ul>
+    <p class="mono">TARGETS · MACOS 12+ (APPLE SILICON + INTEL) · WINDOWS 11 · LINUX APPIMAGE</p>
+  </div>
+
+  <div class="sd-card">
+    <h3>Join the waitlist</h3>
+    <p>No marketing list — you only hear from us when the signed build is ready to download.</p>
+    <!-- PLACEHOLDER: replace mailto with form endpoint when waitlist backend is live -->
+    <form class="sd-form" action="mailto:sales@arcgsystems.com" method="POST" enctype="text/plain">
+      <div class="full">
+        <label for="dwa-email">Email</label>
+        <input id="dwa-email" type="email" name="email" placeholder="you@company.com" required>
+      </div>
+      <div class="full">
+        <label for="dwa-platform">Primary platform</label>
+        <select id="dwa-platform" name="platform">
+          <option value="macos">macOS (Apple Silicon)</option>
+          <option value="macos-intel">macOS (Intel)</option>
+          <option value="windows">Windows 11</option>
+          <option value="linux">Linux</option>
+        </select>
+      </div>
+      <div class="full submit">
+        <button type="submit" class="sd-btn primary lg" style="width:100%">Notify me when it ships</button>
+      </div>
+    </form>
+    <p style="font-size:11.5px;color:var(--muted);margin-top:10px">Can't wait? Use the <a href="/app/demo/" style="color:var(--accent2)">web demo</a> or download the <a href="/download/html/" style="color:var(--accent2)">blank HTML</a> — both run today.</p>
+  </div>
+</section>
+
+<footer class="sd-foot">
+  SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">·</span> &copy; 2026 Ariel's River Contracting Group LLC
+  <span class="sep">·</span> <a href="/app/">Launch</a>
+  <span class="sep">·</span> <a href="/sales/">Sales</a>
+</footer>
+
+</body>
+</html>

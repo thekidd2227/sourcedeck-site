@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SourceDeck | Operator / Enterprise — Request Proposal</title>
+<meta name="description" content="Request a scoped SourceDeck proposal for Operator or Enterprise rollout. We scope before we quote.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sd-theme.css">
+</head>
+<body>
+
+<div class="sd-bg"></div><div class="sd-grid"></div>
+
+<nav class="sd-nav">
+  <a class="sd-brand" href="/"><span class="glyph">S</span> SourceDeck</a>
+  <div class="links">
+    <a href="/app/">Launch</a>
+    <a href="/app/#pricing">Pricing</a>
+    <a href="/invoice/">Invoice</a>
+    <a class="cta" href="/sales/">Talk to Sales</a>
+  </div>
+</nav>
+
+<section class="sd-hero">
+  <div class="sd-eyebrow"><span class="dot"></span> Operator · Proposal Request</div>
+  <h1>Request a scoped proposal.</h1>
+  <p class="lede">For multi-user teams and implementation-heavy rollouts. We scope your workflow before quoting, so the seat count, onboarding, and integrations all fit.</p>
+</section>
+
+<section class="sd-section narrow">
+  <div class="sd-card">
+    <h3>What the proposal includes</h3>
+    <ul>
+      <li>Recommended seat count and workspace structure</li>
+      <li>Onboarding plan (named operator + setup milestones)</li>
+      <li>Integration map for the tools you're already running</li>
+      <li>Annual pricing, payment terms, and activation timeline</li>
+      <li>For Enterprise: MSA, SOW, and custom DPA ready for procurement</li>
+    </ul>
+    <p class="mono">FROM $149 / SEAT / MONTH · ANNUAL · CUSTOM FOR ENTERPRISE</p>
+  </div>
+
+  <div class="sd-card">
+    <h3>How scoping works</h3>
+    <div class="sd-flow">
+      <div class="sd-flow-step"><div class="n">01</div><div class="t">Submit request</div><div class="d">Tell us team size and what you're trying to fix.</div></div>
+      <div class="sd-flow-step"><div class="n">02</div><div class="t">Scoping call</div><div class="d">30-min call with the operator who will set it up.</div></div>
+      <div class="sd-flow-step"><div class="n">03</div><div class="t">Written proposal</div><div class="d">Scope, pricing, timeline — in writing.</div></div>
+      <div class="sd-flow-step"><div class="n">04</div><div class="t">Kickoff</div><div class="d">Invoice issued, workspace provisioned, rollout begins.</div></div>
+    </div>
+  </div>
+
+  <div class="sd-card">
+    <h3>Request form</h3>
+    <!-- PLACEHOLDER: swap action for a real form endpoint (Formspree / Basin / HubSpot) when live. -->
+    <form class="sd-form" action="mailto:sales@arcgsystems.com?subject=SourceDeck%20Operator%20Proposal%20Request" method="POST" enctype="text/plain">
+      <div>
+        <label for="qo-name">Name</label>
+        <input id="qo-name" name="name" type="text" required>
+      </div>
+      <div>
+        <label for="qo-email">Work email</label>
+        <input id="qo-email" name="email" type="email" required>
+      </div>
+      <div>
+        <label for="qo-company">Company</label>
+        <input id="qo-company" name="company" type="text" required>
+      </div>
+      <div>
+        <label for="qo-size">Team size</label>
+        <select id="qo-size" name="team_size">
+          <option>2–10 users</option>
+          <option>10–50 users</option>
+          <option>50–250 users</option>
+          <option>250+ users (Enterprise)</option>
+        </select>
+      </div>
+      <div>
+        <label for="qo-tier">Target tier</label>
+        <select id="qo-tier" name="tier">
+          <option value="operator">Operator</option>
+          <option value="enterprise">Enterprise</option>
+          <option value="unsure">Unsure — help me scope</option>
+        </select>
+      </div>
+      <div>
+        <label for="qo-timeline">Target start</label>
+        <select id="qo-timeline" name="timeline">
+          <option>Within 30 days</option>
+          <option>30–60 days</option>
+          <option>60–90 days</option>
+          <option>This quarter, flexible</option>
+        </select>
+      </div>
+      <div class="full">
+        <label for="qo-problem">What are you trying to fix?</label>
+        <textarea id="qo-problem" name="problem" placeholder="Current tools, where the breakdown is, what success looks like in 90 days."></textarea>
+      </div>
+      <div class="full">
+        <label for="qo-procurement">Procurement requirements (if any)</label>
+        <textarea id="qo-procurement" name="procurement" placeholder="Security review, DPA, MSA, SOC 2 questionnaire, insurance, etc."></textarea>
+      </div>
+      <div class="full submit">
+        <button type="submit" class="sd-btn primary lg" style="width:100%">Request proposal</button>
+      </div>
+    </form>
+    <p style="font-size:11.5px;color:var(--muted);margin-top:10px">Just shopping around? <a href="/app/demo/" style="color:var(--accent2)">Start with the demo</a>. Smaller team on a card? <a href="/app/#pricing" style="color:var(--accent2)">Choose Plan</a>.</p>
+  </div>
+</section>
+
+<script>
+// Pre-select tier from ?tier=enterprise query param (used by /app/ "Enterprise" card)
+(function(){
+  var t = new URLSearchParams(location.search).get('tier');
+  if (t) {
+    var sel = document.getElementById('qo-tier');
+    if (sel) sel.value = (t === 'enterprise') ? 'enterprise' : (t === 'operator' ? 'operator' : sel.value);
+  }
+})();
+</script>
+
+<footer class="sd-foot">
+  SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">·</span> &copy; 2026 Ariel's River Contracting Group LLC
+  <span class="sep">·</span> <a href="/invoice/">Invoice</a>
+  <span class="sep">·</span> <a href="/sales/">Sales</a>
+</footer>
+
+</body>
+</html>
