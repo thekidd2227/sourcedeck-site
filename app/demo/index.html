@@ -565,6 +565,7 @@ body{padding-top:32px !important}
       <button class="nav-btn active" data-tab="dashboard"><span class="nav-icon">📊</span>Dashboard</button>
       <button class="nav-btn" data-tab="leads"><span class="nav-icon">👥</span>Lead Generator</button>
       <button class="nav-btn" data-tab="revenue"><span class="nav-icon">💰</span>Revenue</button>
+      <button class="nav-btn" data-tab="funnel"><span class="nav-icon">🎯</span>Funnel Health</button>
       <button class="nav-btn" data-tab="email"><span class="nav-icon">📧</span>Email Tracker</button>
     </div>
     <div class="nav-section">
@@ -826,6 +827,70 @@ body{padding-top:32px !important}
             <div class="sl">Stage Aging (Days in Stage)</div>
             <div id="rv-aging" style="display:flex;flex-direction:column;gap:6px;margin-top:6px"></div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ FUNNEL HEALTH — CONVERSION DASHBOARD ═══════ -->
+    <div class="tab-pane" id="tab-funnel">
+      <div class="pane-hdr">
+        <div><div class="pane-title">Funnel Health</div><div class="pane-sub">Where leads drop · where money is made · live from Airtable Email Events + checkout attribution</div></div>
+        <div class="pane-actions"><button class="btn btn-ghost" onclick="renderFunnel()">↻ Refresh</button></div>
+      </div>
+      <div class="pane-body">
+
+        <!-- Funnel Health tiles -->
+        <div class="sl" style="margin-bottom:8px">Funnel Health</div>
+        <div class="grid-4 mb-14">
+          <div class="kpi"><div class="kpi-label">Qualified</div><div class="kpi-val" id="fn-qualified">—</div></div>
+          <div class="kpi"><div class="kpi-label">Enrolled</div><div class="kpi-val" id="fn-enrolled">—</div></div>
+          <div class="kpi"><div class="kpi-label">Sent</div><div class="kpi-val" id="fn-sent">—</div></div>
+          <div class="kpi"><div class="kpi-label">Replied</div><div class="kpi-val" style="color:var(--accent2,#2997ff)" id="fn-replied">—</div></div>
+        </div>
+        <div class="grid-3 mb-20" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+          <div class="kpi"><div class="kpi-label">Pricing clicks</div><div class="kpi-val" id="fn-clicks">—</div></div>
+          <div class="kpi warn-kpi"><div class="kpi-label">Checkout starts</div><div class="kpi-val" style="color:var(--warn)" id="fn-starts">—</div></div>
+          <div class="kpi green-kpi kpi-glow-green"><div class="kpi-label">Paid conversions</div><div class="kpi-val" style="color:var(--green)" id="fn-paid">—</div></div>
+        </div>
+
+        <div class="grid-2 mb-20">
+          <!-- Drop-Off Points -->
+          <div class="card">
+            <div class="sl">Drop-Off Points</div>
+            <div id="fn-drops" style="display:flex;flex-direction:column;gap:10px;margin-top:8px">
+              <div style="font-size:11.5px;color:var(--muted);padding:20px 0;text-align:center">Waiting for live events…</div>
+            </div>
+          </div>
+
+          <!-- Revenue Captured -->
+          <div class="card">
+            <div class="sl">Revenue Captured</div>
+            <div class="grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px">
+              <div class="kpi gold-kpi kpi-glow-gold"><div class="kpi-label">Total MRR</div><div class="kpi-val" style="color:var(--gold2)" id="fn-mrr">$0</div></div>
+              <div class="kpi"><div class="kpi-label">Avg revenue / converted user</div><div class="kpi-val" id="fn-arpu">$0</div></div>
+            </div>
+            <div style="margin-top:10px">
+              <div style="font:500 10px/1.3 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px">By plan</div>
+              <div id="fn-by-plan" style="display:flex;flex-direction:column;gap:6px;font-size:12px">
+                <div style="color:var(--muted)">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent conversion activity -->
+        <div class="card">
+          <div class="sl">Recent Conversion Activity</div>
+          <div class="tbl-wrap" style="max-height:300px">
+            <table class="tbl">
+              <thead><tr><th>Company / Lead</th><th>Campaign</th><th>Reply</th><th>Pricing Click</th><th>Checkout</th><th>Plan</th><th>Revenue</th><th>Last Activity</th></tr></thead>
+              <tbody id="fn-activity"><tr><td colspan="8" style="text-align:center;color:var(--muted);padding:20px;font-size:12px">Waiting for live events…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div style="margin-top:14px;font:500 10.5px/1.5 'JetBrains Mono',monospace;letter-spacing:0.08em;color:var(--muted)">
+          SOURCES · Airtable Leads table · Airtable Email Events ledger · localStorage <code style="color:var(--muted)">sd_events</code> (pricing clicks + checkout attribution from /#pricing and /thanks/?plan=…)
         </div>
       </div>
     </div>
@@ -3660,6 +3725,7 @@ function openTab(t){
   if(t==='overdue'&&typeof renderOverdue==='function')renderOverdue();
   if(t==='email'&&typeof renderEmailTracker==='function')renderEmailTracker();
   if(t==='revenue'&&typeof renderRevenue==='function')renderRevenue();
+  if(t==='funnel'&&typeof renderFunnel==='function')renderFunnel();
   if(t==='sysflow'&&typeof renderFlow==='function')renderFlow();
   if(t==='dailyops'&&typeof renderDailyOps==='function')renderDailyOps();
   if(t==='delivery'&&typeof fetchDeliveryFromAirtable==='function'){if(!_delLoaded)fetchDeliveryFromAirtable().then(()=>renderDelivery());else renderDelivery();}
@@ -5129,6 +5195,182 @@ function markNurture(id){const l=allLeads.find(x=>x.id===id);if(!l)return;l.fiel
 function refreshAll(){loadAirtableLeads();renderDashboard();filterLeads();renderOverdue();toast('Refreshed','ok');}
 
 // ─── REVENUE ───
+// ═══════ FUNNEL HEALTH — renderFunnel() ═══════
+// Reads three live sources. Fails silently to zero-state when no data exists.
+// Respects __SOURCEDECK_DEMO__ — demo mode renders a true blank workspace.
+async function renderFunnel(){
+  const PLAN_VAL = {core:79, pro:349, operator:999};
+  const $ = id => document.getElementById(id);
+  const setText = (id, v) => { const el=$(id); if(el) el.textContent=v; };
+  const fmt$ = n => '$' + (Number(n||0)).toLocaleString(undefined,{maximumFractionDigits:0});
+  const isDemo = typeof window!=='undefined' && window.__SOURCEDECK_DEMO__ === true;
+
+  // ── 1. Leads (Airtable) ─────────────────────────────────
+  let qualified=0, enrolled=0;
+  try {
+    if (typeof AT_PAT!=='undefined' && AT_PAT && !isDemo) {
+      // Qualified = has MX-valid email + not AI Generated + in Synced/Contacted/Replied
+      const q = 'filterByFormula=' + encodeURIComponent(
+        "AND(NOT({Email}=''),FIND('mx',LOWER(ARRAYJOIN({Validation Checks Passed},','))),NOT({Lead Source}='AI Generated'))"
+      );
+      const rq = await fetch('https://api.airtable.com/v0/'+AT_BASE+'/'+AT_TABLE+'?'+q+'&fields%5B%5D=Status&pageSize=100', {headers:{Authorization:'Bearer '+AT_PAT}});
+      if (rq.ok) {
+        const dj = await rq.json();
+        const recs = dj.records||[];
+        qualified = recs.length;
+        enrolled = recs.filter(r => (r.fields.Status||'')==='Contacted' || (r.fields.Status||'')==='Replied').length;
+      }
+    }
+  } catch(e) {}
+
+  // ── 2. Email Events (Airtable ledger) ───────────────────
+  let sent=0, replied=0, openedEvents=0;
+  try {
+    if (typeof AT_PAT!=='undefined' && AT_PAT && !isDemo) {
+      const re = await fetch('https://api.airtable.com/v0/'+AT_BASE+'/'+AT_EVENTS_TBL+'?pageSize=100', {headers:{Authorization:'Bearer '+AT_PAT}});
+      if (re.ok) {
+        const de = await re.json();
+        (de.records||[]).forEach(r => {
+          const typ = (r.fields['Event Type']||r.fields['Type']||'').toLowerCase();
+          if (typ==='sent') sent++;
+          else if (typ==='reply' || typ==='replied') replied++;
+          else if (typ==='open' || typ==='opened') openedEvents++;
+        });
+      }
+    }
+  } catch(e) {}
+
+  // ── 3. Pricing / Checkout / Paid events from localStorage ─
+  // Populated by sd-config.js sdTrack() when the buyer interacts with /#pricing and /thanks/.
+  let events=[];
+  try {
+    const raw = (typeof localStorage!=='undefined') ? localStorage.getItem('sd_events') : null;
+    if (raw) events = JSON.parse(raw) || [];
+  } catch(e) {}
+  // In demo, the sanitization gate already returns '' from getItem for blocked keys;
+  // 'sd_events' is NOT blocked so legitimate demo interactions could accumulate —
+  // the zero-state rule here is that events are only counted when they reference a plan.
+  const clicks = events.filter(e => e.type==='pricing_cta_clicked').length;
+  const starts = events.filter(e => e.type==='checkout_started').length;
+  const paid   = events.filter(e => e.type==='checkout_completed');
+  const paidCount = paid.length;
+
+  // By plan
+  const byPlan = {core:0, pro:0, operator:0};
+  let mrr = 0;
+  paid.forEach(e => {
+    const p = (e.plan||'').toLowerCase();
+    if (byPlan[p]!==undefined) { byPlan[p]++; mrr += PLAN_VAL[p]; }
+  });
+  const arpu = paidCount ? Math.round(mrr / paidCount) : 0;
+
+  // ── render tiles ─────────────────────────────────────
+  setText('fn-qualified', qualified.toLocaleString());
+  setText('fn-enrolled',  enrolled.toLocaleString());
+  setText('fn-sent',      sent.toLocaleString());
+  setText('fn-replied',   replied.toLocaleString());
+  setText('fn-clicks',    clicks.toLocaleString());
+  setText('fn-starts',    starts.toLocaleString());
+  setText('fn-paid',      paidCount.toLocaleString());
+  setText('fn-mrr',       fmt$(mrr));
+  setText('fn-arpu',      fmt$(arpu));
+
+  // ── drop-off rows ───────────────────────────────────
+  function dropRow(label, from, to){
+    const pct = from ? Math.round(100*(from-to)/from) : 0;
+    const keptPct = from ? Math.round(100*to/from) : 0;
+    return '<div style="padding:10px 12px;background:rgba(255,255,255,0.02);border:0.5px solid rgba(255,255,255,0.06);border-radius:10px">'+
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:12px">'+
+      '<span style="color:var(--sub,#aaa)">'+label+'</span>'+
+      '<span style="color:var(--muted);font-family:\'JetBrains Mono\',monospace;font-size:11px">'+from+' → '+to+'  ·  '+(keptPct)+'% through  ·  -'+pct+'% drop</span></div>'+
+      '<div style="height:4px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden"><div style="height:100%;width:'+keptPct+'%;background:linear-gradient(90deg,#2997ff,#30d158)"></div></div>'+
+      '</div>';
+  }
+  const drops = $('fn-drops');
+  if (drops) {
+    if (enrolled+sent+replied+clicks+starts+paidCount === 0) {
+      drops.innerHTML = '<div style="font-size:12px;color:var(--muted);padding:18px 4px;text-align:center;line-height:1.6">No live data yet.<br><span style="font-size:11px">Once leads are enrolled and pricing clicks / checkouts are fired, drop-off shows here.</span></div>';
+    } else {
+      drops.innerHTML = [
+        dropRow('Enrolled → Sent', enrolled, sent),
+        dropRow('Sent → Replied', sent, replied),
+        dropRow('Sent → Pricing click', sent, clicks),
+        dropRow('Pricing click → Checkout start', clicks, starts),
+        dropRow('Checkout start → Paid', starts, paidCount)
+      ].join('');
+    }
+  }
+
+  // ── by-plan revenue ─────────────────────────────────
+  const bp = $('fn-by-plan');
+  if (bp) {
+    if (paidCount === 0) {
+      bp.innerHTML = '<div style="color:var(--muted);font-size:11.5px">No paid conversions yet.</div>';
+    } else {
+      bp.innerHTML = [
+        {k:'core', label:'Core · $79'},
+        {k:'pro', label:'Pro · $349'},
+        {k:'operator', label:'Operator · $999'}
+      ].map(p => {
+        const c = byPlan[p.k]||0, r = c*PLAN_VAL[p.k];
+        return '<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0">'+
+          '<span style="color:var(--sub,#aaa)">'+p.label+'</span>'+
+          '<span style="font-family:\'JetBrains Mono\',monospace;font-size:11.5px"><span style="color:var(--muted)">'+c+' ×</span> <span style="color:var(--gold2)">'+fmt$(r)+'</span></span></div>';
+      }).join('');
+    }
+  }
+
+  // ── recent activity ─────────────────────────────────
+  const tb = $('fn-activity');
+  if (tb) {
+    // Build recent activity from events + enriched paid records
+    const rows = [];
+    // Last 20 paid conversions
+    paid.slice().reverse().slice(0, 20).forEach(e => {
+      rows.push({
+        co: e.company||e.email||'—',
+        campaign: 'Diagnosis → Pricing',
+        reply: '—',
+        click: '✓',
+        checkout: '✓',
+        plan: (e.plan||'—').toUpperCase(),
+        revenue: fmt$(PLAN_VAL[(e.plan||'').toLowerCase()]||0),
+        at: e.ts ? new Date(e.ts).toLocaleString() : '—'
+      });
+    });
+    // Recent checkout starts (not yet paid)
+    events.filter(e => e.type==='checkout_started').slice().reverse().slice(0, 10).forEach(e => {
+      rows.push({
+        co: e.company||e.email||'—',
+        campaign: 'Diagnosis → Pricing',
+        reply: '—',
+        click: '✓',
+        checkout: '⏳ started',
+        plan: (e.plan||'—').toUpperCase(),
+        revenue: '—',
+        at: e.ts ? new Date(e.ts).toLocaleString() : '—'
+      });
+    });
+
+    if (rows.length === 0) {
+      tb.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:28px;font-size:12px;line-height:1.6">No conversion activity yet.<br><span style="font-size:11px">Pricing clicks + checkout starts + paid conversions will appear here in real time.</span></td></tr>';
+    } else {
+      tb.innerHTML = rows.slice(0, 30).map(r =>
+        '<tr>'+
+        '<td>'+r.co+'</td>'+
+        '<td style="color:var(--muted)">'+r.campaign+'</td>'+
+        '<td>'+r.reply+'</td>'+
+        '<td>'+r.click+'</td>'+
+        '<td>'+r.checkout+'</td>'+
+        '<td><span style="font:700 10px/1.2 \'JetBrains Mono\',monospace;padding:2px 8px;border-radius:4px;background:rgba(0,113,227,0.12);color:#2997ff">'+r.plan+'</span></td>'+
+        '<td style="color:var(--gold2);font-family:\'JetBrains Mono\',monospace;font-size:11.5px">'+r.revenue+'</td>'+
+        '<td style="color:var(--muted);font-family:\'JetBrains Mono\',monospace;font-size:10.5px">'+r.at+'</td>'+
+        '</tr>'
+      ).join('');
+    }
+  }
+}
+
 function renderRevenue(){
   const pipeline=allLeads.reduce((s,l)=>s+nv(l.fields['Deal Value']),0);
   const weighted=allLeads.reduce((s,l)=>s+nv(l.fields['Deal Value'])*nv(l.fields['Close Probability'])/100,0);

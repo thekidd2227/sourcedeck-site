@@ -107,10 +107,26 @@
           exists, open live Stripe Checkout (subscription mode).
        3. Otherwise route to the premium interim page for that plan.
   */
+  /* ── sdTrack: append a conversion event to localStorage.sd_events.
+     Read by LCC Funnel Health dashboard. Same-origin only. */
+  window.sdTrack = function(type, data){
+    try {
+      var key = 'sd_events';
+      var arr = JSON.parse(localStorage.getItem(key) || '[]');
+      arr.push(Object.assign({type: type, ts: Date.now()}, data || {}));
+      // cap at 1000 events to avoid unbounded growth
+      if (arr.length > 1000) arr = arr.slice(-1000);
+      localStorage.setItem(key, JSON.stringify(arr));
+    } catch(_){}
+  };
+
   window.sdCheckout = function(e, plan, cadence){
     if (e && e.preventDefault) e.preventDefault();
     var cfg = window.SD_CONFIG || {};
     var interim = (cfg.INTERIM_ROUTES || {})[plan] || '/app/#pricing';
+    // Fire pricing_cta_clicked + checkout_started events for LCC Funnel Health
+    window.sdTrack && window.sdTrack('pricing_cta_clicked', {plan: plan, cadence: cadence||'monthly'});
+    window.sdTrack && window.sdTrack('checkout_started',   {plan: plan, cadence: cadence||'monthly'});
 
     // Operator stays sales-led unless explicitly flipped on.
     if (plan === 'operator' && !cfg.OPERATOR_SELF_SERVE_ENABLED) {

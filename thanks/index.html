@@ -63,10 +63,24 @@
   var p = new URLSearchParams(location.search);
   var src = (p.get('src') || '').toLowerCase();
   var plan = (p.get('plan') || '').toLowerCase();
+  var cadence = (p.get('cadence') || 'monthly').toLowerCase();
   var h1 = document.getElementById('th-h1');
   var l  = document.getElementById('th-lede');
 
-  if (plan === 'pro' || plan === 'operator') {
+  // Fire checkout_completed into LCC Funnel Health event store (sd-config loaded below).
+  // We queue this synchronously; sd-config's sdTrack writes to localStorage.sd_events
+  // which the LCC Funnel Health dashboard reads. Same-origin so LCC sees it.
+  if (plan) {
+    try {
+      var raw = localStorage.getItem('sd_events') || '[]';
+      var arr = JSON.parse(raw);
+      arr.push({type: 'checkout_completed', plan: plan, cadence: cadence, ts: Date.now()});
+      if (arr.length > 1000) arr = arr.slice(-1000);
+      localStorage.setItem('sd_events', JSON.stringify(arr));
+    } catch(_) {}
+  }
+
+  if (plan === 'core' || plan === 'pro' || plan === 'operator') {
     h1.textContent = 'Welcome to SourceDeck.';
     l.textContent  = 'Your subscription is active. Check your email for the workspace activation link and receipt.';
     return;
