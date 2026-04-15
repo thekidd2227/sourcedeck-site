@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SourceDeck | The Lead Command Center Founders and Agencies Actually Use</title>
+<meta name="description" content="Stop losing leads between tools. SourceDeck is the lead command center founders and agencies use to run outreach, follow-up, and workflow from one place — so revenue stops leaking through the cracks.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="SourceDeck | The Lead Command Center Founders and Agencies Actually Use">
+<meta property="og:description" content="Stop losing leads between tools. SourceDeck runs outreach, follow-up, and workflow from one place — so revenue stops leaking through the cracks.">
+<meta property="og:image" content="https://sourcedeck.app/assets/sourcedeck-logo.png">
+<meta property="og:url" content="https://sourcedeck.app/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://sourcedeck.app/assets/sourcedeck-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#000000;
+  --surface:#0a0a0a;
+  --card:#111111;
+  --card-border:rgba(255,255,255,0.06);
+  --card-hover:rgba(255,255,255,0.08);
+  --text:#f5f5f7;
+  --sub:rgba(245,245,247,0.7);
+  --muted:rgba(245,245,247,0.4);
+  --accent:#0071e3;
+  --accent2:#2997ff;
+  --gold:#d4a843;
+  --green:#30d158;
+  --purple:#bf5af2;
+  --r:20px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+::selection{background:rgba(0,113,227,0.3)}
+
+/* ── ANIMATED GRADIENT BACKGROUND ── */
+.gradient-bg{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0,113,227,0.15) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 80% 60%, rgba(191,90,242,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 50% at 20% 80%, rgba(48,209,88,0.06) 0%, transparent 50%);
+}
+
+/* ── GRID OVERLAY ── */
+.grid-overlay{
+  position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.03;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+  background-size:60px 60px;
+}
+
+/* ── NAV ── */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:0 max(24px, calc((100vw - 1200px)/2));
+  height:52px;display:flex;align-items:center;justify-content:space-between;
+  background:rgba(0,0,0,0.72);backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:0.5px solid rgba(255,255,255,0.08);
+}
+.nav-brand{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px;letter-spacing:-0.01em}
+.nav-brand .glyph{
+  width:28px;height:28px;border-radius:7px;
+  background:linear-gradient(135deg,var(--accent),var(--purple));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:13px;color:#fff;
+}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{font-size:13px;color:var(--sub);transition:color 0.15s;font-weight:500}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{
+  padding:6px 16px;border-radius:980px;font-size:12px;font-weight:600;
+  background:var(--accent);color:#fff;transition:all 0.2s;border:none;cursor:pointer;
+}
+.nav-cta:hover{background:var(--accent2);transform:scale(1.02)}
+
+/* ── HERO ── */
+.hero{
+  position:relative;z-index:1;
+  padding:160px max(24px, calc((100vw - 1000px)/2)) 80px;
+  text-align:center;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 14px 5px 6px;border-radius:980px;
+  background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);
+  font-size:12px;font-weight:500;color:var(--sub);margin-bottom:24px;
+}
+.hero-eyebrow .dot{
+  width:6px;height:6px;border-radius:50%;background:var(--green);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.hero h1{
+  font-size:clamp(34px,5.4vw,62px);font-weight:800;
+  letter-spacing:-0.03em;line-height:1.08;
+  margin-bottom:22px;
+  max-width:980px;margin-left:auto;margin-right:auto;
+  background:linear-gradient(to bottom, #f5f5f7 30%, rgba(245,245,247,0.55));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero p.lede{
+  font-size:clamp(16px,1.7vw,19px);color:var(--sub);
+  max-width:760px;margin:0 auto 32px;font-weight:400;
+  line-height:1.55;letter-spacing:-0.005em;
+}
+.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:18px}
+.btn{
+  padding:12px 28px;border-radius:980px;font-size:15px;font-weight:600;
+  cursor:pointer;border:none;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px;
+}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent2);transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,113,227,0.4)}
+.btn-secondary{background:rgba(255,255,255,0.08);color:var(--text);border:0.5px solid rgba(255,255,255,0.12)}
+.btn-secondary:hover{background:rgba(255,255,255,0.12)}
+.hero-support{
+  font-size:13px;color:var(--muted);margin-top:6px;letter-spacing:-0.005em;
+}
+
+/* ── PRODUCT PREVIEW (mock UI) ── */
+.preview{
+  position:relative;z-index:1;
+  max-width:1100px;margin:-20px auto 0;padding:0 24px;
+}
+.preview-frame{
+  border-radius:16px;overflow:hidden;
+  border:0.5px solid rgba(255,255,255,0.1);
+  background:var(--card);
+  box-shadow:0 40px 100px -20px rgba(0,0,0,0.8),0 0 0 0.5px rgba(255,255,255,0.05);
+}
+.preview-bar{
+  height:36px;background:rgba(255,255,255,0.03);
+  border-bottom:0.5px solid rgba(255,255,255,0.06);
+  display:flex;align-items:center;padding:0 14px;gap:7px;
+}
+.preview-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.08)}
+.preview-content{
+  padding:32px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;
+  min-height:320px;
+}
+.preview-kpi{
+  background:rgba(255,255,255,0.03);border:0.5px solid rgba(255,255,255,0.06);
+  border-radius:12px;padding:20px;
+}
+.preview-kpi .label{font-size:11px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.05em}
+.preview-kpi .value{font-size:32px;font-weight:800;letter-spacing:-0.03em;margin-top:4px}
+.preview-kpi .value.blue{color:var(--accent2)}
+.preview-kpi .value.green{color:var(--green)}
+.preview-kpi .value.purple{color:var(--purple)}
+.preview-kpi .sub{font-size:11px;color:var(--muted);margin-top:4px;font-weight:500}
+.preview-chart{
+  grid-column:span 3;background:rgba(255,255,255,0.02);
+  border:0.5px solid rgba(255,255,255,0.06);border-radius:12px;
+  padding:20px;display:flex;align-items:flex-end;gap:4px;height:120px;
+}
+.preview-chart .bar{
+  flex:1;border-radius:4px 4px 0 0;
+  background:linear-gradient(to top,var(--accent),rgba(0,113,227,0.3));
+  transition:height 0.6s cubic-bezier(0.16,1,0.3,1);
+  animation:growBar 1.5s ease-out forwards;
+}
+@keyframes growBar{from{height:0}}
+
+/* ── SECTION SHELL ── */
+.section{
+  position:relative;z-index:1;
+  padding:90px max(24px, calc((100vw - 1100px)/2));
+}
+.section-narrow{
+  max-width:820px;margin:0 auto;
+}
+.section h2{
+  font-size:clamp(26px,3.6vw,40px);font-weight:800;
+  letter-spacing:-0.03em;line-height:1.15;margin-bottom:18px;
+}
+.section h2.center{text-align:center}
+.section .lede{
+  font-size:17px;color:var(--sub);line-height:1.65;letter-spacing:-0.005em;
+  max-width:720px;
+}
+.section .lede.center{margin-left:auto;margin-right:auto;text-align:center}
+.section .lede + .lede{margin-top:14px}
+.eyebrow{
+  display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;
+  color:var(--accent2);text-transform:uppercase;letter-spacing:0.14em;
+  margin-bottom:14px;font-weight:500;
+}
+
+/* ── FLOW STRIP ── */
+.flow-section{
+  position:relative;z-index:1;
+  padding:80px 24px 40px;text-align:center;
+}
+.flow-section h3{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:0.12em;font-weight:600;margin-bottom:24px}
+.flow-strip{
+  display:flex;justify-content:center;gap:2px;flex-wrap:wrap;
+  max-width:920px;margin:0 auto;
+}
+.flow-chip{
+  padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;
+  letter-spacing:0.02em;transition:all 0.2s;cursor:default;
+  background:rgba(255,255,255,0.03);border:0.5px solid rgba(255,255,255,0.06);
+}
+.flow-chip:nth-child(1){color:var(--accent2)}
+.flow-chip:nth-child(3){color:var(--gold)}
+.flow-chip:nth-child(5){color:var(--green)}
+.flow-chip:nth-child(7){color:#ff6b6b}
+.flow-chip:nth-child(9){color:var(--purple)}
+.flow-chip:nth-child(11){color:#ff9f43}
+.flow-chip:hover{background:rgba(255,255,255,0.06);transform:translateY(-1px)}
+.flow-arrow{color:rgba(255,255,255,0.15);display:flex;align-items:center;font-size:14px}
+
+/* ── FEATURES ── */
+.features h2{text-align:center;margin-bottom:14px}
+.features .subtitle{text-align:center;color:var(--sub);font-size:17px;margin:0 auto 48px;max-width:640px;line-height:1.55}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.feat-card{
+  background:rgba(255,255,255,0.02);
+  border:0.5px solid rgba(255,255,255,0.06);
+  border-radius:16px;padding:28px 26px;
+  transition:all 0.3s cubic-bezier(0.16,1,0.3,1);
+  position:relative;overflow:hidden;
+}
+.feat-card::before{
+  content:'';position:absolute;inset:0;border-radius:16px;
+  background:linear-gradient(135deg,rgba(0,113,227,0.08),rgba(191,90,242,0.05),transparent 60%);
+  opacity:0;transition:opacity 0.3s;
+}
+.feat-card:hover{
+  border-color:rgba(255,255,255,0.12);
+  transform:translateY(-2px);
+  box-shadow:0 8px 32px rgba(0,0,0,0.3);
+}
+.feat-card:hover::before{opacity:1}
+.feat-card *{position:relative;z-index:1}
+.feat-icon{font-size:24px;margin-bottom:14px;display:block}
+.feat-name{font-size:17px;font-weight:700;letter-spacing:-0.01em;margin-bottom:8px}
+.feat-desc{font-size:13.5px;color:var(--sub);line-height:1.6}
+
+/* ── AUDIENCE GRID ── */
+.audience h2{text-align:center;margin-bottom:14px}
+.audience .subtitle{text-align:center;color:var(--sub);font-size:16px;margin:0 auto 44px;max-width:640px;line-height:1.55}
+.aud-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.aud-card{
+  background:rgba(255,255,255,0.02);
+  border:0.5px solid rgba(255,255,255,0.06);
+  border-radius:14px;padding:22px 22px;
+  transition:all 0.25s;
+}
+.aud-card:hover{border-color:rgba(255,255,255,0.12);background:rgba(255,255,255,0.035)}
+.aud-tag{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;
+  color:var(--accent2);letter-spacing:0.12em;text-transform:uppercase;
+  margin-bottom:8px;font-weight:600;
+}
+.aud-desc{font-size:13.5px;color:var(--sub);line-height:1.6}
+
+/* ── PAIN POINTS ── */
+.pain h2{text-align:center;margin-bottom:14px;max-width:760px;margin-left:auto;margin-right:auto}
+.pain .subtitle{text-align:center;color:var(--sub);font-size:16px;margin:0 auto 36px;max-width:640px}
+.pain-list{
+  max-width:720px;margin:0 auto;
+  background:rgba(255,255,255,0.02);
+  border:0.5px solid rgba(255,255,255,0.06);
+  border-radius:16px;padding:8px 8px;
+}
+.pain-item{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:16px 22px;
+  border-bottom:0.5px solid rgba(255,255,255,0.05);
+  font-size:14.5px;color:var(--sub);line-height:1.5;
+}
+.pain-item:last-child{border-bottom:none}
+.pain-mark{
+  flex-shrink:0;width:20px;height:20px;border-radius:50%;
+  background:rgba(255,107,107,0.12);
+  border:0.5px solid rgba(255,107,107,0.3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;color:#ff6b6b;font-weight:700;margin-top:1px;
+}
+.pain-close{
+  text-align:center;color:var(--text);font-size:15px;margin-top:28px;
+  max-width:640px;margin-left:auto;margin-right:auto;line-height:1.55;font-weight:500;
+}
+
+/* ── PRICING ── */
+.pricing{
+  position:relative;z-index:1;
+  padding:90px max(24px, calc((100vw - 960px)/2));
+}
+.pricing h2{font-size:clamp(28px,4vw,40px);font-weight:800;text-align:center;letter-spacing:-0.03em;margin-bottom:48px}
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.price-card{
+  background:rgba(255,255,255,0.02);border:0.5px solid rgba(255,255,255,0.06);
+  border-radius:20px;padding:36px 28px;display:flex;flex-direction:column;
+  transition:all 0.3s;
+}
+.price-card.pop{
+  border-color:rgba(0,113,227,0.3);
+  background:linear-gradient(180deg,rgba(0,113,227,0.06) 0%,rgba(0,0,0,0) 40%);
+  position:relative;
+}
+.price-card.pop::after{
+  content:'RECOMMENDED';position:absolute;top:-11px;left:50%;transform:translateX(-50%);
+  background:var(--accent);color:#fff;font-size:10px;font-weight:700;
+  padding:4px 14px;border-radius:980px;letter-spacing:0.06em;
+  font-family:'JetBrains Mono',monospace;
+}
+.price-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,0.4)}
+.price-name{font-size:20px;font-weight:700;margin-bottom:4px}
+.price-price{font-size:42px;font-weight:900;letter-spacing:-0.03em;margin:8px 0 4px}
+.price-price span{font-size:15px;font-weight:400;color:var(--muted)}
+.price-note{font-size:12px;color:var(--muted);margin-bottom:20px}
+.price-list{list-style:none;flex:1;padding:0;margin:0}
+.price-list li{
+  padding:8px 0;font-size:13px;color:var(--sub);
+  border-bottom:0.5px solid rgba(255,255,255,0.04);
+  display:flex;align-items:center;gap:8px;
+}
+.price-list li::before{content:'✓';color:var(--green);font-weight:700;font-size:12px}
+.price-list li.locked{color:var(--muted)}
+.price-list li.locked::before{content:'→';color:var(--muted)}
+.price-btn{
+  display:block;width:100%;padding:13px;border-radius:12px;
+  font-size:14px;font-weight:600;cursor:pointer;border:none;
+  margin-top:20px;transition:all 0.2s;text-align:center;
+}
+.price-btn-primary{background:var(--accent);color:#fff}
+.price-btn-primary:hover{background:var(--accent2)}
+.price-btn-secondary{background:rgba(255,255,255,0.06);color:var(--text);border:0.5px solid rgba(255,255,255,0.1)}
+.price-btn-secondary:hover{background:rgba(255,255,255,0.1)}
+
+/* ── FINAL CTA ── */
+.cta{
+  position:relative;z-index:1;
+  padding:110px 24px;text-align:center;
+}
+.cta h2{font-size:clamp(28px,4vw,46px);font-weight:800;letter-spacing:-0.03em;margin-bottom:14px;line-height:1.15}
+.cta p{color:var(--sub);font-size:17px;margin:0 auto 30px;max-width:640px;line-height:1.55}
+.cta .support{color:var(--muted);font-size:13px;margin-top:18px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.55}
+
+/* ── FOOTER ── */
+.footer{
+  position:relative;z-index:1;
+  padding:24px;text-align:center;
+  border-top:0.5px solid rgba(255,255,255,0.06);
+  font-size:12px;color:var(--muted);
+}
+.footer a{color:var(--accent2)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .feat-grid,.price-grid,.aud-grid{grid-template-columns:1fr}
+  .preview-content{grid-template-columns:1fr;gap:12px}
+  .preview-chart{grid-column:span 1}
+  .nav-links a:not(.nav-cta){display:none}
+  .section{padding:64px 20px}
+}
+@media(max-width:600px){
+  .hero{padding:120px 16px 50px}
+  .flow-arrow{display:none}
+  .flow-strip{gap:6px}
+  .pain-item{padding:14px 16px;font-size:13.5px}
+}
+</style>
+</head>
+<body>
+
+<div class="gradient-bg"></div>
+<div class="grid-overlay"></div>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="/" class="nav-brand" aria-label="SourceDeck home">
+    <img src="/assets/sourcedeck-logo.png" alt="SourceDeck" width="138" height="30" style="display:block;height:30px;width:auto">
+  </a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#who">Who it's for</a>
+    <a href="#pricing">Pricing</a>
+    <a href="/app/" class="nav-cta">Launch SourceDeck</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">
+    <span class="dot"></span>
+    Built for founders and agencies
+  </div>
+  <h1>Stop losing leads and revenue between disconnected tools.</h1>
+  <p class="lede">SourceDeck is the lead command center founders and agencies use to run outreach, follow-up, and workflow from one place &mdash; so deals stop dying in someone's inbox and work stops stalling in handoffs.</p>
+  <div class="hero-actions">
+    <a href="/app/" class="btn btn-primary">Launch SourceDeck</a>
+    <a href="#features" class="btn btn-secondary">See How It Works</a>
+  </div>
+  <div class="hero-support">For operators who are tired of running the business out of spreadsheets, inboxes, and memory.</div>
+</section>
+
+<!-- PRODUCT PREVIEW -->
+<div class="preview">
+  <div class="preview-frame">
+    <div class="preview-bar">
+      <div class="preview-dot"></div>
+      <div class="preview-dot"></div>
+      <div class="preview-dot"></div>
+    </div>
+    <div class="preview-content">
+      <div class="preview-kpi">
+        <div class="label">Active Leads</div>
+        <div class="value blue">142</div>
+        <div class="sub">23 awaiting follow-up</div>
+      </div>
+      <div class="preview-kpi">
+        <div class="label">Outreach in Motion</div>
+        <div class="value green">68</div>
+        <div class="sub">12 replied this week</div>
+      </div>
+      <div class="preview-kpi">
+        <div class="label">Stalled Items</div>
+        <div class="value purple">9</div>
+        <div class="sub">flagged for attention</div>
+      </div>
+      <div class="preview-chart">
+        <div class="bar" style="height:40%"></div>
+        <div class="bar" style="height:65%"></div>
+        <div class="bar" style="height:45%"></div>
+        <div class="bar" style="height:80%"></div>
+        <div class="bar" style="height:55%"></div>
+        <div class="bar" style="height:90%"></div>
+        <div class="bar" style="height:70%"></div>
+        <div class="bar" style="height:60%"></div>
+        <div class="bar" style="height:85%"></div>
+        <div class="bar" style="height:75%"></div>
+        <div class="bar" style="height:95%"></div>
+        <div class="bar" style="height:88%"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WHAT IS SOURCEDECK -->
+<section class="section" id="what">
+  <div class="section-narrow">
+    <div class="eyebrow">What is SourceDeck</div>
+    <h2>The operating system for founders and agencies who refuse to run on chaos.</h2>
+    <p class="lede">SourceDeck is a lead command center built for operators &mdash; founders running lean, agencies juggling client work, and small teams where follow-up cannot keep slipping.</p>
+    <p class="lede">Leads, outreach, follow-up, workflow, and execution &mdash; in one dashboard. No more losing deals between tools. No more "who was supposed to follow up?" No more guessing where the pipeline actually stands.</p>
+  </div>
+</section>
+
+<!-- FLOW -->
+<section class="flow-section">
+  <h3>From lead to follow-through, in one place</h3>
+  <div class="flow-strip">
+    <div class="flow-chip">Leads</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-chip">Outreach</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-chip">Follow-Up</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-chip">Workflow</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-chip">Bottlenecks</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-chip">Action</div>
+  </div>
+</section>
+
+<!-- FEATURES / WHAT IT DOES -->
+<section class="section features" id="features">
+  <div class="eyebrow" style="display:block;text-align:center">What SourceDeck does</div>
+  <h2>Everything your ops depend on &mdash; unified.</h2>
+  <p class="subtitle">Stop duct-taping your business together. Run leads, follow-up, and workflow from one dashboard that actually reflects what is happening.</p>
+  <div class="feat-grid">
+    <div class="feat-card">
+      <span class="feat-icon">📋</span>
+      <div class="feat-name">Track Leads</div>
+      <div class="feat-desc">Keep lead activity visible in one place so opportunities do not get lost in the shuffle.</div>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">✉️</span>
+      <div class="feat-name">Manage Outreach</div>
+      <div class="feat-desc">Monitor outreach and follow-up so conversations keep moving instead of dying in someone's inbox.</div>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">🗂️</span>
+      <div class="feat-name">Organize Workflow</div>
+      <div class="feat-desc">See tasks, movement, delays, and handoffs more clearly so work does not stall behind the scenes.</div>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">🚧</span>
+      <div class="feat-name">Spot Bottlenecks</div>
+      <div class="feat-desc">Identify where work is getting stuck before delays turn into missed follow-up, lost time, or dropped opportunities.</div>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">🔭</span>
+      <div class="feat-name">Improve Visibility</div>
+      <div class="feat-desc">See what is happening across leads, follow-up, and workflow without chasing updates across different tools.</div>
+    </div>
+    <div class="feat-card">
+      <span class="feat-icon">🎯</span>
+      <div class="feat-name">Support Better Execution</div>
+      <div class="feat-desc">Know what to fix first, what needs follow-up, and where the business is slowing down.</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY DISCONNECTED SYSTEMS -->
+<section class="section" id="why">
+  <div class="section-narrow">
+    <div class="eyebrow">Why this matters for your business</div>
+    <h2>Disconnected systems are quietly costing you revenue.</h2>
+    <p class="lede">Every lead that goes cold because follow-up slipped. Every deal that stalls because ownership was unclear. Every hour your team wastes figuring out what is happening. That is margin leaving your business.</p>
+    <p class="lede">For founders, that is personal money. For agencies, that is client trust. For small teams, that is burnout.</p>
+    <p class="lede">SourceDeck makes the leaks visible so you can close them before they become expensive.</p>
+  </div>
+</section>
+
+<!-- WHO IT'S FOR -->
+<section class="section audience" id="who">
+  <div class="eyebrow" style="display:block;text-align:center">Who SourceDeck is for</div>
+  <h2>If you run it, SourceDeck keeps it visible.</h2>
+  <p class="subtitle">Founders, agency owners, and small teams who need their operation to stop running on memory.</p>
+  <div class="aud-grid">
+    <div class="aud-card">
+      <div class="aud-tag">Founders</div>
+      <div class="aud-desc">You are already the bottleneck. SourceDeck takes lead tracking, follow-up, and workflow visibility off your mental load so you can sell, build, and lead without dropping deals.</div>
+    </div>
+    <div class="aud-card">
+      <div class="aud-tag">Agencies</div>
+      <div class="aud-desc">Client work moves in too many directions. SourceDeck keeps outreach, internal handoffs, and pipeline activity in one place so your team stops asking "what is the status?"</div>
+    </div>
+    <div class="aud-card">
+      <div class="aud-tag">Small Teams</div>
+      <div class="aud-desc">When five people are running ten roles, visibility is survival. SourceDeck shows what is moving, what is stalled, and what needs attention now &mdash; in one view.</div>
+    </div>
+    <div class="aud-card">
+      <div class="aud-tag">Consultants</div>
+      <div class="aud-desc">Pipeline, next steps, client movement &mdash; all in one operational view instead of scattered across docs, inboxes, and spreadsheets.</div>
+    </div>
+    <div class="aud-card">
+      <div class="aud-tag">Contractors</div>
+      <div class="aud-desc">Leads, jobs, follow-ups, and workflow in one command center &mdash; not seven tabs and a notebook.</div>
+    </div>
+    <div class="aud-card">
+      <div class="aud-tag">Service Businesses</div>
+      <div class="aud-desc">Outgrown the duct-tape setup? SourceDeck is the structure your day-to-day execution has been missing.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAIN POINTS -->
+<section class="section pain">
+  <div class="eyebrow" style="display:block;text-align:center">Signs you need SourceDeck</div>
+  <h2>You already know it's a problem. You just keep working around it.</h2>
+  <p class="subtitle">Six signals your operation is leaking revenue through disconnected systems.</p>
+  <div class="pain-list">
+    <div class="pain-item"><span class="pain-mark">!</span><span>Leads live in one tool. Follow-up happens in another. Tasks somewhere else entirely.</span></div>
+    <div class="pain-item"><span class="pain-mark">!</span><span>Your team is asking "what's the status?" more than they are moving things forward.</span></div>
+    <div class="pain-item"><span class="pain-mark">!</span><span>Deals are dying in inboxes because follow-up depends on someone remembering.</span></div>
+    <div class="pain-item"><span class="pain-mark">!</span><span>Work stalls between handoffs and nobody notices until it is already late.</span></div>
+    <div class="pain-item"><span class="pain-mark">!</span><span>You spend more time assembling reports than actually running the business.</span></div>
+    <div class="pain-item"><span class="pain-mark">!</span><span>Spreadsheets have quietly become the third employee.</span></div>
+  </div>
+  <div class="pain-close">SourceDeck replaces the duct tape with one clear operational view &mdash; so your team executes and you stop running triage.</div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <h2>Simple pricing that grows with you.</h2>
+  <p class="subtitle" style="text-align:center;color:var(--sub);font-size:16px;margin:-32px auto 44px;max-width:600px;line-height:1.55">Start free. Upgrade when you need follow-up discipline or team workflow.</p>
+  <div class="price-grid">
+    <div class="price-card">
+      <div class="price-name">Core</div>
+      <div class="price-price">$0</div>
+      <div class="price-note">Solo operators getting started</div>
+      <ul class="price-list">
+        <li>Lead tracking</li>
+        <li>Outreach view</li>
+        <li>Workflow visibility</li>
+        <li>Single operator</li>
+        <li class="locked">Upgrade for follow-up tools</li>
+      </ul>
+      <a href="/app/" class="price-btn price-btn-secondary">Launch SourceDeck</a>
+    </div>
+    <div class="price-card pop">
+      <div class="price-name">Pro</div>
+      <div class="price-price">$49<span>/mo</span></div>
+      <div class="price-note">Operators who need follow-up discipline</div>
+      <ul class="price-list">
+        <li>Everything in Core</li>
+        <li>Follow-up tools</li>
+        <li>Bottleneck alerts</li>
+        <li>Workflow handoffs</li>
+        <li>Operational reporting</li>
+      </ul>
+      <a href="/app/" class="price-btn price-btn-primary">Launch SourceDeck</a>
+    </div>
+    <div class="price-card">
+      <div class="price-name">Operator</div>
+      <div class="price-price">$149<span>/mo</span></div>
+      <div class="price-note">Small teams and agencies</div>
+      <ul class="price-list">
+        <li>Everything in Pro</li>
+        <li>Multi-seat workflow</li>
+        <li>Client and project visibility</li>
+        <li>Advanced reporting</li>
+        <li>Priority support</li>
+      </ul>
+      <a href="mailto:jeanmax@arcgsystems.com?subject=SourceDeck Operator" class="price-btn price-btn-secondary" style="border-color:rgba(191,90,242,0.3);color:var(--purple)">Contact Sales</a>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="cta">
+  <h2>Your pipeline is leaking. Fix it today.</h2>
+  <p>SourceDeck gives founders, agencies, and small teams one command center for leads, follow-up, and workflow &mdash; so revenue stops slipping through the cracks between tools.</p>
+  <a href="/app/" class="btn btn-primary" style="font-size:17px;padding:14px 36px">Launch SourceDeck</a>
+  <div class="support">Free to start. No credit card. You can be in and generating leads in under two minutes.</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  SourceDeck is an <a href="https://arcgsystems.com" style="color:var(--muted);opacity:0.75" target="_blank" rel="noopener">ARCG Systems</a> product &middot; &copy; 2026 Ariel's River Contracting Group LLC
+</footer>
+
+<script>
+// Animate chart bars on scroll
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      e.target.querySelectorAll('.bar').forEach((b,i) => {
+        b.style.animationDelay = (i * 0.08) + 's';
+        b.style.animationPlayState = 'running';
+      });
+    }
+  });
+}, {threshold: 0.3});
+document.querySelectorAll('.preview-chart').forEach(c => observer.observe(c));
+</script>
+
+</body>
+</html>
