@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://sourcedeck.app/sitemap.xml
