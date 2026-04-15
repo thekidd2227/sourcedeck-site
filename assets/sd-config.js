@@ -48,7 +48,7 @@
     BASIN_ENDPOINT: 'https://usebasin.com/f/c60baae0eef17516eca2bea81e419768',
 
     /* ── Shared ────────────────────────────────────────────────────── */
-    SALES_EMAIL: 'sales@arcgsystems.com',
+    SALES_EMAIL: 'sales@arivergrop.com',
     SUCCESS_URL: 'https://sourcedeck.app/thanks/',
     CANCEL_URL:  'https://sourcedeck.app/app/#pricing'
   };
