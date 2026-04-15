@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>SourceDeck | Received</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sd-theme.css">
+</head>
+<body>
+
+<div class="sd-bg"></div><div class="sd-grid"></div>
+
+<nav class="sd-nav">
+  <a class="sd-brand" href="/"><span class="glyph">S</span> SourceDeck</a>
+  <div class="links">
+    <a href="/app/">Launch</a>
+    <a href="/app/#pricing">Pricing</a>
+    <a href="/sales/">Sales</a>
+  </div>
+</nav>
+
+<section class="sd-hero">
+  <div class="sd-eyebrow"><span class="dot"></span> Received</div>
+  <h1 id="th-h1">Got it — we'll be in touch.</h1>
+  <p class="lede" id="th-lede">Your request is in the right inbox. You'll get a direct reply within one business day.</p>
+</section>
+
+<section class="sd-section narrow">
+  <div class="sd-card">
+    <h3>What happens next</h3>
+    <ul id="th-list">
+      <li>An operator (not an SDR) reads your message.</li>
+      <li>You'll get a reply with the next concrete step — quote, scoping call, or invoice — depending on what you asked for.</li>
+      <li>Reply to that email if anything changes on your side; the thread stays continuous.</li>
+    </ul>
+    <p style="font-size:11.5px;color:var(--muted);margin-top:10px">
+      Direct: <a href="mailto:sales@arcgsystems.com" style="color:var(--accent2)">sales@arcgsystems.com</a>
+    </p>
+  </div>
+
+  <div class="sd-card">
+    <h3>While you wait</h3>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px">
+      <a class="sd-btn primary lg" href="/app/demo/" style="flex:1;min-width:220px">Start with Demo</a>
+      <a class="sd-btn secondary lg" href="/download/html/" style="flex:1;min-width:220px">Download the HTML file</a>
+      <a class="sd-btn ghost lg" href="/app/#pricing" style="flex:1;min-width:220px">Compare plans</a>
+    </div>
+  </div>
+</section>
+
+<footer class="sd-foot">
+  SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">·</span> &copy; 2026 Ariel's River Contracting Group LLC
+  <span class="sep">·</span> <a href="/app/">Launch</a>
+  <span class="sep">·</span> <a href="/sales/">Sales</a>
+</footer>
+
+<script>
+/* Friendly per-source headline. Source is read from ?src= or ?plan=
+   so the same page works for Basin form posts AND Stripe success. */
+(function(){
+  var p = new URLSearchParams(location.search);
+  var src = (p.get('src') || '').toLowerCase();
+  var plan = (p.get('plan') || '').toLowerCase();
+  var h1 = document.getElementById('th-h1');
+  var l  = document.getElementById('th-lede');
+
+  if (plan === 'pro' || plan === 'operator') {
+    h1.textContent = 'Welcome to SourceDeck.';
+    l.textContent  = 'Your subscription is active. Check your email for the workspace activation link and receipt.';
+    return;
+  }
+  var map = {
+    sales:    ['Got it — we\'ll be in touch.', 'Your message is with the operator who sells SourceDeck. Reply within one business day.'],
+    'pro-invoice':    ['Pro invoice request received.', 'You\'ll get a formal quote inside one business day. Once approved, we issue the annual invoice.'],
+    'operator-proposal':['Proposal request received.', 'You\'ll get a 30-minute scoping call scheduled inside one business day, followed by a written proposal.'],
+    waitlist:['You\'re on the desktop waitlist.', 'One operator, one list, no email sequence. You\'ll hear from us once — when the signed build for your platform ships.']
+  };
+  if (map[src]) { h1.textContent = map[src][0]; l.textContent = map[src][1]; }
+})();
+</script>
+
+</body>
+</html>

@@ -34,7 +34,7 @@
     <h3>What to ask about</h3>
     <ul>
       <li>Operator or Enterprise scoping and proposal</li>
-      <li>Annual invoicing, PO terms, or procurement review</li>
+      <li>Annual invoicing or procurement / vendor review</li>
       <li>Security review, DPA, or vendor questionnaire</li>
       <li>Multi-seat rollout, onboarding, or migration from existing tools</li>
       <li>Custom integrations and implementation support</li>
@@ -44,8 +44,11 @@
 
   <div class="sd-card" id="form">
     <h3>Send a note</h3>
-    <!-- PLACEHOLDER: swap action for a real form endpoint (Formspree / Basin / HubSpot) when live. -->
-    <form class="sd-form" action="mailto:sales@arcgsystems.com" method="POST" enctype="text/plain">
+    <!-- LIVE: Basin endpoint wired in /assets/sd-config.js. Single endpoint shared across the site, distinguished by _form_source. -->
+    <form class="sd-form" action="https://usebasin.com/f/c60baae0eef17516eca2bea81e419768" method="POST" accept-charset="UTF-8">
+      <input type="hidden" name="_form_source" value="sales">
+      <input type="hidden" name="_redirect" value="https://sourcedeck.app/thanks/?src=sales">
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px">
       <div>
         <label for="sl-name">Name</label>
         <input id="sl-name" name="name" type="text" required>

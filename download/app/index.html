@@ -54,8 +54,12 @@
   <div class="sd-card">
     <h3>Join the waitlist</h3>
     <p>No marketing list. No drip sequence. You only hear from us once — when the signed build for your platform is ready to download.</p>
-    <!-- PLACEHOLDER: swap action for a real form endpoint (Basin / Formspree / HubSpot) when live. Mailto preserves the journey until then. -->
-    <form class="sd-form" action="mailto:sales@arcgsystems.com?subject=SourceDeck%20Desktop%20Waitlist" method="POST" enctype="text/plain">
+    <!-- LIVE: Basin endpoint. Submissions tagged _form_source=waitlist. -->
+    <form class="sd-form" action="https://usebasin.com/f/c60baae0eef17516eca2bea81e419768" method="POST" accept-charset="UTF-8">
+      <input type="hidden" name="_form_source" value="waitlist">
+      <input type="hidden" name="_subject" value="SourceDeck Desktop — Waitlist Signup">
+      <input type="hidden" name="_redirect" value="https://sourcedeck.app/thanks/?src=waitlist">
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px">
       <div class="full">
         <label for="dwa-email">Work email</label>
         <input id="dwa-email" type="email" name="email" placeholder="you@company.com" required>

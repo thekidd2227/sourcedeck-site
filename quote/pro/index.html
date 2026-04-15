@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SourceDeck | Pro — Request Annual Invoice</title>
-<meta name="description" content="Request an annual invoice for SourceDeck Pro. Seats, start date, and PO number — we handle the rest.">
+<meta name="description" content="Request an annual invoice for SourceDeck Pro. Tell us seats and start date — we issue a formal quote inside one business day.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/sd-theme.css">
@@ -34,7 +34,7 @@
     <h3>What you get</h3>
     <ul>
       <li>SourceDeck Pro — everything in Starter plus follow-up tools, bottleneck alerts, workflow handoffs, and operational reporting</li>
-      <li>Formal quote referencing your PO number</li>
+      <li>Formal quote tied to your company and start date</li>
       <li>Annual invoice at list price — <strong>$49/seat/month, billed annually</strong></li>
       <li>ACH, wire, or check; net-30 available for qualifying buyers</li>
     </ul>
@@ -43,8 +43,12 @@
 
   <div class="sd-card">
     <h3>Request form</h3>
-    <!-- PLACEHOLDER: swap action for a real form endpoint (Formspree / Basin / HubSpot) when live. -->
-    <form class="sd-form" action="mailto:sales@arcgsystems.com?subject=SourceDeck%20Pro%20Annual%20Invoice%20Request" method="POST" enctype="text/plain">
+    <!-- LIVE: Basin endpoint. Submissions tagged _form_source=pro-invoice. -->
+    <form class="sd-form" action="https://usebasin.com/f/c60baae0eef17516eca2bea81e419768" method="POST" accept-charset="UTF-8">
+      <input type="hidden" name="_form_source" value="pro-invoice">
+      <input type="hidden" name="_subject" value="SourceDeck Pro — Annual Invoice Request">
+      <input type="hidden" name="_redirect" value="https://sourcedeck.app/thanks/?src=pro-invoice">
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px">
       <div>
         <label for="qp-name">Name</label>
         <input id="qp-name" name="name" type="text" required>
@@ -65,10 +69,6 @@
         <label for="qp-start">Target start date</label>
         <input id="qp-start" name="start_date" type="date">
       </div>
-      <div>
-        <label for="qp-po">PO number (if known)</label>
-        <input id="qp-po" name="po_number" type="text">
-      </div>
       <div class="full">
         <label for="qp-billing">Billing contact + address</label>
         <textarea id="qp-billing" name="billing" placeholder="Finance contact name, email, and billing address"></textarea>
@@ -82,7 +82,7 @@
       </div>
     </form>
     <p style="font-size:11.5px;color:var(--muted);margin-top:12px;line-height:1.55">
-      <strong style="color:var(--sub)">What happens next:</strong> within one business day we send a formal quote referencing your PO number. Once you approve, we issue an annual invoice payable by ACH, wire, or check — net-30 for qualifying buyers. Your workspace is activated on receipt (or immediately under net-30).
+      <strong style="color:var(--sub)">What happens next:</strong> we review your request and send a formal quote inside one business day. Once you approve, we issue an annual invoice payable by ACH, wire, or check. Your workspace is activated on receipt of payment.
     </p>
     <p style="font-size:11.5px;color:var(--muted);margin-top:10px">
       Prefer a card and want to start today? <a href="/app/#pricing" style="color:var(--accent2)">Choose Plan on the pricing page</a>. Multi-seat team that needs scoping? <a href="/quote/operator/" style="color:var(--accent2)">Request the Operator proposal</a>.

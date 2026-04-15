@@ -54,8 +54,12 @@
 
   <div class="sd-card">
     <h3>Request form</h3>
-    <!-- PLACEHOLDER: swap action for a real form endpoint (Formspree / Basin / HubSpot) when live. -->
-    <form class="sd-form" action="mailto:sales@arcgsystems.com?subject=SourceDeck%20Operator%20Proposal%20Request" method="POST" enctype="text/plain">
+    <!-- LIVE: Basin endpoint. Submissions tagged _form_source=operator-proposal. -->
+    <form class="sd-form" action="https://usebasin.com/f/c60baae0eef17516eca2bea81e419768" method="POST" accept-charset="UTF-8">
+      <input type="hidden" name="_form_source" value="operator-proposal">
+      <input type="hidden" name="_subject" value="SourceDeck Operator — Proposal Request">
+      <input type="hidden" name="_redirect" value="https://sourcedeck.app/thanks/?src=operator-proposal">
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px">
       <div>
         <label for="qo-name">Name</label>
         <input id="qo-name" name="name" type="text" required>
