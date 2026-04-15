@@ -3528,7 +3528,34 @@ async function callAI(systemPrompt, userMessage, maxTokens){
 // Airtable — set PAT for live data mode
 const AT_BASE='appfQRV1tGk3sWMCb';
 const AT_TABLE='tbl695ilVYkzMxHso';
-const AT_PAT=(typeof localStorage!=='undefined'&&localStorage.getItem('AT_PAT'))||'';
+const AT_PAT=(typeof localStorage!=='undefined'&&(localStorage.getItem('lcc_AT_PAT_OVERRIDE')||localStorage.getItem('AT_PAT')))||'';
+
+// ─── AIRTABLE PROXY SHIM (Phase 1 hybrid) ─────────────────────────────────
+// Toggle per-device:  localStorage.setItem('USE_PROXY','1')   — route through proxy
+//                     localStorage.removeItem('USE_PROXY')    — direct PAT (default)
+// When active, every existing fetch() to api.airtable.com/v0/{AT_BASE}/* is
+// rewritten to the proxy and the Authorization header is stripped. Zero changes
+// to call sites — Phase 2 will inline an explicit airtableFetch() helper.
+(function(){
+  if (typeof window === 'undefined' || typeof window.fetch !== 'function') return;
+  const PROXY_BASE = 'https://proxy.sourcedeck.app/api/airtable';
+  const DIRECT_PREFIX = 'https://api.airtable.com/v0/' + AT_BASE + '/';
+  const isProxyMode = () => { try { return localStorage.getItem('USE_PROXY') === '1'; } catch { return false; } };
+  const _nativeFetch = window.fetch.bind(window);
+  window.fetch = function(input, init) {
+    if (!isProxyMode()) return _nativeFetch(input, init);
+    const url = typeof input === 'string' ? input : (input && input.url) || '';
+    if (!url.startsWith(DIRECT_PREFIX)) return _nativeFetch(input, init);
+    const rewritten = PROXY_BASE + '/' + url.slice(DIRECT_PREFIX.length);
+    const next = Object.assign({}, init || {}, { credentials: 'include' });
+    if (next.headers) {
+      const h = new Headers(next.headers);
+      h.delete('Authorization');
+      next.headers = h;
+    }
+    return _nativeFetch(rewritten, next);
+  };
+})();
 
 let currentMode='image',lastVisualPrompt='',lastVideoPrompt='',lastPipelineOut=null;
 let actLog=[],checkState={};
