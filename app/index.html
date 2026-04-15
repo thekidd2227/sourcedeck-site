@@ -30,7 +30,7 @@
 </nav>
 
 <section class="sd-hero">
-  <div class="sd-eyebrow"><span class="dot"></span> Launch SourceDeck</div>
+  <div class="sd-eyebrow"><span class="dot"></span> Explore · Buy</div>
   <h1>Pick your path.</h1>
   <p class="lede">Try the demo, take the app with you, or pick a plan. Self-serve, hybrid, and sales-led buying are all supported.</p>
 </section>
@@ -153,9 +153,9 @@
         <li>Operational reporting</li>
         <li>Email support</li>
       </ul>
-      <div class="why">Hybrid by design — put it on a card or have finance pay the annual invoice.</div>
+      <div class="why">Hybrid by design. Put it on a card and start today, or route it through finance with an annual invoice — same product, same price, your call.</div>
       <div class="ctas">
-        <a href="#" data-plan="pro" onclick="return sdCheckout(event,'pro')" class="sd-btn primary">Choose Plan</a>
+        <a href="#" data-plan="pro" onclick="return sdCheckout(event,'pro','monthly')" class="sd-btn primary">Choose Plan</a>
         <a href="/quote/pro/" class="sd-btn secondary">Purchase by Invoice</a>
       </div>
     </div>
@@ -211,22 +211,8 @@
   <span class="sep">·</span> <a href="/sales/">Sales</a>
 </footer>
 
-<script>
-/* ─── Checkout placeholder wiring ───
-   Replace CHECKOUT_URLS[plan] with live Stripe Payment Links when ready.
-   Until then: Pro "Choose Plan" routes to /quote/pro/ (premium interim page),
-   not a mailto, per brief's BILLING IMPLEMENTATION RULE.
-*/
-var CHECKOUT_URLS = {
-  pro:      '/quote/pro/',           // placeholder — swap for Stripe Payment Link: https://buy.stripe.com/XXX
-  operator: '/quote/operator/'       // placeholder — swap for Stripe Payment Link when Operator self-serve enabled
-};
-function sdCheckout(e, plan){
-  e.preventDefault();
-  window.location.href = CHECKOUT_URLS[plan] || CHECKOUT_URLS.pro;
-  return false;
-}
-</script>
+<!-- Centralized billing config + checkout resolver. Swap Stripe Payment Link URLs in /assets/sd-config.js when live. -->
+<script src="/assets/sd-config.js"></script>
 
 </body>
 </html>
