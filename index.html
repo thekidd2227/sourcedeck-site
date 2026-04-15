@@ -352,6 +352,24 @@ a{text-decoration:none;color:inherit}
   font-size:12px;color:var(--muted);
 }
 .footer a{color:var(--accent2)}
+.footer a.arcg-link{
+  color:var(--gold);
+  text-decoration:none;
+  font-weight:600;
+  letter-spacing:0.01em;
+  transition:color 0.18s ease, text-decoration-color 0.18s ease;
+}
+.footer a.arcg-link:hover{
+  color:#e8c36b;
+  text-decoration:underline;
+  text-decoration-color:var(--gold);
+  text-underline-offset:3px;
+}
+.footer a.arcg-link:focus-visible{
+  outline:2px solid var(--gold);
+  outline-offset:2px;
+  border-radius:2px;
+}
 
 /* ── RESPONSIVE ── */
 @media(max-width:900px){
@@ -741,7 +759,7 @@ a{text-decoration:none;color:inherit}
 
 <!-- FOOTER -->
 <footer class="footer">
-  SourceDeck is an <a href="https://arcgsystems.com" style="color:var(--muted);opacity:0.75" target="_blank" rel="noopener">ARCG Systems</a> product &middot; &copy; 2026 Ariel's River Contracting Group LLC
+  SourceDeck is an <a href="https://arcgsystems.com" class="arcg-link" target="_blank" rel="noopener">ARCG Systems</a> product &middot; &copy; 2026 Ariel's River Contracting Group LLC
 </footer>
 
 <script>
