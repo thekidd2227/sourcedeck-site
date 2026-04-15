@@ -23,20 +23,42 @@
     STRIPE_PUBLISHABLE_KEY: null,          // SWAP: 'pk_live_...'
 
     STRIPE_PRODUCTS: {
+      core:     'prod_UL9cNLWwDAk9PG',
       pro:      'prod_UL6H0sF9QgT6by',
       operator: 'prod_UL6HphbFYbXHfG'
     },
 
+    /* LIVE pricing (v2 — outcome-based $79 / $349 / $999).
+       Legacy v1 IDs preserved in STRIPE_PRICES_LEGACY for any
+       grandfathered checkouts that reference them. */
     STRIPE_PRICES: {
-      pro_monthly:      'price_1TMQ5ZGwsCHM3Ft215bvDkQv',
-      pro_annual:       'price_1TMQ5tGwsCHM3Ft2O3jCnbce',
-      operator_monthly: 'price_1TMQ6CGwsCHM3Ft2sNO1UyzL'
+      core_monthly:     'price_1TMTKWGwsCHM3Ft22HGtJC8s',   // $79/mo
+      pro_monthly:      'price_1TMTKXGwsCHM3Ft2tlG5n600',   // $349/mo
+      pro_annual:       'price_1TMQ5tGwsCHM3Ft2O3jCnbce',   // legacy annual — still valid
+      operator_monthly: 'price_1TMTKZGwsCHM3Ft2UQuF06fe'    // $999/mo
+    },
+    STRIPE_PRICES_LEGACY: {
+      pro_monthly:      'price_1TMQ5ZGwsCHM3Ft215bvDkQv',   // $49/mo — do not delete, legacy subs
+      operator_monthly: 'price_1TMQ6CGwsCHM3Ft2sNO1UyzL'    // $149/mo — do not delete, legacy subs
     },
 
     /* If the publishable key is missing, these interim pages take over. */
     INTERIM_ROUTES: {
+      core:     '/app/demo/',
       pro:      '/quote/pro/',
       operator: '/quote/operator/'
+    },
+
+    /* Outbound funnel — SourceDeck Pricing Diagnosis Funnel (4-step).
+       Drives cold outreach into /pricing/ via the Instantly campaign
+       named below. Referenced by LCC outbound tooling. */
+    FUNNEL: {
+      name:           'SourceDeck | Pricing Diagnosis Funnel | 4-step',
+      pricing_url:    'https://sourcedeck.app/#pricing',
+      sender:         'charlie@digiarcgsystems.com',
+      daily_cap:      25,
+      /* Live Instantly campaign — 4-step diagnosis → pricing funnel. */
+      instantly_campaign_id: 'e1d2d2e5-b3cd-4ee1-8dc5-9cc1a254bbe4'
     },
 
     /* Commercial posture.

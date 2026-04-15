@@ -114,93 +114,93 @@
   </div>
 </section>
 
-<!-- ── PRICING ── -->
-<section class="sd-section" id="pricing">
-  <h2>Simple pricing. Four paths.</h2>
-  <p class="sub-h">Start free and upgrade when you need follow-up discipline or team workflow. Annual invoicing and scoped proposals available from Pro upward.</p>
-  <div class="sd-price-grid">
+<!-- ── COST-OF-INACTION STRIP ── -->
+<section class="sd-section" style="padding:28px max(24px,calc((100vw - 1100px)/2)) 28px">
+  <div style="max-width:980px;margin:0 auto;padding:24px;background:linear-gradient(180deg,rgba(191,90,242,0.06) 0%,rgba(0,113,227,0.04) 100%);border:0.5px solid rgba(255,255,255,0.08);border-radius:16px">
+    <div style="text-align:center;font-size:clamp(18px,2.4vw,26px);font-weight:700;letter-spacing:-0.02em;color:#fff;margin-bottom:14px">Most teams don't have a lead problem. They have a tracking problem.</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+      <div style="padding:10px;text-align:center;font-size:13px;color:var(--sub)"><strong style="color:#fff">Missed follow-ups</strong> <span style="color:var(--muted)">=</span> <span style="color:#ff6b6b">lost revenue</span></div>
+      <div style="padding:10px;text-align:center;font-size:13px;color:var(--sub)"><strong style="color:#fff">Manual handoffs</strong> <span style="color:var(--muted)">=</span> <span style="color:#ff6b6b">dropped execution</span></div>
+      <div style="padding:10px;text-align:center;font-size:13px;color:var(--sub)"><strong style="color:#fff">No visibility</strong> <span style="color:var(--muted)">=</span> <span style="color:#ff6b6b">delayed cash flow</span></div>
+    </div>
+  </div>
+</section>
 
-    <!-- STARTER / CORE -->
+<!-- ── PRICING — 3 tiers, outcome-based ── -->
+<section class="sd-section" id="pricing">
+  <h2>Three tiers. One operating system.</h2>
+  <p class="sub-h">Start with visibility. Add control. Run the whole operation as a system when you're ready.</p>
+  <div class="sd-price-grid" style="grid-template-columns:repeat(3,1fr)">
+
+    <!-- CORE -->
     <div class="sd-price">
-      <div class="name">Starter</div>
-      <div class="price">$0</div>
-      <div class="who">For solo operators and tiny teams getting started.</div>
-      <div class="how">Self-serve · Instant access</div>
+      <div class="how" style="color:var(--muted)">Visibility</div>
+      <div class="name">Core</div>
+      <div class="price">$79<span>/mo</span></div>
+      <div class="who">See what's actually happening across your operation.</div>
       <ul>
-        <li>Lead tracking + outreach view</li>
-        <li>Workflow visibility</li>
-        <li>Single operator</li>
-        <li>Community support</li>
-        <li class="loc">Upgrade for follow-up tools</li>
+        <li>Track leads, tasks, and workflow in one system</li>
+        <li>Identify bottlenecks and delays</li>
+        <li>Basic operational reporting</li>
       </ul>
-      <div class="why">No card. No signup gate. This is how we build trust before you buy.</div>
+      <div class="why">Start here when the first fix is just seeing the work clearly.</div>
       <div class="ctas">
-        <a href="/app/demo/" class="sd-btn primary">Start with Demo</a>
-        <a href="#pricing" class="sd-btn secondary">Choose Plan</a>
+        <a href="#" onclick="return sdCheckout(event,'core','monthly')" class="sd-btn secondary">Start tracking your operation</a>
+        <a href="/app/demo/" class="sd-btn secondary" style="background:transparent">Try the demo</a>
       </div>
     </div>
 
-    <!-- PRO -->
+    <!-- PRO (FEATURED) -->
     <div class="sd-price pop">
+      <div class="how" style="color:var(--accent2)">Control</div>
       <div class="name">Pro</div>
-      <div class="price">$49<span>/mo</span></div>
-      <div class="who">For agencies, contractors, and small teams that need follow-up discipline.</div>
-      <div class="how">Hybrid · Card or invoice</div>
+      <div class="price">$349<span>/mo</span></div>
+      <div class="who">For teams losing revenue in the handoff between people and stages.</div>
       <ul>
-        <li>Everything in Starter</li>
-        <li>Follow-up tools + bottleneck alerts</li>
-        <li>Workflow handoffs</li>
-        <li>Operational reporting</li>
-        <li>Email support</li>
+        <li>Everything in Core</li>
+        <li>Real-time bottleneck alerts</li>
+        <li>Automated workflow handoffs</li>
+        <li>Full operational visibility dashboard</li>
       </ul>
-      <div class="why">Hybrid by design. Put it on a card and start today, or route it through finance with an annual invoice — same product, same price, your call.</div>
+      <div class="why">Hybrid by design. Pay by card or by annual invoice — same product, your choice.</div>
       <div class="ctas">
-        <a href="#" data-plan="pro" onclick="return sdCheckout(event,'pro','monthly')" class="sd-btn primary">Choose Plan</a>
+        <a href="#" data-plan="pro" onclick="return sdCheckout(event,'pro','monthly')" class="sd-btn primary">Take control of your workflow</a>
         <a href="/quote/pro/" class="sd-btn secondary">Purchase by Invoice</a>
       </div>
     </div>
 
     <!-- OPERATOR -->
-    <div class="sd-price">
+    <div class="sd-price" style="border-color:rgba(212,168,67,0.3)">
+      <div class="how" style="color:var(--gold);font:600 9.5px/1.3 'JetBrains Mono',monospace;letter-spacing:0.14em;text-transform:uppercase">For serious operators</div>
       <div class="name">Operator</div>
-      <div class="price">$149<span>/mo</span></div>
-      <div class="who">For multi-user teams and implementation-heavy buyers who need scoping.</div>
-      <div class="how">Sales-led · Scoped rollout</div>
+      <div class="price">$999<span>/mo</span></div>
+      <div class="who"><em style="color:var(--muted);font-style:italic">Designed for teams where revenue loss is unacceptable.</em></div>
       <ul>
         <li>Everything in Pro</li>
-        <li>Multi-seat workflow</li>
-        <li>Client and project visibility</li>
-        <li>Advanced reporting</li>
-        <li>Priority support + onboarding</li>
+        <li>Multi-user workflow orchestration</li>
+        <li>Advanced reporting and performance tracking</li>
+        <li>Built for scaling teams</li>
       </ul>
-      <div class="why">Sales-led on purpose — we scope your rollout before quoting so the seat count and onboarding fit your operation.</div>
+      <div class="why">Sales-led rollout — we scope the workflow before quoting so the system actually fits how you operate.</div>
       <div class="ctas">
-        <a href="/quote/operator/" class="sd-btn ghost">Request Proposal</a>
+        <a href="/quote/operator/" class="sd-btn ghost" style="color:var(--gold);border-color:rgba(212,168,67,0.3)">Run your operation like a system</a>
         <a href="/sales/" class="sd-btn secondary">Talk to Sales</a>
       </div>
     </div>
 
-    <!-- ENTERPRISE -->
-    <div class="sd-price ent">
-      <div class="name">Enterprise</div>
-      <div class="price custom">Custom</div>
-      <div class="who">For procurement-heavy buyers, regulated industries, and larger orgs.</div>
-      <div class="how">Sales-led · Custom terms</div>
-      <ul>
-        <li>Everything in Operator</li>
-        <li>Custom seat and workspace counts</li>
-        <li>Security &amp; vendor-review package</li>
-        <li>MSA, SOW, and custom DPA</li>
-        <li>Named operator + SLA</li>
-      </ul>
-      <div class="why">Built to clear procurement. You get an MSA, an SOW, and a named contact — not a self-serve ticket queue.</div>
-      <div class="ctas">
-        <a href="/quote/operator/?tier=enterprise" class="sd-btn ghost">Request Proposal</a>
-        <a href="/sales/?tier=enterprise" class="sd-btn secondary">Talk to Sales</a>
-      </div>
-    </div>
-
   </div>
+</section>
+
+<!-- ── SYSTEM PROOF ── -->
+<section class="sd-section" style="padding-top:20px;padding-bottom:56px">
+  <h2 style="font-size:clamp(22px,2.8vw,30px)">Operational control is cheaper than operational leakage.</h2>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:1000px;margin:28px auto 0">
+    <div style="padding:20px 16px;background:rgba(255,255,255,0.02);border:0.5px solid rgba(255,255,255,0.06);border-radius:14px;text-align:center"><div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:6px">Centralized visibility</div><div style="font-size:11.5px;color:var(--muted);line-height:1.5">One surface. Every deal, handoff, and task in view.</div></div>
+    <div style="padding:20px 16px;background:rgba(255,255,255,0.02);border:0.5px solid rgba(255,255,255,0.06);border-radius:14px;text-align:center"><div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:6px">Automated handoffs</div><div style="font-size:11.5px;color:var(--muted);line-height:1.5">The work moves itself. Nothing stalls.</div></div>
+    <div style="padding:20px 16px;background:rgba(255,255,255,0.02);border:0.5px solid rgba(255,255,255,0.06);border-radius:14px;text-align:center"><div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:6px">Faster follow-through</div><div style="font-size:11.5px;color:var(--muted);line-height:1.5">Bottleneck alerts in real time.</div></div>
+    <div style="padding:20px 16px;background:rgba(255,255,255,0.02);border:0.5px solid rgba(255,255,255,0.06);border-radius:14px;text-align:center"><div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:6px">Measurable execution</div><div style="font-size:11.5px;color:var(--muted);line-height:1.5">Know where revenue lives and where it leaks.</div></div>
+  </div>
+  <style>@media(max-width:820px){section.sd-section > div[style*="grid-template-columns:repeat(4"]{grid-template-columns:repeat(2,1fr) !important}}</style>
 </section>
 
 <footer class="sd-foot">
