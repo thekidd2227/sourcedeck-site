@@ -1201,8 +1201,8 @@ body{padding-top:32px !important}
           </div>
           <div class="card"><div class="sl">Infrastructure</div>
             <div class="kv"><span class="k">Airtable Base</span><span class="v">appDEMO0000000000</span></div>
-            <div class="kv"><span class="k">Notion Leads DB</span><span class="v" style="font-size:9px">XXXXXXXX-XXXX</span></div>
-            <div class="kv"><span class="k">Instantly Campaign</span><span class="v" style="font-size:9px">YOUR_CAMPAIGN_ID</span></div>
+            <div class="kv"><span class="k">Notion Leads DB</span><span class="v" style="font-size:9px;color:var(--muted)">Not connected</span></div>
+            <div class="kv"><span class="k">Instantly Campaign</span><span class="v" style="font-size:9px;color:var(--muted)">Not configured</span></div>
             <div class="kv"><span class="k">Gmail Connection</span><span class="v">8125092</span></div>
           </div>
           <div class="card"><div class="sl">HTTP Standards</div>
@@ -1546,7 +1546,7 @@ body{padding-top:32px !important}
                 </div>
                 <div class="form-group">
                   <label class="label">Instantly Campaign ID</label>
-                  <input class="input" id="s-instantly" value="YOUR_CAMPAIGN_ID">
+                  <input class="input" id="s-instantly" value="" placeholder="Your Instantly campaign ID">
                 </div>
                 <div class="form-group">
                   <label class="label">Assessment Webhook (PROD-01-v2)</label>
@@ -1559,9 +1559,9 @@ body{padding-top:32px !important}
             <div class="card mb-14">
               <div class="sl">System Identifiers</div>
               <div class="kv"><span class="k">Airtable Base</span><span class="v">appDEMO0000000000</span></div>
-              <div class="kv"><span class="k">Leads Table</span><span class="v">tblXXXXXXXXXXXXXXX</span></div>
-              <div class="kv"><span class="k">Audit Intake Table</span><span class="v">tblZZZZZZZZZZZZZZZ</span></div>
-              <div class="kv"><span class="k">Notion Leads DB</span><span class="v" style="font-size:9px">XXXXXXXX-XXXX-...</span></div>
+              <div class="kv"><span class="k">Leads Table</span><span class="v" style="color:var(--muted)">Set via Settings</span></div>
+              <div class="kv"><span class="k">Audit Intake Table</span><span class="v" style="color:var(--muted)">Set via Settings</span></div>
+              <div class="kv"><span class="k">Notion Leads DB</span><span class="v" style="font-size:9px;color:var(--muted)">Not connected</span></div>
               <div class="kv"><span class="k">Gmail Connection</span><span class="v">8125092</span></div>
             </div>
             <div class="card mb-14">
@@ -1569,7 +1569,7 @@ body{padding-top:32px !important}
               <div style="display:flex;flex-direction:column;gap:8px;padding:4px 0">
                 <div style="display:flex;align-items:center;gap:8px;font-size:11px"><span class="badge bgn">1</span><span style="color:var(--sub)"><strong>Airtable</strong> — system of record, intake layer</span></div>
                 <div style="display:flex;align-items:center;gap:8px;font-size:11px"><span class="badge bb">2</span><span style="color:var(--sub)"><strong>Notion</strong> — structured pipeline, command layer (PROD-02, 15min)</span></div>
-                <div style="display:flex;align-items:center;gap:8px;font-size:11px"><span class="badge bp">3</span><span style="color:var(--sub)"><strong>Instantly</strong> — outbound execution (PROD-03, campaign YOUR_CAMPAIGN_ID)</span></div>
+                <div style="display:flex;align-items:center;gap:8px;font-size:11px"><span class="badge bp">3</span><span style="color:var(--sub)"><strong>Instantly</strong> — outbound execution (PROD-03, campaign (set in Settings))</span></div>
                 <div style="display:flex;align-items:center;gap:8px;font-size:11px"><span class="badge bw">4</span><span style="color:var(--sub)"><strong>Reply / Booking</strong> — PROD-04 reply intel → PROD-05 booking brief</span></div>
               </div>
             </div>
@@ -7056,7 +7056,7 @@ function renderFlow(){
     {n:1,t:'Assessment Form',d:'arcgsystems.com/assessment → PROD-01 webhook → Airtable New + Gmail alert'},
     {n:2,t:'Qualification',d:'Operator reviews → Status=Qualified in Airtable'},
     {n:3,t:'Notion Sync (Auto)',d:'PROD-02 15min → M3 writeback → Synced to Notion → Notion record created (dedup)'},
-    {n:4,t:'Instantly Insert (Auto)',d:'PROD-03 4595758 15min → Campaign YOUR_CAMPAIGN_ID insert → Status=Contacted or Duplicate - Instantly'},
+    {n:4,t:'Instantly Insert (Auto)',d:'PROD-03 4595758 15min → Campaign insert (ID set in Settings) → Status=Contacted or Duplicate - Instantly'},
     {n:5,t:'Outreach Delivered',d:'charlie@digiarcgsystems.com → Day 0 / Day 5 / Day 12 sequence'},
     {n:6,t:'Reply Analysis (Auto)',d:'PROD-04 15min → GPT-4o → Airtable AI fields + Gmail alert'},
     {n:7,t:'Booking Triggered',d:'PROD-05 webhook → pre-call brief → booking link emailed to prospect'},
