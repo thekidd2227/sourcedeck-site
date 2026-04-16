@@ -57,12 +57,19 @@
 
   <div class="sd-card" style="border-color:rgba(212,168,67,0.35);background:rgba(212,168,67,0.04)">
     <h3 style="color:var(--gold)">Invoice eligibility</h3>
+    <p style="font-size:13px;color:var(--sub);line-height:1.6;margin:6px 0 14px">
+      Invoice billing is available for verified businesses. Submit your PO and business details for review. After approval, we issue a branded Stripe invoice. Service begins only after the invoice is paid in full.
+    </p>
     <ul>
       <li><strong>Verified businesses only.</strong> We verify company identity, SAM.gov / D-U-N-S / state registration, and billing contact before issuing an invoice.</li>
-      <li><strong>Valid PO number required.</strong> Include the PO issued by your procurement or finance team with your proposal approval. No PO means no invoice.</li>
-      <li><strong>Services begin after payment.</strong> Workspace provisioning and rollout start only once the invoice is paid in full.</li>
+      <li><strong>Valid PO required.</strong> Include the PO issued by your procurement or finance team with your proposal approval. No PO means no invoice.</li>
+      <li><strong>Business ID required.</strong> EIN, D-U-N-S, or UEI — used to verify the legal entity before an invoice is issued.</li>
+      <li><strong>Activation begins after payment clears.</strong> Workspace provisioning and rollout start only once the Stripe invoice is paid in full.</li>
     </ul>
-    <p class="mono" style="color:var(--gold)">VERIFIED BUSINESS · PO REQUIRED · PREPAID ACTIVATION</p>
+    <p class="mono" style="color:var(--gold)">VERIFIED BUSINESS · VALID PO · BUSINESS ID · PREPAID ACTIVATION</p>
+    <p style="font-size:11.5px;color:var(--muted);margin-top:10px;line-height:1.55">
+      Service does not begin on PO submission, invoice issuance, or pending payment. Activation begins only after payment clears.
+    </p>
   </div>
 
   <div class="sd-card">
@@ -75,15 +82,15 @@
       <input type="hidden" name="_source_page" value="/quote/operator/">
       <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px">
       <div>
-        <label for="qo-name">Name</label>
+        <label for="qo-name">Contact Name</label>
         <input id="qo-name" name="name" type="text" required>
       </div>
       <div>
-        <label for="qo-email">Work email</label>
+        <label for="qo-email">Business Email</label>
         <input id="qo-email" name="email" type="email" required>
       </div>
       <div>
-        <label for="qo-company">Company</label>
+        <label for="qo-company">Company Name</label>
         <input id="qo-company" name="company" type="text" required>
       </div>
       <div>
@@ -121,20 +128,28 @@
         <textarea id="qo-procurement" name="procurement" placeholder="Security review, DPA, MSA, SOC 2 questionnaire, insurance, etc."></textarea>
       </div>
       <div>
-        <label for="qo-po">PO number (if issued)</label>
+        <label for="qo-po">PO Number (if already issued)</label>
         <input id="qo-po" name="po_number" type="text" placeholder="e.g. PO-2026-0482">
+        <p style="font-size:11px;color:var(--muted);margin:4px 0 0;line-height:1.4">If your procurement team has already issued a PO. Otherwise submit when approved — invoice is only issued once a real PO is on file.</p>
       </div>
       <div>
-        <label for="qo-ein">Business EIN / D-U-N-S / UEI</label>
+        <label for="qo-ein">Business ID — EIN / D-U-N-S / UEI</label>
         <input id="qo-ein" name="business_id" type="text" placeholder="For verification">
+        <p style="font-size:11px;color:var(--muted);margin:4px 0 0;line-height:1.4">We verify the legal entity before an invoice is issued.</p>
       </div>
       <div class="full submit">
         <button type="submit" class="sd-btn primary lg" style="width:100%">Request Proposal</button>
       </div>
     </form>
-    <p style="font-size:11.5px;color:var(--muted);margin-top:12px;line-height:1.55">
-      <strong style="color:var(--sub)">What happens next:</strong> within one business day we book a 30-minute scoping call with the operator who will set up your workspace. After the call you receive a written proposal with seat count, onboarding plan, integrations, timeline, and annual pricing. For Enterprise, the proposal arrives with MSA, SOW, and DPA ready for procurement. <strong style="color:var(--gold)">If you're paying by invoice, workspace provisioning and rollout begin only after the invoice is paid in full.</strong>
-    </p>
+    <div style="margin-top:14px;padding:14px 16px;background:rgba(0,113,227,0.06);border:0.5px solid rgba(0,113,227,0.2);border-radius:10px">
+      <p style="font-size:12px;color:var(--sub);margin:0 0 8px;font-weight:600;letter-spacing:0.02em">What happens next</p>
+      <ol style="margin:0;padding-left:18px;font-size:12px;color:var(--muted);line-height:1.65">
+        <li>You submit your proposal request and business details.</li>
+        <li>We book a 30-minute scoping call within one business day and send a written proposal — seat count, onboarding plan, integrations, timeline, annual pricing. Enterprise proposals arrive with MSA, SOW, and DPA ready for procurement.</li>
+        <li>We verify the business and review the PO, then issue a branded Stripe invoice after approval.</li>
+        <li>Workspace provisioning and rollout begin only after the invoice is paid in full.</li>
+      </ol>
+    </div>
     <p style="font-size:11.5px;color:var(--muted);margin-top:10px">
       Just shopping around? <a href="/app/demo/" style="color:var(--accent2)">Start with the demo</a>. Smaller team that can self-serve? <a href="/app/#pricing" style="color:var(--accent2)">Choose Plan</a>.
     </p>

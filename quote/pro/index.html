@@ -47,12 +47,19 @@
 
   <div class="sd-card" style="border-color:rgba(212,168,67,0.35);background:rgba(212,168,67,0.04)">
     <h3 style="color:var(--gold)">Invoice eligibility</h3>
+    <p style="font-size:13px;color:var(--sub);line-height:1.6;margin:6px 0 14px">
+      Invoice billing is available for verified businesses. Submit your PO and business details for review. After approval, we issue a branded Stripe invoice. Service begins only after the invoice is paid in full.
+    </p>
     <ul>
       <li><strong>Verified businesses only.</strong> We verify company identity, SAM.gov / D-U-N-S / state registration, and billing contact before issuing an invoice.</li>
-      <li><strong>Valid PO number required.</strong> Submit the PO issued by your procurement or finance team with this request. Quotes without a real PO cannot be converted to an invoice.</li>
-      <li><strong>Services begin after payment.</strong> Your SourceDeck workspace is provisioned and activated only once the invoice is paid in full.</li>
+      <li><strong>Valid PO required.</strong> Submit the PO issued by your procurement or finance team with this request. Submissions without a real PO cannot be converted to an invoice.</li>
+      <li><strong>Business ID required.</strong> EIN, D-U-N-S, or UEI — used to verify the legal entity before an invoice is issued.</li>
+      <li><strong>Activation begins after payment clears.</strong> Your SourceDeck workspace is provisioned and activated only once the Stripe invoice is paid in full.</li>
     </ul>
-    <p class="mono" style="color:var(--gold)">VERIFIED BUSINESS · PO REQUIRED · PREPAID ACTIVATION</p>
+    <p class="mono" style="color:var(--gold)">VERIFIED BUSINESS · VALID PO · BUSINESS ID · PREPAID ACTIVATION</p>
+    <p style="font-size:11.5px;color:var(--muted);margin-top:10px;line-height:1.55">
+      Service does not begin on PO submission, invoice issuance, or pending payment. Activation begins only after payment clears.
+    </p>
   </div>
 
   <div class="sd-card">
@@ -65,15 +72,15 @@
       <input type="hidden" name="_source_page" value="/quote/pro/">
       <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px">
       <div>
-        <label for="qp-name">Name</label>
+        <label for="qp-name">Contact Name</label>
         <input id="qp-name" name="name" type="text" required>
       </div>
       <div>
-        <label for="qp-email">Work email</label>
+        <label for="qp-email">Business Email</label>
         <input id="qp-email" name="email" type="email" required>
       </div>
       <div>
-        <label for="qp-company">Company</label>
+        <label for="qp-company">Company Name</label>
         <input id="qp-company" name="company" type="text" required>
       </div>
       <div>
@@ -85,12 +92,14 @@
         <input id="qp-start" name="start_date" type="date">
       </div>
       <div>
-        <label for="qp-po">PO number <span style="color:var(--gold)">*</span></label>
+        <label for="qp-po">PO Number <span style="color:var(--gold)">*</span></label>
         <input id="qp-po" name="po_number" type="text" required placeholder="e.g. PO-2026-0482">
+        <p style="font-size:11px;color:var(--muted);margin:4px 0 0;line-height:1.4">Issued by your procurement or finance team. Required before we can issue an invoice.</p>
       </div>
       <div>
-        <label for="qp-ein">Business EIN / D-U-N-S / UEI</label>
-        <input id="qp-ein" name="business_id" type="text" placeholder="For verification">
+        <label for="qp-ein">Business ID — EIN / D-U-N-S / UEI <span style="color:var(--gold)">*</span></label>
+        <input id="qp-ein" name="business_id" type="text" required placeholder="For verification">
+        <p style="font-size:11px;color:var(--muted);margin:4px 0 0;line-height:1.4">We verify the legal entity before an invoice is issued.</p>
       </div>
       <div class="full">
         <label for="qp-billing">Billing contact + address</label>
@@ -101,12 +110,18 @@
         <textarea id="qp-notes" name="notes" placeholder="Payment terms preference, procurement requirements, etc."></textarea>
       </div>
       <div class="full submit">
-        <button type="submit" class="sd-btn primary lg" style="width:100%">Purchase by Invoice</button>
+        <button type="submit" class="sd-btn primary lg" style="width:100%">Submit PO for Review</button>
       </div>
     </form>
-    <p style="font-size:11.5px;color:var(--muted);margin-top:12px;line-height:1.55">
-      <strong style="color:var(--sub)">What happens next:</strong> we verify the business and PO, then send a formal quote inside one business day. Once you approve, we issue an annual invoice payable by ACH, wire, or check. <strong style="color:var(--gold)">Your workspace is provisioned and service begins only after the invoice is paid in full — no activation on net-30 or pending payment.</strong>
-    </p>
+    <div style="margin-top:14px;padding:14px 16px;background:rgba(0,113,227,0.06);border:0.5px solid rgba(0,113,227,0.2);border-radius:10px">
+      <p style="font-size:12px;color:var(--sub);margin:0 0 8px;font-weight:600;letter-spacing:0.02em">What happens next</p>
+      <ol style="margin:0;padding-left:18px;font-size:12px;color:var(--muted);line-height:1.65">
+        <li>You submit your PO request and business details.</li>
+        <li>We verify the business and review the PO.</li>
+        <li>We issue a branded Stripe invoice after approval.</li>
+        <li>Your workspace and services activate after the invoice is paid in full.</li>
+      </ol>
+    </div>
     <script>
     // If routed from the Core tier (?plan=core), tag the submission so
     // finance scopes the quote to Core pricing ($79/seat/mo), not Pro.

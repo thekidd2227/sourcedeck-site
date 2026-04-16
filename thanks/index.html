@@ -107,8 +107,9 @@
   }
   var map = {
     sales:    ['Got it — we\'ll be in touch.', 'Your message is with the operator who sells SourceDeck. Reply within one business day.'],
-    'pro-invoice':    ['Pro invoice request received.', 'You\'ll get a formal quote inside one business day. Once approved, we issue the annual invoice.'],
-    'operator-proposal':['Proposal request received.', 'You\'ll get a 30-minute scoping call scheduled inside one business day, followed by a written proposal.'],
+    'pro-invoice':      ['Invoice request received.',   'We\'ll review the business and PO details, then issue a branded Stripe invoice if approved. Service begins only after payment clears.'],
+    'core-invoice':     ['Invoice request received.',   'We\'ll review the business and PO details, then issue a branded Stripe invoice if approved. Service begins only after payment clears.'],
+    'operator-proposal':['Proposal request received.',  'You\'ll get a 30-minute scoping call scheduled inside one business day, followed by a written proposal. Once approved, we verify the business and PO and issue a branded Stripe invoice — activation begins after payment clears.'],
     waitlist:['You\'re on the desktop waitlist.', 'One operator, one list, no email sequence. You\'ll hear from us once — when the signed build for your platform ships.']
   };
   if (map[src]) { h1.textContent = map[src][0]; l.textContent = map[src][1]; }

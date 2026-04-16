@@ -6,6 +6,9 @@
 <title>SourceDeck — Lead Command Center</title>
 <!-- Chatwoot support chat (SourceDeck) -->
 <script src="/assets/chatwoot.js" defer></script>
+<!-- Canonical invoice-pipeline config. Must load before any script that
+     references window.SD_INVOICE_CONFIG (renderFunnel, invoiceAction). -->
+<script src="/assets/sd-invoice-config.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:wght@400;500;600&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -567,7 +570,7 @@ body{padding-top:32px !important}
       <button class="nav-btn active" data-tab="dashboard"><span class="nav-icon">📊</span>Dashboard</button>
       <button class="nav-btn" data-tab="leads"><span class="nav-icon">👥</span>Lead Generator</button>
       <button class="nav-btn" data-tab="revenue"><span class="nav-icon">💰</span>Revenue</button>
-      <button class="nav-btn" data-tab="funnel"><span class="nav-icon">🎯</span>Funnel Health</button>
+      <button class="nav-btn" data-tab="funnel"><span class="nav-icon">🎯</span>Funnel Health<span id="fn-po-alert" class="po-alert-badge" style="display:none;margin-left:6px;font:700 9px/1.2 'JetBrains Mono',monospace;background:var(--warn,#f59e0b);color:#000;padding:1px 6px;border-radius:8px;vertical-align:middle"></span></button>
       <button class="nav-btn" data-tab="email"><span class="nav-icon">📧</span>Email Tracker</button>
     </div>
     <div class="nav-section">
@@ -855,6 +858,14 @@ body{padding-top:32px !important}
           <div class="kpi green-kpi kpi-glow-green"><div class="kpi-label">Paid conversions</div><div class="kpi-val" style="color:var(--green)" id="fn-paid">—</div></div>
         </div>
 
+        <!-- INVOICE / PO pipeline tiles — populated from Airtable Invoice Requests (source-of-truth patched by Stripe webhooks). -->
+        <div class="sl" style="margin-bottom:8px">PO / Invoice Pipeline</div>
+        <div class="grid-3 mb-20" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+          <div class="kpi warn-kpi"><div class="kpi-label">PO drafts · awaiting approval</div><div class="kpi-val" style="color:var(--warn)" id="fn-inv-drafts">—</div></div>
+          <div class="kpi blue-kpi"><div class="kpi-label">Invoices sent · open</div><div class="kpi-val" style="color:#60a5fa" id="fn-inv-open">—</div></div>
+          <div class="kpi green-kpi kpi-glow-green"><div class="kpi-label">Invoices paid</div><div class="kpi-val" style="color:var(--green)" id="fn-inv-paid">—</div></div>
+        </div>
+
         <div class="grid-2 mb-20">
           <!-- Drop-Off Points -->
           <div class="card">
@@ -868,16 +879,66 @@ body{padding-top:32px !important}
           <div class="card">
             <div class="sl">Revenue Captured</div>
             <div class="grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px">
-              <div class="kpi gold-kpi kpi-glow-gold"><div class="kpi-label">Total MRR</div><div class="kpi-val" style="color:var(--gold2)" id="fn-mrr">$0</div></div>
+              <div class="kpi gold-kpi kpi-glow-gold"><div class="kpi-label">Total · MRR + Invoice</div><div class="kpi-val" style="color:var(--gold2)" id="fn-mrr">$0</div></div>
               <div class="kpi"><div class="kpi-label">Avg revenue / converted user</div><div class="kpi-val" id="fn-arpu">$0</div></div>
             </div>
             <div style="margin-top:10px">
-              <div style="font:500 10px/1.3 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px">By plan</div>
+              <div style="font:500 10px/1.3 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px">By plan (card + invoice combined)</div>
               <div id="fn-by-plan" style="display:flex;flex-direction:column;gap:6px;font-size:12px">
                 <div style="color:var(--muted)">—</div>
               </div>
             </div>
           </div>
+        </div>
+
+        <div class="grid-2 mb-20">
+          <!-- Revenue by Attribution — card vs invoice split. -->
+          <div class="card">
+            <div class="sl">Revenue by Attribution</div>
+            <div class="grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px">
+              <div class="kpi"><div class="kpi-label">Card · MRR</div><div class="kpi-val" id="fn-rev-card">$0</div></div>
+              <div class="kpi gold-kpi"><div class="kpi-label">Invoice · paid</div><div class="kpi-val" style="color:var(--gold2)" id="fn-rev-invoice">$0</div></div>
+            </div>
+            <div style="margin-top:10px;font-size:11.5px;color:var(--muted);line-height:1.55">
+              Card = recurring monthly from Stripe subscriptions. Invoice = annual revenue recognized on <code style="color:var(--sub,#aaa)">invoice.paid</code> (PO pipeline). Invoice lines are operator-approved before send.
+            </div>
+          </div>
+
+          <!-- Revenue by Campaign — rolls up UTM Campaign + Campaign ID across
+               card events (sd_events) AND paid invoices (Airtable). -->
+          <div class="card">
+            <div class="sl">Revenue by Campaign</div>
+            <div id="fn-rev-campaign" style="display:flex;flex-direction:column;gap:6px;margin-top:8px;font-size:12px">
+              <div style="color:var(--muted)">Waiting for attributed revenue…</div>
+            </div>
+            <div style="margin-top:10px;font-size:11px;color:var(--muted);line-height:1.55">
+              Populated from <code style="color:var(--sub,#aaa)">utm_campaign</code> / <code style="color:var(--sub,#aaa)">campaign_id</code> carried through Basin → Stripe → Airtable. Unattributed rows show as <em>(direct / unknown)</em> — never fabricated.
+            </div>
+          </div>
+        </div>
+
+        <!-- Operator queue: every PO invoice that needs an action.
+             Columns include Status so the operator always sees exactly where
+             each row is: Awaiting Approval → Invoice Sent → Paid → Ready To
+             Provision → Provisioned. Action buttons call the CF-Access-
+             authenticated Worker endpoints:
+               POST /api/invoice/{id}/send         — finalize + send
+               POST /api/invoice/{id}/void         — cancel draft/open
+               POST /api/invoice/{id}/provisioned  — stamp provisioned -->
+        <!-- Schema health banner: red if Airtable schema is wrong, hidden if OK -->
+        <div id="fn-schema-banner" style="display:none;margin-bottom:14px;padding:10px 14px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.35);border-radius:8px;font-size:12px;color:#fca5a5"></div>
+        <div class="card" style="margin-bottom:20px">
+          <div class="sl" style="display:flex;align-items:center;justify-content:space-between">
+            <span>Operator Queue · PO / Invoice pipeline</span>
+            <span id="fn-po-queue-count" style="font:600 10px/1.2 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.06em"></span>
+          </div>
+          <div class="tbl-wrap" style="max-height:300px">
+            <table class="tbl">
+              <thead><tr><th>Company</th><th>Plan</th><th>PO #</th><th>Amount</th><th>Campaign</th><th>Status</th><th>Created</th><th>Actions</th></tr></thead>
+              <tbody id="fn-po-queue"><tr><td colspan="8" style="text-align:center;color:var(--muted);padding:18px;font-size:12px">No PO activity.</td></tr></tbody>
+            </table>
+          </div>
+          <div id="fn-po-msg" style="margin-top:8px;font-size:11px;color:var(--muted);min-height:14px"></div>
         </div>
 
         <!-- Recent conversion activity -->
@@ -892,7 +953,7 @@ body{padding-top:32px !important}
         </div>
 
         <div style="margin-top:14px;font:500 10.5px/1.5 'JetBrains Mono',monospace;letter-spacing:0.08em;color:var(--muted)">
-          SOURCES · Airtable Leads table · Airtable Email Events ledger · localStorage <code style="color:var(--muted)">sd_events</code> (pricing clicks + checkout attribution from /#pricing and /thanks/?plan=…)
+          SOURCES · Airtable Leads · Airtable Email Events · Airtable Invoice Requests (populated by /api/basin/po; patched by /api/stripe/webhook) · localStorage <code style="color:var(--muted)">sd_events</code> (card-path pricing clicks + checkout starts + checkout_completed from /thanks/?plan=…)
         </div>
       </div>
     </div>
@@ -1023,6 +1084,18 @@ body{padding-top:32px !important}
                       <option>Manual Handoff in Clinical Workflow</option>
                       <option>RCM Revenue Leakage</option>
                       <option>Automation vs Manual Clinical Workflow</option>
+                    </optgroup>
+                    <optgroup id="cc-topics-sourcedeck" label="── SourceDeck Topics (10) ──">
+                      <option>SourceDeck System Overview</option>
+                      <option>SourceDeck Before vs After</option>
+                      <option>SourceDeck Funnel Health</option>
+                      <option>SourceDeck Opportunity Triage</option>
+                      <option>SourceDeck Revenue Visibility</option>
+                      <option>SourceDeck Bad-Fit Rejection</option>
+                      <option>SourceDeck Pipeline Control</option>
+                      <option>SourceDeck Margin Protection</option>
+                      <option>SourceDeck Execution Tracking</option>
+                      <option>SourceDeck Decision Engine</option>
                     </optgroup>
                     <optgroup label="── Diagnosis-First Families (20) ──">
                       <option>Operational Waste Exposé</option>
@@ -5197,9 +5270,117 @@ function markNurture(id){const l=allLeads.find(x=>x.id===id);if(!l)return;l.fiel
 function refreshAll(){loadAirtableLeads();renderDashboard();filterLeads();renderOverdue();toast('Refreshed','ok');}
 
 // ─── REVENUE ───
+// ═══════════════════════════════════════════════════════════════════
+// SOURCE OF TRUTH DECLARATION
+// ─────────────────────────────────────────────────────────────────────
+// MASTER    — app/downloads/sourcedeck-lcc.html  (this file)
+// MIRROR    — app/demo/index.html                 (byte-identical copy)
+//
+// RULE: every edit to LCC renderFunnel, invoice pipeline logic, SourceDeck
+//       content engine (SD_TOPIC_OVERRIDES), or Airtable table bindings
+//       MUST land here first. Then run:
+//           cp app/downloads/sourcedeck-lcc.html app/demo/index.html
+//       from the repo root. Both files share the top-of-file demo
+//       sanitizer (lines ~485–514) which blocks real API calls when the
+//       file is served at sourcedeck.app/app/demo/, so demo behavior
+//       is automatic when the sanitizer is present — do not remove it.
+//
+// Never leave invoice / SourceDeck content logic living only in the
+// mirror. If a bug is found in the mirror first, fix the master and
+// resync.
+// ═══════════════════════════════════════════════════════════════════
+
 // ═══════ FUNNEL HEALTH — renderFunnel() ═══════
-// Reads three live sources. Fails silently to zero-state when no data exists.
+// Reads four live sources. Fails silently to zero-state when no data exists.
 // Respects __SOURCEDECK_DEMO__ — demo mode renders a true blank workspace.
+//
+// Invoice Requests table id — populated by /api/basin/po (Worker) and patched by
+// /api/stripe/webhook. The value is read from window.SD_CONFIG (the single
+// canonical config source — see sd-invoice-config.js) or an explicit operator
+// localStorage override. Keep sd-invoice-config.js and
+// sourcedeck-proxy/wrangler.toml's INVOICE_REQUESTS_TABLE in sync — only one
+// place an operator needs to update when the Airtable table id changes.
+const INVOICE_REQ_TBL = (function(){
+  try {
+    // Priority 1: explicit operator override (for testing)
+    var override = (typeof localStorage!=='undefined') ? localStorage.getItem('INVOICE_REQ_TBL_OVERRIDE') : null;
+    if (override) return override;
+    // Priority 2: canonical SD_CONFIG (loaded from /assets/sd-invoice-config.js)
+    if (typeof window !== 'undefined' && window.SD_INVOICE_CONFIG && window.SD_INVOICE_CONFIG.INVOICE_REQUESTS_TABLE) {
+      return window.SD_INVOICE_CONFIG.INVOICE_REQUESTS_TABLE;
+    }
+  } catch(_) {}
+  // Priority 3: safe default placeholder — Worker will return [] if this id
+  // doesn't exist, so the LCC just shows zero-state. No crash.
+  return 'tblInvoiceRequests';
+})();
+
+async function fetchInvoiceRequests(){
+  // Zero-state outside live mode.
+  const isDemo = typeof window!=='undefined' && window.__SOURCEDECK_DEMO__ === true;
+  if (isDemo) return [];
+  if (typeof AT_PAT === 'undefined' || !AT_PAT) return [];
+  try {
+    const url = 'https://api.airtable.com/v0/' + AT_BASE + '/' + INVOICE_REQ_TBL
+              + '?pageSize=100&sort%5B0%5D%5Bfield%5D=Created&sort%5B0%5D%5Bdirection%5D=desc';
+    const r = await fetch(url, {headers:{'Authorization':'Bearer '+AT_PAT}});
+    if (!r.ok) return []; // 404 (table missing) or 403 (allowlist) → treat as empty
+    const j = await r.json();
+    return (j.records||[]).map(rec => ({ id: rec.id, fields: rec.fields||{} }));
+  } catch(_) { return []; }
+}
+
+// CF-Access-authenticated operator actions on invoices. Base URL is taken
+// from SD_INVOICE_CONFIG.WORKER_BASE (canonical), overridable via localStorage
+// for testing. The browser includes the Cloudflare Access session cookie
+// automatically, so the Worker sees a valid Cf-Access-Jwt-Assertion.
+const INVOICE_API_BASE = (typeof localStorage!=='undefined' && localStorage.getItem('INVOICE_API_BASE'))
+  || (typeof window!=='undefined' && window.SD_INVOICE_CONFIG && window.SD_INVOICE_CONFIG.WORKER_BASE)
+  || 'https://proxy.sourcedeck.app';
+
+async function invoiceAction(invoiceId, action, body){
+  const url = INVOICE_API_BASE + '/api/invoice/' + encodeURIComponent(invoiceId) + '/' + encodeURIComponent(action);
+  const r = await fetch(url, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(body||{})
+  });
+  const t = await r.text();
+  let j = null; try { j = JSON.parse(t); } catch {}
+  if (!r.ok) throw new Error((j && j.error) || ('http_' + r.status));
+  return j || {ok:true};
+}
+
+// Schema health check — renders a red banner at the top of the operator
+// queue if the Airtable table doesn't have all the required field names.
+// Called once per renderFunnel. Silently no-ops in demo.
+async function checkInvoiceSchema(){
+  const banner = document.getElementById('fn-schema-banner');
+  if (!banner) return;
+  const isDemo = typeof window!=='undefined' && window.__SOURCEDECK_DEMO__ === true;
+  if (isDemo) { banner.style.display = 'none'; return; }
+  try {
+    const r = await fetch(INVOICE_API_BASE + '/api/invoice/schema', {credentials:'include'});
+    if (!r.ok && r.status !== 500) { banner.style.display = 'none'; return; }
+    const j = await r.json();
+    if (j.ok) {
+      banner.style.display = 'none';
+      return;
+    }
+    banner.style.display = 'block';
+    banner.innerHTML = '<strong style="color:#fca5a5">⚠ Invoice Requests schema incomplete:</strong> ' +
+      (j.diagnostic || 'unknown diagnostic').replace(/</g,'&lt;') +
+      (j.missingFields && j.missingFields.length
+        ? '<br><span style="font-family:\'JetBrains Mono\',monospace;font-size:11px">Missing fields: ' + j.missingFields.join(', ') + '</span>'
+        : '');
+  } catch (_) {
+    // Worker unreachable or CF Access not logged in — don't alarm the
+    // operator; the operator queue already gracefully shows zero-state.
+    banner.style.display = 'none';
+  }
+}
+
 async function renderFunnel(){
   const PLAN_VAL = {core:79, pro:349, operator:999};
   const $ = id => document.getElementById(id);
@@ -5257,14 +5438,47 @@ async function renderFunnel(){
   const paid   = events.filter(e => e.type==='checkout_completed');
   const paidCount = paid.length;
 
-  // By plan
+  // ── 4. Invoice Requests (Airtable) ─────────────────────
+  // Populated by the Worker /api/basin/po endpoint on Basin submission and
+  // patched by /api/stripe/webhook as invoices transition draft → open → paid.
+  // Zero-safe: in demo or when AT_PAT is missing, returns [].
+  // Schema health check runs alongside — red banner if fields missing.
+  checkInvoiceSchema();
+  const invoices = await fetchInvoiceRequests();
+  // Status buckets
+  const invDraftRows = invoices.filter(r => {
+    const s = (r.fields['Invoice Status']||'').toLowerCase();
+    return s === 'awaiting_approval' || s === 'draft';
+  });
+  const invOpenRows  = invoices.filter(r => (r.fields['Invoice Status']||'').toLowerCase() === 'open');
+  const invPaidRows  = invoices.filter(r => (r.fields['Invoice Status']||'').toLowerCase() === 'paid');
+
+  // Revenue — only PAID invoices contribute. Amount in cents → dollars.
+  let invRevenue = 0;
+  const invByPlan = {core:0, pro:0, operator:0};
+  invPaidRows.forEach(r => {
+    const f = r.fields;
+    const paidCents = Number(f['Amount Paid (cents)'] || f['Amount Due (cents)'] || 0);
+    invRevenue += Math.round(paidCents / 100);
+    const p = (f['Plan']||'').toLowerCase();
+    if (invByPlan[p] !== undefined) invByPlan[p] += 1;
+  });
+
+  // By plan — combine card (paid sd_events) with invoice (Airtable paid).
   const byPlan = {core:0, pro:0, operator:0};
   let mrr = 0;
   paid.forEach(e => {
     const p = (e.plan||'').toLowerCase();
     if (byPlan[p]!==undefined) { byPlan[p]++; mrr += PLAN_VAL[p]; }
   });
-  const arpu = paidCount ? Math.round(mrr / paidCount) : 0;
+  // Invoice paid contributions — count is 1 row per paid invoice, revenue is
+  // the actual paid amount (which for PO path equals plan list × 1 for the month,
+  // or annual if the invoice is annual — either way we use the actual paid $).
+  const cardMRR = mrr;
+  const totalRev = mrr + invRevenue;
+  Object.keys(invByPlan).forEach(p => byPlan[p] += invByPlan[p]);
+  const totalPaidCount = paidCount + invPaidRows.length;
+  const arpu = totalPaidCount ? Math.round(totalRev / totalPaidCount) : 0;
 
   // ── render tiles ─────────────────────────────────────
   setText('fn-qualified', qualified.toLocaleString());
@@ -5274,8 +5488,15 @@ async function renderFunnel(){
   setText('fn-clicks',    clicks.toLocaleString());
   setText('fn-starts',    starts.toLocaleString());
   setText('fn-paid',      paidCount.toLocaleString());
-  setText('fn-mrr',       fmt$(mrr));
+  setText('fn-mrr',       fmt$(totalRev));
   setText('fn-arpu',      fmt$(arpu));
+  // Invoice pipeline tiles
+  setText('fn-inv-drafts', invDraftRows.length.toLocaleString());
+  setText('fn-inv-open',   invOpenRows.length.toLocaleString());
+  setText('fn-inv-paid',   invPaidRows.length.toLocaleString());
+  // Attribution split
+  setText('fn-rev-card',    fmt$(cardMRR));
+  setText('fn-rev-invoice', fmt$(invRevenue));
 
   // ── drop-off rows ───────────────────────────────────
   function dropRow(label, from, to){
@@ -5303,10 +5524,10 @@ async function renderFunnel(){
     }
   }
 
-  // ── by-plan revenue ─────────────────────────────────
+  // ── by-plan revenue (card + invoice combined) ───────
   const bp = $('fn-by-plan');
   if (bp) {
-    if (paidCount === 0) {
+    if (totalPaidCount === 0) {
       bp.innerHTML = '<div style="color:var(--muted);font-size:11.5px">No paid conversions yet.</div>';
     } else {
       bp.innerHTML = [
@@ -5314,7 +5535,11 @@ async function renderFunnel(){
         {k:'pro', label:'Pro · $349'},
         {k:'operator', label:'Operator · $999'}
       ].map(p => {
-        const c = byPlan[p.k]||0, r = c*PLAN_VAL[p.k];
+        const c = byPlan[p.k]||0;
+        const cardR = ((paid.filter(e => (e.plan||'').toLowerCase()===p.k)||[]).length) * PLAN_VAL[p.k];
+        const invR  = invPaidRows.filter(r => (r.fields['Plan']||'').toLowerCase()===p.k)
+                                .reduce((s,r) => s + Math.round(Number(r.fields['Amount Paid (cents)']||r.fields['Amount Due (cents)']||0)/100), 0);
+        const r = cardR + invR;
         return '<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0">'+
           '<span style="color:var(--sub,#aaa)">'+p.label+'</span>'+
           '<span style="font-family:\'JetBrains Mono\',monospace;font-size:11.5px"><span style="color:var(--muted)">'+c+' ×</span> <span style="color:var(--gold2)">'+fmt$(r)+'</span></span></div>';
@@ -5322,37 +5547,248 @@ async function renderFunnel(){
     }
   }
 
+  // ── Revenue by Campaign ─────────────────────────────
+  // Combine card events (sd_events attribution envelope) with paid invoices
+  // (Airtable). Campaign key preference: utm_campaign → campaign_id → '(direct / unknown)'.
+  const campaignKey = (o) => {
+    const utm = (o.utm_campaign||o['UTM Campaign']||'').trim();
+    const cid = (o.campaign_id||o['Campaign ID']||'').trim();
+    return utm || cid || '(direct / unknown)';
+  };
+  const campaignAgg = {}; // { key: {count:n, revenue:$, sources:Set} }
+  paid.forEach(e => {
+    const k = campaignKey(e);
+    campaignAgg[k] = campaignAgg[k] || {count:0, revenue:0, sources:new Set()};
+    campaignAgg[k].count += 1;
+    campaignAgg[k].revenue += PLAN_VAL[(e.plan||'').toLowerCase()] || 0;
+    campaignAgg[k].sources.add('card');
+  });
+  invPaidRows.forEach(r => {
+    const k = campaignKey(r.fields);
+    campaignAgg[k] = campaignAgg[k] || {count:0, revenue:0, sources:new Set()};
+    campaignAgg[k].count += 1;
+    campaignAgg[k].revenue += Math.round(Number(r.fields['Amount Paid (cents)']||r.fields['Amount Due (cents)']||0)/100);
+    campaignAgg[k].sources.add('invoice');
+  });
+  const rc = $('fn-rev-campaign');
+  if (rc) {
+    const entries = Object.entries(campaignAgg).sort((a,b) => b[1].revenue - a[1].revenue);
+    if (entries.length === 0) {
+      rc.innerHTML = '<div style="color:var(--muted);font-size:11.5px">Waiting for attributed revenue…</div>';
+    } else {
+      rc.innerHTML = entries.map(([k,v]) => {
+        const srcBadges = [...v.sources].map(s => {
+          const color = s==='invoice' ? 'var(--gold2)' : '#60a5fa';
+          return '<span style="font:600 9px/1.2 \'JetBrains Mono\',monospace;padding:2px 6px;border-radius:4px;background:rgba(255,255,255,0.05);color:'+color+';margin-left:4px">'+s.toUpperCase()+'</span>';
+        }).join('');
+        return '<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)">'+
+          '<span style="color:var(--sub,#aaa);max-width:58%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+k+srcBadges+'</span>'+
+          '<span style="font-family:\'JetBrains Mono\',monospace;font-size:11.5px"><span style="color:var(--muted)">'+v.count+' ×</span> <span style="color:var(--gold2)">'+fmt$(v.revenue)+'</span></span></div>';
+      }).join('');
+    }
+  }
+
+  // ── Operator queue: every row in the PO / invoice pipeline (except void)
+  // Sorted so actionable rows bubble to the top: Awaiting Approval → Open →
+  // Paid (Ready To Provision) → Paid Provisioned. Each row gets the right
+  // action button(s) for its state.
+  const queueRows = invoices
+    .filter(r => {
+      const s = (r.fields['Invoice Status']||'').toLowerCase();
+      return s && s !== 'void';
+    })
+    .slice()
+    .sort((a, b) => {
+      const order = {awaiting_approval:0, draft:0, open:1, payment_failed:2, paid:3, provisioned:4};
+      const sa = order[(a.fields['Invoice Status']||'').toLowerCase()] ?? 9;
+      const sb = order[(b.fields['Invoice Status']||'').toLowerCase()] ?? 9;
+      if (sa !== sb) return sa - sb;
+      return new Date(b.fields['Created']||0) - new Date(a.fields['Created']||0);
+    });
+  const awaitingCount = queueRows.filter(r => {
+    const s = (r.fields['Invoice Status']||'').toLowerCase();
+    return s === 'awaiting_approval' || s === 'draft';
+  }).length;
+  const paidReadyCount = queueRows.filter(r => {
+    const s = (r.fields['Invoice Status']||'').toLowerCase();
+    return s === 'paid' && !r.fields['Provisioned At'];
+  }).length;
+
+  // Alert badge on Funnel Health nav tab (awaiting approval + paid-ready).
+  const alertEl = document.getElementById('fn-po-alert');
+  if (alertEl) {
+    const total = awaitingCount + paidReadyCount;
+    if (total > 0) {
+      alertEl.style.display = 'inline-block';
+      alertEl.textContent = total;
+      alertEl.title = awaitingCount + ' to approve · ' + paidReadyCount + ' to provision';
+    } else {
+      alertEl.style.display = 'none';
+    }
+  }
+  const countEl = $('fn-po-queue-count');
+  if (countEl) {
+    countEl.textContent = queueRows.length
+      ? (awaitingCount + ' to approve · ' + paidReadyCount + ' to provision · ' + queueRows.length + ' total')
+      : '';
+  }
+
+  const poq = $('fn-po-queue');
+  if (poq) {
+    if (queueRows.length === 0) {
+      poq.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:18px;font-size:12px">No PO activity.</td></tr>';
+    } else {
+      const statusBadge = (s, row) => {
+        const raw = (s || '').toLowerCase();
+        const label = raw === 'awaiting_approval' ? 'Awaiting Approval'
+                    : raw === 'draft'             ? 'Awaiting Approval'
+                    : raw === 'open'              ? 'Invoice Sent'
+                    : raw === 'paid' && !row.fields['Provisioned At'] ? 'Paid · Ready To Provision'
+                    : raw === 'paid'              ? 'Paid'
+                    : raw === 'provisioned'       ? 'Provisioned'
+                    : raw === 'payment_failed'    ? 'Payment Failed · Needs Review'
+                    : raw === 'uncollectible'     ? 'Uncollectible · Needs Review'
+                    : (s || '—');
+        const color = raw === 'awaiting_approval' || raw === 'draft' ? 'var(--warn,#f59e0b)'
+                    : raw === 'open'              ? '#60a5fa'
+                    : raw === 'paid'              ? 'var(--green,#30d158)'
+                    : raw === 'provisioned'       ? 'var(--muted)'
+                    : raw === 'payment_failed' || raw === 'uncollectible' ? 'var(--red,#ef4444)'
+                    : 'var(--muted)';
+        return '<span style="font:700 9.5px/1.2 \'JetBrains Mono\',monospace;padding:2px 8px;border-radius:4px;background:rgba(255,255,255,0.04);color:'+color+'">'+label+'</span>';
+      };
+      poq.innerHTML = queueRows.slice(0, 50).map(r => {
+        const f = r.fields;
+        const amount = Math.round(Number(f['Amount Due (cents)']||0)/100);
+        const campaign = (f['UTM Campaign']||f['Campaign ID']||'(direct)').toString();
+        const invUrl = f['Stripe Invoice URL'] || '';
+        const invId  = f['Stripe Invoice ID']  || '';
+        const status = (f['Invoice Status']||'').toLowerCase();
+        // Company cell always linkable to the hosted invoice if we have one.
+        const coCell = invUrl
+          ? '<a href="'+invUrl+'" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;border-bottom:1px dotted var(--muted)">'+(f['Company']||f['Email']||'—')+'</a>'
+          : (f['Company']||f['Email']||'—');
+        // Per-status action buttons
+        let actions = '';
+        if ((status === 'awaiting_approval' || status === 'draft') && invId) {
+          actions = '<button class="btn btn-ghost po-action" data-action="send" data-id="'+invId+'" style="padding:4px 10px;font-size:10.5px;font-weight:600;color:var(--green,#30d158);border:0.5px solid rgba(48,209,88,0.3);margin-right:4px">Approve &amp; Send</button>'+
+                    '<button class="btn btn-ghost po-action" data-action="void" data-id="'+invId+'" style="padding:4px 10px;font-size:10.5px;color:var(--red,#ef4444);border:0.5px solid rgba(239,68,68,0.3)">Void</button>';
+        } else if (status === 'open' && invId) {
+          actions = '<button class="btn btn-ghost po-action" data-action="void" data-id="'+invId+'" style="padding:4px 10px;font-size:10.5px;color:var(--red,#ef4444);border:0.5px solid rgba(239,68,68,0.3)">Void</button>';
+        } else if (status === 'paid' && !f['Provisioned At'] && invId) {
+          actions = '<button class="btn btn-ghost po-action" data-action="provisioned" data-id="'+invId+'" style="padding:4px 10px;font-size:10.5px;font-weight:600;color:var(--gold2,#f5c842);border:0.5px solid rgba(212,168,67,0.35)">Mark Provisioned</button>';
+        } else {
+          actions = invUrl
+            ? '<a href="'+invUrl+'" target="_blank" rel="noopener" style="color:var(--accent2);font:500 10.5px/1.2 \'JetBrains Mono\',monospace">open in Stripe →</a>'
+            : '<span style="color:var(--muted);font-size:10.5px">—</span>';
+        }
+        return '<tr data-invoice-id="'+invId+'">'+
+          '<td>'+coCell+'</td>'+
+          '<td><span style="font:700 10px/1.2 \'JetBrains Mono\',monospace;padding:2px 8px;border-radius:4px;background:rgba(212,168,67,0.12);color:var(--gold2)">'+(f['Plan']||'—').toString().toUpperCase()+'</span></td>'+
+          '<td style="font-family:\'JetBrains Mono\',monospace;font-size:10.5px">'+(f['PO Number']||'—')+'</td>'+
+          '<td style="color:var(--gold2);font-family:\'JetBrains Mono\',monospace;font-size:11px">'+fmt$(amount)+'</td>'+
+          '<td style="color:var(--muted);font-size:11px;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+campaign+'">'+campaign+'</td>'+
+          '<td>'+statusBadge(status, r)+'</td>'+
+          '<td style="color:var(--muted);font-family:\'JetBrains Mono\',monospace;font-size:10.5px">'+(f['Created'] ? new Date(f['Created']).toLocaleString() : '—')+'</td>'+
+          '<td>'+actions+'</td>'+
+        '</tr>';
+      }).join('');
+      // Wire up action buttons (delegated via per-row query — safe because we
+      // just rebuilt the DOM). Each button calls the Worker with CF Access
+      // cookies; on success we refresh the pane.
+      poq.querySelectorAll('button.po-action').forEach(btn => {
+        btn.addEventListener('click', async (ev) => {
+          ev.preventDefault();
+          const el = ev.currentTarget;
+          const action = el.getAttribute('data-action');
+          const invId  = el.getAttribute('data-id');
+          if (!action || !invId) return;
+          if (action === 'void' && !window.confirm('Void invoice ' + invId + '? This cannot be undone.')) return;
+          if (action === 'send' && !window.confirm('Approve and send invoice ' + invId + '? The client will receive a branded Stripe invoice email.')) return;
+          const msg = $('fn-po-msg');
+          if (msg) msg.textContent = action + ' ' + invId + '…';
+          el.disabled = true;
+          try {
+            const res = await invoiceAction(invId, action, action === 'void' ? {reason: 'operator_void'} : undefined);
+            if (msg) msg.textContent = '✓ ' + action + ' ' + invId + ' · status=' + (res.status || 'ok');
+            await renderFunnel();
+          } catch (e) {
+            if (msg) msg.textContent = '❌ ' + action + ' failed: ' + (e.message || 'unknown');
+            el.disabled = false;
+          }
+        });
+      });
+    }
+  }
+
   // ── recent activity ─────────────────────────────────
   const tb = $('fn-activity');
   if (tb) {
-    // Build recent activity from events + enriched paid records
+    // Build recent activity from events + enriched paid records + invoices
     const rows = [];
-    // Last 20 paid conversions
+    // Last 20 paid CARD conversions
     paid.slice().reverse().slice(0, 20).forEach(e => {
       rows.push({
         co: e.company||e.email||'—',
-        campaign: 'Diagnosis → Pricing',
+        campaign: e.utm_campaign || e.campaign_id || 'Diagnosis → Pricing',
         reply: '—',
         click: '✓',
-        checkout: '✓',
+        checkout: '<span style="color:var(--green)">Paid (Card)</span>',
         plan: (e.plan||'—').toUpperCase(),
         revenue: fmt$(PLAN_VAL[(e.plan||'').toLowerCase()]||0),
-        at: e.ts ? new Date(e.ts).toLocaleString() : '—'
+        at: e.ts ? new Date(e.ts).toLocaleString() : '—',
+        _ts: e.ts || 0
       });
     });
-    // Recent checkout starts (not yet paid)
+    // Paid INVOICE conversions — source of truth is Airtable Invoice Requests.
+    invPaidRows.slice(0, 20).forEach(r => {
+      const f = r.fields;
+      const paidAtStr = f['Paid At'] || f['Created'] || '';
+      const paidAtMs  = paidAtStr ? Date.parse(paidAtStr) : 0;
+      rows.push({
+        co: f['Company']||f['Email']||'—',
+        campaign: f['UTM Campaign'] || f['Campaign ID'] || '(direct / unknown)',
+        reply: '—',
+        click: '—',
+        checkout: '<span style="color:var(--gold2)">Paid (Invoice)</span>',
+        plan: (f['Plan']||'—').toString().toUpperCase(),
+        revenue: fmt$(Math.round(Number(f['Amount Paid (cents)']||f['Amount Due (cents)']||0)/100)),
+        at: paidAtStr ? new Date(paidAtStr).toLocaleString() : '—',
+        _ts: paidAtMs
+      });
+    });
+    // Open (sent, awaiting payment) invoices — still in flight
+    invOpenRows.slice(0, 10).forEach(r => {
+      const f = r.fields;
+      const createdStr = f['Created'] || '';
+      rows.push({
+        co: f['Company']||f['Email']||'—',
+        campaign: f['UTM Campaign'] || f['Campaign ID'] || '(direct / unknown)',
+        reply: '—',
+        click: '—',
+        checkout: '<span style="color:#60a5fa">Invoice sent · open</span>',
+        plan: (f['Plan']||'—').toString().toUpperCase(),
+        revenue: '—',
+        at: createdStr ? new Date(createdStr).toLocaleString() : '—',
+        _ts: createdStr ? Date.parse(createdStr) : 0
+      });
+    });
+    // Recent checkout starts (card path, not yet paid)
     events.filter(e => e.type==='checkout_started').slice().reverse().slice(0, 10).forEach(e => {
       rows.push({
         co: e.company||e.email||'—',
-        campaign: 'Diagnosis → Pricing',
+        campaign: e.utm_campaign || e.campaign_id || 'Diagnosis → Pricing',
         reply: '—',
         click: '✓',
-        checkout: '⏳ started',
+        checkout: '<span style="color:var(--warn)">⏳ Checkout started</span>',
         plan: (e.plan||'—').toUpperCase(),
         revenue: '—',
-        at: e.ts ? new Date(e.ts).toLocaleString() : '—'
+        at: e.ts ? new Date(e.ts).toLocaleString() : '—',
+        _ts: e.ts || 0
       });
     });
+    // Sort newest first by _ts (works across card/invoice)
+    rows.sort((a,b) => (b._ts||0) - (a._ts||0));
 
     if (rows.length === 0) {
       tb.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:28px;font-size:12px;line-height:1.6">No conversion activity yet.<br><span style="font-size:11px">Pricing clicks + checkout starts + paid conversions will appear here in real time.</span></td></tr>';
@@ -5701,6 +6137,13 @@ function onVerticalChange(){
 //   { headline, hook, body, cta, hashtags, landingAngle }
 // Optimized for: booked demos · pilot inquiries · consultations · lead capture.
 function buildAdCopy(topic, vertical, pipelineOut, ind){
+  // SourceDeck topic override — exact quote, exact hashtags, exact body.
+  // Defined in SD_TOPIC_OVERRIDES further down the file; the override is
+  // declared later but called here only at runtime, so ordering is fine.
+  if (typeof sdOverrideAdCopy === 'function') {
+    const sdOverride = sdOverrideAdCopy(topic, pipelineOut, ind);
+    if (sdOverride) return sdOverride;
+  }
   const isMed = vertical === 'medpilot';
   const hidden = pipelineOut?.conceptTranslation?.hiddenProblem || 'invisible operational friction';
   const mech   = pipelineOut?.conceptTranslation?.invisibleMechanic || 'unmeasured slippage inside a closed system';
@@ -6731,6 +7174,265 @@ const ARCGPromptGen = (() => {
            _pool: METAPHOR_POOL, _banned: BANNED_SCENES };
 })();
 window.ARCGPromptGen = ARCGPromptGen;
+
+// ═══════════════════════════════════════════════════════════════════
+// SOURCEDECK TOPIC OVERRIDES
+// ─────────────────────────────────────────────────────────────────────
+// Source-of-truth for the 10 SourceDeck-specific content-engine topics.
+// Every topic contributes:
+//   - quote       → exact SourceDeck quote for the ad hook
+//   - hashtags    → exact 10 hashtags for IG/FB/LinkedIn
+//   - hook        → headline-grade attention line for the ad
+//   - body[]      → 4-line lead-gen body
+//   - prompt      → full image prompt (inherits master visual standard)
+//   - videoPrompt → 10–15s cinematic direction for the topic
+//   - systemType  → canonical system noun used by revenue/funnel overlays
+//
+// When the selected topic in #cc-topic matches one of these keys,
+// `sdOverrideGenerate()` returns a payload shaped like the output of
+// ARCGPromptGen.generateImagePrompt, and `sdOverrideAdCopy()` overrides
+// buildAdCopy's hook/hashtags.
+//
+// WHO SourceDeck is for: operators, contractors, GovCon teams, service
+//   businesses, and teams managing complex opportunity pipelines.
+// WHAT SourceDeck is:    a decision + execution system — not a dashboard,
+//   not generic automation, not random CRM activity.
+// WHY it matters:        stop waste · improve win rate · improve margin ·
+//   expose leakage · control follow-up · create revenue visibility.
+// HOW it works:          qualifying better opportunities · rejecting bad
+//   fit · structuring pipeline · tracking execution · measuring drop-off ·
+//   linking work to revenue.
+// ═══════════════════════════════════════════════════════════════════
+const SD_VISUAL_BASE = [
+  "Create a high-resolution, photorealistic conceptual commercial image that visualizes the topic as a tangible, measurable business system — not a generic workplace scene.",
+  "Do NOT use a conference room, desk, office, boardroom, war room, table, handshake, laptop meeting, or smiling business people unless the topic absolutely requires it. Do not default to stock business imagery.",
+  "Interpret the topic as a clever physical visual metaphor: industrial flow system, transparent chamber, pressure mechanism, mechanical transfer path, forensic diagnostic environment, hidden leak, fracture, obstruction, stress point, blocked process — whatever fits the topic naturally.",
+  "The image must make the hidden business problem visible in real time. Show cause and effect through the system itself, not through people posing.",
+  "Include sharp, legible, topic-relevant words, labels, symbols, percentages inside the visual system. All visible text crisp and readable — never gibberish.",
+  "Premium, intelligent, forensic — high-end campaign visual, not stock photography. No cartoon symbolism, no sci-fi UI, no decorative clutter.",
+  "Cinematic lighting with strong contrast. Cool blue-white light represents data, pressure, friction, breakdown, flow. Small amber/gold highlights mark retained value, control, opportunity, recovered margin. Dark minimal background.",
+  "Ultra-detailed, crisp, high-resolution, ad-quality. No faces unless required. No generic office props. Leave clean negative space upper-left for ad copy. Place the ARCG Systems wordmark subtly in the bottom-right corner.",
+  "Avoid repeating prior compositions — fresh conceptual structure for this topic while preserving the cinematic photorealistic commercial style."
+].join(' ');
+
+const SD_TOPIC_OVERRIDES = {
+  "SourceDeck System Overview": {
+    systemType: "four-chamber operational decision and execution system",
+    quote: "Most businesses don't have a pipeline problem. They have a decision problem. SourceDeck fixes both.",
+    hook:  "Most businesses don't have a pipeline problem. They have a decision problem. SourceDeck fixes both.",
+    body: [
+      "SourceDeck is the decision + execution system for operators, contractors, and GovCon teams managing complex pipelines.",
+      "Four connected chambers — Intake → Diagnostic Engine → Execution Pipeline → Revenue Output — with bad-fit opportunities diverted before they contaminate the queue.",
+      "A control layer reads Funnel Health end-to-end so you see where deals are dying, where margin is leaking, and where visibility was missing.",
+      "Fewer wrong pursuits. Cleaner execution. Measurable revenue output."
+    ],
+    hashtags: ["#SourceDeck","#GovCon","#BusinessSystems","#PipelineControl","#RevenueGrowth","#OperationalEfficiency","#WinMoreDeals","#AutomationStrategy","#DecisionMaking","#EntrepreneurLife"],
+    prompt: SD_VISUAL_BASE + " TOPIC: SourceDeck System Overview — visualize SourceDeck as a complete operational decision and execution system. Render four connected glass/steel chambers arranged left-to-right: (1) Intake, labeled with 'SAM.gov', 'Leads', 'RFPs', 'Opportunities' flowing in; (2) Diagnostic Engine, labeled 'Fit Score', 'NAICS Match', 'pWIN', 'Cost vs Value'; (3) Execution Pipeline, labeled 'Qualified', 'Bid', 'Submitted', 'Follow-Up', 'Negotiation'; (4) Revenue Output, labeled 'Contracts Won', 'Revenue', 'Margin'. Rejected opportunities divert down into clearly-labeled waste channels: 'Bad Fit', 'Low Margin', 'No Bid'. A transparent control layer spans above the chambers with the label 'SOURCEDECK · DECISION ENGINE · FUNNEL HEALTH'. Floating luminous KPI indicators: 'Win Rate ↑', 'Margin ↑', 'Waste ↓', 'Visibility ↑'. Cool blue-white light on the system; amber/gold glow on the Revenue Output chamber. Forensic, ad-grade, premium.",
+    videoPrompt: "10–15s: slow cinematic push across four connected chambers — Intake fills, Diagnostic Engine pulses, Execution Pipeline advances, Revenue Output glows gold. Bad-fit waste channels dim and divert mid-reel. Labels sharp and readable. Cool blue-white key, amber/gold value accents, dark minimal background. No human figures. ARCG Systems wordmark subtle bottom-right."
+  },
+
+  "SourceDeck Before vs After": {
+    systemType: "split-frame chaotic-vs-controlled pipeline system",
+    quote: "You don't need more opportunities. You need to stop chasing the wrong ones.",
+    hook:  "You don't need more opportunities. You need to stop chasing the wrong ones.",
+    body: [
+      "Most pipelines don't fail from lack of volume — they fail from lack of filter.",
+      "Left side: chaotic bidding, low win rate, missed deadlines, pricing guesswork, leaks labeled Time / Money / Opportunities.",
+      "Right side: qualified → prioritized → tracked → executed, with measurable revenue, contracts won, and protected margin.",
+      "SourceDeck is the line between the two."
+    ],
+    hashtags: ["#SourceDeck","#BusinessTransformation","#FixYourPipeline","#OperationalClarity","#ScaleSmart","#EntrepreneurTools","#RevenueSystems","#EfficiencyWins","#SmartGrowth","#B2BStrategy"],
+    prompt: SD_VISUAL_BASE + " TOPIC: SourceDeck Before vs After — split-frame diptych, left vs right, divided by a vertical pressure boundary. LEFT (Before SourceDeck): a chaotic pipeline visibly leaking — labels float across the chamber reading 'Low Win Rate', 'Random Bidding', 'No Visibility', 'Missed Deadlines', 'Pricing Guesswork'. Visible leaks trail downward tagged 'Time', 'Money', 'Opportunities'. Blue-grey fracture light. RIGHT (After SourceDeck): a clean, controlled pipeline of four sequential stages labeled 'Qualified', 'Prioritized', 'Tracked', 'Executed' feeding a glowing output chamber labeled 'Revenue', 'Contracts Won', 'Margin'. Floating measurable indicators: '+42% Win Rate', '+30% Margin', 'Zero Waste'. Warm gold on retained value, cool blue on structure. Premium forensic composition.",
+    videoPrompt: "10–15s: camera holds on the chaotic left-side pipeline — leaks trailing 'Time/Money/Opportunities' — then dolly-right across the boundary. Right side reveals the structured 4-stage flow and glowing revenue output. End on the floating metrics +42%/+30%/Zero. Cool→warm light shift. No human figures."
+  },
+
+  "SourceDeck Funnel Health": {
+    systemType: "vertical funnel health system with drop-off telemetry",
+    quote: "If you can't see where deals die, you can't fix your revenue.",
+    hook:  "If you can't see where deals die, you can't fix your revenue.",
+    body: [
+      "Funnel Health exposes where deals die — stage by stage — and what that drop-off costs you.",
+      "Stages visible top to bottom: Qualified → Enrolled → Sent → Replied → Pricing → Checkout → Paid.",
+      "Friction labels surface the reason: Delay, No Follow-Up, Weak Offer, Pricing Friction.",
+      "Side overlays quantify it: Drop-Off Rate · Conversion Rate · Revenue Per Campaign."
+    ],
+    hashtags: ["#SourceDeck","#FunnelHealth","#SalesPipeline","#ConversionRate","#RevenueTracking","#B2BMarketing","#GrowthSystems","#DataDriven","#CloseMoreDeals","#BusinessIntelligence"],
+    prompt: SD_VISUAL_BASE + " TOPIC: SourceDeck Funnel Health — a tall vertical transparent funnel system, forensic cross-section view. Top control bar labeled 'SOURCEDECK · FUNNEL HEALTH'. Seven stage chambers stacked top-to-bottom, each labeled sharply: 'Qualified', 'Enrolled', 'Sent', 'Replied', 'Pricing', 'Checkout', 'Paid'. Between chambers, visible drop-off gaps — tiny leaks annotated with friction labels: 'Delay', 'No Follow-Up', 'Weak Offer', 'Pricing Friction'. Bottom chamber glows gold, labeled 'Revenue Captured'. Floating side overlays with precise readouts: 'Drop-Off Rate 37%', 'Conversion Rate 8.4%', 'Revenue Per Campaign $12,480'. Cool blue-white data light, amber gold only at Revenue Captured. Dark minimal background, upper-left negative space for copy.",
+    videoPrompt: "10–15s: vertical parallax down the funnel stages. At each junction a tiny leak lights up and a friction label fades in — 'Delay', 'No Follow-Up', 'Weak Offer', 'Pricing Friction'. Bottom chamber pulses gold 'Revenue Captured' as side overlays count up Drop-Off / Conversion / Revenue. Forensic pacing, no people."
+  },
+
+  "SourceDeck Opportunity Triage": {
+    systemType: "forensic opportunity triage engine with scored rejection lanes",
+    quote: "The fastest way to lose money is to pursue work you should have killed on day one.",
+    hook:  "The fastest way to lose money is to pursue work you should have killed on day one.",
+    body: [
+      "Opportunity triage is not a vibe. It's a scored, measurable filter.",
+      "Every inbound RFP / lead passes through SourceDeck's sorting engine and gets scored on pWIN, Profitability, Fit, and Operational Load.",
+      "Rejected lanes are explicit: Bad Fit · Margin Risk · Set-Aside Mismatch · Weak Scope.",
+      "Only the Qualified channel feeds the pipeline. Ruthless by design."
+    ],
+    hashtags: ["#SourceDeck","#OpportunityTriage","#GovConStrategy","#BidNoBid","#Profitability","#Contracting","#BusinessDiscipline","#OperationalIntelligence","#WinRate","#SmartDecisions"],
+    prompt: SD_VISUAL_BASE + " TOPIC: SourceDeck Opportunity Triage — render a forensic sorting engine with multiple inbound opportunities entering from the top as labeled capsules ('RFP 24-1183', 'SAM.gov 75-22', 'Inbound Lead'). Central triage mechanism shows four active scoring gauges with readable labels: 'pWIN', 'Profitability', 'Fit', 'Operational Load'. One clean output channel glows gold labeled 'Qualified'. Four rejection lanes divert downward in red-grey, each labeled clearly: 'Bad Fit', 'Margin Risk', 'Set-Aside Mismatch', 'Weak Scope'. The triage feels mechanical, precise, and ruthless — brushed metal, cool blue data glow, gold only on Qualified. Forensic diagnostic aesthetic.",
+    videoPrompt: "10–15s: capsules drop into the triage engine, gauges swing to readings, three capsules divert into their rejection lanes ('Bad Fit', 'Margin Risk', 'Weak Scope'), one glides into the glowing gold 'Qualified' channel. Sharp mechanical pacing, no celebration — just clean decision. No human figures."
+  },
+
+  "SourceDeck Revenue Visibility": {
+    systemType: "transparent revenue visibility chamber with leakage exposure lines",
+    quote: "Revenue doesn't just disappear. It leaks through the places you stopped measuring.",
+    hook:  "Revenue doesn't just disappear. It leaks through the places you stopped measuring.",
+    body: [
+      "Unmeasured revenue looks like cost. Measured revenue looks like control.",
+      "SourceDeck renders hidden revenue streams through transparent chambers with measurement lines at every inflection point.",
+      "Labels surface honestly: Revenue Captured · Revenue Lost · Margin Preserved · Leakage Exposed — by campaign.",
+      "Visibility is the first lever. Recovery is the second."
+    ],
+    hashtags: ["#SourceDeck","#RevenueVisibility","#BusinessMetrics","#OperationalControl","#RevenueLeakage","#MarginGrowth","#DataVisibility","#BusinessIntelligence","#ScaleWithSystems","#GrowthClarity"],
+    prompt: SD_VISUAL_BASE + " TOPIC: SourceDeck Revenue Visibility — a multi-chamber transparent flow system where previously hidden revenue streams become visible. Each chamber is labeled sharply with a luminous readout: 'Revenue Captured $184,200', 'Revenue Lost $38,600', 'Margin Preserved 24%', 'Leakage Exposed 12%'. Measurement lines cross between chambers, tagged with small campaign markers (for example, 'Q2-GOVCON-03', 'CAMP-PM-NYC'). Escaping droplets from the Leakage chamber catch gold highlight before being recovered into a compartment labeled 'Captured Back'. Forensic, ad-grade, dark minimal background; cool blue structure light, gold on retained value.",
+    videoPrompt: "10–15s: camera glides across the transparent chambers, readouts tick to live values — Captured counts up in gold, Lost ticks down in cool grey, measurement lines flicker alive with campaign IDs. A droplet escaping Leakage is pulled back and re-captured. Precise forensic motion."
+  },
+
+  "SourceDeck Bad-Fit Rejection": {
+    systemType: "pressure-gate pipeline filtration system",
+    quote: "Discipline is profitable. Every bad-fit opportunity you reject protects the pipeline.",
+    hook:  "Discipline is profitable. Every bad-fit opportunity you reject protects the pipeline.",
+    body: [
+      "Every bad-fit opportunity you pursue contaminates the pipeline behind it.",
+      "SourceDeck installs a pressure-gate filter at the front of the pipeline: opportunities that fail fit/margin/set-aside tests never enter.",
+      "Rejected: No Bid · Bad Fit · Low Margin · Scope Drift · Recompete Risk.",
+      "Accepted flow is smaller — and more valuable."
+    ],
+    hashtags: ["#SourceDeck","#BidNoBid","#BadFit","#MarginProtection","#GovCon","#OperationalDiscipline","#ProfitableGrowth","#ContractStrategy","#DecisionQuality","#ScaleSmart"],
+    prompt: SD_VISUAL_BASE + " TOPIC: SourceDeck Bad-Fit Rejection — a high-pressure filtration gate at the mouth of a pipeline. Many opportunity capsules approach the gate from the left; the gate rejects most of them into clearly-labeled waste lanes: 'No Bid', 'Bad Fit', 'Low Margin', 'Scope Drift', 'Recompete Risk'. A small number of capsules pass through a narrow precision aperture into a cleaner, slower, more valuable stream on the right labeled 'Qualified Pipeline'. The gate surface shows scoring readouts. Blue-white pressure glow on the gate, red-grey on the reject lanes, gold on the qualified stream. Engineered, disciplined, forensic.",
+    videoPrompt: "10–15s: a wave of capsules hits the gate — most ricochet into labeled rejection lanes in rapid succession, only a few pass the precision aperture. Cut to the cleaner stream on the right advancing with gold accent. Tight, mechanical, disciplined motion. No people."
+  },
+
+  "SourceDeck Pipeline Control": {
+    systemType: "valved, sequenced pipeline control system",
+    quote: "Growth without control is just a cleaner way to lose money.",
+    hook:  "Growth without control is just a cleaner way to lose money.",
+    body: [
+      "Activity isn't control. Volume isn't control. Control is sequencing.",
+      "SourceDeck replaces manual chaos with a valved pipeline: each stage — Intake, Qualification, Follow-Up, Handoff, Close — has its own control point and its own instrumentation.",
+      "Gates open in order. Nothing skips. Nothing stalls unnoticed.",
+      "Command the pipeline — don't react to it."
+    ],
+    hashtags: ["#SourceDeck","#PipelineControl","#WorkflowManagement","#OperationalSystems","#BusinessProcess","#ExecutionExcellence","#RevenueOperations","#Systemization","#B2BGrowth","#ControlTheChaos"],
+    prompt: SD_VISUAL_BASE + " TOPIC: SourceDeck Pipeline Control — a horizontal industrial pipeline with clearly-visible valves, sequenced gates, and control points between five chambers labeled sharply: 'Intake', 'Qualification', 'Follow-Up', 'Handoff', 'Close'. On the left, the raw manual chaos before SourceDeck is compressed into a small 'before' inset showing scattered unlabeled flow. The main pipeline to the right is structured: each valve has a readable gauge, each control point shows a sequence indicator ('01 Open', '02 Open', '03 Armed'). Cool blue-white operational light, amber/gold accents at open valves. Engineered, commanding, credible.",
+    videoPrompt: "10–15s: the 'before' inset collapses as the main pipeline activates — valves rotate open in sequence 01 → 05, each gauge settling to a readable value. End wide on the fully sequenced flow with every control point 'Armed'. Measured, deliberate pacing. No human figures."
+  },
+
+  "SourceDeck Margin Protection": {
+    systemType: "pressurized gold-core margin-protection vault",
+    quote: "Winning work means nothing if your margin dies on the way to the contract.",
+    hook:  "Winning work means nothing if your margin dies on the way to the contract.",
+    body: [
+      "Winning the award is the easy part. Protecting the margin is the discipline.",
+      "SourceDeck surfaces the margin erosion forces most teams never measure: Cost Creep, Capture Cost, Proposal Waste, Overhead.",
+      "Retained value is rendered explicitly — a protected gold core inside a pressure chamber.",
+      "Less leak, more landed margin."
+    ],
+    hashtags: ["#SourceDeck","#MarginProtection","#Profitability","#CostControl","#GovCon","#BusinessSystems","#ProposalStrategy","#OperationalEfficiency","#RevenueProtection","#SmartGrowth"],
+    prompt: SD_VISUAL_BASE + " TOPIC: SourceDeck Margin Protection — a protected gold core of retained value sits inside a sealed pressure chamber. External pressure arrows labeled sharply bear down on the chamber wall: 'Cost Creep', 'Capture Cost', 'Proposal Waste', 'Overhead'. Tiny cracks appear at weak points but are actively sealed by a protective layer labeled 'SourceDeck · Margin'. The gold core remains visibly intact. Readouts on the chamber surface: 'Margin Retained 28%', 'Erosion Avoided $41,800'. Cool blue pressure light, warm gold core, forensic-grade realism. Dark minimal background.",
+    videoPrompt: "10–15s: pressure arrows push inward; hairline cracks begin; the SourceDeck Margin layer seals them in real time. Camera pulls back to reveal the gold core intact, readouts ticking 'Margin Retained 28%'. Tense but contained. No people."
+  },
+
+  "SourceDeck Execution Tracking": {
+    systemType: "accountability-checkpointed execution pathway",
+    quote: "What isn't tracked gets dropped. What gets dropped costs revenue.",
+    hook:  "What isn't tracked gets dropped. What gets dropped costs revenue.",
+    body: [
+      "Execution isn't assigned — it's tracked. Every state, every handoff, every open loop.",
+      "SourceDeck renders each task as a state on a measurable pathway: Assigned · In Progress · Waiting · Follow-Up · Completed.",
+      "Handoff failures and tracking gaps are surfaced, not buried.",
+      "One source of truth. One accountable owner per state."
+    ],
+    hashtags: ["#SourceDeck","#ExecutionTracking","#Accountability","#WorkflowVisibility","#OperationalControl","#SourceOfTruth","#FollowUpSystems","#BusinessExecution","#ProcessDiscipline","#RevenueOperations"],
+    prompt: SD_VISUAL_BASE + " TOPIC: SourceDeck Execution Tracking — a horizontal execution pathway made of five sequential state markers, each a measurable checkpoint with a readable label: 'Assigned', 'In Progress', 'Waiting', 'Follow-Up', 'Completed'. Active tasks are capsules traveling the path, each tagged with an owner initial and a timestamp. Two handoff gaps between markers are highlighted with warning overlays: 'Handoff Failure', 'Tracking Gap'. A luminous spine runs underneath labeled 'SourceDeck · Source of Truth'. Cool blue-white operational light, amber at active checkpoints, red at the two gaps. Forensic, ad-grade.",
+    videoPrompt: "10–15s: capsules progress state-to-state across the pathway; two visibly stall at the handoff gaps as warning overlays flash; the SourceDeck spine pulses, the gaps close, and the capsules resume to 'Completed'. Precise, accountable motion."
+  },
+
+  "SourceDeck Decision Engine": {
+    systemType: "central decision-intelligence chamber with visible logic paths",
+    quote: "The real advantage isn't doing more. It's deciding better, earlier, and with proof.",
+    hook:  "The real advantage isn't doing more. It's deciding better, earlier, and with proof.",
+    body: [
+      "Better decisions beat more activity — every time.",
+      "The SourceDeck Decision Engine evaluates each opportunity on visible logic paths: Fit Score, Profitability, Timing, Capacity.",
+      "Outputs are explicit: Go or No-Go, with rationale attached.",
+      "Fewer, better decisions — feeding a stronger downstream pipeline."
+    ],
+    hashtags: ["#SourceDeck","#DecisionEngine","#BidStrategy","#OperationalIntelligence","#GovConGrowth","#Profitability","#WinRate","#DecisionMaking","#BusinessSystems","#StrategicExecution"],
+    prompt: SD_VISUAL_BASE + " TOPIC: SourceDeck Decision Engine — a central intelligence chamber, transparent and illuminated, with four visible internal logic paths each labeled sharply: 'Fit Score', 'Profitability', 'Timing', 'Capacity'. An opportunity capsule enters from the left; the four logic paths evaluate it in parallel with readable readouts; two exit ports on the right are clearly labeled 'GO' (glowing gold) and 'NO-GO' (cool grey-red). Downstream of GO is a cleaner pipeline; downstream of NO-GO is an archive labeled 'Killed Early'. The chamber surface reads 'SOURCEDECK · DECISION ENGINE'. Cool blue structural light, amber/gold on the GO path only. Forensic, commercial, premium.",
+    videoPrompt: "10–15s: an opportunity capsule enters the chamber, four logic paths evaluate in parallel (readouts tick), decision resolves to GO — the GO port pulses gold and the capsule glides into the downstream pipeline. Next capsule resolves NO-GO and is diverted to the 'Killed Early' archive. Decisive, quiet, measured. No people."
+  }
+};
+const SD_TOPICS = Object.keys(SD_TOPIC_OVERRIDES);
+
+/** True when the given topic is one of the 10 SourceDeck topics. */
+function isSDTopic(topic){ return !!(topic && SD_TOPIC_OVERRIDES[topic]); }
+
+/** Drop-in replacement payload for ARCGPromptGen.generateImagePrompt when
+ *  the topic is a SourceDeck topic. Shape matches the real generator so
+ *  every downstream callsite (renderFullAd, ad dropdown, hashtag display)
+ *  works unchanged. */
+function sdOverrideGenerate(topic){
+  const o = SD_TOPIC_OVERRIDES[topic];
+  if (!o) return null;
+  return {
+    topic,
+    conceptTranslation: {
+      hiddenProblem:     'pipeline / decision waste · bad-fit pursuit · margin erosion',
+      invisibleMechanic: 'unqualified opportunities contaminating the pipeline and compounding into revenue loss',
+      visualMetaphor:    o.systemType,
+      systemType:        o.systemType
+    },
+    finalPrompt:  o.prompt,
+    videoPrompt:  o.videoPrompt,
+    whyNonGeneric: 'SourceDeck topic override — bespoke prompt bypasses the generic ARCGPromptGen pipeline so the image depicts SourceDeck as a system.',
+    hashtags:     o.hashtags.slice(0, 10),
+    systemType:   o.systemType,
+    vertical:     'sourcedeck',
+    leadKit: {
+      hook:     o.hook,
+      cta:      '→ Book the SourceDeck walkthrough: sourcedeck.app  ·  DM "SOURCEDECK" to see the pipeline control live.',
+      landing:  'sourcedeck.app',
+      offer:    'Free SourceDeck walkthrough — see the decision + execution system',
+      qualifier:'Best fit: operators, contractors, and GovCon teams managing complex opportunity pipelines.'
+    },
+    validationScores: { originality: 100, stockRisk: 0, clarity: 100, detailCompliance: 100 }
+  };
+}
+
+/** Override for buildAdCopy — returns null if topic is not SourceDeck. */
+function sdOverrideAdCopy(topic, pipelineOut, ind){
+  const o = SD_TOPIC_OVERRIDES[topic];
+  if (!o) return null;
+  const bodyLines = o.body.slice();
+  return {
+    headline: o.hook,
+    hook:     o.hook,
+    body:     bodyLines.join('\n\n'),
+    cta:      '→ Book the SourceDeck walkthrough: sourcedeck.app\n→ Or DM "SOURCEDECK" to see the pipeline control live\n→ Best fit: operators, contractors, and GovCon teams managing complex opportunity pipelines.',
+    hashtags: o.hashtags.slice(0, 10),
+    landingAngle: 'Lander promise: "See SourceDeck — the decision + execution system for operators, contractors, and GovCon teams." Above-the-fold hero: the same ' + o.systemType + ' visual. Single CTA: "See the walkthrough." Guarantee: no pitch on the call — real system walkthrough.',
+    offer:    'Free SourceDeck walkthrough — decision + execution system',
+    landing:  'sourcedeck.app',
+    vertical: 'sourcedeck',
+    quote:    o.quote
+  };
+}
+
+// Monkey-patch the public generator to intercept SourceDeck topics. This is
+// additive: every non-SourceDeck topic still goes through the full ARCG
+// pipeline exactly as before. Keeps every existing caller working.
+(function(){
+  var _original = window.ARCGPromptGen && window.ARCGPromptGen.generateImagePrompt;
+  if (!_original) return;
+  window.ARCGPromptGen.generateImagePrompt = function(topic, opts){
+    if (isSDTopic(topic)) return sdOverrideGenerate(topic);
+    return _original.call(this, topic, opts);
+  };
+})();
 
 // Legacy anti-repeat map kept for backward compat with any callers.
 const VISUAL_ANTI_REPEAT = new Map();

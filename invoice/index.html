@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SourceDeck | Purchase by Invoice</title>
+<title>SourceDeck | Pay by Invoice</title>
 <!-- Chatwoot support chat (SourceDeck) -->
 <script src="/assets/chatwoot.js" defer></script>
-<meta name="description" content="Annual invoicing for SourceDeck Pro and Operator. Approved business purchases pay by ACH, wire, or check after the invoice is issued.">
+<meta name="description" content="Invoice billing for verified businesses. Submit your PO and business details for review. We issue a branded Stripe invoice after approval. Service begins only after the invoice is paid in full.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/sd-theme.css">
@@ -19,46 +19,51 @@
   <a class="sd-brand" href="/"><span class="glyph">S</span> SourceDeck</a>
   <div class="links">
     <a href="/app/">Launch</a>
-    <a href="/app/#pricing">Pricing</a><a class="cta" href="/quote/pro/">Request Pro Invoice</a>
+    <a href="/app/#pricing">Pricing</a><a class="cta" href="/quote/pro/">Request an Invoice</a>
   </div>
 </nav>
 
 <section class="sd-hero">
-  <div class="sd-eyebrow"><span class="dot"></span> Purchase by Invoice</div>
-  <h1>Pay the way your finance team prefers.</h1>
-  <p class="lede">Annual invoicing for approved business purchases. Built for finance teams that prefer one invoice over twelve card charges, and pay by ACH, wire, or check after we issue the bill.</p>
+  <div class="sd-eyebrow"><span class="dot"></span> Pay by Invoice</div>
+  <h1>Branded Stripe invoice — after review.</h1>
+  <p class="lede">Invoice billing is available for verified businesses. Submit your PO and business details for review. After approval, we issue a branded Stripe invoice. Service begins only after the invoice is paid in full.</p>
 </section>
 
 <section class="sd-section narrow">
-  <div class="sd-card">
-    <h3>When to choose invoice</h3>
-    <p>Invoice purchase makes sense when finance runs the buy, procurement has rules, or you'd rather pay once annually than watch twelve card charges. It's also the right path when your security or vendor-review process needs to run before commitment.</p>
+  <!-- Eligibility + policy — single source of truth matches /docs/invoice-copy.md -->
+  <div class="sd-card" style="border-color:rgba(212,168,67,0.35);background:rgba(212,168,67,0.04)">
+    <h3 style="color:var(--gold)">Eligibility</h3>
     <ul>
-      <li><strong>Pro — annual invoice.</strong> For agencies, contractors, and small teams that self-scope and want one line item on the books.</li>
-      <li><strong>Operator — proposal-led.</strong> For multi-user teams and implementation-heavy rollouts. We scope before we quote; quote becomes an annual invoice on approval.</li>
-      <li><strong>Enterprise — custom terms.</strong> For procurement-heavy orgs. MSA, SOW, and DPA are part of the proposal package, not bolt-ons after the fact.</li>
+      <li><strong>Verified businesses only.</strong> We verify company identity, SAM.gov / D-U-N-S / state registration, and billing contact before issuing an invoice.</li>
+      <li><strong>Valid PO required.</strong> Submissions without a real purchase order cannot be converted to an invoice.</li>
+      <li><strong>Business ID required.</strong> EIN, D-U-N-S, or UEI — used to verify the legal entity.</li>
+      <li><strong>Activation begins after payment clears.</strong> Your workspace is provisioned only once the Stripe invoice is paid in full.</li>
     </ul>
+    <p class="mono" style="color:var(--gold)">VERIFIED BUSINESS · VALID PO · BUSINESS ID · PREPAID ACTIVATION</p>
+    <p style="font-size:11.5px;color:var(--muted);margin-top:10px;line-height:1.55">
+      Service does not begin on PO submission, invoice issuance, or pending payment. Activation begins only after payment clears.
+    </p>
   </div>
 
   <div class="sd-card">
-    <h3>Pro annual vs Operator / Enterprise proposal</h3>
+    <h3>Pro annual invoice vs Operator / Enterprise proposal</h3>
     <div class="sd-paths" style="margin-top:10px">
       <div class="sd-path" style="padding:20px">
         <div class="eye">Pro · Annual Invoice</div>
         <h3 style="font-size:18px">Same product, finance-friendly billing.</h3>
-        <p class="s" style="margin-bottom:12px">Standard Pro tier at list price, paid annually. No custom scoping call — you already know what you need. Quote delivered inside one business day.</p>
+        <p class="s" style="margin-bottom:12px">Standard Pro tier at list price, billed annually on a branded Stripe invoice. You already know what you need — no scoping call. Quote delivered inside one business day.</p>
         <ul style="list-style:none;padding:0;margin:0 0 14px">
           <li style="font-size:13px;color:var(--sub);padding:3px 0">· $349 / seat / month, billed annually</li>
-          <li style="font-size:13px;color:var(--sub);padding:3px 0">· ACH, wire, or check</li>
-          <li style="font-size:13px;color:var(--sub);padding:3px 0">· Net-30 for qualifying buyers</li>
-          <li style="font-size:13px;color:var(--sub);padding:3px 0">· Self-onboarded, email support</li>
+          <li style="font-size:13px;color:var(--sub);padding:3px 0">· Branded Stripe invoice issued after approval</li>
+          <li style="font-size:13px;color:var(--sub);padding:3px 0">· Payable by card or ACH through the hosted invoice</li>
+          <li style="font-size:13px;color:var(--sub);padding:3px 0">· Activation after payment clears</li>
         </ul>
-        <a class="sd-btn primary" href="/quote/pro/" style="display:block;text-align:center">Purchase by Invoice</a>
+        <a class="sd-btn primary" href="/quote/pro/" style="display:block;text-align:center">Request an Invoice</a>
       </div>
       <div class="sd-path" style="padding:20px">
         <div class="eye" style="color:var(--purple)">Operator / Enterprise · Proposal</div>
         <h3 style="font-size:18px">Scoped quote, named operator, onboarding plan.</h3>
-        <p class="s" style="margin-bottom:12px">A 30-minute scoping call happens before the quote, because seat count and onboarding depth matter. Enterprise adds MSA, SOW, and custom DPA.</p>
+        <p class="s" style="margin-bottom:12px">A 30-minute scoping call happens before the quote — seat count and onboarding depth matter. Enterprise adds MSA, SOW, and custom DPA. Invoice issued via Stripe after the proposal is approved and the PO is on file.</p>
         <ul style="list-style:none;padding:0;margin:0 0 14px">
           <li style="font-size:13px;color:var(--sub);padding:3px 0">· From $999 / seat / month · annual</li>
           <li style="font-size:13px;color:var(--sub);padding:3px 0">· Scoping call included</li>
@@ -70,23 +75,23 @@
     </div>
   </div>
 
+  <!-- What happens next — canonical 4-step block. -->
   <div class="sd-card">
-    <h3>What happens after you submit</h3>
+    <h3>What happens next</h3>
     <div class="sd-flow">
-      <div class="sd-flow-step"><div class="n">01</div><div class="t">Submit request</div><div class="d">Tier, seats, start date, billing contact.</div></div>
-      <div class="sd-flow-step"><div class="n">02</div><div class="t">Request reviewed</div><div class="d">We confirm fit and send a formal quote inside one business day. Operator path adds a scoping call first.</div></div>
-      <div class="sd-flow-step"><div class="n">03</div><div class="t">Invoice issued</div><div class="d">Annual invoice with remit-to instructions and payment terms.</div></div>
-      <div class="sd-flow-step"><div class="n">04</div><div class="t">Access activated</div><div class="d">Pay by ACH, wire, or check. Workspace activated on receipt of payment.</div></div>
+      <div class="sd-flow-step"><div class="n">01</div><div class="t">You submit your request</div><div class="d">PO, business details, plan, seats, start date.</div></div>
+      <div class="sd-flow-step"><div class="n">02</div><div class="t">We verify + review</div><div class="d">Business identity, PO, and billing contact confirmed. Operator path adds a scoping call first.</div></div>
+      <div class="sd-flow-step"><div class="n">03</div><div class="t">Branded Stripe invoice issued</div><div class="d">Only after approval. Hosted invoice page and PDF, payable by card or ACH.</div></div>
+      <div class="sd-flow-step"><div class="n">04</div><div class="t">Workspace activates</div><div class="d">After the invoice is paid in full — not before.</div></div>
     </div>
-    <p class="mono" style="margin-top:14px">PAYMENT · ACH / WIRE / CHECK · ANNUAL · USD · W-9 AVAILABLE ON REQUEST</p>
+    <p class="mono" style="margin-top:14px">STRIPE INVOICE · CARD OR ACH · ANNUAL · USD · W-9 AVAILABLE ON REQUEST</p>
   </div>
 
   <div class="sd-card">
     <h3>Pick your path</h3>
     <div style="display:flex;gap:10px;flex-wrap:wrap">
-      <a class="sd-btn primary lg" href="/quote/pro/" style="flex:1;min-width:220px">Purchase by Invoice</a>
+      <a class="sd-btn primary lg" href="/quote/pro/" style="flex:1;min-width:220px">Request an Invoice</a>
       <a class="sd-btn ghost lg" href="/quote/operator/" style="flex:1;min-width:220px">Request Proposal</a>
-      
     </div>
   </div>
 </section>
