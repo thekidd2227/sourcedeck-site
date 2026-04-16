@@ -41,6 +41,16 @@
     <p class="mono">LIST · $349 / SEAT / MONTH · ANNUAL = $4,188 / SEAT / YEAR · USD</p>
   </div>
 
+  <div class="sd-card" style="border-color:rgba(212,168,67,0.35);background:rgba(212,168,67,0.04)">
+    <h3 style="color:var(--gold)">Invoice eligibility</h3>
+    <ul>
+      <li><strong>Verified businesses only.</strong> We verify company identity, SAM.gov / D-U-N-S / state registration, and billing contact before issuing an invoice.</li>
+      <li><strong>Valid PO number required.</strong> Submit the PO issued by your procurement or finance team with this request. Quotes without a real PO cannot be converted to an invoice.</li>
+      <li><strong>Services begin after payment.</strong> Your SourceDeck workspace is provisioned and activated only once the invoice is paid in full.</li>
+    </ul>
+    <p class="mono" style="color:var(--gold)">VERIFIED BUSINESS · PO REQUIRED · PREPAID ACTIVATION</p>
+  </div>
+
   <div class="sd-card">
     <h3>Request form</h3>
     <!-- LIVE: Basin endpoint. Submissions tagged _form_source=pro-invoice. -->
@@ -69,6 +79,14 @@
         <label for="qp-start">Target start date</label>
         <input id="qp-start" name="start_date" type="date">
       </div>
+      <div>
+        <label for="qp-po">PO number <span style="color:var(--gold)">*</span></label>
+        <input id="qp-po" name="po_number" type="text" required placeholder="e.g. PO-2026-0482">
+      </div>
+      <div>
+        <label for="qp-ein">Business EIN / D-U-N-S / UEI</label>
+        <input id="qp-ein" name="business_id" type="text" placeholder="For verification">
+      </div>
       <div class="full">
         <label for="qp-billing">Billing contact + address</label>
         <textarea id="qp-billing" name="billing" placeholder="Finance contact name, email, and billing address"></textarea>
@@ -82,8 +100,25 @@
       </div>
     </form>
     <p style="font-size:11.5px;color:var(--muted);margin-top:12px;line-height:1.55">
-      <strong style="color:var(--sub)">What happens next:</strong> we review your request and send a formal quote inside one business day. Once you approve, we issue an annual invoice payable by ACH, wire, or check. Your workspace is activated on receipt of payment.
+      <strong style="color:var(--sub)">What happens next:</strong> we verify the business and PO, then send a formal quote inside one business day. Once you approve, we issue an annual invoice payable by ACH, wire, or check. <strong style="color:var(--gold)">Your workspace is provisioned and service begins only after the invoice is paid in full — no activation on net-30 or pending payment.</strong>
     </p>
+    <script>
+    // If routed from the Core tier (?plan=core), tag the submission so
+    // finance scopes the quote to Core pricing ($79/seat/mo), not Pro.
+    (function(){
+      var plan = new URLSearchParams(location.search).get('plan');
+      if (plan === 'core') {
+        var f = document.querySelector('form.sd-form');
+        if (f) {
+          var h = document.createElement('input');
+          h.type = 'hidden'; h.name = 'requested_plan'; h.value = 'core';
+          f.appendChild(h);
+          var sub = f.querySelector('input[name="_subject"]');
+          if (sub) sub.value = 'SourceDeck Core — Annual Invoice Request';
+        }
+      }
+    })();
+    </script>
     <p style="font-size:11.5px;color:var(--muted);margin-top:10px">
       Prefer a card and want to start today? <a href="/app/#pricing" style="color:var(--accent2)">Choose Plan on the pricing page</a>. Multi-seat team that needs scoping? <a href="/quote/operator/" style="color:var(--accent2)">Request the Operator proposal</a>.
     </p>

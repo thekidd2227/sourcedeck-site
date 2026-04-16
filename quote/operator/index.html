@@ -48,8 +48,18 @@
       <div class="sd-flow-step"><div class="n">01</div><div class="t">Submit request</div><div class="d">Tell us team size and what you're trying to fix.</div></div>
       <div class="sd-flow-step"><div class="n">02</div><div class="t">Scoping call</div><div class="d">30-min call with the operator who will set it up.</div></div>
       <div class="sd-flow-step"><div class="n">03</div><div class="t">Written proposal</div><div class="d">Scope, pricing, timeline — in writing.</div></div>
-      <div class="sd-flow-step"><div class="n">04</div><div class="t">Kickoff</div><div class="d">Invoice issued, workspace provisioned, rollout begins.</div></div>
+      <div class="sd-flow-step"><div class="n">04</div><div class="t">Kickoff</div><div class="d">Invoice issued, workspace provisioned after payment, rollout begins.</div></div>
     </div>
+  </div>
+
+  <div class="sd-card" style="border-color:rgba(212,168,67,0.35);background:rgba(212,168,67,0.04)">
+    <h3 style="color:var(--gold)">Invoice eligibility</h3>
+    <ul>
+      <li><strong>Verified businesses only.</strong> We verify company identity, SAM.gov / D-U-N-S / state registration, and billing contact before issuing an invoice.</li>
+      <li><strong>Valid PO number required.</strong> Include the PO issued by your procurement or finance team with your proposal approval. No PO means no invoice.</li>
+      <li><strong>Services begin after payment.</strong> Workspace provisioning and rollout start only once the invoice is paid in full.</li>
+    </ul>
+    <p class="mono" style="color:var(--gold)">VERIFIED BUSINESS · PO REQUIRED · PREPAID ACTIVATION</p>
   </div>
 
   <div class="sd-card">
@@ -106,12 +116,20 @@
         <label for="qo-procurement">Procurement requirements (if any)</label>
         <textarea id="qo-procurement" name="procurement" placeholder="Security review, DPA, MSA, SOC 2 questionnaire, insurance, etc."></textarea>
       </div>
+      <div>
+        <label for="qo-po">PO number (if issued)</label>
+        <input id="qo-po" name="po_number" type="text" placeholder="e.g. PO-2026-0482">
+      </div>
+      <div>
+        <label for="qo-ein">Business EIN / D-U-N-S / UEI</label>
+        <input id="qo-ein" name="business_id" type="text" placeholder="For verification">
+      </div>
       <div class="full submit">
         <button type="submit" class="sd-btn primary lg" style="width:100%">Request Proposal</button>
       </div>
     </form>
     <p style="font-size:11.5px;color:var(--muted);margin-top:12px;line-height:1.55">
-      <strong style="color:var(--sub)">What happens next:</strong> within one business day we book a 30-minute scoping call with the operator who will set up your workspace. After the call you receive a written proposal with seat count, onboarding plan, integrations, timeline, and annual pricing. For Enterprise, the proposal arrives with MSA, SOW, and DPA ready for procurement.
+      <strong style="color:var(--sub)">What happens next:</strong> within one business day we book a 30-minute scoping call with the operator who will set up your workspace. After the call you receive a written proposal with seat count, onboarding plan, integrations, timeline, and annual pricing. For Enterprise, the proposal arrives with MSA, SOW, and DPA ready for procurement. <strong style="color:var(--gold)">If you're paying by invoice, workspace provisioning and rollout begin only after the invoice is paid in full.</strong>
     </p>
     <p style="font-size:11.5px;color:var(--muted);margin-top:10px">
       Just shopping around? <a href="/app/demo/" style="color:var(--accent2)">Start with the demo</a>. Smaller team that can self-serve? <a href="/app/#pricing" style="color:var(--accent2)">Choose Plan</a>.

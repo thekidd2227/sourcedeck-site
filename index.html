@@ -690,6 +690,21 @@ a{text-decoration:none;color:inherit}
   .sd-pk .sub-cta{display:block;text-align:center;margin-top:10px;font-size:11.5px;color:var(--muted);text-decoration:none;transition:color 0.15s}
   .sd-pk .sub-cta:hover{color:var(--sub)}
 
+  /* Checkout — optional payment methods disclosure */
+  .sd-pk .payment-methods{margin-top:10px;border-top:0.5px solid rgba(255,255,255,0.06);padding-top:10px}
+  .sd-pk .payment-methods summary{list-style:none;cursor:pointer;font:500 11px/1.4 'Inter',sans-serif;color:var(--muted);letter-spacing:0.04em;text-align:center;padding:4px 0;transition:color 0.15s;user-select:none}
+  .sd-pk .payment-methods summary::-webkit-details-marker{display:none}
+  .sd-pk .payment-methods summary::after{content:'▾';display:inline-block;margin-left:5px;font-size:9px;transition:transform 0.18s}
+  .sd-pk .payment-methods[open] summary::after{transform:rotate(180deg)}
+  .sd-pk .payment-methods summary:hover{color:var(--sub)}
+  .sd-pk .payment-methods .method{margin-top:10px;padding:10px 12px;background:rgba(255,255,255,0.02);border:0.5px solid rgba(255,255,255,0.06);border-radius:9px;font-size:11.5px;line-height:1.55;color:var(--muted)}
+  .sd-pk .payment-methods .method strong{color:#fff;font-weight:600;display:block;margin-bottom:4px;font-size:12px}
+  .sd-pk .payment-methods .method .reqs{margin:6px 0 8px;padding-left:14px}
+  .sd-pk .payment-methods .method .reqs li{position:relative;list-style:none;padding-left:0;font-size:11px;line-height:1.5;color:var(--muted)}
+  .sd-pk .payment-methods .method .reqs li::before{content:'·';position:absolute;left:-10px;color:var(--accent2)}
+  .sd-pk .payment-methods .method a{display:inline-block;color:var(--accent2);text-decoration:none;font-weight:500;font-size:11.5px;margin-top:2px}
+  .sd-pk .payment-methods .method a:hover{color:var(--accent)}
+
   /* SYSTEM PROOF */
   .sd-proof{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:80px 24px 48px;text-align:center}
   .sd-proof h3{font-size:clamp(22px,2.8vw,32px);font-weight:700;letter-spacing:-0.02em;margin-bottom:36px;color:#fff}
@@ -741,6 +756,18 @@ a{text-decoration:none;color:inherit}
         <li>Basic operational reporting</li>
       </ul>
       <a href="#" onclick="return sdCheckout(event,'core','monthly')" class="cta outline">Start tracking your operation</a>
+      <details class="payment-methods">
+        <summary>Other payment methods</summary>
+        <div class="method">
+          <strong>Pay by invoice</strong>
+          <ul class="reqs">
+            <li>Verified businesses only</li>
+            <li>Valid PO number required</li>
+            <li>Services begin after invoice is paid in full</li>
+          </ul>
+          <a href="/quote/pro/?plan=core">Request an invoice →</a>
+        </div>
+      </details>
     </div>
 
     <!-- PRO (FEATURED) -->
@@ -758,7 +785,18 @@ a{text-decoration:none;color:inherit}
         <li>Full operational visibility dashboard</li>
       </ul>
       <a href="#" onclick="return sdCheckout(event,'pro','monthly')" class="cta primary">Take control of your workflow</a>
-      <a class="sub-cta" href="/quote/pro/">Or purchase by invoice →</a>
+      <details class="payment-methods">
+        <summary>Other payment methods</summary>
+        <div class="method">
+          <strong>Pay by invoice</strong>
+          <ul class="reqs">
+            <li>Verified businesses only</li>
+            <li>Valid PO number required</li>
+            <li>Services begin after invoice is paid in full</li>
+          </ul>
+          <a href="/quote/pro/">Request an invoice →</a>
+        </div>
+      </details>
     </div>
 
     <!-- OPERATOR -->
