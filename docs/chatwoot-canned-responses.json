@@ -1,0 +1,502 @@
+[
+  {
+    "short_code": "what_is_sourcedeck",
+    "content": "SourceDeck is the Lead Command Center for leads, follow-up, and workflow. It gives operators one place to track leads, manage outreach, watch follow-up, and see where the work is getting stuck \u2014 so tasks and opportunities stop falling through the cracks.",
+    "label": "What is SourceDeck?"
+  },
+  {
+    "short_code": "who_is_sourcedeck_for",
+    "content": "SourceDeck is built for small teams that have outgrown spreadsheets, scattered tools, and manual follow-up. That typically means founders, agencies, contractors, consultants, and service businesses that need more visibility and less friction.",
+    "label": "Who is SourceDeck for?"
+  },
+  {
+    "short_code": "what_problem_does_sourcedeck_solve",
+    "content": "Most teams do not have a lead problem \u2014 they have a tracking problem. SourceDeck fixes the leaks that show up when leads live in one place, follow-up happens somewhere else, and workflow depends on memory, inboxes, or manual handoffs.",
+    "label": "What problem does SourceDeck solve?"
+  },
+  {
+    "short_code": "what_can_i_do_inside_sourcedeck",
+    "content": "Track leads, manage outreach, watch follow-up, organize workflow, spot bottlenecks, see what is moving vs. what is stalled, and know what needs attention next \u2014 all in one dashboard.",
+    "label": "What can I do inside SourceDeck?"
+  },
+  {
+    "short_code": "how_does_sourcedeck_work_in_one",
+    "content": "It moves your leads, outreach, follow-up, and workflow into one surface so you can see where the business is actually slowing down and act on it.",
+    "label": "How does SourceDeck work in one sentence?"
+  },
+  {
+    "short_code": "how_do_i_get_started",
+    "content": "Pick a plan on the pricing section, create your workspace, connect your integrations (Airtable, email sender, Instantly), set your lead criteria, then launch your first campaign. A first-time workspace opens blank \u2014 no sample data, no pre-installed keys.",
+    "label": "How do I get started?"
+  },
+  {
+    "short_code": "what_does_a_setup_look",
+    "content": "Four steps: (1) open the workspace, which starts blank; (2) connect integrations \u2014 Airtable PAT, email provider, Instantly key, and any optional providers; (3) define lead criteria such as NAICS codes, cities, industries, and exclusions; (4) launch your first campaign with a sender, sequence, and routing filter.",
+    "label": "What does a first-time setup look like?"
+  },
+  {
+    "short_code": "what_plans_and_pricing_does_sourcedeck",
+    "content": "SourceDeck has three tiers: Core at $79/month (Visibility), Pro at $349/month (Control), and Operator at $999/month (Revenue System). Pricing is shown live on sourcedeck.app.",
+    "label": "What plans and pricing does SourceDeck offer?"
+  },
+  {
+    "short_code": "what_is_in_the_core_plan",
+    "content": "Core is $79/month. It covers tracking leads, tasks, and workflow in one system, identifying bottlenecks and delays, and basic operational reporting. Designed for operators who need to see what is actually happening.",
+    "label": "What is in the Core plan?"
+  },
+  {
+    "short_code": "what_is_in_the_pro_plan",
+    "content": "Pro is $349/month. It includes everything in Core plus real-time bottleneck alerts, automated workflow handoffs, and the full operational visibility dashboard. Designed for teams losing revenue to workflow breakdown.",
+    "label": "What is in the Pro plan?"
+  },
+  {
+    "short_code": "what_is_in_the_operator_plan",
+    "content": "Operator is $999/month. It includes everything in Pro plus multi-user workflow orchestration, advanced reporting and performance tracking, and is built for scaling teams. Operator is proposal-led \u2014 you request it through the quote flow rather than self-checkout.",
+    "label": "What is in the Operator plan?"
+  },
+  {
+    "short_code": "which_plan_should_i_choose",
+    "content": "Start with Core if you need visibility into what is actually happening. Choose Pro if workflow breakdown is costing you revenue and you need alerts and automated handoffs. Choose Operator if you are a scaling team that treats revenue loss as unacceptable.",
+    "label": "Which plan should I choose?"
+  },
+  {
+    "short_code": "is_there_a_free_trial",
+    "content": "Pricing and sign-up run through the plan pages on sourcedeck.app. Any trial, discount, or starter offering will be shown directly on the pricing page at the moment you check out.",
+    "label": "Is there a free trial?"
+  },
+  {
+    "short_code": "how_do_i_pay_for_sourcedeck",
+    "content": "Card payments run through Stripe on the plan page. Invoice payment is available for Pro through the /quote/pro/ request page, and Operator is always proposal-led through /quote/operator/.",
+    "label": "How do I pay for SourceDeck?"
+  },
+  {
+    "short_code": "can_i_pay_by_invoice_instead",
+    "content": "Yes. Pro can be purchased by invoice via the /quote/pro/ flow. Operator is invoice/proposal only \u2014 use /quote/operator/ to request terms.",
+    "label": "Can I pay by invoice instead of card?"
+  },
+  {
+    "short_code": "what_is_the_legacy_pricing_i",
+    "content": "Older $49 and $149 subscriptions are grandfathered for existing subscribers only. New sign-ups always use current list pricing: Core $79, Pro $349, Operator $999.",
+    "label": "What is the legacy pricing I see on older pages?"
+  },
+  {
+    "short_code": "is_sourcedeck_a_desktop_app_or",
+    "content": "Both. SourceDeck has a web app at sourcedeck.app/app and a desktop app for macOS (Apple Silicon and Intel) and Windows. The desktop app is the same Lead Command Center engine, packaged for offline-capable use with OS-level key storage.",
+    "label": "Is SourceDeck a desktop app or a web app?"
+  },
+  {
+    "short_code": "how_do_i_download_the_desktop",
+    "content": "From the home page on sourcedeck.app, use the Desktop app buttons under the hero. You can also go directly to https://github.com/thekidd2227/sourcedeck-releases/releases/latest to see all downloads.",
+    "label": "How do I download the desktop app?"
+  },
+  {
+    "short_code": "which_mac_should_i_pick_apple",
+    "content": "Pick Apple Silicon (arm64) if your Mac has an M1, M2, M3, or M4 chip. Pick Intel (x64) for older Intel-based Macs. If you are unsure, open About This Mac and look at the Chip or Processor line.",
+    "label": "Which Mac should I pick \u2014 Apple Silicon or Intel?"
+  },
+  {
+    "short_code": "how_do_i_install_sourcedeck_on",
+    "content": "Download the DMG, open it, and drag SourceDeck.app to your Applications folder. On first launch, because the current build is unsigned, right-click the app and choose Open to approve it. After that, it launches normally.",
+    "label": "How do I install SourceDeck on Mac?"
+  },
+  {
+    "short_code": "why_does_macos_say_sourcedeck_is",
+    "content": "The current build is not yet code-signed with an Apple Developer ID. This is a macOS Gatekeeper warning, not a malware warning. Right-click SourceDeck.app and choose Open the first time you launch; macOS will remember the exception.",
+    "label": "Why does macOS say SourceDeck is unsigned or unverified?"
+  },
+  {
+    "short_code": "how_do_i_install_sourcedeck_on",
+    "content": "Download the Windows installer and run it. Choose your install location when prompted. The installer uses NSIS and lets you change the default directory.",
+    "label": "How do I install SourceDeck on Windows?"
+  },
+  {
+    "short_code": "is_the_windows_build_available_yet",
+    "content": "macOS installers are live. The Windows installer is produced through the build pipeline on GitHub \u2014 if the Windows button returns a not-found error, the most recent release did not include Windows yet. Use the 'See all downloads' link to check the latest release assets.",
+    "label": "Is the Windows build available yet?"
+  },
+  {
+    "short_code": "where_can_i_find_the_sourcedeck",
+    "content": "The SourceDeck user manual is a 7-page document that ships with the product. It covers what SourceDeck is, first-time setup, API keys, lead criteria, campaigns, funnel health, pricing and checkout, resetting a workspace, and support.",
+    "label": "Where can I find the SourceDeck user manual?"
+  },
+  {
+    "short_code": "what_does_the_user_guide_cover",
+    "content": "Cover, table of contents, product and setup, integrations and criteria, building and launching campaigns, funnel health and revenue, managing pricing and checkout, workspace reset, customer data protection, and how to reach support.",
+    "label": "What does the user guide cover?"
+  },
+  {
+    "short_code": "what_integrations_does_sourcedeck_requir",
+    "content": "Required integrations: an Airtable personal access token (scoped to your base), an Instantly API key, and your email sender domain. Optional integrations: Apollo, SerpAPI, Hunter, and either OpenAI or Anthropic for AI features.",
+    "label": "What integrations does SourceDeck require?"
+  },
+  {
+    "short_code": "what_optional_integrations_does_sourcede",
+    "content": "Optional providers include Apollo, SerpAPI, Hunter, and your choice of OpenAI or Anthropic. These add capabilities but are not required to run the product.",
+    "label": "What optional integrations does SourceDeck support?"
+  },
+  {
+    "short_code": "where_are_my_api_keys_stored",
+    "content": "SourceDeck is bring-your-own-keys. Every key is stored locally to your workspace. On the desktop app, keys are encrypted using the operating system keychain through Electron safeStorage. Keys never leave your device except during an integration call.",
+    "label": "Where are my API keys stored?"
+  },
+  {
+    "short_code": "does_sourcedeck_ship_with_any_keys",
+    "content": "No. Every workspace ships blank. No prior leads, no test data, no shared keys. You add your own credentials on first setup.",
+    "label": "Does SourceDeck ship with any keys or prior data?"
+  },
+  {
+    "short_code": "how_do_i_set_my_lead",
+    "content": "In Settings, define geography (cities, metros, or states), target industries mapped to NAICS codes, and exclusions. Exclusions typically cover role inboxes, free-mailbox domains, and prior-contacted fingerprints. Narrower criteria plus strict email validation keeps the queue clean.",
+    "label": "How do I set my lead criteria?"
+  },
+  {
+    "short_code": "what_are_naics_codes_and_do",
+    "content": "NAICS codes are the federal industry classification system. SourceDeck uses them to target specific industries during lead discovery. You can map multiple industries per campaign, and you can also use plain industry or geography filters alongside them.",
+    "label": "What are NAICS codes and do I have to use them?"
+  },
+  {
+    "short_code": "how_do_i_build_a_campaign",
+    "content": "A campaign has three parts: a sender (at least one warmed mailbox), a sequence (SourceDeck's default is a 4-step diagnosis \u2192 pricing sequence), and a routing filter that only enrolls MX-verified, non-role, non-free-mailbox leads. Set a daily cap, then activate.",
+    "label": "How do I build a campaign?"
+  },
+  {
+    "short_code": "what_does_the_default_email_sequence",
+    "content": "Four steps. Email 1 diagnoses the problem, Email 2 exposes the pattern, Email 3 names the system, Email 4 closes on pricing. Stop-on-reply is on by default so replies never get a second touch.",
+    "label": "What does the default email sequence look like?"
+  },
+  {
+    "short_code": "what_is_a_safe_daily_send",
+    "content": "Start at 25 per day per sender. Ramp by +10 per day only if bounces stay under 2% on the last 50 sends. If bounce rate crosses 3% on the last 50, pause immediately and tighten criteria.",
+    "label": "What is a safe daily send cap to start with?"
+  },
+  {
+    "short_code": "what_happens_if_my_bounce_rate",
+    "content": "If bounce rate exceeds 3% on the last 50 sends, SourceDeck's operating rule is to pause the campaign, audit the queue, and resume only after the next fresh batch returns under 2%. The product will not protect you from bad criteria \u2014 that discipline lives with the operator.",
+    "label": "What happens if my bounce rate gets too high?"
+  },
+  {
+    "short_code": "how_does_sourcedeck_protect_deliverabili",
+    "content": "Campaigns start paused by default so you can verify the enrollment list and sequence previews before any send. Stop-on-reply is on. Link tracking is only enabled on the pricing-CTA email so intent is measurable without adding noise. Open tracking is off.",
+    "label": "How does SourceDeck protect deliverability?"
+  },
+  {
+    "short_code": "does_sourcedeck_track_opens",
+    "content": "No. Open tracking is off. Link tracking is only enabled on the pricing-CTA email so you can measure intent without sending tracked emails that feel like mass outreach.",
+    "label": "Does SourceDeck track opens?"
+  },
+  {
+    "short_code": "what_is_the_funnel_health_view",
+    "content": "Funnel Health shows where leads drop and where revenue lives, per campaign, per plan, per day. It tracks the full funnel: Qualified \u2192 Enrolled \u2192 Sent \u2192 Replied \u2192 Pricing click \u2192 Checkout start \u2192 Paid. The biggest stage-to-stage gap tells you what to fix next.",
+    "label": "What is the Funnel Health view?"
+  },
+  {
+    "short_code": "how_does_sourcedeck_report_revenue",
+    "content": "The Funnel Health surface tracks total revenue, revenue by plan, MRR, and average revenue per conversion, alongside stage-to-stage conversion so you can see where revenue is being lost vs. captured.",
+    "label": "How does SourceDeck report revenue?"
+  },
+  {
+    "short_code": "can_i_reset_my_workspace",
+    "content": "Yes. Reset is one click. It wipes every workspace artifact \u2014 API keys, cached leads, saved searches, templates, analytics, and event history. The next launch opens in the same blank state a first-time user sees.",
+    "label": "Can I reset my workspace?"
+  },
+  {
+    "short_code": "what_does_a_reset_actually_clear",
+    "content": "Reset clears localStorage, sessionStorage, cached analytics, every stored key, every cached lead, every saved search, every template, and all event history tied to the workspace. Nothing is silently retained.",
+    "label": "What does a reset actually clear?"
+  },
+  {
+    "short_code": "does_sourcedeck_have_a_demo_mode",
+    "content": "Yes, demo mode exists for evaluation only. It is never auto-loaded into a live workspace and cannot contaminate real data. You can explore the product shape without touching production.",
+    "label": "Does SourceDeck have a demo mode?"
+  },
+  {
+    "short_code": "how_do_i_get_support",
+    "content": "In-product chat is available 24/7 for setup, pricing, and configuration questions. Operator-tier customers also get a named operator and a direct line for scoped rollout. Security reviews, DPAs, and procurement requirements are handled through the proposal request.",
+    "label": "How do I get support?"
+  },
+  {
+    "short_code": "what_support_is_included_with_each",
+    "content": "All plans get the in-product chatbot for setup, pricing, and configuration questions. Operator adds a named operator and direct-line support plus handling for security reviews, DPAs, and procurement.",
+    "label": "What support is included with each tier?"
+  },
+  {
+    "short_code": "can_you_sign_a_dpa_or",
+    "content": "Yes \u2014 DPA, security review, and procurement requirements are handled through the Operator proposal request at /quote/operator/.",
+    "label": "Can you sign a DPA or answer security questions?"
+  },
+  {
+    "short_code": "how_does_sourcedeck_protect_customer_dat",
+    "content": "Every workspace is treated as a sealed unit. Keys and leads never leave the device except during an explicit API call. Exports are opt-in. Logs are workspace-scoped. No prior operator data is ever shipped with SourceDeck \u2014 every install is sanitized.",
+    "label": "How does SourceDeck protect customer data?"
+  },
+  {
+    "short_code": "is_my_data_shared_with_other",
+    "content": "No. Workspaces are sealed units. Keys are namespaced and switching workspaces swaps credentials atomically with no cross-contamination.",
+    "label": "Is my data shared with other SourceDeck customers?"
+  },
+  {
+    "short_code": "does_sourcedeck_work_offline",
+    "content": "The desktop app is offline-capable. Integration calls obviously require network access (sending email, querying Airtable, etc.), but the workspace itself, stored leads, and saved settings are held on your device.",
+    "label": "Does SourceDeck work offline?"
+  },
+  {
+    "short_code": "how_do_work",
+    "content": "The desktop app uses electron-updater to check GitHub Releases automatically. When a new version is available, it downloads in the background and installs on next launch.",
+    "label": "How do auto-updates work?"
+  },
+  {
+    "short_code": "how_often_will_sourcedeck_update",
+    "content": "Updates ship when there is something substantial to add or fix. Auto-update runs in the background and installs on next launch, so you generally do not have to do anything.",
+    "label": "How often will SourceDeck update?"
+  },
+  {
+    "short_code": "do_i_have_to_use_the",
+    "content": "No. SourceDeck runs in the browser at sourcedeck.app/app. The desktop app is a convenience \u2014 same engine, same features, with OS-level key storage and offline-capable use.",
+    "label": "Do I have to use the desktop app?"
+  },
+  {
+    "short_code": "what_is_the_difference_between_the",
+    "content": "Same Lead Command Center engine. Web runs in your browser. Desktop runs as a native app, stores API keys in the OS keychain through Electron safeStorage, and supports auto-updates.",
+    "label": "What is the difference between the web and desktop versions?"
+  },
+  {
+    "short_code": "what_operating_systems_does_sourcedeck_s",
+    "content": "macOS on Apple Silicon (M1/M2/M3/M4) and Intel x64, and Windows x64. The browser version runs on any modern browser.",
+    "label": "What operating systems does SourceDeck support?"
+  },
+  {
+    "short_code": "what_browsers_work_with_sourcedeck",
+    "content": "SourceDeck's web app works on current Chrome, Safari, Firefox, and Edge. Use a modern up-to-date browser for best results.",
+    "label": "What browsers work with SourceDeck?"
+  },
+  {
+    "short_code": "is_sourcedeck_available_in_languages_oth",
+    "content": "The product UI is currently English. If multi-language support is needed for your team, mention it in a support chat and we will follow up.",
+    "label": "Is SourceDeck available in languages other than English?"
+  },
+  {
+    "short_code": "can_i_share_a_workspace_with",
+    "content": "Multi-user workflow orchestration is an Operator-tier feature. Core and Pro are designed for single-operator or small-team setups where one person manages the workspace.",
+    "label": "Can I share a workspace with my team?"
+  },
+  {
+    "short_code": "how_do_i_add_a_teammate",
+    "content": "Multi-user orchestration is an Operator-tier capability. Contact Operator support at /quote/operator/ to discuss seats and rollout.",
+    "label": "How do I add a teammate?"
+  },
+  {
+    "short_code": "what_email_providers_does_sourcedeck_wor",
+    "content": "SourceDeck uses Instantly for outbound sending and needs your email sender domain configured. Your sender mailbox should be warmed \u2014 a warmed sender protects deliverability and keeps bounce rate low.",
+    "label": "What email providers does SourceDeck work with?"
+  },
+  {
+    "short_code": "do_i_need_my_own_email",
+    "content": "Yes. SourceDeck is bring-your-own-sender. Attach at least one warmed mailbox in campaign setup. Add a second when your daily cap exceeds 25.",
+    "label": "Do I need my own email sender?"
+  },
+  {
+    "short_code": "why_should_i_warm_my_email",
+    "content": "A warmed sender protects deliverability. Cold mailboxes get throttled, land in spam, and destroy your list. SourceDeck's rules (start at 25/day, ramp only if bounces stay under 2%) assume a warmed sender.",
+    "label": "Why should I warm my email sender?"
+  },
+  {
+    "short_code": "does_sourcedeck_come_with_leads",
+    "content": "No. SourceDeck discovers leads based on the criteria you set. Every workspace ships blank \u2014 no seeded lead list, no sample data, no shared database.",
+    "label": "Does SourceDeck come with leads?"
+  },
+  {
+    "short_code": "how_does_sourcedeck_find_leads",
+    "content": "The discovery engine enforces your criteria on every run \u2014 geography, industries, NAICS, exclusions, and email validity. Narrow criteria plus tight email checks produce a clean enrollable queue.",
+    "label": "How does SourceDeck find leads?"
+  },
+  {
+    "short_code": "what_happens_when_a_lead_replies",
+    "content": "Stop-on-reply is on by default. The moment a lead replies, they are removed from automated follow-up. Replies never get a second touch.",
+    "label": "What happens when a lead replies to a sequence?"
+  },
+  {
+    "short_code": "can_i_turn_off",
+    "content": "Stop-on-reply is a safety rule that protects your reputation. It can be adjusted, but it is on by default for a reason \u2014 changing it blindly risks your sender score.",
+    "label": "Can I turn off stop-on-reply?"
+  },
+  {
+    "short_code": "is_sourcedeck",
+    "content": "SourceDeck uses AI where it helps you see and fix operational leakage faster \u2014 lead discovery, pattern recognition across funnels, and content generation when you add an OpenAI or Anthropic key. AI is an option inside SourceDeck, not a substitute for SourceDeck.",
+    "label": "Is SourceDeck AI-powered?"
+  },
+  {
+    "short_code": "do_i_need_an_openai_or",
+    "content": "No. Those are optional. Add a key only if you want AI-assisted features. Core workflow, tracking, and outreach do not require it.",
+    "label": "Do I need an OpenAI or Anthropic key?"
+  },
+  {
+    "short_code": "who_makes_sourcedeck",
+    "content": "SourceDeck is an ARCG Systems product. ARCG Systems is the operational intelligence firm that builds and runs it. The legal owner is Ariel's River Contracting Group LLC.",
+    "label": "Who makes SourceDeck?"
+  },
+  {
+    "short_code": "what_is_arcg_systems",
+    "content": "ARCG Systems is the operational intelligence firm behind SourceDeck. ARCG focuses on diagnosing where operations are leaking time, money, visibility, and accountability \u2014 then blueprinting and building what should actually be fixed.",
+    "label": "What is ARCG Systems?"
+  },
+  {
+    "short_code": "is_sourcedeck_the_same_as_arcg",
+    "content": "No. ARCG Systems is the company. SourceDeck is a SourceDeck-branded product made by ARCG Systems. You can see the relationship in the footer of sourcedeck.app: 'SourceDeck is an ARCG Systems product.'",
+    "label": "Is SourceDeck the same as ARCG Systems?"
+  },
+  {
+    "short_code": "where_can_i_learn_more_about",
+    "content": "Visit arcgsystems.com. The link is in the SourceDeck footer.",
+    "label": "Where can I learn more about ARCG Systems?"
+  },
+  {
+    "short_code": "can_i_see_a_demo_before",
+    "content": "Yes \u2014 you can open the demo by going to sourcedeck.app/app/demo, and you can always talk to the in-product chatbot with specific questions. The demo is evaluation-only and is never loaded into a live workspace.",
+    "label": "Can I see a demo before buying?"
+  },
+  {
+    "short_code": "can_i_book_a_walkthrough",
+    "content": "For Pro and Operator interest, request via /quote/pro/ or /quote/operator/. The team will follow up to schedule.",
+    "label": "Can I book a walkthrough?"
+  },
+  {
+    "short_code": "how_long_does_it_take_to",
+    "content": "Four steps from blank to first send: open the workspace, connect integrations, set criteria, launch the campaign. Most operators can finish setup in one sitting once their Airtable base, email sender, and Instantly key are ready.",
+    "label": "How long does it take to set up?"
+  },
+  {
+    "short_code": "i_am_not_technical_is_sourcedeck",
+    "content": "Yes, if you can paste API keys and answer questions about who your customers are. The setup is guided. You do not need to write code. Operator customers get a named operator to help with rollout.",
+    "label": "I am not technical \u2014 is SourceDeck for me?"
+  },
+  {
+    "short_code": "what_if_i_already_use_airtable",
+    "content": "SourceDeck works with Airtable, not instead of it. Connect your Airtable base as the data layer and SourceDeck handles the operating layer on top \u2014 lead flow, outreach, funnel health, and revenue tracking.",
+    "label": "What if I already use Airtable? Does SourceDeck replace it?"
+  },
+  {
+    "short_code": "what_if_i_already_use_a",
+    "content": "SourceDeck is a lead command center \u2014 it focuses on the tracking, follow-up, and execution layer rather than replacing a full CRM. Many operators run SourceDeck alongside their existing CRM for the visibility and workflow pieces.",
+    "label": "What if I already use a CRM?"
+  },
+  {
+    "short_code": "is_sourcedeck_a_crm",
+    "content": "Not exactly. SourceDeck is a lead command center for leads, follow-up, and workflow. It does track leads, but its focus is on exposing where the operation breaks \u2014 bottlenecks, dropped handoffs, missed follow-up \u2014 and fixing that.",
+    "label": "Is SourceDeck a CRM?"
+  },
+  {
+    "short_code": "what_does_operating_layer_mean",
+    "content": "SourceDeck is an operating layer \u2014 it sits over your data and tools and shows you what is moving, what is stalled, and what to fix next. It is not another dashboard on top of a broken process; it is the discipline that makes the process legible.",
+    "label": "What does 'operating layer' mean?"
+  },
+  {
+    "short_code": "my_team_is_chaotic_will_sourcedeck",
+    "content": "Yes. Core gives you visibility on day one. Pro adds the alerts and automated handoffs that remove manual coordination. Operator turns the whole operation into a measurable system.",
+    "label": "My team is chaotic \u2014 will SourceDeck help right away?"
+  },
+  {
+    "short_code": "i_am_not_sure_where_to",
+    "content": "Start with Core. Set your lead criteria, connect your Airtable and email sender, and run a small campaign. If visibility alone does not fix the slowdown, move up to Pro for automated handoffs. Most operators know within a few weeks whether they need Operator.",
+    "label": "I am not sure where to start \u2014 what do I do?"
+  },
+  {
+    "short_code": "something_in_sourcedeck_is_not_working",
+    "content": "Open in-product chat. Describe what you did, what happened, and what you expected. The chatbot triages most setup and configuration issues 24/7. If it is an integration-side issue (Airtable, Instantly, email), check that your API key is still valid in Settings.",
+    "label": "Something in SourceDeck is not working \u2014 what do I do?"
+  },
+  {
+    "short_code": "i_think_something_is_missing_or",
+    "content": "Use in-product chat or contact support through the quote/operator flow. Include your workspace name, what page or feature you were on, and what you expected to see.",
+    "label": "I think something is missing or incomplete \u2014 how do I report it?"
+  },
+  {
+    "short_code": "how_do_i_contact_sourcedeck_support",
+    "content": "Use the chat inside the SourceDeck app, or reach out through sourcedeck.app. For Operator-tier security, DPA, or procurement, use /quote/operator/.",
+    "label": "How do I contact SourceDeck support?"
+  },
+  {
+    "short_code": "is_there_a_knowledge_base_or",
+    "content": "The user manual inside the product is the primary reference. In-product chat handles setup, pricing, and configuration questions. The sourcedeck.app site pages cover what the product is, who it is for, and pricing.",
+    "label": "Is there a knowledge base or help center?"
+  },
+  {
+    "short_code": "can_i_cancel_anytime",
+    "content": "Subscriptions are managed through the Stripe customer portal for card payments, and through the invoice contact for invoice-paid plans. Specific cancellation terms are shown at checkout.",
+    "label": "Can I cancel anytime?"
+  },
+  {
+    "short_code": "how_do_i_change_my_plan",
+    "content": "Open the pricing section on sourcedeck.app and pick the plan you want. If you are on an invoice plan, contact us through the /quote/ flow matching the plan you are moving to.",
+    "label": "How do I change my plan?"
+  },
+  {
+    "short_code": "do_you_offer_refunds",
+    "content": "Refund handling is managed case by case through support. Open the in-product chat or reach us via the contact links on sourcedeck.app and we will review.",
+    "label": "Do you offer refunds?"
+  },
+  {
+    "short_code": "is_sourcedeck_soc_2___hipaa",
+    "content": "Security reviews, DPAs, and procurement requirements are handled through the Operator proposal at /quote/operator/. If you have a specific compliance requirement, mention it in the request and a response will come with the current status and documentation.",
+    "label": "Is SourceDeck SOC 2 / HIPAA / GDPR compliant?"
+  },
+  {
+    "short_code": "how_do_you_handle_my_data",
+    "content": "Workspaces are sealed. Keys and leads stay on your device. Exports are opt-in. Logs are workspace-scoped. SourceDeck never ships with prior operator data. See the Customer Data Protection section of the user manual for the complete policy.",
+    "label": "How do you handle my data?"
+  },
+  {
+    "short_code": "is_sourcedeck_open_source",
+    "content": "No. SourceDeck is proprietary software produced by ARCG Systems. All rights reserved.",
+    "label": "Is SourceDeck open source?"
+  },
+  {
+    "short_code": "can_i_build_on_top_of",
+    "content": "SourceDeck is a product, not a platform. If you need custom workflow automation around it, that is something ARCG Systems (the parent firm) builds directly. Start the conversation through /quote/operator/.",
+    "label": "Can I build on top of SourceDeck?"
+  },
+  {
+    "short_code": "can_sourcedeck_handle_more_than_one",
+    "content": "Each workspace is a sealed unit with its own keys, data, and criteria. You can run multiple workspaces; switching workspaces swaps credentials atomically with no cross-contamination.",
+    "label": "Can SourceDeck handle more than one business or brand?"
+  },
+  {
+    "short_code": "can_i_run_sourcedeck_on_mobile",
+    "content": "The web app works in mobile browsers at sourcedeck.app/app. The desktop app does not ship a native mobile version.",
+    "label": "Can I run SourceDeck on mobile?"
+  },
+  {
+    "short_code": "how_much_storage_or_memory_does",
+    "content": "The desktop app is a standard Electron app. Installers are roughly 90-100 MB. Running memory is typical for an Electron app \u2014 budget similar to Slack or Notion.",
+    "label": "How much storage or memory does SourceDeck use?"
+  },
+  {
+    "short_code": "does_sourcedeck_use_my_api_keys",
+    "content": "No. Your keys are used for your own integration calls only. SourceDeck does not train models on your data.",
+    "label": "Does SourceDeck use my API keys to train models?"
+  },
+  {
+    "short_code": "why_does_the_site_talk_about",
+    "content": "Revenue leakage is what happens when leads, follow-up, and workflow are scattered \u2014 deals stall, follow-up dies in inboxes, handoffs drop, and money quietly leaves the operation. SourceDeck is built to expose and close those leaks.",
+    "label": "Why does the site talk about 'revenue leakage'?"
+  },
+  {
+    "short_code": "what_does_three_one_operating",
+    "content": "Three tiers \u2014 Core, Pro, Operator \u2014 all run on the same SourceDeck operating system. You start with Visibility (Core), add Control (Pro), and graduate to a Revenue System (Operator) when revenue loss is unacceptable.",
+    "label": "What does 'three tiers, one operating system' mean?"
+  },
+  {
+    "short_code": "can_i_upgrade_or_downgrade_later",
+    "content": "Yes. Move between tiers through the pricing page. If you are on an invoice plan, use the /quote/ page matching your new tier.",
+    "label": "Can I upgrade or downgrade later?"
+  },
+  {
+    "short_code": "i_see_choose_plan_and_see",
+    "content": "Choose Plan takes you straight to the pricing section to sign up. See How It Works takes you into the feature and workflow explanation further down the page.",
+    "label": "I see 'Choose Plan' and 'See How It Works' on the site \u2014 what is the difference?"
+  },
+  {
+    "short_code": "what_does_stop_the_leak_mean",
+    "content": "It is the core SourceDeck promise: expose where your operation is quietly leaking time, money, and opportunities, and close the gap. Revenue leakage is almost always cheaper to fix than to ignore.",
+    "label": "What does 'stop the leak' mean on the site?"
+  }
+]
