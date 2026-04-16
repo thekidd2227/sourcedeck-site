@@ -6,6 +6,9 @@
 <title>SourceDeck | Operator / Enterprise — Request Proposal</title>
 <!-- Chatwoot support chat (SourceDeck) -->
 <script src="/assets/chatwoot.js" defer></script>
+<!-- sd-config provides sdAttachAttribution() which injects UTM/campaign/source_page
+     hidden fields into every form.sd-form at DOMContentLoaded. -->
+<script src="/assets/sd-config.js" defer></script>
 <meta name="description" content="Request a scoped SourceDeck proposal for Operator or Enterprise rollout. We scope before we quote.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -69,6 +72,7 @@
       <input type="hidden" name="_form_source" value="operator-proposal">
       <input type="hidden" name="_subject" value="SourceDeck Operator — Proposal Request">
       <input type="hidden" name="_redirect" value="https://sourcedeck.app/thanks/?src=operator-proposal">
+      <input type="hidden" name="_source_page" value="/quote/operator/">
       <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px">
       <div>
         <label for="qo-name">Name</label>

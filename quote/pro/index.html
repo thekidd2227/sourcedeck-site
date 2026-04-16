@@ -6,6 +6,10 @@
 <title>SourceDeck | Pro — Request Annual Invoice</title>
 <!-- Chatwoot support chat (SourceDeck) -->
 <script src="/assets/chatwoot.js" defer></script>
+<!-- sd-config provides sdAttachAttribution() which injects UTM/campaign/source_page
+     hidden fields into every form.sd-form at DOMContentLoaded. Load early so the
+     handler is registered before the DOMContentLoaded fires. -->
+<script src="/assets/sd-config.js" defer></script>
 <meta name="description" content="Request an annual invoice for SourceDeck Pro. Tell us seats and start date — we issue a formal quote inside one business day.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -58,6 +62,7 @@
       <input type="hidden" name="_form_source" value="pro-invoice">
       <input type="hidden" name="_subject" value="SourceDeck Pro — Annual Invoice Request">
       <input type="hidden" name="_redirect" value="https://sourcedeck.app/thanks/?src=pro-invoice">
+      <input type="hidden" name="_source_page" value="/quote/pro/">
       <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px">
       <div>
         <label for="qp-name">Name</label>

@@ -67,17 +67,37 @@
   var h1 = document.getElementById('th-h1');
   var l  = document.getElementById('th-lede');
 
-  // Fire checkout_completed into LCC Funnel Health event store (sd-config loaded below).
-  // We queue this synchronously; sd-config's sdTrack writes to localStorage.sd_events
-  // which the LCC Funnel Health dashboard reads. Same-origin so LCC sees it.
-  if (plan) {
+  // Fire checkout_completed (card path) or po_request_submitted (invoice path)
+  // into LCC Funnel Health event store. sd-config's sdTrack writes to
+  // localStorage.sd_events which the LCC Funnel Health dashboard reads.
+  // Same-origin so LCC sees it.
+  function trackEvent(type, extra){
     try {
       var raw = localStorage.getItem('sd_events') || '[]';
       var arr = JSON.parse(raw);
-      arr.push({type: 'checkout_completed', plan: plan, cadence: cadence, ts: Date.now()});
+      var attr = {};
+      try { attr = JSON.parse(sessionStorage.getItem('sd_attribution') || '{}') || {}; } catch(_) {}
+      var ev = Object.assign({type: type, ts: Date.now()}, attr, extra || {});
+      arr.push(ev);
       if (arr.length > 1000) arr = arr.slice(-1000);
       localStorage.setItem('sd_events', JSON.stringify(arr));
     } catch(_) {}
+  }
+
+  if (plan) {
+    trackEvent('checkout_completed', {plan: plan, cadence: cadence, attribution_type: 'card'});
+  } else if (src === 'pro-invoice' || src === 'core-invoice' || src === 'operator-proposal') {
+    // PO / invoice path — we know a Basin submission just happened. The draft
+    // invoice is created server-side; we surface the submission to Funnel Health
+    // so operators see "in flight" PO requests even before the invoice is paid.
+    // Note: this event does NOT count as revenue — revenue lands when
+    // Stripe invoice.paid fires and the operator (or an offline reconciler)
+    // updates the Invoice Requests Airtable row, which is what LCC reads for
+    // the `paid (invoice)` totals.
+    var guessedPlan = src === 'operator-proposal' ? 'operator'
+                    : src === 'core-invoice'      ? 'core'
+                    : 'pro';
+    trackEvent('po_request_submitted', {plan: guessedPlan, src: src, attribution_type: 'invoice'});
   }
 
   if (plan === 'core' || plan === 'pro' || plan === 'operator') {

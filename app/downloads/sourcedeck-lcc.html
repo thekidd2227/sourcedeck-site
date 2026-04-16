@@ -855,6 +855,14 @@ body{padding-top:32px !important}
           <div class="kpi green-kpi kpi-glow-green"><div class="kpi-label">Paid conversions</div><div class="kpi-val" style="color:var(--green)" id="fn-paid">—</div></div>
         </div>
 
+        <!-- INVOICE / PO pipeline tiles — populated from Airtable Invoice Requests (source-of-truth patched by Stripe webhooks). -->
+        <div class="sl" style="margin-bottom:8px">PO / Invoice Pipeline</div>
+        <div class="grid-3 mb-20" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+          <div class="kpi warn-kpi"><div class="kpi-label">PO drafts · awaiting approval</div><div class="kpi-val" style="color:var(--warn)" id="fn-inv-drafts">—</div></div>
+          <div class="kpi blue-kpi"><div class="kpi-label">Invoices sent · open</div><div class="kpi-val" style="color:#60a5fa" id="fn-inv-open">—</div></div>
+          <div class="kpi green-kpi kpi-glow-green"><div class="kpi-label">Invoices paid</div><div class="kpi-val" style="color:var(--green)" id="fn-inv-paid">—</div></div>
+        </div>
+
         <div class="grid-2 mb-20">
           <!-- Drop-Off Points -->
           <div class="card">
@@ -868,15 +876,53 @@ body{padding-top:32px !important}
           <div class="card">
             <div class="sl">Revenue Captured</div>
             <div class="grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px">
-              <div class="kpi gold-kpi kpi-glow-gold"><div class="kpi-label">Total MRR</div><div class="kpi-val" style="color:var(--gold2)" id="fn-mrr">$0</div></div>
+              <div class="kpi gold-kpi kpi-glow-gold"><div class="kpi-label">Total · MRR + Invoice</div><div class="kpi-val" style="color:var(--gold2)" id="fn-mrr">$0</div></div>
               <div class="kpi"><div class="kpi-label">Avg revenue / converted user</div><div class="kpi-val" id="fn-arpu">$0</div></div>
             </div>
             <div style="margin-top:10px">
-              <div style="font:500 10px/1.3 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px">By plan</div>
+              <div style="font:500 10px/1.3 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px">By plan (card + invoice combined)</div>
               <div id="fn-by-plan" style="display:flex;flex-direction:column;gap:6px;font-size:12px">
                 <div style="color:var(--muted)">—</div>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div class="grid-2 mb-20">
+          <!-- Revenue by Attribution — card vs invoice split. -->
+          <div class="card">
+            <div class="sl">Revenue by Attribution</div>
+            <div class="grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px">
+              <div class="kpi"><div class="kpi-label">Card · MRR</div><div class="kpi-val" id="fn-rev-card">$0</div></div>
+              <div class="kpi gold-kpi"><div class="kpi-label">Invoice · paid</div><div class="kpi-val" style="color:var(--gold2)" id="fn-rev-invoice">$0</div></div>
+            </div>
+            <div style="margin-top:10px;font-size:11.5px;color:var(--muted);line-height:1.55">
+              Card = recurring monthly from Stripe subscriptions. Invoice = annual revenue recognized on <code style="color:var(--sub,#aaa)">invoice.paid</code> (PO pipeline). Invoice lines are operator-approved before send.
+            </div>
+          </div>
+
+          <!-- Revenue by Campaign — rolls up UTM Campaign + Campaign ID across
+               card events (sd_events) AND paid invoices (Airtable). -->
+          <div class="card">
+            <div class="sl">Revenue by Campaign</div>
+            <div id="fn-rev-campaign" style="display:flex;flex-direction:column;gap:6px;margin-top:8px;font-size:12px">
+              <div style="color:var(--muted)">Waiting for attributed revenue…</div>
+            </div>
+            <div style="margin-top:10px;font-size:11px;color:var(--muted);line-height:1.55">
+              Populated from <code style="color:var(--sub,#aaa)">utm_campaign</code> / <code style="color:var(--sub,#aaa)">campaign_id</code> carried through Basin → Stripe → Airtable. Unattributed rows show as <em>(direct / unknown)</em> — never fabricated.
+            </div>
+          </div>
+        </div>
+
+        <!-- Operator queue: PO drafts awaiting approval. Goes away once the
+             operator clicks "Send invoice" in Stripe (webhook flips state). -->
+        <div class="card" style="margin-bottom:20px">
+          <div class="sl">Operator Queue · PO drafts awaiting approval</div>
+          <div class="tbl-wrap" style="max-height:220px">
+            <table class="tbl">
+              <thead><tr><th>Company</th><th>Plan</th><th>PO #</th><th>Amount</th><th>Campaign</th><th>Created</th><th>Stripe Draft</th></tr></thead>
+              <tbody id="fn-po-queue"><tr><td colspan="7" style="text-align:center;color:var(--muted);padding:18px;font-size:12px">No PO drafts awaiting approval.</td></tr></tbody>
+            </table>
           </div>
         </div>
 
@@ -892,7 +938,7 @@ body{padding-top:32px !important}
         </div>
 
         <div style="margin-top:14px;font:500 10.5px/1.5 'JetBrains Mono',monospace;letter-spacing:0.08em;color:var(--muted)">
-          SOURCES · Airtable Leads table · Airtable Email Events ledger · localStorage <code style="color:var(--muted)">sd_events</code> (pricing clicks + checkout attribution from /#pricing and /thanks/?plan=…)
+          SOURCES · Airtable Leads · Airtable Email Events · Airtable Invoice Requests (populated by /api/basin/po; patched by /api/stripe/webhook) · localStorage <code style="color:var(--muted)">sd_events</code> (card-path pricing clicks + checkout starts + checkout_completed from /thanks/?plan=…)
         </div>
       </div>
     </div>
@@ -5198,8 +5244,29 @@ function refreshAll(){loadAirtableLeads();renderDashboard();filterLeads();render
 
 // ─── REVENUE ───
 // ═══════ FUNNEL HEALTH — renderFunnel() ═══════
-// Reads three live sources. Fails silently to zero-state when no data exists.
+// Reads four live sources. Fails silently to zero-state when no data exists.
 // Respects __SOURCEDECK_DEMO__ — demo mode renders a true blank workspace.
+//
+// Invoice Requests table id — populated by /api/basin/po (Worker) and patched by
+// /api/stripe/webhook. Update this constant after creating the Airtable table.
+// Must match INVOICE_REQUESTS_TABLE in sourcedeck-proxy/wrangler.toml.
+const INVOICE_REQ_TBL = (typeof localStorage!=='undefined' && localStorage.getItem('INVOICE_REQ_TBL_OVERRIDE')) || 'tblInvoiceRequests';
+
+async function fetchInvoiceRequests(){
+  // Zero-state outside live mode.
+  const isDemo = typeof window!=='undefined' && window.__SOURCEDECK_DEMO__ === true;
+  if (isDemo) return [];
+  if (typeof AT_PAT === 'undefined' || !AT_PAT) return [];
+  try {
+    const url = 'https://api.airtable.com/v0/' + AT_BASE + '/' + INVOICE_REQ_TBL
+              + '?pageSize=100&sort%5B0%5D%5Bfield%5D=Created&sort%5B0%5D%5Bdirection%5D=desc';
+    const r = await fetch(url, {headers:{'Authorization':'Bearer '+AT_PAT}});
+    if (!r.ok) return []; // 404 (table missing) or 403 (allowlist) → treat as empty
+    const j = await r.json();
+    return (j.records||[]).map(rec => ({ id: rec.id, fields: rec.fields||{} }));
+  } catch(_) { return []; }
+}
+
 async function renderFunnel(){
   const PLAN_VAL = {core:79, pro:349, operator:999};
   const $ = id => document.getElementById(id);
@@ -5257,14 +5324,45 @@ async function renderFunnel(){
   const paid   = events.filter(e => e.type==='checkout_completed');
   const paidCount = paid.length;
 
-  // By plan
+  // ── 4. Invoice Requests (Airtable) ─────────────────────
+  // Populated by the Worker /api/basin/po endpoint on Basin submission and
+  // patched by /api/stripe/webhook as invoices transition draft → open → paid.
+  // Zero-safe: in demo or when AT_PAT is missing, returns [].
+  const invoices = await fetchInvoiceRequests();
+  // Status buckets
+  const invDraftRows = invoices.filter(r => {
+    const s = (r.fields['Invoice Status']||'').toLowerCase();
+    return s === 'awaiting_approval' || s === 'draft';
+  });
+  const invOpenRows  = invoices.filter(r => (r.fields['Invoice Status']||'').toLowerCase() === 'open');
+  const invPaidRows  = invoices.filter(r => (r.fields['Invoice Status']||'').toLowerCase() === 'paid');
+
+  // Revenue — only PAID invoices contribute. Amount in cents → dollars.
+  let invRevenue = 0;
+  const invByPlan = {core:0, pro:0, operator:0};
+  invPaidRows.forEach(r => {
+    const f = r.fields;
+    const paidCents = Number(f['Amount Paid (cents)'] || f['Amount Due (cents)'] || 0);
+    invRevenue += Math.round(paidCents / 100);
+    const p = (f['Plan']||'').toLowerCase();
+    if (invByPlan[p] !== undefined) invByPlan[p] += 1;
+  });
+
+  // By plan — combine card (paid sd_events) with invoice (Airtable paid).
   const byPlan = {core:0, pro:0, operator:0};
   let mrr = 0;
   paid.forEach(e => {
     const p = (e.plan||'').toLowerCase();
     if (byPlan[p]!==undefined) { byPlan[p]++; mrr += PLAN_VAL[p]; }
   });
-  const arpu = paidCount ? Math.round(mrr / paidCount) : 0;
+  // Invoice paid contributions — count is 1 row per paid invoice, revenue is
+  // the actual paid amount (which for PO path equals plan list × 1 for the month,
+  // or annual if the invoice is annual — either way we use the actual paid $).
+  const cardMRR = mrr;
+  const totalRev = mrr + invRevenue;
+  Object.keys(invByPlan).forEach(p => byPlan[p] += invByPlan[p]);
+  const totalPaidCount = paidCount + invPaidRows.length;
+  const arpu = totalPaidCount ? Math.round(totalRev / totalPaidCount) : 0;
 
   // ── render tiles ─────────────────────────────────────
   setText('fn-qualified', qualified.toLocaleString());
@@ -5274,8 +5372,15 @@ async function renderFunnel(){
   setText('fn-clicks',    clicks.toLocaleString());
   setText('fn-starts',    starts.toLocaleString());
   setText('fn-paid',      paidCount.toLocaleString());
-  setText('fn-mrr',       fmt$(mrr));
+  setText('fn-mrr',       fmt$(totalRev));
   setText('fn-arpu',      fmt$(arpu));
+  // Invoice pipeline tiles
+  setText('fn-inv-drafts', invDraftRows.length.toLocaleString());
+  setText('fn-inv-open',   invOpenRows.length.toLocaleString());
+  setText('fn-inv-paid',   invPaidRows.length.toLocaleString());
+  // Attribution split
+  setText('fn-rev-card',    fmt$(cardMRR));
+  setText('fn-rev-invoice', fmt$(invRevenue));
 
   // ── drop-off rows ───────────────────────────────────
   function dropRow(label, from, to){
@@ -5303,10 +5408,10 @@ async function renderFunnel(){
     }
   }
 
-  // ── by-plan revenue ─────────────────────────────────
+  // ── by-plan revenue (card + invoice combined) ───────
   const bp = $('fn-by-plan');
   if (bp) {
-    if (paidCount === 0) {
+    if (totalPaidCount === 0) {
       bp.innerHTML = '<div style="color:var(--muted);font-size:11.5px">No paid conversions yet.</div>';
     } else {
       bp.innerHTML = [
@@ -5314,7 +5419,11 @@ async function renderFunnel(){
         {k:'pro', label:'Pro · $349'},
         {k:'operator', label:'Operator · $999'}
       ].map(p => {
-        const c = byPlan[p.k]||0, r = c*PLAN_VAL[p.k];
+        const c = byPlan[p.k]||0;
+        const cardR = ((paid.filter(e => (e.plan||'').toLowerCase()===p.k)||[]).length) * PLAN_VAL[p.k];
+        const invR  = invPaidRows.filter(r => (r.fields['Plan']||'').toLowerCase()===p.k)
+                                .reduce((s,r) => s + Math.round(Number(r.fields['Amount Paid (cents)']||r.fields['Amount Due (cents)']||0)/100), 0);
+        const r = cardR + invR;
         return '<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0">'+
           '<span style="color:var(--sub,#aaa)">'+p.label+'</span>'+
           '<span style="font-family:\'JetBrains Mono\',monospace;font-size:11.5px"><span style="color:var(--muted)">'+c+' ×</span> <span style="color:var(--gold2)">'+fmt$(r)+'</span></span></div>';
@@ -5322,37 +5431,145 @@ async function renderFunnel(){
     }
   }
 
+  // ── Revenue by Campaign ─────────────────────────────
+  // Combine card events (sd_events attribution envelope) with paid invoices
+  // (Airtable). Campaign key preference: utm_campaign → campaign_id → '(direct / unknown)'.
+  const campaignKey = (o) => {
+    const utm = (o.utm_campaign||o['UTM Campaign']||'').trim();
+    const cid = (o.campaign_id||o['Campaign ID']||'').trim();
+    return utm || cid || '(direct / unknown)';
+  };
+  const campaignAgg = {}; // { key: {count:n, revenue:$, sources:Set} }
+  paid.forEach(e => {
+    const k = campaignKey(e);
+    campaignAgg[k] = campaignAgg[k] || {count:0, revenue:0, sources:new Set()};
+    campaignAgg[k].count += 1;
+    campaignAgg[k].revenue += PLAN_VAL[(e.plan||'').toLowerCase()] || 0;
+    campaignAgg[k].sources.add('card');
+  });
+  invPaidRows.forEach(r => {
+    const k = campaignKey(r.fields);
+    campaignAgg[k] = campaignAgg[k] || {count:0, revenue:0, sources:new Set()};
+    campaignAgg[k].count += 1;
+    campaignAgg[k].revenue += Math.round(Number(r.fields['Amount Paid (cents)']||r.fields['Amount Due (cents)']||0)/100);
+    campaignAgg[k].sources.add('invoice');
+  });
+  const rc = $('fn-rev-campaign');
+  if (rc) {
+    const entries = Object.entries(campaignAgg).sort((a,b) => b[1].revenue - a[1].revenue);
+    if (entries.length === 0) {
+      rc.innerHTML = '<div style="color:var(--muted);font-size:11.5px">Waiting for attributed revenue…</div>';
+    } else {
+      rc.innerHTML = entries.map(([k,v]) => {
+        const srcBadges = [...v.sources].map(s => {
+          const color = s==='invoice' ? 'var(--gold2)' : '#60a5fa';
+          return '<span style="font:600 9px/1.2 \'JetBrains Mono\',monospace;padding:2px 6px;border-radius:4px;background:rgba(255,255,255,0.05);color:'+color+';margin-left:4px">'+s.toUpperCase()+'</span>';
+        }).join('');
+        return '<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)">'+
+          '<span style="color:var(--sub,#aaa);max-width:58%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+k+srcBadges+'</span>'+
+          '<span style="font-family:\'JetBrains Mono\',monospace;font-size:11.5px"><span style="color:var(--muted)">'+v.count+' ×</span> <span style="color:var(--gold2)">'+fmt$(v.revenue)+'</span></span></div>';
+      }).join('');
+    }
+  }
+
+  // ── Operator queue: PO drafts awaiting approval ─────
+  const poq = $('fn-po-queue');
+  if (poq) {
+    if (invDraftRows.length === 0) {
+      poq.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:18px;font-size:12px">No PO drafts awaiting approval.</td></tr>';
+    } else {
+      poq.innerHTML = invDraftRows.slice(0, 30).map(r => {
+        const f = r.fields;
+        const amount = Math.round(Number(f['Amount Due (cents)']||0)/100);
+        const campaign = (f['UTM Campaign']||f['Campaign ID']||'(direct)').toString();
+        const invUrl = f['Stripe Invoice URL'] || '';
+        const invId  = f['Stripe Invoice ID']  || '';
+        const invLink = invId
+          ? (invUrl
+              ? '<a href="'+invUrl+'" target="_blank" rel="noopener" style="color:var(--accent2);font-family:\'JetBrains Mono\',monospace;font-size:10.5px">'+invId.slice(0,14)+'…</a>'
+              : '<span style="color:var(--muted);font-family:\'JetBrains Mono\',monospace;font-size:10.5px">'+invId.slice(0,14)+'…</span>')
+          : '<span style="color:var(--muted)">—</span>';
+        return '<tr>'+
+          '<td>'+(f['Company']||f['Email']||'—')+'</td>'+
+          '<td><span style="font:700 10px/1.2 \'JetBrains Mono\',monospace;padding:2px 8px;border-radius:4px;background:rgba(212,168,67,0.12);color:var(--gold2)">'+(f['Plan']||'—').toString().toUpperCase()+'</span></td>'+
+          '<td style="font-family:\'JetBrains Mono\',monospace;font-size:10.5px">'+(f['PO Number']||'—')+'</td>'+
+          '<td style="color:var(--gold2);font-family:\'JetBrains Mono\',monospace;font-size:11px">'+fmt$(amount)+'</td>'+
+          '<td style="color:var(--muted);font-size:11px">'+campaign+'</td>'+
+          '<td style="color:var(--muted);font-family:\'JetBrains Mono\',monospace;font-size:10.5px">'+(f['Created'] ? new Date(f['Created']).toLocaleString() : '—')+'</td>'+
+          '<td>'+invLink+'</td>'+
+        '</tr>';
+      }).join('');
+    }
+  }
+
   // ── recent activity ─────────────────────────────────
   const tb = $('fn-activity');
   if (tb) {
-    // Build recent activity from events + enriched paid records
+    // Build recent activity from events + enriched paid records + invoices
     const rows = [];
-    // Last 20 paid conversions
+    // Last 20 paid CARD conversions
     paid.slice().reverse().slice(0, 20).forEach(e => {
       rows.push({
         co: e.company||e.email||'—',
-        campaign: 'Diagnosis → Pricing',
+        campaign: e.utm_campaign || e.campaign_id || 'Diagnosis → Pricing',
         reply: '—',
         click: '✓',
-        checkout: '✓',
+        checkout: '<span style="color:var(--green)">Paid (Card)</span>',
         plan: (e.plan||'—').toUpperCase(),
         revenue: fmt$(PLAN_VAL[(e.plan||'').toLowerCase()]||0),
-        at: e.ts ? new Date(e.ts).toLocaleString() : '—'
+        at: e.ts ? new Date(e.ts).toLocaleString() : '—',
+        _ts: e.ts || 0
       });
     });
-    // Recent checkout starts (not yet paid)
+    // Paid INVOICE conversions — source of truth is Airtable Invoice Requests.
+    invPaidRows.slice(0, 20).forEach(r => {
+      const f = r.fields;
+      const paidAtStr = f['Paid At'] || f['Created'] || '';
+      const paidAtMs  = paidAtStr ? Date.parse(paidAtStr) : 0;
+      rows.push({
+        co: f['Company']||f['Email']||'—',
+        campaign: f['UTM Campaign'] || f['Campaign ID'] || '(direct / unknown)',
+        reply: '—',
+        click: '—',
+        checkout: '<span style="color:var(--gold2)">Paid (Invoice)</span>',
+        plan: (f['Plan']||'—').toString().toUpperCase(),
+        revenue: fmt$(Math.round(Number(f['Amount Paid (cents)']||f['Amount Due (cents)']||0)/100)),
+        at: paidAtStr ? new Date(paidAtStr).toLocaleString() : '—',
+        _ts: paidAtMs
+      });
+    });
+    // Open (sent, awaiting payment) invoices — still in flight
+    invOpenRows.slice(0, 10).forEach(r => {
+      const f = r.fields;
+      const createdStr = f['Created'] || '';
+      rows.push({
+        co: f['Company']||f['Email']||'—',
+        campaign: f['UTM Campaign'] || f['Campaign ID'] || '(direct / unknown)',
+        reply: '—',
+        click: '—',
+        checkout: '<span style="color:#60a5fa">Invoice sent · open</span>',
+        plan: (f['Plan']||'—').toString().toUpperCase(),
+        revenue: '—',
+        at: createdStr ? new Date(createdStr).toLocaleString() : '—',
+        _ts: createdStr ? Date.parse(createdStr) : 0
+      });
+    });
+    // Recent checkout starts (card path, not yet paid)
     events.filter(e => e.type==='checkout_started').slice().reverse().slice(0, 10).forEach(e => {
       rows.push({
         co: e.company||e.email||'—',
-        campaign: 'Diagnosis → Pricing',
+        campaign: e.utm_campaign || e.campaign_id || 'Diagnosis → Pricing',
         reply: '—',
         click: '✓',
-        checkout: '⏳ started',
+        checkout: '<span style="color:var(--warn)">⏳ Checkout started</span>',
         plan: (e.plan||'—').toUpperCase(),
         revenue: '—',
-        at: e.ts ? new Date(e.ts).toLocaleString() : '—'
+        at: e.ts ? new Date(e.ts).toLocaleString() : '—',
+        _ts: e.ts || 0
       });
     });
+    // Sort newest first by _ts (works across card/invoice)
+    rows.sort((a,b) => (b._ts||0) - (a._ts||0));
 
     if (rows.length === 0) {
       tb.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:28px;font-size:12px;line-height:1.6">No conversion activity yet.<br><span style="font-size:11px">Pricing clicks + checkout starts + paid conversions will appear here in real time.</span></td></tr>';
