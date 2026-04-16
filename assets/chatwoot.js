@@ -16,7 +16,7 @@
 (function () {
   // ──────────────────────────────────────────────
   // CONFIG — edit these two values after Chatwoot setup
-  var CHATWOOT_TOKEN = 'W2KHym6M2383sUhpiS7R644v';
+  var CHATWOOT_TOKEN = 'YpLcRBqSnmqrQKvQLVnc8tgN';
   var CHATWOOT_BASE  = 'https://app.chatwoot.com';
   // ──────────────────────────────────────────────
 
