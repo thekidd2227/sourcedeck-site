@@ -1195,14 +1195,14 @@ body{padding-top:32px !important}
         </div>
         <div class="grid-3">
           <div class="card"><div class="sl">Active Webhooks</div>
-            <div class="kv"><span class="k">PROD-01 Assessment</span><span class="v" style="font-size:9px">1f5o32721bofnolh872munptdhsfucx9</span></div>
+            <div class="kv"><span class="k">PROD-01 Assessment</span><span class="v" style="font-size:9px"></span></div>
             <div class="kv"><span class="k">PROD-05 Booking</span><span class="v" style="font-size:9px">ti5tlit9s9ir0sr1vha7vqjyemcuvlnq</span></div>
             <div class="kv"><span class="k">LCC Booking</span><span class="v" style="font-size:9px">jpu2xjxufd8x7yt3qnsk9ntxd0ns77jk</span></div>
           </div>
           <div class="card"><div class="sl">Infrastructure</div>
             <div class="kv"><span class="k">Airtable Base</span><span class="v">appDEMO0000000000</span></div>
-            <div class="kv"><span class="k">Notion Leads DB</span><span class="v" style="font-size:9px">32f25ca4-6b9f</span></div>
-            <div class="kv"><span class="k">Instantly Campaign</span><span class="v" style="font-size:9px">72ca8b8b</span></div>
+            <div class="kv"><span class="k">Notion Leads DB</span><span class="v" style="font-size:9px">XXXXXXXX-XXXX</span></div>
+            <div class="kv"><span class="k">Instantly Campaign</span><span class="v" style="font-size:9px">YOUR_CAMPAIGN_ID</span></div>
             <div class="kv"><span class="k">Gmail Connection</span><span class="v">8125092</span></div>
           </div>
           <div class="card"><div class="sl">HTTP Standards</div>
@@ -1542,15 +1542,15 @@ body{padding-top:32px !important}
               <div style="display:flex;flex-direction:column;gap:11px">
                 <div class="form-group">
                   <label class="label">Make.com Booking Webhook</label>
-                  <input class="input" id="s-bookwh" value="https://hook.us2.make.com/jpu2xjxufd8x7yt3qnsk9ntxd0ns77jk">
+                  <input class="input" id="s-bookwh" value="">
                 </div>
                 <div class="form-group">
                   <label class="label">Instantly Campaign ID</label>
-                  <input class="input" id="s-instantly" value="72ca8b8b">
+                  <input class="input" id="s-instantly" value="YOUR_CAMPAIGN_ID">
                 </div>
                 <div class="form-group">
                   <label class="label">Assessment Webhook (PROD-01-v2)</label>
-                  <input class="input" id="s-asswh" value="1f5o32721bofnolh872munptdhsfucx9" readonly style="opacity:0.6">
+                  <input class="input" id="s-asswh" value="" readonly style="opacity:0.6">
                 </div>
               </div>
             </div>
@@ -1559,9 +1559,9 @@ body{padding-top:32px !important}
             <div class="card mb-14">
               <div class="sl">System Identifiers</div>
               <div class="kv"><span class="k">Airtable Base</span><span class="v">appDEMO0000000000</span></div>
-              <div class="kv"><span class="k">Leads Table</span><span class="v">tbl695ilVYkzMxHso</span></div>
-              <div class="kv"><span class="k">Audit Intake Table</span><span class="v">tblog9Y7WSLhD4xCp</span></div>
-              <div class="kv"><span class="k">Notion Leads DB</span><span class="v" style="font-size:9px">32f25ca4-6b9f-...</span></div>
+              <div class="kv"><span class="k">Leads Table</span><span class="v">tblXXXXXXXXXXXXXXX</span></div>
+              <div class="kv"><span class="k">Audit Intake Table</span><span class="v">tblZZZZZZZZZZZZZZZ</span></div>
+              <div class="kv"><span class="k">Notion Leads DB</span><span class="v" style="font-size:9px">XXXXXXXX-XXXX-...</span></div>
               <div class="kv"><span class="k">Gmail Connection</span><span class="v">8125092</span></div>
             </div>
             <div class="card mb-14">
@@ -1569,7 +1569,7 @@ body{padding-top:32px !important}
               <div style="display:flex;flex-direction:column;gap:8px;padding:4px 0">
                 <div style="display:flex;align-items:center;gap:8px;font-size:11px"><span class="badge bgn">1</span><span style="color:var(--sub)"><strong>Airtable</strong> — system of record, intake layer</span></div>
                 <div style="display:flex;align-items:center;gap:8px;font-size:11px"><span class="badge bb">2</span><span style="color:var(--sub)"><strong>Notion</strong> — structured pipeline, command layer (PROD-02, 15min)</span></div>
-                <div style="display:flex;align-items:center;gap:8px;font-size:11px"><span class="badge bp">3</span><span style="color:var(--sub)"><strong>Instantly</strong> — outbound execution (PROD-03, campaign 72ca8b8b)</span></div>
+                <div style="display:flex;align-items:center;gap:8px;font-size:11px"><span class="badge bp">3</span><span style="color:var(--sub)"><strong>Instantly</strong> — outbound execution (PROD-03, campaign YOUR_CAMPAIGN_ID)</span></div>
                 <div style="display:flex;align-items:center;gap:8px;font-size:11px"><span class="badge bw">4</span><span style="color:var(--sub)"><strong>Reply / Booking</strong> — PROD-04 reply intel → PROD-05 booking brief</span></div>
               </div>
             </div>
@@ -1972,7 +1972,7 @@ body{padding-top:32px !important}
 //           Intro Email, Lead Detail Upgrade, Delete controls
 // ═══════════════════════════════════════════════════════════════
 
-const INSTANTLY_CAMPAIGN = '72ca8b8b';
+const INSTANTLY_CAMPAIGN = 'YOUR_CAMPAIGN_ID';
 const SESSION_GENERATED_NAMES = new Set();
 // Global API keys — declared early so all scripts can access
 window.OPENAI_KEY = window.OPENAI_KEY || '';
@@ -3613,7 +3613,7 @@ const AT_FIELDS={
   DISCOVERY_BOOKED:'fld9qYMCnFf4olp41',PROPOSAL_SENT:'fld1CmUDXz7LMucG0',
   BOOKING_LINK_SENT:'fld3smsRMnJ2nafgS',REVENUE_CLOSED:'fldqCrU81Diknz2qW',
 };
-const BOOK_WH='https://hook.us2.make.com/jpu2xjxufd8x7yt3qnsk9ntxd0ns77jk';
+const BOOK_WH='';
 const CONTENT_WH=''; // Set PROD-10 webhook URL when available
 const CANVA_URL='https://www.canva.com/';
 const LEONARDO_URL='https://app.leonardo.ai/generate?model=motion_2.0-fast';
@@ -3648,7 +3648,7 @@ async function callAI(systemPrompt, userMessage, maxTokens){
 }
 // Airtable — set PAT for live data mode
 const AT_BASE='appDEMO0000000000';
-const AT_TABLE='tbl695ilVYkzMxHso';
+const AT_TABLE='tblXXXXXXXXXXXXXXX';
 const AT_PAT=(typeof localStorage!=='undefined'&&localStorage.getItem('AT_PAT'))||'';
 
 let currentMode='image',lastVisualPrompt='',lastVideoPrompt='',lastPipelineOut=null;
@@ -3894,7 +3894,7 @@ function lgToggleAll(checked){allLeads.forEach(l=>{if(checked)lgSelectedIds.add(
 // ═══════════════════════════════════════════════════════════════
 
 // Lead Fingerprints table identifiers
-const FP_TABLE_ID = 'tblME7EJ8qpyMSKwg';
+const FP_TABLE_ID = 'tblYYYYYYYYYYYYYYY';
 const FP_FIELDS = {
   fingerprint: 'fldArkGJ3ZaIJwj82',
   business:    'fld51SvGXUEuPtK1F',
@@ -7056,7 +7056,7 @@ function renderFlow(){
     {n:1,t:'Assessment Form',d:'arcgsystems.com/assessment → PROD-01 webhook → Airtable New + Gmail alert'},
     {n:2,t:'Qualification',d:'Operator reviews → Status=Qualified in Airtable'},
     {n:3,t:'Notion Sync (Auto)',d:'PROD-02 15min → M3 writeback → Synced to Notion → Notion record created (dedup)'},
-    {n:4,t:'Instantly Insert (Auto)',d:'PROD-03 4595758 15min → Campaign 72ca8b8b insert → Status=Contacted or Duplicate - Instantly'},
+    {n:4,t:'Instantly Insert (Auto)',d:'PROD-03 4595758 15min → Campaign YOUR_CAMPAIGN_ID insert → Status=Contacted or Duplicate - Instantly'},
     {n:5,t:'Outreach Delivered',d:'charlie@digiarcgsystems.com → Day 0 / Day 5 / Day 12 sequence'},
     {n:6,t:'Reply Analysis (Auto)',d:'PROD-04 15min → GPT-4o → Airtable AI fields + Gmail alert'},
     {n:7,t:'Booking Triggered',d:'PROD-05 webhook → pre-call brief → booking link emailed to prospect'},
@@ -7072,7 +7072,7 @@ function renderFlow(){
 }
 
 // ─── GOVCON PIPELINE — AIRTABLE-BACKED ───
-const GC_TBL='tbldDN9arYnCfsW4o';
+const GC_TBL='tblWWWWWWWWWWWWWWW';
 let gcOpps=[];
 let gcLoaded=false;
 
@@ -7382,7 +7382,7 @@ function _pushOppToAirtable(opp){
   if(btn){btn.textContent='⏳';btn.disabled=true;}
   const token=window.AT_PAT||localStorage.getItem('lcc_AT_PAT_OVERRIDE')||'';
   if(!token){toast('Airtable token not set — check Settings','err');if(btn){btn.textContent='💾 Save';btn.disabled=false;}return;}
-  fetch('https://api.airtable.com/v0/appDEMO0000000000/tbldDN9arYnCfsW4o',{
+  fetch('https://api.airtable.com/v0/appDEMO0000000000/tblWWWWWWWWWWWWWWW',{
     method:'POST',
     headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},
     body:JSON.stringify({records:[{fields:{
