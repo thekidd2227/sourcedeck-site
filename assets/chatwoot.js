@@ -16,13 +16,13 @@
 (function () {
   // ──────────────────────────────────────────────
   // CONFIG — edit these two values after Chatwoot setup
-  var CHATWOOT_TOKEN = 'PASTE_YOUR_WEBSITE_TOKEN_HERE';
+  var CHATWOOT_TOKEN = 'W2KHym6M2383sUhpiS7R644v';
   var CHATWOOT_BASE  = 'https://app.chatwoot.com';
   // ──────────────────────────────────────────────
 
   // Bail silently if the token hasn't been set yet (avoids console errors
   // during the setup window between deploy and inbox creation).
-  if (!CHATWOOT_TOKEN || CHATWOOT_TOKEN === 'PASTE_YOUR_WEBSITE_TOKEN_HERE') {
+  if (!CHATWOOT_TOKEN || CHATWOOT_TOKEN === 'W2KHym6M2383sUhpiS7R644v') {
     console.info('[SourceDeck] Chatwoot widget not loaded — website token not configured yet. See /assets/chatwoot.js.');
     return;
   }
