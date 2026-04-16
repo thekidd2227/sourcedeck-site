@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SourceDeck | Pricing — Implementation Tiers</title>
+<meta name="description" content="SourceDeck in three implementation tiers: Core (self-install) $997, Growth (guided) $2,497, White-Glove (done-for-you) $4,997. Your private credentials stay under your control. One-time pricing.">
+<meta name="robots" content="index,follow">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://sourcedeck.app/pricing/">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sd-theme.css">
+
+<!-- Chatwoot support chat (SourceDeck) -->
+<script src="/assets/chatwoot.js" defer></script>
+<!-- Stripe publishable key + sdTrack() (no secrets — publishable only). -->
+<script src="/assets/sd-config.js" defer></script>
+
+<style>
+/* Local — scoped to /pricing/ so we don't touch the global theme.
+   Tiered implementation pricing. White-Glove is visually the premium card.
+   Growth add-on is given its own highlighted block to be impossible to miss. */
+.pr-section{position:relative;z-index:1;padding:36px max(24px,calc((100vw - 1180px)/2)) 56px}
+.pr-section.narrow{padding:36px max(24px,calc((100vw - 820px)/2)) 56px}
+
+/* Cards grid */
+.pr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch}
+@media (max-width:1024px){.pr-grid{grid-template-columns:1fr;max-width:560px;margin:0 auto}}
+.pr-card{position:relative;background:var(--card,#0c1016);border:0.5px solid rgba(255,255,255,0.08);border-radius:20px;padding:28px 24px 24px;display:flex;flex-direction:column;gap:14px;transition:transform 0.2s ease,border-color 0.2s ease}
+.pr-card:hover{transform:translateY(-2px);border-color:rgba(255,255,255,0.16)}
+.pr-card .tier-eyebrow{font:600 10.5px/1 'JetBrains Mono',monospace;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent2,#2997ff)}
+.pr-card .tier-name{font-size:26px;font-weight:800;letter-spacing:-0.02em}
+.pr-card .tier-sub{font-size:12.5px;color:var(--muted,#8a94a3);line-height:1.5;margin-top:-2px}
+.pr-card .tier-price{font-size:36px;font-weight:800;letter-spacing:-0.02em;margin-top:6px}
+.pr-card .tier-price small{font-size:13px;font-weight:500;color:var(--muted,#8a94a3);letter-spacing:0.01em;margin-left:4px}
+.pr-card .tier-desc{font-size:13.5px;color:var(--sub,#c4cad4);line-height:1.6}
+.pr-card .tier-list-label{font:600 10.5px/1 'JetBrains Mono',monospace;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent2,#2997ff);margin-top:6px;margin-bottom:-4px}
+.pr-card .tier-list-label.neg{color:#f59e0b}
+.pr-card .tier-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+.pr-card .tier-list li{display:flex;gap:10px;font-size:12.5px;color:var(--sub,#c4cad4);line-height:1.55}
+.pr-card .tier-list li::before{content:'';flex:0 0 auto;width:5px;height:5px;margin-top:8px;border-radius:50%;background:var(--accent2,#2997ff)}
+.pr-card .tier-list.neg li::before{background:#f59e0b;opacity:0.75}
+.pr-card .tier-bestfor{background:rgba(0,113,227,0.06);border:0.5px solid rgba(0,113,227,0.2);border-radius:10px;padding:10px 12px;font-size:11.5px;color:var(--sub,#c4cad4);line-height:1.55;margin-top:4px}
+.pr-card .tier-bestfor strong{color:#fff;font-weight:600;display:block;margin-bottom:4px;font-size:12px;letter-spacing:0.02em}
+.pr-card .tier-cta{display:block;text-align:center;padding:13px 18px;border-radius:12px;font-size:14px;font-weight:700;text-decoration:none;transition:all 0.18s;margin-top:auto}
+.pr-card .tier-cta.primary{background:var(--accent,#0071e3);color:#fff}
+.pr-card .tier-cta.primary:hover{background:var(--accent2,#2997ff)}
+.pr-card .tier-cta.outline{background:transparent;color:#fff;border:0.5px solid rgba(255,255,255,0.2)}
+.pr-card .tier-cta.outline:hover{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.35)}
+.pr-card .tier-cta.premium{background:linear-gradient(135deg,#d4a843,#b68a2e);color:#0a0d14;box-shadow:0 8px 24px rgba(212,168,67,0.22)}
+.pr-card .tier-cta.premium:hover{filter:brightness(1.08);box-shadow:0 10px 28px rgba(212,168,67,0.32)}
+
+/* White-Glove premium card styling */
+.pr-card.premium{border-color:rgba(212,168,67,0.35);background:linear-gradient(180deg,rgba(212,168,67,0.04) 0%,rgba(12,16,22,1) 65%);box-shadow:0 20px 60px rgba(212,168,67,0.06)}
+.pr-card.premium .tier-eyebrow{color:#d4a843}
+.pr-card.premium .tier-list li::before{background:#d4a843}
+.pr-card.premium .tier-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#d4a843,#b68a2e);color:#0a0d14;font:700 10px/1.3 'JetBrains Mono',monospace;letter-spacing:0.12em;padding:5px 14px;border-radius:6px;white-space:nowrap}
+
+/* Growth: add-on block — visually impossible to miss */
+.pr-card.growth{border-color:rgba(0,113,227,0.3)}
+.pr-addon{margin-top:4px;padding:14px 14px;background:linear-gradient(135deg,rgba(0,113,227,0.14),rgba(0,113,227,0.05));border:1px solid rgba(0,113,227,0.45);border-radius:12px;position:relative}
+.pr-addon::before{content:'+ ADD-ON';position:absolute;top:-9px;left:14px;background:var(--accent,#0071e3);color:#fff;font:700 9.5px/1 'JetBrains Mono',monospace;letter-spacing:0.14em;padding:4px 9px;border-radius:4px}
+.pr-addon .addon-title{font-size:14px;font-weight:700;margin:2px 0 4px;color:#fff}
+.pr-addon .addon-price{font-size:18px;font-weight:800;color:var(--accent2,#2997ff);letter-spacing:-0.01em}
+.pr-addon .addon-desc{font-size:12px;color:var(--sub,#c4cad4);line-height:1.55;margin-top:6px}
+
+/* Scope-rules box */
+.pr-scope{background:var(--card,#0c1016);border:0.5px solid rgba(255,255,255,0.08);border-radius:18px;padding:28px 28px;display:flex;flex-direction:column;gap:22px}
+.pr-scope h3{font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold,#d4a843);margin:0 0 6px}
+.pr-scope .scope-block{padding:14px 16px;background:rgba(255,255,255,0.02);border:0.5px solid rgba(255,255,255,0.05);border-radius:12px}
+.pr-scope .scope-block h4{font-size:13.5px;font-weight:700;margin:0 0 6px;color:#fff;letter-spacing:-0.01em}
+.pr-scope .scope-block p,.pr-scope .scope-block li{font-size:13px;color:var(--sub,#c4cad4);line-height:1.65;margin:0}
+.pr-scope .scope-block ul{margin:6px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+
+/* Comparison table */
+.pr-table-wrap{border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;overflow:hidden;background:var(--card,#0c1016)}
+.pr-table{width:100%;border-collapse:collapse;font-size:13px}
+.pr-table thead th{text-align:left;padding:14px 16px;background:rgba(255,255,255,0.02);font:700 11px/1 'JetBrains Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted,#8a94a3);border-bottom:0.5px solid rgba(255,255,255,0.08);white-space:nowrap}
+.pr-table tbody td{padding:14px 16px;border-bottom:0.5px solid rgba(255,255,255,0.04);color:var(--sub,#c4cad4);vertical-align:middle}
+.pr-table tbody tr:last-child td{border-bottom:0}
+.pr-table .plan{font-weight:700;color:#fff}
+.pr-table .price{font-family:'JetBrains Mono',monospace;color:var(--gold,#d4a843);font-weight:600}
+.pr-table .yes{color:var(--green,#30d158);font-weight:600}
+.pr-table .no{color:var(--muted,#8a94a3)}
+.pr-table .addon{color:var(--accent2,#2997ff);font-weight:600}
+@media (max-width:700px){
+  .pr-table-wrap{overflow-x:auto}
+  .pr-table{min-width:640px}
+}
+
+/* Disclaimers */
+.pr-disc{background:rgba(255,255,255,0.02);border:0.5px solid rgba(255,255,255,0.06);border-radius:14px;padding:22px 24px;display:flex;flex-direction:column;gap:14px}
+.pr-disc h3{font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted,#8a94a3);margin:0 0 6px}
+.pr-disc .disc-block h4{font-size:13px;font-weight:700;color:#fff;margin:0 0 4px;letter-spacing:-0.01em}
+.pr-disc .disc-block p{font-size:12.5px;color:var(--muted,#8a94a3);line-height:1.65;margin:0}
+
+/* CTA */
+.pr-cta{text-align:center;padding:48px 24px 24px}
+.pr-cta h2{font-size:clamp(22px,2.8vw,30px);font-weight:800;letter-spacing:-0.02em;margin:0 0 10px}
+.pr-cta p{font-size:14px;color:var(--sub,#c4cad4);max-width:640px;margin:0 auto 18px;line-height:1.7}
+.pr-cta .row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.pr-cta .row a{padding:12px 22px;border-radius:10px;font-size:13.5px;font-weight:700;text-decoration:none;transition:all 0.18s;border:0.5px solid transparent}
+.pr-cta .row a.primary{background:var(--accent,#0071e3);color:#fff}
+.pr-cta .row a.primary:hover{background:var(--accent2,#2997ff)}
+.pr-cta .row a.ghost{color:var(--sub,#c4cad4);border-color:rgba(255,255,255,0.15)}
+.pr-cta .row a.ghost:hover{color:#fff;border-color:rgba(255,255,255,0.35);background:rgba(255,255,255,0.04)}
+</style>
+</head>
+<body>
+
+<div class="sd-bg"></div><div class="sd-grid"></div>
+
+<nav class="sd-nav">
+  <a class="sd-brand" href="/"><span class="glyph">S</span> SourceDeck</a>
+  <div class="links">
+    <a href="/app/">Launch</a>
+    <a href="/pricing/">Pricing</a>
+    <a href="/invoice/">Invoice</a>
+    <a class="cta" href="#pricing-tiers">Choose your tier</a>
+  </div>
+</nav>
+
+<!-- ── HERO / INTRO ─────────────────────────────────────── -->
+<section class="sd-hero">
+  <div class="sd-eyebrow"><span class="dot"></span> Implementation Tiers · One-time</div>
+  <h1>Choose the level of implementation you actually need.</h1>
+  <p class="lede">
+    SourceDeck is available in three tiers. If you want the system and can handle setup, start with Core. If you want help getting it connected, choose Growth. If you want a working implementation handed to you, choose White-Glove.
+  </p>
+  <p class="lede" style="margin-top:16px;font-size:13px;color:var(--muted,#8a94a3)">
+    Your private credentials stay under your control. We do not bundle your API usage into your plan unless explicitly stated.
+  </p>
+</section>
+
+<!-- ── 3 PRICING CARDS ─────────────────────────────────── -->
+<section class="pr-section" id="pricing-tiers">
+  <div class="pr-grid">
+
+    <!-- CORE — self-install -->
+    <article class="pr-card" aria-label="Core plan">
+      <div>
+        <div class="tier-eyebrow">Self-install</div>
+        <div class="tier-name">Core</div>
+        <p class="tier-sub">For operators who want the system and can follow setup instructions.</p>
+      </div>
+      <div class="tier-price">$997 <small>one-time</small></div>
+      <p class="tier-desc">Get the SourceDeck system, install documentation, setup walkthroughs, and the assets needed to deploy your version yourself.</p>
+
+      <div class="tier-list-label">Included</div>
+      <ul class="tier-list">
+        <li>SourceDeck licensed deployment package</li>
+        <li>Standard install guide</li>
+        <li>API key entry instructions</li>
+        <li>Setup checklist</li>
+        <li>Video walkthroughs</li>
+        <li>Standard prompt library</li>
+        <li>Standard automation map</li>
+        <li>One delivery package for one business use case</li>
+      </ul>
+
+      <div class="tier-list-label neg">Not included</div>
+      <ul class="tier-list neg">
+        <li>We do not install or connect tools for you</li>
+        <li>We do not enter API keys on your behalf</li>
+        <li>We do not troubleshoot your stack live</li>
+        <li>We do not customize workflows beyond the standard package</li>
+        <li>No live onboarding call included</li>
+      </ul>
+
+      <div class="tier-bestfor">
+        <strong>Best for</strong>
+        Buyers with basic technical confidence · Teams already using automation tools · Users who want the lowest entry cost.
+      </div>
+
+      <a href="/quote/pro/?tier=core" class="tier-cta outline">Get Core</a>
+    </article>
+
+    <!-- GROWTH — guided + add-on (FEATURED centerpiece) -->
+    <article class="pr-card growth" aria-label="Growth plan">
+      <div>
+        <div class="tier-eyebrow">Guided onboarding</div>
+        <div class="tier-name">Growth</div>
+        <p class="tier-sub">For teams that want setup guidance without full done-for-you implementation.</p>
+      </div>
+      <div class="tier-price">$2,497 <small>one-time</small></div>
+      <p class="tier-desc">Get SourceDeck plus guided onboarding so you can install and connect it correctly without guessing.</p>
+
+      <div class="tier-list-label">Included</div>
+      <ul class="tier-list">
+        <li>Everything in Core</li>
+        <li>One live onboarding session</li>
+        <li>Guided credential entry support</li>
+        <li>Guided connection support for up to 3 approved tools</li>
+        <li>Launch checklist review</li>
+        <li>Core workflow test during onboarding</li>
+        <li>7-day post-delivery support window for setup-related questions</li>
+      </ul>
+
+      <!-- Impossible-to-miss add-on block -->
+      <div class="pr-addon">
+        <div class="addon-title">Done-For-You Implementation</div>
+        <div class="addon-price">+ $1,997</div>
+        <p class="addon-desc">We install your version, connect approved tools, test core workflows, and hand off a launch-ready setup.</p>
+      </div>
+
+      <div class="tier-list-label neg">Not included</div>
+      <ul class="tier-list neg">
+        <li>Done-for-you setup is not included unless purchased as an add-on</li>
+        <li>More than 3 tool connections</li>
+        <li>Custom-coded integrations</li>
+        <li>Major workflow redesign</li>
+        <li>Ongoing admin or campaign management</li>
+        <li>Unlimited revisions</li>
+      </ul>
+
+      <div class="tier-bestfor">
+        <strong>Best for</strong>
+        Buyers who want support but do not need full implementation · Small teams moving fast · Clients who want lower cost than White-Glove.
+      </div>
+
+      <a href="/quote/pro/?tier=growth" class="tier-cta primary">Choose Growth</a>
+    </article>
+
+    <!-- WHITE-GLOVE — done-for-you (premium card) -->
+    <article class="pr-card premium" aria-label="White-Glove plan">
+      <span class="tier-badge">Premium · Done-For-You</span>
+      <div>
+        <div class="tier-eyebrow">Done-for-you</div>
+        <div class="tier-name">White-Glove</div>
+        <p class="tier-sub">For buyers who want SourceDeck installed, connected, tested, and handed over ready to run.</p>
+      </div>
+      <div class="tier-price">$4,997 <small>one-time</small></div>
+      <p class="tier-desc">We implement your SourceDeck environment, connect the approved tools, test the core automation path, and deliver a working version. You enter your own private credentials where required.</p>
+
+      <div class="tier-list-label">Included</div>
+      <ul class="tier-list">
+        <li>Everything in Growth</li>
+        <li>Done-for-you implementation included</li>
+        <li>Deployment of your SourceDeck version</li>
+        <li>Connection of up to 5 approved tools</li>
+        <li>Guided entry of private credentials and API keys</li>
+        <li>Core workflow configuration</li>
+        <li>End-to-end launch QA</li>
+        <li>One training and handoff session</li>
+        <li>14-day post-delivery support window for implementation-related issues</li>
+      </ul>
+
+      <div class="tier-list-label neg">Not included</div>
+      <ul class="tier-list neg">
+        <li>Unlimited integrations</li>
+        <li>Unsupported platforms or broken third-party systems</li>
+        <li>Custom engineering beyond agreed scope</li>
+        <li>Ongoing optimization retainers</li>
+        <li>Daily operations, campaign management, or lead handling</li>
+        <li>New workflow builds outside original scope</li>
+      </ul>
+
+      <div class="tier-bestfor">
+        <strong>Best for</strong>
+        Owners who do not want to touch setup · Teams that want speed and lower launch risk · Buyers who need implementation, not just software access.
+      </div>
+
+      <a href="/quote/pro/?tier=white-glove" class="tier-cta premium">Get White-Glove</a>
+    </article>
+
+  </div>
+</section>
+
+<!-- ── COMPARISON TABLE ─────────────────────────────────── -->
+<section class="pr-section narrow">
+  <h2 style="font-size:clamp(20px,2.4vw,26px);font-weight:800;letter-spacing:-0.02em;margin:0 0 16px">At a glance</h2>
+  <div class="pr-table-wrap">
+    <table class="pr-table" aria-label="SourceDeck plan comparison">
+      <thead>
+        <tr>
+          <th>Plan</th>
+          <th>Price</th>
+          <th>Implementation</th>
+          <th>Tool connections</th>
+          <th>Onboarding call</th>
+          <th>Done-for-you</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="plan">Core</td>
+          <td class="price">$997</td>
+          <td>Self-install</td>
+          <td class="no">0 included</td>
+          <td class="no">No</td>
+          <td class="no">No</td>
+        </tr>
+        <tr>
+          <td class="plan">Growth</td>
+          <td class="price">$2,497</td>
+          <td>Guided</td>
+          <td><strong>Up to 3</strong></td>
+          <td class="yes">Yes</td>
+          <td class="addon">Add-on only (+$1,997)</td>
+        </tr>
+        <tr>
+          <td class="plan">White-Glove</td>
+          <td class="price">$4,997</td>
+          <td>Done-for-you</td>
+          <td><strong>Up to 5</strong></td>
+          <td class="yes">Yes</td>
+          <td class="yes">Included</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ── SCOPE AND SETUP RULES ────────────────────────────── -->
+<section class="pr-section narrow">
+  <div class="pr-scope">
+    <div>
+      <h3>Scope and setup rules</h3>
+      <p style="font-size:13px;color:var(--muted,#8a94a3);line-height:1.65;margin:0">Every plan is delivered inside a defined scope. These rules apply to all tiers unless separately quoted.</p>
+    </div>
+
+    <div class="scope-block">
+      <h4>1 · Approved tool connections</h4>
+      <p>Each plan only covers the number of approved tool connections listed in that plan. An approved tool connection means a standard supported integration such as <strong>OpenAI, Claude, Zapier, Make, Airtable, Notion, Gmail, Google Drive, Slack</strong>, or a basic webhook-supported system.</p>
+    </div>
+
+    <div class="scope-block">
+      <h4>2 · What counts as one connection</h4>
+      <p>One connection means one supported platform connected for the agreed workflow.</p>
+      <ul>
+        <li>OpenAI connected to SourceDeck = 1 connection</li>
+        <li>Zapier connected to SourceDeck = 1 connection</li>
+        <li>Airtable connected to workflow = 1 connection</li>
+      </ul>
+    </div>
+
+    <div class="scope-block">
+      <h4>3 · Not included in standard setup</h4>
+      <p>These items are outside standard plan scope unless separately quoted:</p>
+      <ul>
+        <li>Custom API development</li>
+        <li>Unsupported or niche software</li>
+        <li>CRM rescue work</li>
+        <li>Broken legacy automation cleanup</li>
+        <li>Advanced branching logic beyond standard delivery</li>
+        <li>Multi-team deployment</li>
+        <li>Multi-brand deployment</li>
+        <li>Ongoing campaign execution</li>
+        <li>Copywriting retainers</li>
+        <li>Lead generation services</li>
+        <li>Sales operations management</li>
+      </ul>
+    </div>
+
+    <div class="scope-block">
+      <h4>4 · API keys and private credentials</h4>
+      <p>Clients maintain control of their own API keys, logins, billing relationships, and private credentials. Where required, we guide you through entering those secrets into your environment. We do not assume responsibility for third-party platform billing, usage fees, suspensions, or account restrictions.</p>
+    </div>
+
+    <div class="scope-block">
+      <h4>5 · Revision limits</h4>
+      <p>Standard delivery includes one implementation pass within the purchased scope. Anything beyond the agreed setup, approved integrations, or original workflow is handled as additional scope.</p>
+    </div>
+
+    <div class="scope-block">
+      <h4>6 · Support windows</h4>
+      <p>Support windows apply only to issues directly related to the delivered SourceDeck implementation. They do not include:</p>
+      <ul>
+        <li>Third-party outages</li>
+        <li>Platform policy changes</li>
+        <li>Client-side account problems</li>
+        <li>New feature requests</li>
+        <li>Unrelated consulting</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── DISCLAIMERS ──────────────────────────────────────── -->
+<section class="pr-section narrow">
+  <div class="pr-disc">
+    <h3>Important pricing notes</h3>
+
+    <div class="disc-block">
+      <h4>Third-party software and usage fees</h4>
+      <p>SourceDeck plans do not include third-party subscription costs, API usage charges, email platform fees, CRM fees, or automation platform charges unless explicitly stated in writing.</p>
+    </div>
+
+    <div class="disc-block">
+      <h4>Client responsibility</h4>
+      <p>Clients are responsible for maintaining active accounts, valid payment methods, API access, and required permissions for any connected third-party platform.</p>
+    </div>
+
+    <div class="disc-block">
+      <h4>Delivery boundary</h4>
+      <p>SourceDeck is a system and implementation offer. It is not a guarantee of leads, sales, outreach results, or platform approval.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── FINAL CTA ─────────────────────────────────────────── -->
+<section class="pr-section narrow">
+  <div class="pr-cta">
+    <h2>Not sure which plan fits?</h2>
+    <p>
+      If you can install software and follow a checklist, choose Core.<br>
+      If you want help connecting the system, choose Growth.<br>
+      If you want the fastest path to a working setup, choose White-Glove.
+    </p>
+    <div class="row">
+      <a href="/quote/pro/?tier=core"        class="ghost">Get Core</a>
+      <a href="/quote/pro/?tier=growth"      class="primary">Choose Growth</a>
+      <a href="/quote/pro/?tier=white-glove" class="ghost">Get White-Glove</a>
+    </div>
+  </div>
+</section>
+
+<footer class="sd-foot">
+  SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">·</span> &copy; 2026 Ariel's River Contracting Group LLC
+  <span class="sep">·</span> <a href="/app/">Launch</a>
+  <span class="sep">·</span> <a href="/invoice/">Invoice</a>
+  <span class="sep">·</span>
+</footer>
+
+</body>
+</html>

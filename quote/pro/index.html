@@ -123,19 +123,36 @@
       </ol>
     </div>
     <script>
-    // If routed from the Core tier (?plan=core), tag the submission so
-    // finance scopes the quote to Core pricing ($79/seat/mo), not Pro.
+    // Tier + plan routing.
+    //   ?plan=core                  → SourceDeck Core subscription (legacy tier)
+    //   ?tier=core|growth|white-glove → Implementation-tier one-time pricing
+    //                                 (canonical: see /pricing/)
+    // Both signals are passed through to Basin as hidden fields so finance
+    // scopes the quote to the correct product line.
     (function(){
-      var plan = new URLSearchParams(location.search).get('plan');
+      var params = new URLSearchParams(location.search);
+      var plan   = (params.get('plan')||'').toLowerCase();
+      var tier   = (params.get('tier')||'').toLowerCase();
+      var f = document.querySelector('form.sd-form');
+      if (!f) return;
+      var addHidden = function(name, value){
+        if (!value) return;
+        var h = document.createElement('input');
+        h.type = 'hidden'; h.name = name; h.value = value;
+        f.appendChild(h);
+      };
+      var sub = f.querySelector('input[name="_subject"]');
       if (plan === 'core') {
-        var f = document.querySelector('form.sd-form');
-        if (f) {
-          var h = document.createElement('input');
-          h.type = 'hidden'; h.name = 'requested_plan'; h.value = 'core';
-          f.appendChild(h);
-          var sub = f.querySelector('input[name="_subject"]');
-          if (sub) sub.value = 'SourceDeck Core — Annual Invoice Request';
-        }
+        addHidden('requested_plan', 'core');
+        if (sub) sub.value = 'SourceDeck Core — Annual Invoice Request';
+      }
+      if (tier === 'core' || tier === 'growth' || tier === 'white-glove') {
+        var label = tier === 'white-glove' ? 'White-Glove' : (tier.charAt(0).toUpperCase()+tier.slice(1));
+        var amount = tier === 'core' ? '$997' : tier === 'growth' ? '$2,497' : '$4,997';
+        addHidden('requested_tier', tier);
+        addHidden('tier_label', label);
+        addHidden('tier_amount', amount);
+        if (sub) sub.value = 'SourceDeck ' + label + ' — Implementation Request (' + amount + ' one-time)';
       }
     })();
     </script>
