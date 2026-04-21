@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SourceDeck · Integrations</title>
+<meta name="description" content="Connect HubSpot, Salesforce, Pipedrive, Slack, Notion, Twilio, DocuSign, and more. One workspace, every tool.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sd-theme.css">
+<style>
+.ig-wrap{max-width:1200px;margin:0 auto;padding:40px 24px 80px;position:relative;z-index:1}
+.ig-cats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px}
+.ig-cat{padding:8px 14px;border-radius:980px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);font:500 12px/1 'Inter',sans-serif;color:var(--sub);cursor:pointer;transition:all 0.15s}
+.ig-cat:hover, .ig-cat.on{background:rgba(0,113,227,0.12);border-color:rgba(0,113,227,0.4);color:#fff}
+.ig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:900px){.ig-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.ig-grid{grid-template-columns:1fr}}
+.ig-card{background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:10px;transition:all 0.2s;position:relative}
+.ig-card:hover{transform:translateY(-2px);border-color:rgba(255,255,255,0.16);box-shadow:0 16px 44px rgba(0,0,0,0.4)}
+.ig-head{display:flex;align-items:center;gap:12px}
+.ig-logo{width:38px;height:38px;border-radius:9px;background:linear-gradient(135deg,var(--accent),var(--purple));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:#fff;flex:0 0 38px}
+.ig-name{font-size:14.5px;font-weight:700;color:#fff;letter-spacing:-0.01em}
+.ig-cat-t{font:500 9.5px/1 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.14em;text-transform:uppercase;margin-top:2px}
+.ig-desc{font-size:12.5px;color:var(--sub);line-height:1.55;flex:1;margin-top:2px}
+.ig-actions{display:flex;gap:8px;margin-top:6px}
+.ig-btn{flex:1;text-align:center;padding:8px 12px;border-radius:8px;font-size:12px;font-weight:600;background:rgba(0,113,227,0.1);color:var(--accent2);border:0.5px solid rgba(0,113,227,0.3);cursor:pointer;transition:all 0.15s;text-decoration:none}
+.ig-btn:hover{background:rgba(0,113,227,0.18)}
+.ig-status{position:absolute;top:16px;right:16px;font:600 9.5px/1.2 'JetBrains Mono',monospace;letter-spacing:0.12em;padding:3px 7px;border-radius:4px}
+.ig-status.live{background:rgba(48,209,88,0.12);color:var(--green)}
+.ig-status.soon{background:rgba(212,168,67,0.12);color:var(--gold)}
+.ig-status.beta{background:rgba(191,90,242,0.12);color:var(--purple)}
+</style>
+</head>
+<body>
+<div class="sd-bg"></div><div class="sd-grid"></div>
+
+<nav class="sd-nav">
+  <a class="sd-brand" href="/"><span class="glyph">S</span> SourceDeck</a>
+  <div class="links">
+    <a href="/app/">App</a>
+    <a href="/#pricing">Pricing</a>
+    <a href="/integrations/">Integrations</a>
+    <a href="/agents/">AI Agents</a>
+    <a class="cta" href="/#pricing">Choose Plan</a>
+  </div>
+</nav>
+
+<section class="sd-hero">
+  <div class="sd-eyebrow"><span class="dot"></span> Integrations marketplace</div>
+  <h1>Every tool you already run.<br>One workspace, one signal.</h1>
+  <p class="lede">SourceDeck plugs into the CRM, calendar, billing, and communication stack you already use. One-click OAuth where possible. BYOK where it isn't.</p>
+</section>
+
+<div class="ig-wrap">
+  <div class="ig-cats">
+    <div class="ig-cat on" data-cat="all">All</div>
+    <div class="ig-cat" data-cat="crm">CRM</div>
+    <div class="ig-cat" data-cat="comms">Comms</div>
+    <div class="ig-cat" data-cat="billing">Billing</div>
+    <div class="ig-cat" data-cat="docs">Docs</div>
+    <div class="ig-cat" data-cat="data">Data</div>
+    <div class="ig-cat" data-cat="automation">Automation</div>
+  </div>
+
+  <div class="ig-grid" id="ig-grid">
+    <!-- CRM -->
+    <div class="ig-card" data-cat="crm"><span class="ig-status beta">BETA</span><div class="ig-head"><div class="ig-logo" style="background:#ff7a59">H</div><div><div class="ig-name">HubSpot</div><div class="ig-cat-t">CRM · SYNC</div></div></div><div class="ig-desc">Bi-directional lead + deal sync. Funnel events mirror into HubSpot timelines; HubSpot stage moves fire SourceDeck campaign changes.</div><div class="ig-actions"><a class="ig-btn" href="/integrations/hubspot/">Connect</a></div></div>
+    <div class="ig-card" data-cat="crm"><span class="ig-status beta">BETA</span><div class="ig-head"><div class="ig-logo" style="background:#00a1e0">S</div><div><div class="ig-name">Salesforce</div><div class="ig-cat-t">CRM · SYNC</div></div></div><div class="ig-desc">Account, Lead, Opportunity, and Campaign Member sync. Works with Sales Cloud orgs via OAuth 2.0.</div><div class="ig-actions"><a class="ig-btn" href="/integrations/salesforce/">Connect</a></div></div>
+    <div class="ig-card" data-cat="crm"><span class="ig-status beta">BETA</span><div class="ig-head"><div class="ig-logo" style="background:#1a1a1a">P</div><div><div class="ig-name">Pipedrive</div><div class="ig-cat-t">CRM · SYNC</div></div></div><div class="ig-desc">Person, Deal, Activity sync. Pipeline stages map to SourceDeck campaign funnel stages automatically.</div><div class="ig-actions"><a class="ig-btn" href="/integrations/pipedrive/">Connect</a></div></div>
+    <div class="ig-card" data-cat="crm"><span class="ig-status soon">SOON</span><div class="ig-head"><div class="ig-logo" style="background:#3b82f6">C</div><div><div class="ig-name">Close</div><div class="ig-cat-t">CRM · SYNC</div></div></div><div class="ig-desc">Built for inside sales teams — dialer activity + replies piped into Funnel Health.</div><div class="ig-actions"><a class="ig-btn" href="/integrations/close/">Join waitlist</a></div></div>
+
+    <!-- Comms -->
+    <div class="ig-card" data-cat="comms"><span class="ig-status live">LIVE</span><div class="ig-head"><div class="ig-logo" style="background:#ffcc00;color:#0a0a0a">⚡</div><div><div class="ig-name">Instantly</div><div class="ig-cat-t">EMAIL · OUTBOUND</div></div></div><div class="ig-desc">Native outbound sender. Campaigns, sequences, warmup, and reply sync — the default channel.</div><div class="ig-actions"><a class="ig-btn" href="/integrations/instantly/">Connected</a></div></div>
+    <div class="ig-card" data-cat="comms"><span class="ig-status beta">BETA</span><div class="ig-head"><div class="ig-logo" style="background:#f22f46">T</div><div><div class="ig-name">Twilio</div><div class="ig-cat-t">SMS · VOICE</div></div></div><div class="ig-desc">SMS steps inside sequences. Voicemail drops via AI-generated audio. Reply detection routes back to Funnel Health.</div><div class="ig-actions"><a class="ig-btn" href="/integrations/twilio/">Connect</a></div></div>
+    <div class="ig-card" data-cat="comms"><span class="ig-status beta">BETA</span><div class="ig-head"><div class="ig-logo" style="background:#0a66c2">in</div><div><div class="ig-name">Unipile (LinkedIn)</div><div class="ig-cat-t">LINKEDIN · DM</div></div></div><div class="ig-desc">Connection requests + DMs as sequence steps. Acceptance + reply events fire into Funnel Health.</div><div class="ig-actions"><a class="ig-btn" href="/integrations/unipile/">Connect</a></div></div>
+    <div class="ig-card" data-cat="comms"><span class="ig-status live">LIVE</span><div class="ig-head"><div class="ig-logo" style="background:#4A154B">#</div><div><div class="ig-name">Slack</div><div class="ig-cat-t">ALERTS · ROUTING</div></div></div><div class="ig-desc">High-priority reply alerts, bounce threshold breaches, and paid conversion pings straight into a channel.</div><div class="ig-actions"><a class="ig-btn" href="/integrations/slack/">Connect</a></div></div>
+    <div class="ig-card" data-cat="comms"><span class="ig-status beta">BETA</span><div class="ig-head"><div class="ig-logo" style="background:#0051ff">C</div><div><div class="ig-name">Cal.com</div><div class="ig-cat-t">BOOKING · CALENDAR</div></div></div><div class="ig-desc">Booking links inside Email 3/4. Meeting booked → Funnel Health event + pre-filled deal workspace.</div><div class="ig-actions"><a class="ig-btn" href="/integrations/cal/">Connect</a></div></div>
+
+    <!-- Billing -->
+    <div class="ig-card" data-cat="billing"><span class="ig-status live">LIVE</span><div class="ig-head"><div class="ig-logo" style="background:#635bff">S</div><div><div class="ig-name">Stripe</div><div class="ig-cat-t">BILLING · CHECKOUT</div></div></div><div class="ig-desc">Pricing tiers, Checkout, subscription management, plus revenue attribution into Funnel Health.</div><div class="ig-actions"><a class="ig-btn" href="/integrations/stripe/">Connected</a></div></div>
+    <div class="ig-card" data-cat="billing"><span class="ig-status soon">SOON</span><div class="ig-head"><div class="ig-logo" style="background:#012169">Q</div><div><div class="ig-name">QuickBooks</div><div class="ig-cat-t">ACCOUNTING</div></div></div><div class="ig-desc">Invoice &amp; customer sync for operators on manual accounting workflows.</div><div class="ig-actions"><a class="ig-btn" href="/integrations/quickbooks/">Join waitlist</a></div></div>
+
+    <!-- Docs -->
+    <div class="ig-card" data-cat="docs"><span class="ig-status beta">BETA</span><div class="ig-head"><div class="ig-logo" style="background:#000">N</div><div><div class="ig-name">Notion</div><div class="ig-cat-t">CRM MIRROR · DOCS</div></div></div><div class="ig-desc">Mirror leads, campaigns, and deals into your Notion database. One-way or two-way.</div><div class="ig-actions"><a class="ig-btn" href="/integrations/notion/">Connect</a></div></div>
+    <div class="ig-card" data-cat="docs"><span class="ig-status beta">BETA</span><div class="ig-head"><div class="ig-logo" style="background:#1a1a1a">A</div><div><div class="ig-name">Airtable</div><div class="ig-cat-t">LEAD STORE</div></div></div><div class="ig-desc">Use your own Airtable base as the lead + event store. Default backing store — native support.</div><div class="ig-actions"><a class="ig-btn" href="/integrations/airtable/">Connect</a></div></div>
+    <div class="ig-card" data-cat="docs"><span class="ig-status beta">BETA</span><div class="ig-head"><div class="ig-logo" style="background:#ffc800;color:#0a0a0a">D</div><div><div class="ig-name">DocuSign</div><div class="ig-cat-t">CONTRACTS · ESIGN</div></div></div><div class="ig-desc">Proposals &amp; MSAs generated from a deal workspace → routed to DocuSign → signed-event fires into Funnel Health.</div><div class="ig-actions"><a class="ig-btn" href="/integrations/docusign/">Connect</a></div></div>
+    <div class="ig-card" data-cat="docs"><span class="ig-status soon">SOON</span><div class="ig-head"><div class="ig-logo" style="background:#ee5253">P</div><div><div class="ig-name">PandaDoc</div><div class="ig-cat-t">CONTRACTS · ESIGN</div></div></div><div class="ig-desc">Alternate eSignature route for teams already standardized on PandaDoc.</div><div class="ig-actions"><a class="ig-btn" href="/integrations/pandadoc/">Join waitlist</a></div></div>
+
+    <!-- Data -->
+    <div class="ig-card" data-cat="data"><span class="ig-status live">LIVE</span><div class="ig-head"><div class="ig-logo" style="background:#1e40af">A</div><div><div class="ig-name">Apollo</div><div class="ig-cat-t">LEAD DATA · ENRICHMENT</div></div></div><div class="ig-desc">Lead discovery + email enrichment. Basic plan compatible; native person-level enrichment on paid plans.</div><div class="ig-actions"><a class="ig-btn" href="/integrations/apollo/">Connect</a></div></div>
+    <div class="ig-card" data-cat="data"><span class="ig-status live">LIVE</span><div class="ig-head"><div class="ig-logo" style="background:#dd5826">S</div><div><div class="ig-name">SerpAPI</div><div class="ig-cat-t">DISCOVERY · SEARCH</div></div></div><div class="ig-desc">Google Maps discovery for local operators. Drives the PROD-08 small-business lead pipeline.</div><div class="ig-actions"><a class="ig-btn" href="/integrations/serpapi/">Connect</a></div></div>
+    <div class="ig-card" data-cat="data"><span class="ig-status beta">BETA</span><div class="ig-head"><div class="ig-logo" style="background:#2563eb">H</div><div><div class="ig-name">Hunter</div><div class="ig-cat-t">EMAIL VERIFY</div></div></div><div class="ig-desc">Email verification + pattern discovery as a fallback enrichment source.</div><div class="ig-actions"><a class="ig-btn" href="/integrations/hunter/">Connect</a></div></div>
+
+    <!-- Automation -->
+    <div class="ig-card" data-cat="automation"><span class="ig-status live">LIVE</span><div class="ig-head"><div class="ig-logo" style="background:#6b46c1">M</div><div><div class="ig-name">Make</div><div class="ig-cat-t">WORKFLOWS · WEBHOOKS</div></div></div><div class="ig-desc">Stream SourceDeck events into any Make scenario. PROD-03 lead-to-campaign routing is already built.</div><div class="ig-actions"><a class="ig-btn" href="/webhooks/">Configure</a></div></div>
+    <div class="ig-card" data-cat="automation"><span class="ig-status beta">BETA</span><div class="ig-head"><div class="ig-logo" style="background:#ff4a00">Z</div><div><div class="ig-name">Zapier</div><div class="ig-cat-t">WORKFLOWS · TRIGGERS</div></div></div><div class="ig-desc">Native Zap trigger: new lead, reply received, pricing click, checkout completed, bounce detected.</div><div class="ig-actions"><a class="ig-btn" href="/webhooks/">Configure</a></div></div>
+    <div class="ig-card" data-cat="automation"><span class="ig-status live">LIVE</span><div class="ig-head"><div class="ig-logo" style="background:#0a0a0a">{}</div><div><div class="ig-name">Custom Webhooks</div><div class="ig-cat-t">EVENT BUS · JSON</div></div></div><div class="ig-desc">Per-workspace webhook URL with retry queue and signing. Fire events at anything that accepts HTTPS POST.</div><div class="ig-actions"><a class="ig-btn" href="/webhooks/">Configure</a></div></div>
+
+  </div>
+</div>
+
+<footer class="sd-foot">
+  SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">·</span> &copy; 2026 Ariel's River Contracting Group LLC
+</footer>
+
+<script>
+document.querySelectorAll('.ig-cat').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('.ig-cat').forEach(x => x.classList.remove('on'));
+    c.classList.add('on');
+    const filter = c.dataset.cat;
+    document.querySelectorAll('.ig-card').forEach(card => {
+      card.style.display = (filter==='all' || card.dataset.cat===filter) ? 'flex' : 'none';
+    });
+  });
+});
+</script>
+<!-- Tidio chat (SourceDeck support bot) -->
+<script src="//code.tidio.co/80d20949327f4c7c81e2295df563dc46.js" async></script>
+</body>
+</html>

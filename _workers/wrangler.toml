@@ -1,0 +1,27 @@
+name = "sourcedeck-stripe-webhook"
+main = "stripe-webhook.js"
+compatibility_date = "2026-04-20"
+
+# Deploy to events.sourcedeck.app
+# Requires: DNS for events.sourcedeck.app → Cloudflare; route bound to this Worker.
+routes = [
+  { pattern = "events.sourcedeck.app/stripe", zone_name = "sourcedeck.app" },
+  { pattern = "events.sourcedeck.app/stripe/*", zone_name = "sourcedeck.app" }
+]
+
+# Event store + idempotency cache + retry queue
+# Create with: wrangler kv namespace create EVENTS_KV
+[[kv_namespaces]]
+binding = "EVENTS_KV"
+id = "<fill-after-kv-create>"
+
+# Non-secret config
+[vars]
+AIRTABLE_BASE_ID = "<fill-workspaces-base>"
+WORKSPACES_TBL   = "<fill-workspaces-table-id>"
+
+# Secrets (set via: wrangler secret put <NAME>)
+#   STRIPE_WEBHOOK_SECRET   (whsec_...)
+#   POSTMARK_TOKEN          (Postmark server token)
+#   AIRTABLE_TOKEN          (PAT scoped to Workspaces table)
+#   SESSION_SIGNING_SECRET  (any 32+ byte random string)

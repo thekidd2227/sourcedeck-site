@@ -102,7 +102,13 @@
 
   if (plan === 'core' || plan === 'pro' || plan === 'operator') {
     h1.textContent = 'Welcome to SourceDeck.';
-    l.textContent  = 'Your subscription is active. Check your email for the workspace activation link and receipt.';
+    l.textContent  = 'Your subscription is active. A magic link to activate your workspace was just emailed — or start the setup now.';
+    // Auto-offer direct path into onboarding (magic link will still arrive via email)
+    setTimeout(() => {
+      var wait = document.querySelector('.sd-card h3');
+      if (wait) wait.parentNode.insertAdjacentHTML('afterbegin',
+        '<div style="padding:14px 16px;background:rgba(0,113,227,0.08);border:0.5px solid rgba(0,113,227,0.3);border-radius:10px;margin-bottom:14px"><strong style="color:var(--accent2);font-size:13px">Start setup now →</strong> <a href="/onboarding/" style="color:var(--accent2);text-decoration:underline;font-size:13px;margin-left:8px">Launch the 5-step setup</a></div>');
+    }, 100);
     return;
   }
   var map = {

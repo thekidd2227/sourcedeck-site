@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SourceDeck · Webhooks &amp; Event Bus</title>
+<meta name="description" content="Stream every SourceDeck event — lead_qualified, reply_received, pricing_clicked, checkout_completed, bounce_detected — into Zapier, Make, or any HTTPS endpoint.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sd-theme.css">
+<style>
+.wh{max-width:1100px;margin:0 auto;padding:40px 24px 80px;position:relative;z-index:1}
+.wh-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:40px}
+@media(max-width:820px){.wh-grid{grid-template-columns:1fr}}
+.wh-card{background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:24px}
+.wh-card h3{font-size:16px;font-weight:700;color:#fff;letter-spacing:-0.01em;margin-bottom:6px}
+.wh-card .note{font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.5}
+.kv{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--sub);background:rgba(0,0,0,0.35);padding:10px 14px;border-radius:8px;line-height:1.7;word-break:break-all}
+.kv b{color:var(--accent2)}
+.evt-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(max-width:640px){.evt-grid{grid-template-columns:1fr}}
+.evt{padding:14px 16px;background:rgba(255,255,255,0.02);border:0.5px solid rgba(255,255,255,0.06);border-radius:10px}
+.evt .n{font:600 10.5px/1.2 'JetBrains Mono',monospace;color:var(--accent2);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px}
+.evt .h{font-size:13.5px;font-weight:600;color:#fff;letter-spacing:-0.01em;margin-bottom:3px}
+.evt .d{font-size:11.5px;color:var(--muted);line-height:1.55}
+pre.sample{font-family:'JetBrains Mono',monospace;font-size:11px;background:#05070d;border:0.5px solid rgba(255,255,255,0.06);border-radius:10px;padding:14px 16px;color:var(--sub);line-height:1.65;overflow:auto;margin-top:14px}
+pre.sample .k{color:#bf5af2}
+pre.sample .s{color:var(--green)}
+pre.sample .n{color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="sd-bg"></div><div class="sd-grid"></div>
+
+<nav class="sd-nav">
+  <a class="sd-brand" href="/"><span class="glyph">S</span> SourceDeck</a>
+  <div class="links">
+    <a href="/app/">App</a>
+    <a href="/#pricing">Pricing</a>
+    <a href="/integrations/">Integrations</a>
+    <a href="/agents/">AI Agents</a>
+    <a class="cta" href="/#pricing">Choose Plan</a>
+  </div>
+</nav>
+
+<section class="sd-hero">
+  <div class="sd-eyebrow"><span class="dot"></span> Event bus</div>
+  <h1>One webhook. Every signal.</h1>
+  <p class="lede">Every lead, reply, click, checkout, and bounce fires into your endpoint of choice. Signed, queued, retried — operator-grade.</p>
+</section>
+
+<div class="wh">
+  <div class="wh-grid">
+    <div class="wh-card">
+      <h3>Your workspace endpoint</h3>
+      <p class="note">Generated once your workspace is provisioned. Delivered as JSON, signed with HMAC-SHA256 in the <code>X-SourceDeck-Signature</code> header. 3× retry with exponential backoff.</p>
+      <div class="kv">POST <b>https://events.sourcedeck.app/v1/webhook/&lt;workspace_id&gt;</b></div>
+      <div class="note" style="margin-top:10px">Configure the destination URL, shared secret, and per-event filters in <a href="/app/" style="color:var(--accent2);text-decoration:none">LCC → Settings → Webhooks</a>.</div>
+    </div>
+
+    <div class="wh-card">
+      <h3>Delivery guarantees</h3>
+      <div class="evt-grid">
+        <div class="evt"><div class="n">At-least-once</div><div class="d">Events retry on any non-2xx response.</div></div>
+        <div class="evt"><div class="n">Ordered per-lead</div><div class="d">Events for the same lead deliver in order.</div></div>
+        <div class="evt"><div class="n">Signed</div><div class="d">HMAC-SHA256 signature on every payload.</div></div>
+        <div class="evt"><div class="n">Replayable</div><div class="d">Last 30 days of events can be replayed from LCC.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <h2 style="font-size:22px;font-weight:800;letter-spacing:-0.02em;margin:6px 0 14px;color:#fff">Event catalog</h2>
+  <div class="evt-grid" style="margin-bottom:36px">
+    <div class="evt"><div class="n">lead_qualified</div><div class="h">Lead passes all qualification filters</div><div class="d">Fires after MX validation, role-block filter, and fingerprint dedup.</div></div>
+    <div class="evt"><div class="n">lead_enrolled</div><div class="h">Lead injected into an outbound campaign</div><div class="d">Fires on successful PROD-03 insertion into Instantly.</div></div>
+    <div class="evt"><div class="n">email_sent</div><div class="h">Step send succeeded</div><div class="d">Fires per step, per lead, with sequence + step ID.</div></div>
+    <div class="evt"><div class="n">reply_received</div><div class="h">Inbound reply detected</div><div class="d">Includes classification tag from Reply Classifier agent.</div></div>
+    <div class="evt"><div class="n">pricing_clicked</div><div class="h">Lead clicked the pricing link in Email 4</div><div class="d">Highest-intent event before checkout.</div></div>
+    <div class="evt"><div class="n">checkout_started</div><div class="h">Stripe Checkout session opened</div><div class="d">Includes plan + cadence attribution.</div></div>
+    <div class="evt"><div class="n">checkout_completed</div><div class="h">Paid conversion — subscription active</div><div class="d">Triggers workspace provisioning + welcome flow.</div></div>
+    <div class="evt"><div class="n">bounce_detected</div><div class="h">Hard bounce on outbound send</div><div class="d">Fires Bounce Guard; pauses campaign if threshold breached.</div></div>
+    <div class="evt"><div class="n">meeting_booked</div><div class="h">Lead booked via Cal.com or native calendar</div><div class="d">Pre-fills a deal workspace automatically.</div></div>
+    <div class="evt"><div class="n">deal_stage_changed</div><div class="h">Pipeline stage moved</div><div class="d">Includes from_stage, to_stage, actor, and timestamp.</div></div>
+    <div class="evt"><div class="n">proposal_signed</div><div class="h">DocuSign / PandaDoc countersigned</div><div class="d">Triggers Stripe invoice generation for Operator-tier deals.</div></div>
+    <div class="evt"><div class="n">sla_breached</div><div class="h">Stage SLA exceeded</div><div class="d">Routes through SLA Watcher agent; alerts owner in Slack.</div></div>
+  </div>
+
+  <h2 style="font-size:22px;font-weight:800;letter-spacing:-0.02em;margin:6px 0 14px;color:#fff">Payload shape</h2>
+  <pre class="sample">{
+  <span class="k">"event"</span>: <span class="s">"checkout_completed"</span>,
+  <span class="k">"workspace_id"</span>: <span class="s">"ws_a4b7c2"</span>,
+  <span class="k">"timestamp"</span>: <span class="s">"2026-04-20T17:04:11Z"</span>,
+  <span class="k">"data"</span>: {
+    <span class="k">"lead_id"</span>: <span class="s">"ld_91c0e3"</span>,
+    <span class="k">"company"</span>: <span class="s">"Acme Property Co"</span>,
+    <span class="k">"email"</span>: <span class="s">"operator@acmeprop.com"</span>,
+    <span class="k">"plan"</span>: <span class="s">"pro"</span>,
+    <span class="k">"cadence"</span>: <span class="s">"monthly"</span>,
+    <span class="k">"revenue_usd"</span>: <span class="n">349</span>,
+    <span class="k">"attribution"</span>: {
+      <span class="k">"campaign"</span>: <span class="s">"SourceDeck | Pricing Diagnosis Funnel"</span>,
+      <span class="k">"step"</span>: <span class="n">4</span>,
+      <span class="k">"first_touch_at"</span>: <span class="s">"2026-04-06T09:15:00Z"</span>
+    }
+  }
+}</pre>
+</div>
+
+<footer class="sd-foot">
+  SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">·</span> &copy; 2026 Ariel's River Contracting Group LLC
+</footer>
+
+<!-- Tidio chat (SourceDeck support bot) -->
+<script src="//code.tidio.co/80d20949327f4c7c81e2295df563dc46.js" async></script>
+</body>
+</html>

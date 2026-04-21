@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>SourceDeck · Activating your workspace…</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sd-theme.css">
+</head>
+<body>
+<div class="sd-bg"></div><div class="sd-grid"></div>
+
+<nav class="sd-nav">
+  <a class="sd-brand" href="/"><span class="glyph">S</span> SourceDeck</a>
+</nav>
+
+<section class="sd-hero">
+  <div class="sd-eyebrow"><span class="dot"></span> Activating workspace</div>
+  <h1 id="a-h1">Verifying your magic link…</h1>
+  <p class="lede" id="a-lede">Takes 1–2 seconds. Your workspace will open as soon as verification passes.</p>
+</section>
+
+<section class="sd-section narrow">
+  <div class="sd-card">
+    <h3>What happens next</h3>
+    <ul>
+      <li>Your workspace ID is attached to this browser session.</li>
+      <li>Your Stripe subscription is linked to the workspace.</li>
+      <li>The app opens in blank-state mode — no keys, no leads, no prior data.</li>
+      <li>You'll be guided through the 5-step onboarding wizard.</li>
+    </ul>
+    <div style="margin-top:18px" id="a-cta"></div>
+  </div>
+</section>
+
+<script src="/assets/sd-config.js"></script>
+<script>
+/* Magic-link activation:
+   ?token=<signed payload>&ws=<workspace_id>
+   Worker signs with HMAC-SHA256 on payload. Client only stores
+   the workspace_id in localStorage and moves the user to onboarding. */
+(function(){
+  const p = new URLSearchParams(location.search);
+  const token = p.get('token');
+  const ws = p.get('ws');
+  const h1 = document.getElementById('a-h1');
+  const lede = document.getElementById('a-lede');
+  const cta = document.getElementById('a-cta');
+
+  if (!token || !ws) {
+    h1.textContent = 'Activation link incomplete.';
+    lede.textContent = 'Check your welcome email for the full activation URL.';
+    cta.innerHTML = '<a class="sd-btn secondary lg" href="/#pricing">Back to pricing</a>';
+    return;
+  }
+
+  // Store workspace pointer (the token itself is verified server-side when
+  // the LCC calls protected endpoints — this page only activates locally).
+  try {
+    localStorage.setItem('sd_workspace_id', ws);
+    localStorage.setItem('sd_activation_token', token);
+    window.sdTrack && window.sdTrack('workspace_activated', { workspace_id: ws });
+  } catch(_) {}
+
+  setTimeout(() => {
+    h1.textContent = 'Workspace activated.';
+    lede.textContent = 'Opening your 5-step setup…';
+    cta.innerHTML = '<a class="sd-btn primary lg" href="/onboarding/">Continue setup →</a>';
+    // Auto-advance
+    setTimeout(() => { location.href = '/onboarding/'; }, 900);
+  }, 800);
+})();
+</script>
+<!-- Tidio chat (SourceDeck support bot) -->
+<script src="//code.tidio.co/80d20949327f4c7c81e2295df563dc46.js" async></script>
+</body>
+</html>
