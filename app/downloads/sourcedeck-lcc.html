@@ -1293,7 +1293,21 @@ body{padding-top:32px !important}
             <option value="4">Day 4 — Revenue + Cleanup</option>
           </select>
           <button class="btn btn-ghost" onclick="clearChecks()">↺ Reset</button>
-          <button class="btn btn-ghost" onclick="openTab('content')">+ Create Content</button>
+          <button class="btn btn-ghost" onclick="renderCalendarAgenda()">↻ Sync calendar</button>
+        </div>
+      </div>
+
+      <!-- Calendar agenda (reads connected calendars — required for Daily Ops automation) -->
+      <div class="card" style="margin:12px 0 14px;padding:0;overflow:hidden" id="do-cal-card">
+        <div class="sl" style="padding:14px 16px 10px;margin:0;border-bottom:1px solid var(--border2);display:flex;justify-content:space-between;align-items:center;gap:10px">
+          <span>Today's agenda · from connected calendars</span>
+          <span id="do-cal-status" style="font:500 10.5px/1 'Azeret Mono',monospace;color:var(--muted);letter-spacing:0.08em">—</span>
+        </div>
+        <div id="do-cal-list" style="padding:4px 0">
+          <div style="padding:18px 20px;color:var(--muted);font-size:12px;line-height:1.7">
+            No calendar connected. <a href="https://sourcedeck.app/settings/calendar/" target="_blank" style="color:var(--gold)">Connect Google, Outlook, or an ICS feed →</a><br>
+            <span style="font-size:11px">Without a calendar, Daily Ops runs in advisory-only mode (no auto-blocking, no conflict detection, no SLA anchoring to availability).</span>
+          </div>
         </div>
       </div>
       <div class="pane-body">
@@ -7897,6 +7911,54 @@ const DAILY_CHECKLISTS={
     {t:'Set next week\'s top 3 revenue-focused priorities in LCC',tag:'Revenue'},
   ],
 };
+// ═══════ CALENDAR AGENDA (Daily Ops — reads connected calendars from localStorage.sd_calendars) ═══════
+async function renderCalendarAgenda(){
+  const list = document.getElementById('do-cal-list');
+  const status = document.getElementById('do-cal-status');
+  if (!list || !status) return;
+  // sdCalendar is loaded from /assets/sd-calendar.js inline at page load (see below)
+  if (!window.sdCalendar) {
+    status.textContent = 'loading helper…';
+    try { await new Promise((res, rej) => { const s=document.createElement('script'); s.src='https://sourcedeck.app/assets/sd-calendar.js'; s.onload=res; s.onerror=rej; document.head.appendChild(s); }); }
+    catch(_){ status.textContent='helper unavailable'; return; }
+  }
+  const cals = window.sdCalendar.list().filter(c => c.status !== 'disconnected');
+  if (!cals.length) {
+    status.textContent = 'no calendars';
+    list.innerHTML = '<div style="padding:18px 20px;color:var(--muted);font-size:12px;line-height:1.7">No calendar connected. <a href="https://sourcedeck.app/settings/calendar/" target="_blank" style="color:var(--gold)">Connect one →</a></div>';
+    return;
+  }
+  status.textContent = 'fetching…';
+  const now = new Date(); const startOfDay = new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime();
+  const endOfDay = startOfDay + 2*86400000; // show today + tomorrow
+  try {
+    const events = await window.sdCalendar.fetchAllEvents(startOfDay, endOfDay);
+    if (!events.length) {
+      list.innerHTML = '<div style="padding:18px 20px;color:var(--muted);font-size:12px">No events on the agenda for today or tomorrow.</div>';
+    } else {
+      list.innerHTML = events.map(ev => {
+        const d = new Date(ev.start);
+        const day = d.getTime() < startOfDay+86400000 ? 'Today' : 'Tomorrow';
+        const time = ev.all_day ? 'All day' : d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+        const provIcon = { google:'🟥', microsoft:'🟦', ics:'📅' }[ev.source?.provider] || '📅';
+        return `<div style="display:grid;grid-template-columns:72px 50px 1fr auto;gap:12px;padding:11px 18px;border-bottom:1px solid var(--border2);align-items:center;font-size:12px">
+          <span style="color:var(--muted);font-family:'Azeret Mono',monospace;font-size:10.5px;letter-spacing:0.05em">${day}</span>
+          <span style="color:var(--text);font-weight:600">${time}</span>
+          <span style="color:var(--text);font-weight:500">${escapeHtmlCal(ev.title)}${ev.location?' <span style="color:var(--muted);font-weight:400">· '+escapeHtmlCal(ev.location)+'</span>':''}</span>
+          <span title="${ev.source?.calendar_name||''}" style="font-size:14px">${provIcon}</span>
+        </div>`;
+      }).join('');
+    }
+    status.textContent = cals.length + ' connected · ' + events.length + ' events';
+  } catch(err) {
+    status.textContent = 'fetch error';
+    list.innerHTML = '<div style="padding:18px 20px;color:var(--warn);font-size:12px">Agenda fetch failed: '+escapeHtmlCal(err.message)+'</div>';
+  }
+}
+function escapeHtmlCal(s){ return String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+// auto-fetch when Daily Ops tab opens
+(function(){ const orig = window.openTab; if (typeof orig === 'function') { window.openTab = function(t){ const r = orig(t); if (t==='dailyops') { setTimeout(renderCalendarAgenda, 50); } return r; }; } })();
+
 function renderDailyOps(){
   const day=parseInt(document.getElementById('do-day')?.value||'1');
   const items=DAILY_CHECKLISTS[day]||[];

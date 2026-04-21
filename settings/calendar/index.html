@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>SourceDeck · Calendar Connections</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sd-theme.css">
+<style>
+.cal-wrap{max-width:1000px;margin:0 auto;padding:24px 20px 80px;position:relative;z-index:1}
+.cal-banner{padding:18px 20px;background:linear-gradient(90deg,rgba(255,176,32,0.08),rgba(255,107,107,0.04));border:0.5px solid rgba(255,176,32,0.3);border-radius:12px;margin-bottom:22px;display:flex;gap:14px;align-items:flex-start}
+.cal-banner .ic{width:28px;height:28px;border-radius:8px;background:rgba(255,176,32,0.14);display:flex;align-items:center;justify-content:center;flex:0 0 28px}
+.cal-banner .t{font-size:14px;font-weight:700;color:#fff;letter-spacing:-0.01em;margin-bottom:4px}
+.cal-banner .d{font-size:12px;color:var(--sub);line-height:1.55}
+.cal-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+@media(max-width:720px){.cal-grid{grid-template-columns:1fr}}
+.cal-card{background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px 22px;display:flex;flex-direction:column;gap:10px;position:relative}
+.cal-card .hd{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.cal-card .lg{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;color:#fff;flex:0 0 38px}
+.cal-card .lg.g{background:linear-gradient(135deg,#ea4335,#fbbc04)}
+.cal-card .lg.m{background:linear-gradient(135deg,#0078d4,#50e6ff)}
+.cal-card .lg.a{background:linear-gradient(135deg,#222,#555)}
+.cal-card .lg.i{background:linear-gradient(135deg,var(--purple),var(--accent))}
+.cal-card .lg.c{background:linear-gradient(135deg,#292a2c,#0051ff)}
+.cal-card .n{font-size:15px;font-weight:700;color:#fff;letter-spacing:-0.01em}
+.cal-card .sub{font-size:11.5px;color:var(--muted);margin-top:2px}
+.cal-card .desc{font-size:12.5px;color:var(--sub);line-height:1.55;flex:1}
+.cal-card .actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:6px}
+.cal-card input[type=text],.cal-card input[type=url]{flex:1;min-width:200px;padding:9px 11px;background:rgba(255,255,255,0.03);border:0.5px solid rgba(255,255,255,0.12);border-radius:9px;color:#fff;font:500 12px 'Inter',sans-serif;outline:none}
+.cal-card input:focus{border-color:var(--accent)}
+.cal-card .btn{padding:9px 16px;border-radius:9px;font:600 12px/1 'Inter',sans-serif;cursor:pointer;border:0.5px solid transparent;background:rgba(0,113,227,0.14);color:var(--accent2);border-color:rgba(0,113,227,0.3);transition:all 0.15s}
+.cal-card .btn:hover{background:rgba(0,113,227,0.22)}
+.cal-card .btn.ghost{background:transparent;color:var(--sub);border-color:rgba(255,255,255,0.1)}
+.cal-card .btn.ghost:hover{background:rgba(255,255,255,0.05);color:#fff}
+.cal-card .btn.red{background:rgba(255,77,79,0.1);color:#ff6b6b;border-color:rgba(255,77,79,0.3)}
+.cal-card .btn.red:hover{background:rgba(255,77,79,0.18)}
+.cal-list{margin-top:8px;border:0.5px solid rgba(255,255,255,0.06);border-radius:12px;background:rgba(255,255,255,0.015);overflow:hidden}
+.cal-list .row{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:0.5px solid rgba(255,255,255,0.05);gap:14px}
+.cal-list .row:last-child{border-bottom:0}
+.cal-list .row .left{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
+.cal-list .row .cd{width:30px;height:30px;border-radius:7px;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex:0 0 30px;color:#fff}
+.cal-list .row .nm{font-size:13.5px;font-weight:600;color:#fff;letter-spacing:-0.005em}
+.cal-list .row .sub{font:500 11px/1.4 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.04em;margin-top:2px;word-break:break-all;max-width:420px;overflow:hidden;text-overflow:ellipsis}
+.cal-list .empty{padding:24px;text-align:center;color:var(--muted);font-size:12.5px;line-height:1.6}
+.howto{margin-top:18px;padding:16px 20px;background:rgba(255,255,255,0.02);border:0.5px solid rgba(255,255,255,0.06);border-radius:12px;font-size:12.5px;color:var(--sub);line-height:1.65}
+.howto b{color:#fff;font-weight:700}
+.howto code{font-family:'JetBrains Mono',monospace;font-size:11.5px;background:rgba(0,0,0,0.3);padding:2px 6px;border-radius:4px;color:var(--accent2)}
+</style>
+</head>
+<body>
+<div class="sd-bg"></div><div class="sd-grid"></div>
+
+<nav class="sd-nav">
+  <a class="sd-brand" href="/"><span class="glyph">S</span> SourceDeck</a>
+  <div class="links">
+    <a href="/app/">App</a>
+    <a href="/command/">Command</a>
+    <a href="/settings/calendar/">Calendar</a>
+    <a href="/#pricing">Pricing</a>
+    <a class="cta" href="/#pricing">Choose Plan</a>
+  </div>
+</nav>
+
+<section class="sd-hero" style="padding-bottom:18px">
+  <div class="sd-eyebrow"><span class="dot"></span> Settings · Calendar</div>
+  <h1>Connect your calendar.</h1>
+  <p class="lede">Google, Outlook, iCloud, or any ICS feed. One-click OAuth where available — an ICS URL works with everything, immediately.</p>
+</section>
+
+<div class="cal-wrap">
+
+  <div class="cal-banner">
+    <div class="ic">⚠</div>
+    <div>
+      <div class="t">This setup is required for SourceDeck to successfully automate daily operations.</div>
+      <div class="d">Without a connected calendar, Daily Ops runs in advisory-only mode — it cannot auto-block focus time, detect conflicts, respect travel buffers, or anchor follow-up SLAs to real availability.</div>
+    </div>
+  </div>
+
+  <!-- Connection cards -->
+  <div class="cal-grid">
+
+    <div class="cal-card">
+      <div class="hd">
+        <div style="display:flex;align-items:center;gap:12px"><div class="lg g">G</div><div><div class="n">Google Calendar</div><div class="sub">OAuth 2.0 · read-only</div></div></div>
+        <span id="st-google" class="sd-pill manual">Not connected</span>
+      </div>
+      <div class="desc">One-click sign-in. SourceDeck reads events from your primary calendar in 30-day windows. Tokens stay in your browser session; swap to server-side refresh by deploying the <code style="font-family:monospace;background:rgba(0,0,0,0.3);padding:1px 5px;border-radius:3px;font-size:11px">calendar-oauth</code> Worker.</div>
+      <div class="actions"><button class="btn" onclick="connectGoogle()">Connect Google</button></div>
+    </div>
+
+    <div class="cal-card">
+      <div class="hd">
+        <div style="display:flex;align-items:center;gap:12px"><div class="lg m">M</div><div><div class="n">Microsoft Outlook / 365</div><div class="sub">OAuth 2.0 PKCE · Graph API</div></div></div>
+        <span id="st-microsoft" class="sd-pill manual">Not connected</span>
+      </div>
+      <div class="desc">Authorize via Microsoft; SourceDeck reads your calendar view via Graph <code>/me/calendarView</code>. Works with personal Outlook.com and Microsoft 365 accounts.</div>
+      <div class="actions"><button class="btn" onclick="connectMicrosoft()">Connect Outlook</button></div>
+    </div>
+
+    <div class="cal-card">
+      <div class="hd">
+        <div style="display:flex;align-items:center;gap:12px"><div class="lg i">📅</div><div><div class="n">ICS URL feed</div><div class="sub">Universal · zero-setup · read-only</div></div></div>
+        <span class="sd-pill healthy">Available now</span>
+      </div>
+      <div class="desc">Paste the "secret" ICS URL from Google, Outlook, iCloud, Fastmail, Proton, or any other provider. Works immediately — no OAuth apps, no admin setup.</div>
+      <div class="actions">
+        <input id="ics-name" type="text" placeholder="Name (e.g. Ops calendar)" value="Primary calendar">
+        <input id="ics-url" type="url" placeholder="https://calendar.google.com/.../basic.ics">
+        <button class="btn" onclick="addICS()">Add ICS feed</button>
+      </div>
+    </div>
+
+    <div class="cal-card">
+      <div class="hd">
+        <div style="display:flex;align-items:center;gap:12px"><div class="lg a">A</div><div><div class="n">Apple iCloud</div><div class="sub">CalDAV · app-specific password</div></div></div>
+        <span class="sd-pill warning">Use ICS route</span>
+      </div>
+      <div class="desc">iCloud is supported via its <b>public ICS URL</b> — in iCloud.com → Calendars → ⓘ → enable "Public Calendar" → copy link, then add it in the ICS card above. Direct CalDAV requires an app-specific password; contact sales for enterprise CalDAV.</div>
+      <div class="actions"><a class="btn ghost" href="https://www.icloud.com/calendar" target="_blank" rel="noopener">Open iCloud Calendar →</a></div>
+    </div>
+
+  </div>
+
+  <!-- Live connections -->
+  <div style="margin-top:24px">
+    <div style="font-size:14.5px;font-weight:700;color:#fff;letter-spacing:-0.01em;margin-bottom:10px">Connected calendars</div>
+    <div class="cal-list" id="cal-list"><div class="empty">No calendars connected yet. Pick a method above to get started.</div></div>
+  </div>
+
+  <div class="howto">
+    <b>How to find your ICS URL (all major providers)</b>
+    <ul style="list-style:none;padding:8px 0 0;display:flex;flex-direction:column;gap:5px">
+      <li>· <b>Google Calendar:</b> Settings → pick your calendar on the left → "Integrate calendar" → <b>Secret address in iCal format</b>.</li>
+      <li>· <b>Outlook.com:</b> Settings → View all Outlook settings → Calendar → Shared calendars → "Publish a calendar" → choose permission "Can view all details" → copy the ICS link.</li>
+      <li>· <b>Office 365:</b> Same path; if admin-locked, ask IT to enable calendar publishing or use the OAuth connect above.</li>
+      <li>· <b>iCloud:</b> iCloud.com → Calendars → ⓘ next to the calendar → "Public Calendar" → copy link (replace <code>webcal://</code> with <code>https://</code>).</li>
+      <li>· <b>Fastmail:</b> Calendars → ⚙ → Publish → copy ICS URL.</li>
+    </ul>
+  </div>
+
+</div>
+
+<footer class="sd-foot">SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">·</span> &copy; 2026 Ariel's River Contracting Group LLC</footer>
+
+<script src="/assets/sd-config.js"></script>
+<script src="/assets/sd-calendar.js"></script>
+<script>
+const REDIRECT = location.origin + '/auth/callback/';
+
+function connectGoogle(){ window.sdCalendar.googleConnect(REDIRECT); }
+function connectMicrosoft(){ window.sdCalendar.microsoftConnect(REDIRECT); }
+
+function addICS(){
+  const name = document.getElementById('ics-name').value.trim() || 'ICS feed';
+  const url  = document.getElementById('ics-url').value.trim();
+  if (!url.match(/^https?:\/\//) && !url.match(/^webcal:\/\//)) {
+    alert("Paste a valid ICS URL starting with https:// or webcal://");
+    return;
+  }
+  const clean = url.replace(/^webcal:\/\//i, 'https://');
+  const conn = {
+    id: window.sdCalendar.randomId(),
+    provider: 'ics',
+    name,
+    ics_url: clean,
+    status: 'connected',
+    created_at: Date.now(),
+    last_sync_at: null
+  };
+  window.sdCalendar.upsert(conn);
+  document.getElementById('ics-url').value = '';
+  // Verify fetch immediately
+  window.sdCalendar.fetchEvents(conn, Date.now() - 864e5, Date.now() + 30*864e5)
+    .then(events => { alert('Connected — found ' + events.length + ' upcoming events.'); render(); })
+    .catch(err => { alert('Connection saved but fetch failed: ' + err.message + '\nCheck the URL and CORS headers on your provider.'); render(); });
+  render();
+}
+
+function disconnect(id){
+  if (!confirm('Remove this calendar connection? Stored tokens will be purged.')) return;
+  window.sdCalendar.remove(id);
+  render();
+}
+
+function render(){
+  const cals = window.sdCalendar.list();
+  const host = document.getElementById('cal-list');
+  const ICON = { google:'G', microsoft:'M', ics:'📅', icloud_caldav:'A', cal_com:'C' };
+  // Status pills
+  const byProv = (p) => cals.find(c => c.provider === p && c.status !== 'disconnected');
+  const setPill = (id, conn) => {
+    const el = document.getElementById(id); if (!el) return;
+    if (!conn) { el.className = 'sd-pill manual'; el.textContent = 'Not connected'; return; }
+    el.className = 'sd-pill ' + (conn.status === 'connected' ? 'healthy' : conn.status === 'degraded' ? 'warning' : 'failed');
+    el.textContent = conn.status;
+  };
+  setPill('st-google', byProv('google'));
+  setPill('st-microsoft', byProv('microsoft'));
+  if (!cals.length) { host.innerHTML = '<div class="empty">No calendars connected yet. Pick a method above to get started.</div>'; return; }
+  host.innerHTML = cals.map(c => {
+    const last = c.last_sync_at ? new Date(c.last_sync_at).toLocaleString() : '—';
+    const sub  = c.provider === 'ics' ? c.ics_url :
+                 c.account ? c.account + ' · ' + c.provider :
+                 c.provider;
+    const statusClass = c.status === 'connected' ? 'healthy' : c.status === 'degraded' ? 'warning' : 'failed';
+    return `<div class="row">
+      <div class="left"><div class="cd">${ICON[c.provider]||'?'}</div>
+        <div><div class="nm">${escapeHtml(c.name)}</div><div class="sub">${escapeHtml(sub)}</div></div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <span class="sd-pill ${statusClass}">${c.status}</span>
+        <span style="font:500 10.5px 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.04em">last sync ${last}</span>
+        <button class="btn ghost" onclick="testFetch('${c.id}')">Test</button>
+        <button class="btn red" onclick="disconnect('${c.id}')">Remove</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[ch]); }
+
+async function testFetch(id){
+  const c = window.sdCalendar.list().find(x => x.id === id);
+  if (!c) return;
+  try {
+    const events = await window.sdCalendar.fetchEvents(c, Date.now() - 864e5, Date.now() + 30*864e5);
+    alert('Fetched ' + events.length + ' events in the next 30 days.\nFirst: ' + (events[0] ? events[0].title + ' — ' + events[0].start : '(none)'));
+  } catch(err) {
+    alert('Fetch failed: ' + err.message);
+  }
+  render();
+}
+
+render();
+</script>
+<!-- Tidio chat (SourceDeck support bot) -->
+<script src="//code.tidio.co/80d20949327f4c7c81e2295df563dc46.js" async></script>
+</body>
+</html>

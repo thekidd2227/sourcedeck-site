@@ -69,6 +69,20 @@
     /* ── Basin (form handling) ─────────────────────────────────────── */
     BASIN_ENDPOINT: 'https://usebasin.com/f/c60baae0eef17516eca2bea81e419768',
 
+    /* ── Calendar connection providers ───────────────────────────────
+       Fill client_id for each provider to enable the OAuth buttons on
+       /settings/calendar/. ICS URL feed works out of the box with no
+       OAuth client registration. */
+    CALENDAR: {
+      google:    { client_id: null /* 'xxx.apps.googleusercontent.com' */ },
+      microsoft: { client_id: null /* 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' */,
+                   tenant: 'common',
+                   /* Optional: once the calendar-oauth Worker is deployed,
+                      set this to the exchange endpoint so refresh tokens
+                      live server-side instead of browser session. */
+                   worker_exchange_url: null }
+    },
+
     /* ── Shared ────────────────────────────────────────────────────── */
     SALES_EMAIL: 'sales@arivergrop.com',
     SUCCESS_URL: 'https://sourcedeck.app/thanks/',

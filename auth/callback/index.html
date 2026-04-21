@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>SourceDeck · Finishing connection…</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sd-theme.css">
+</head>
+<body>
+<div class="sd-bg"></div><div class="sd-grid"></div>
+
+<nav class="sd-nav"><a class="sd-brand" href="/"><span class="glyph">S</span> SourceDeck</a></nav>
+
+<section class="sd-hero">
+  <div class="sd-eyebrow"><span class="dot"></span> OAuth callback</div>
+  <h1 id="cb-h1">Finishing connection…</h1>
+  <p class="lede" id="cb-lede">Exchanging the authorization code for an access token. This takes 1–2 seconds.</p>
+</section>
+
+<section class="sd-section narrow">
+  <div class="sd-card">
+    <h3 id="cb-status-h">Status</h3>
+    <p id="cb-status">Processing…</p>
+    <div id="cb-cta" style="margin-top:16px"></div>
+  </div>
+</section>
+
+<script src="/assets/sd-config.js"></script>
+<script src="/assets/sd-calendar.js"></script>
+<script>
+(async function(){
+  const hashParams = new URLSearchParams(location.hash.replace(/^#/, ''));
+  const queryParams = new URLSearchParams(location.search);
+  const rawState = queryParams.get('state') || hashParams.get('state') || '';
+  const [provider, nonce] = rawState.split('|');
+  const expectedNonce = sessionStorage.getItem('sd_oauth_state');
+
+  const h1 = document.getElementById('cb-h1');
+  const lede = document.getElementById('cb-lede');
+  const status = document.getElementById('cb-status');
+  const cta = document.getElementById('cb-cta');
+
+  function fail(msg){
+    h1.textContent = 'Connection failed.';
+    lede.textContent = 'You can try again from the calendar settings page.';
+    status.textContent = msg;
+    cta.innerHTML = '<a class="sd-btn primary lg" href="/settings/calendar/">Back to calendar settings</a>';
+  }
+  function ok(conn){
+    h1.textContent = 'Calendar connected.';
+    lede.textContent = 'Connection saved locally. Jumping back to settings…';
+    status.textContent = 'Provider: ' + conn.provider + (conn.account ? ' · ' + conn.account : '');
+    cta.innerHTML = '<a class="sd-btn primary lg" href="/settings/calendar/">Open calendar settings</a>';
+    setTimeout(() => { location.href = '/settings/calendar/'; }, 1400);
+  }
+
+  if (!rawState || !provider || nonce !== expectedNonce) {
+    return fail('State mismatch — the OAuth handshake could not be verified. Start again from settings.');
+  }
+  sessionStorage.removeItem('sd_oauth_state');
+
+  // ── GOOGLE: implicit flow (token in URL fragment) ──
+  if (provider === 'google') {
+    const token = hashParams.get('access_token');
+    const expires_in = +hashParams.get('expires_in') || 3600;
+    if (!token) return fail('Google did not return an access token.');
+    // Fetch account email for display
+    let email = null;
+    try {
+      const r = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', { headers: { 'Authorization': 'Bearer ' + token }});
+      if (r.ok) email = (await r.json()).email || null;
+    } catch(_){}
+    const conn = window.sdCalendar.upsert({
+      id: window.sdCalendar.randomId(),
+      provider: 'google',
+      name: 'Google Calendar' + (email ? ' · ' + email : ''),
+      account: email,
+      access_token: token,
+      expires_at: Date.now() + expires_in*1000,
+      scopes: hashParams.get('scope')?.split(/\s+/) || [],
+      status: 'connected',
+      created_at: Date.now(),
+      last_sync_at: Date.now()
+    });
+    return ok(conn);
+  }
+
+  // ── MICROSOFT: auth code + PKCE (exchange via Worker, fallback = public token endpoint) ──
+  if (provider === 'microsoft') {
+    const code = queryParams.get('code');
+    const verifier = sessionStorage.getItem('sd_oauth_verifier');
+    sessionStorage.removeItem('sd_oauth_verifier');
+    if (!code || !verifier) return fail('Microsoft did not return a code, or PKCE verifier is missing.');
+    const cfg = (window.SD_CONFIG && window.SD_CONFIG.CALENDAR && window.SD_CONFIG.CALENDAR.microsoft) || {};
+    const workerUrl = cfg.worker_exchange_url; // preferred: server-held refresh token
+    let token = null, email = null, expires_in = 3600, refresh_token = null;
+
+    if (workerUrl) {
+      // Server-side exchange (production path)
+      try {
+        const r = await fetch(workerUrl, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ code, code_verifier: verifier, redirect_uri: location.origin + '/auth/callback/' })});
+        if (!r.ok) throw new Error('worker_exchange:' + r.status);
+        const d = await r.json();
+        token = d.access_token; expires_in = d.expires_in; refresh_token = d.refresh_token; email = d.email;
+      } catch(e) { return fail('Token exchange failed via Worker: ' + e.message); }
+    } else {
+      // Public-client fallback (dev only — Microsoft allows SPA client type for this)
+      try {
+        const body = new URLSearchParams({
+          client_id: cfg.client_id,
+          scope: 'openid offline_access email profile Calendars.Read',
+          code, redirect_uri: location.origin + '/auth/callback/',
+          grant_type: 'authorization_code',
+          code_verifier: verifier
+        });
+        const r = await fetch('https://login.microsoftonline.com/' + (cfg.tenant || 'common') + '/oauth2/v2.0/token', { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body });
+        if (!r.ok) throw new Error('ms_token:' + r.status + ' ' + (await r.text()).slice(0,120));
+        const d = await r.json();
+        token = d.access_token; expires_in = d.expires_in; refresh_token = d.refresh_token;
+        // pull email
+        try { const u = await fetch('https://graph.microsoft.com/v1.0/me', { headers: { 'Authorization': 'Bearer ' + token }});
+              if (u.ok) email = (await u.json()).userPrincipalName || (await u.json()).mail; } catch(_){}
+      } catch(e) { return fail('Token exchange failed: ' + e.message); }
+    }
+
+    const conn = window.sdCalendar.upsert({
+      id: window.sdCalendar.randomId(),
+      provider: 'microsoft',
+      name: 'Outlook' + (email ? ' · ' + email : ''),
+      account: email,
+      access_token: token,
+      expires_at: Date.now() + (expires_in||3600)*1000,
+      refresh_token, // store server-side in production
+      status: 'connected',
+      created_at: Date.now(),
+      last_sync_at: Date.now()
+    });
+    return ok(conn);
+  }
+
+  fail('Unknown OAuth provider: ' + provider);
+})();
+</script>
+<!-- Tidio chat (SourceDeck support bot) -->
+<script src="//code.tidio.co/80d20949327f4c7c81e2295df563dc46.js" async></script>
+</body>
+</html>
