@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SourceDeck · Client &amp; Vendor Portal</title>
+<meta name="description" content="Controlled external views for clients, vendors, subcontractors, and internal stakeholders. Bounded data, approval requests, document exchange, invoice visibility.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sd-theme.css">
+<style>
+.pt-wrap{max-width:1200px;margin:0 auto;padding:24px 20px 80px;position:relative;z-index:1}
+.pt-tabs{display:flex;gap:4px;background:rgba(255,255,255,0.02);border:0.5px solid rgba(255,255,255,0.06);border-radius:12px;padding:4px;margin-bottom:18px;overflow-x:auto}
+.pt-tabs .t{flex:1;padding:10px 14px;border-radius:9px;font:600 11.5px/1 'Inter',sans-serif;text-align:center;cursor:pointer;color:var(--sub);transition:all 0.15s;white-space:nowrap;min-width:fit-content}
+.pt-tabs .t:hover{color:#fff}
+.pt-tabs .t.on{background:rgba(0,113,227,0.15);color:#fff;border:0.5px solid rgba(0,113,227,0.3);padding:9.5px 13.5px}
+.pt-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:16px}
+@media(max-width:1050px){.pt-grid{grid-template-columns:1fr}}
+.pt-card{background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;overflow:hidden}
+.pt-head{padding:16px 18px 12px;border-bottom:0.5px solid rgba(255,255,255,0.05)}
+.pt-head .h{font-size:14px;font-weight:700;color:#fff;letter-spacing:-0.01em}
+.pt-head .sub{font-size:11px;color:var(--muted);margin-top:2px}
+.pt-item{padding:14px 18px;border-bottom:0.5px solid rgba(255,255,255,0.04);display:flex;align-items:center;gap:12px}
+.pt-item:last-child{border-bottom:0}
+.pt-item .ti{flex:1}
+.pt-item .tit{font-size:13px;font-weight:600;color:#fff;letter-spacing:-0.005em}
+.pt-item .tsub{font-size:11.5px;color:var(--muted);margin-top:2px;line-height:1.5}
+.pt-item .btn{padding:6px 11px;border-radius:7px;font:600 10.5px/1 'Inter',sans-serif;background:rgba(0,113,227,0.12);color:var(--accent2);border:0.5px solid rgba(0,113,227,0.3);cursor:pointer;text-decoration:none;white-space:nowrap}
+.pt-item .btn:hover{background:rgba(0,113,227,0.2)}
+.pt-item .btn.approve{background:rgba(48,209,88,0.12);color:var(--green);border-color:rgba(48,209,88,0.3)}
+.pt-item .btn.approve:hover{background:rgba(48,209,88,0.2)}
+.pt-hero{padding:20px;background:linear-gradient(180deg,rgba(0,113,227,0.08) 0%,rgba(0,113,227,0.02) 100%);border-bottom:0.5px solid rgba(0,113,227,0.15)}
+.pt-hero .client{font:600 10.5px/1 'JetBrains Mono',monospace;color:var(--accent2);letter-spacing:0.14em;text-transform:uppercase}
+.pt-hero h3{font-size:18px;font-weight:800;letter-spacing:-0.02em;color:#fff;margin-top:4px}
+.pt-hero .meta{font-size:12px;color:var(--sub);margin-top:6px}
+.pt-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;padding:14px;background:rgba(255,255,255,0.015)}
+@media(max-width:620px){.pt-stats{grid-template-columns:repeat(2,1fr)}}
+.pt-stats .s{padding:10px 6px;text-align:center}
+.pt-stats .sn{font:800 16px/1 'Inter',sans-serif;color:#fff;font-variant-numeric:tabular-nums}
+.pt-stats .sl{font:500 9.5px/1.2 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;margin-top:4px}
+</style>
+</head>
+<body>
+<div class="sd-bg"></div><div class="sd-grid"></div>
+
+<nav class="sd-nav">
+  <a class="sd-brand" href="/"><span class="glyph">S</span> SourceDeck</a>
+  <div class="links">
+    <a href="/app/">App</a>
+    <a href="/command/">Command</a>
+    <a href="/portal/">Portal</a>
+    <a href="/integrations/">Integrations</a>
+    <a href="/agents/">AI Agents</a>
+    <a href="/#pricing">Pricing</a>
+    <a class="cta" href="/#pricing">Choose Plan</a>
+  </div>
+</nav>
+
+<section class="sd-hero" style="padding-bottom:20px">
+  <div class="sd-eyebrow"><span class="dot"></span> Client / Vendor Portal</div>
+  <h1>Controlled external views.<br>Bounded by design.</h1>
+  <p class="lede">Clients see status. Vendors see their work orders. Subs see their dispatch queue. Internal stakeholders see their cut of the operation. Never more.</p>
+</section>
+
+<div class="pt-wrap">
+  <div class="pt-tabs">
+    <div class="t on">Client view</div>
+    <div class="t">Vendor view</div>
+    <div class="t">Subcontractor view</div>
+    <div class="t">Internal stakeholder</div>
+  </div>
+
+  <!-- Client portal -->
+  <div class="pt-card" style="margin-bottom:16px">
+    <div class="pt-hero">
+      <div class="client">Client Portal · Acme Commercial Holdings</div>
+      <h3>Your active work with ARCG Systems</h3>
+      <div class="meta">View-only, excluding other clients · Refreshes every 60s · <span class="sd-pill healthy" style="font-size:9px;margin-left:6px">All systems healthy</span></div>
+    </div>
+    <div class="pt-stats">
+      <div class="s"><div class="sn">2</div><div class="sl">Active jobs</div></div>
+      <div class="s"><div class="sn">6</div><div class="sl">Open tasks</div></div>
+      <div class="s"><div class="sn">1</div><div class="sl">Pending approval</div></div>
+      <div class="s"><div class="sn">$2,450</div><div class="sl">Open invoice</div></div>
+    </div>
+  </div>
+
+  <div class="pt-grid">
+    <!-- Left column: jobs & approvals -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="pt-card">
+        <div class="pt-head"><div class="h">Active jobs</div><div class="sub">Scope · status · next milestone</div></div>
+        <div class="pt-item">
+          <div class="ti"><div class="tit">Q2 Turnover Clean · Building A</div><div class="tsub">Job · J-2031 · On track · Crew dispatched tomorrow 0830</div></div>
+          <span class="sd-pill healthy">On track</span>
+        </div>
+        <div class="pt-item">
+          <div class="ti"><div class="tit">Facility Walkthrough · Building C</div><div class="tsub">Job · J-2044 · Awaiting your sign-off on scope</div></div>
+          <span class="sd-pill wait-client">Needs you</span>
+        </div>
+      </div>
+
+      <div class="pt-card">
+        <div class="pt-head"><div class="h">Approvals</div><div class="sub">Items requiring your sign-off</div></div>
+        <div class="pt-item">
+          <div class="ti"><div class="tit">Change order CO-07 · +$1,850</div><div class="tsub">Document · J-2031 · additional 4 units · 2 days pending</div></div>
+          <a class="btn" href="#">Review</a>
+          <a class="btn approve" href="#">Approve</a>
+        </div>
+        <div class="pt-item">
+          <div class="ti"><div class="tit">Walkthrough scope · Building C</div><div class="tsub">Document · J-2044 · estimated $6,200 · 12 pages</div></div>
+          <a class="btn" href="#">Review</a>
+          <a class="btn approve" href="#">Approve</a>
+        </div>
+      </div>
+
+      <div class="pt-card">
+        <div class="pt-head"><div class="h">Documents exchanged</div><div class="sub">Contracts · COIs · reports · photos</div></div>
+        <div class="pt-item">
+          <div class="ti"><div class="tit">Certificate of Insurance · ACORD 25</div><div class="tsub">Doc · valid through 2026-12-31 · $2M limits</div></div>
+          <span class="sd-pill healthy">Valid</span>
+          <a class="btn" href="#">Download</a>
+        </div>
+        <div class="pt-item">
+          <div class="ti"><div class="tit">Master Services Agreement</div><div class="tsub">Doc · signed 2026-01-14 · auto-renewal notice 60d</div></div>
+          <span class="sd-pill healthy">Signed</span>
+          <a class="btn" href="#">Download</a>
+        </div>
+        <div class="pt-item">
+          <div class="ti"><div class="tit">Job report · J-2031 pre-clean photos</div><div class="tsub">Doc · 14 photos · uploaded 2h ago</div></div>
+          <span class="sd-pill automated">Auto</span>
+          <a class="btn" href="#">View</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right column: invoices & timeline -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="pt-card">
+        <div class="pt-head"><div class="h">Invoices &amp; payments</div><div class="sub">Open · paid · upcoming</div></div>
+        <div class="pt-item">
+          <div class="ti"><div class="tit">INV-0218 · $2,450</div><div class="tsub">Invoice · due 2026-04-12 · 3 days overdue</div></div>
+          <span class="sd-pill warning">Overdue</span>
+          <a class="btn approve" href="#">Pay</a>
+        </div>
+        <div class="pt-item">
+          <div class="ti"><div class="tit">INV-0211 · $4,100</div><div class="tsub">Invoice · paid ACH 2026-03-28</div></div>
+          <span class="sd-pill healthy">Paid</span>
+        </div>
+        <div class="pt-item">
+          <div class="ti"><div class="tit">INV-0219 · estimated</div><div class="tsub">Invoice · J-2031 · will issue on completion · $4,820 est</div></div>
+          <span class="sd-pill manual">Draft</span>
+        </div>
+      </div>
+
+      <div class="pt-card">
+        <div class="pt-head"><div class="h">Recent activity</div><div class="sub">Timeline of what's happened on your account</div></div>
+        <div style="padding:6px 18px 14px">
+          <div style="display:flex;gap:12px;padding:10px 0;border-bottom:0.5px dashed rgba(255,255,255,0.05)">
+            <span style="font:500 9.5px/1 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.08em;min-width:56px">2h AGO</span>
+            <div style="flex:1;font-size:12.5px;color:var(--sub)">14 pre-clean photos uploaded to J-2031 by automation</div>
+          </div>
+          <div style="display:flex;gap:12px;padding:10px 0;border-bottom:0.5px dashed rgba(255,255,255,0.05)">
+            <span style="font:500 9.5px/1 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.08em;min-width:56px">YDAY</span>
+            <div style="flex:1;font-size:12.5px;color:var(--sub)">Change order CO-07 sent for your approval ($1,850)</div>
+          </div>
+          <div style="display:flex;gap:12px;padding:10px 0;border-bottom:0.5px dashed rgba(255,255,255,0.05)">
+            <span style="font:500 9.5px/1 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.08em;min-width:56px">-3d</span>
+            <div style="flex:1;font-size:12.5px;color:var(--sub)">INV-0218 issued · $2,450 · net-30 terms</div>
+          </div>
+          <div style="display:flex;gap:12px;padding:10px 0">
+            <span style="font:500 9.5px/1 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.08em;min-width:56px">-7d</span>
+            <div style="flex:1;font-size:12.5px;color:var(--sub)">Subcontractor insurance verified for J-2031 scope</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-card" style="border-color:rgba(191,90,242,0.25)">
+        <div class="pt-head" style="border-bottom-color:rgba(191,90,242,0.2)"><div class="h" style="color:#fff">Permissions &amp; scope</div><div class="sub">What this portal can and cannot show</div></div>
+        <div style="padding:14px 18px;font-size:12.5px;color:var(--sub);line-height:1.7">
+          <div>✓ Your jobs · tasks · approvals · documents · invoices</div>
+          <div>✓ Your timeline · your photos · your change orders</div>
+          <div style="color:var(--muted);margin-top:8px">✗ Other clients' data · operator-internal notes · subcontractor rates</div>
+          <div style="color:var(--muted)">✗ Revenue attribution · lead pipeline · internal playbooks</div>
+          <div style="margin-top:10px;padding-top:10px;border-top:0.5px solid rgba(255,255,255,0.05);font-size:11px;color:var(--muted)">Access scope enforced by workspace-level ACL. Audit log retained 90 days.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="sd-foot">SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">·</span> &copy; 2026 Ariel's River Contracting Group LLC</footer>
+
+<!-- Tidio chat (SourceDeck support bot) -->
+<script src="//code.tidio.co/80d20949327f4c7c81e2295df563dc46.js" async></script>
+</body>
+</html>

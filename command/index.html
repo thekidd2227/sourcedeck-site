@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SourceDeck · Command Center</title>
+<meta name="description" content="Operational command center — every overdue follow-up, blocked approval, failed automation, unsigned proposal, unpaid invoice, stale deal, and delivery exception in one place.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sd-theme.css">
+<style>
+.cc-wrap{max-width:1280px;margin:0 auto;padding:24px 20px 80px;position:relative;z-index:1}
+.cc-ribbon{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:6px;margin-bottom:18px;padding:10px;background:rgba(255,255,255,0.02);border:0.5px solid rgba(255,255,255,0.06);border-radius:14px}
+@media(max-width:1100px){.cc-ribbon{grid-template-columns:repeat(5,minmax(0,1fr))}}
+@media(max-width:620px){.cc-ribbon{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.cc-e{padding:10px 8px;text-align:center;border-radius:9px;background:rgba(255,255,255,0.02);border:0.5px solid transparent;cursor:pointer;transition:all 0.15s}
+.cc-e:hover{background:rgba(0,113,227,0.06);border-color:rgba(0,113,227,0.25)}
+.cc-e .c{font:800 17px/1 'Inter',sans-serif;color:#fff;letter-spacing:-0.02em;margin-bottom:2px;font-variant-numeric:tabular-nums}
+.cc-e .l{font:600 8.5px/1.2 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.14em;text-transform:uppercase}
+.cc-grid{display:grid;grid-template-columns:2fr 1fr;gap:16px}
+@media(max-width:1050px){.cc-grid{grid-template-columns:1fr}}
+.cc-main{display:flex;flex-direction:column;gap:16px}
+.cc-side{display:flex;flex-direction:column;gap:16px}
+.cc-card{background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:16px;overflow:hidden}
+.cc-head{padding:18px 20px 14px;border-bottom:0.5px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.cc-head .h{font-size:15px;font-weight:700;color:#fff;letter-spacing:-0.01em}
+.cc-head .sub{font-size:11.5px;color:var(--muted);margin-top:2px}
+.cc-head .act{font:600 10.5px/1 'JetBrains Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent2);cursor:pointer;padding:6px 10px;border-radius:6px;background:rgba(0,113,227,0.08);border:0.5px solid rgba(0,113,227,0.2);transition:all 0.15s}
+.cc-head .act:hover{background:rgba(0,113,227,0.14)}
+.cc-filter{display:flex;gap:6px;flex-wrap:wrap;padding:12px 20px;border-bottom:0.5px solid rgba(255,255,255,0.05);background:rgba(255,255,255,0.01)}
+.cc-filter .f{font:500 10.5px/1 'Inter',sans-serif;padding:5px 10px;border-radius:980px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.06);color:var(--sub);cursor:pointer;transition:all 0.15s}
+.cc-filter .f:hover,.cc-filter .f.on{background:rgba(0,113,227,0.14);border-color:rgba(0,113,227,0.35);color:#fff}
+.cc-flow{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;padding:16px 18px}
+@media(max-width:820px){.cc-flow{grid-template-columns:repeat(7,1fr);padding:12px 10px;gap:1px}}
+.cc-stage{padding:10px 6px;border-radius:6px;text-align:center;background:rgba(255,255,255,0.025);position:relative}
+.cc-stage.a{background:rgba(0,113,227,0.15)}
+.cc-stage .sh{font:600 8.5px/1.2 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:4px}
+.cc-stage.a .sh{color:var(--accent2)}
+.cc-stage .sc{font:800 16px/1 'Inter',sans-serif;color:#fff;font-variant-numeric:tabular-nums}
+.cc-stage .sv{font:500 9.5px/1.4 'JetBrains Mono',monospace;color:var(--muted);margin-top:2px}
+.cc-stage .sv.green{color:var(--green)}
+.cc-conn-grid{display:grid;grid-template-columns:1fr;gap:8px;padding:14px}
+.cc-pb{padding:14px 18px;border-bottom:0.5px solid rgba(255,255,255,0.05)}
+.cc-pb:last-child{border-bottom:0}
+.cc-pb .ph{font-size:13.5px;font-weight:600;color:#fff;letter-spacing:-0.005em;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cc-pb .pn{font-size:11.5px;color:var(--muted);line-height:1.5}
+.cc-pb .steps{margin-top:8px;display:flex;flex-direction:column;gap:5px}
+.cc-pb .step{display:flex;align-items:center;gap:10px;font-size:11.5px;color:var(--sub)}
+.cc-pb .step .ck{width:14px;height:14px;border-radius:4px;border:1.5px solid rgba(255,255,255,0.2);flex:0 0 14px;display:inline-flex;align-items:center;justify-content:center;font-size:9px}
+.cc-pb .step.done .ck{background:var(--green);border-color:var(--green);color:#0a0a0a}
+.cc-pb .step.done .ck::after{content:'✓';font-weight:800}
+.cc-pb .step.done .t{color:var(--muted);text-decoration:line-through}
+.cc-pb .step.doing .ck{border-color:var(--accent2);background:rgba(41,151,255,0.1)}
+.cc-pb .step.doing .ck::after{content:'•';color:var(--accent2);font-weight:800}
+</style>
+</head>
+<body>
+<div class="sd-bg"></div><div class="sd-grid"></div>
+
+<nav class="sd-nav">
+  <a class="sd-brand" href="/"><span class="glyph">S</span> SourceDeck</a>
+  <div class="links">
+    <a href="/app/">App</a>
+    <a href="/command/">Command</a>
+    <a href="/portal/">Portal</a>
+    <a href="/integrations/">Integrations</a>
+    <a href="/agents/">AI Agents</a>
+    <a href="/#pricing">Pricing</a>
+    <a class="cta" href="/#pricing">Choose Plan</a>
+  </div>
+</nav>
+
+<section class="sd-hero" style="padding-bottom:20px">
+  <div class="sd-eyebrow"><span class="dot"></span> Command Center</div>
+  <h1>Every action-needed item. One screen.</h1>
+  <p class="lede">Overdue follow-ups, blocked approvals, failed automations, unsigned proposals, unpaid invoices, stale deals, delivery exceptions — aggregated, prioritized, owned.</p>
+</section>
+
+<div class="cc-wrap">
+
+  <!-- Universal work object ribbon -->
+  <div class="cc-ribbon" aria-label="Work objects">
+    <div class="cc-e"><div class="c">142</div><div class="l">Leads</div></div>
+    <div class="cc-e"><div class="c">86</div><div class="l">Contacts</div></div>
+    <div class="cc-e"><div class="c">31</div><div class="l">Companies</div></div>
+    <div class="cc-e"><div class="c">24</div><div class="l">Deals</div></div>
+    <div class="cc-e"><div class="c">9</div><div class="l">Jobs</div></div>
+    <div class="cc-e"><div class="c">48</div><div class="l">Tasks</div></div>
+    <div class="cc-e"><div class="c">17</div><div class="l">Invoices</div></div>
+    <div class="cc-e"><div class="c">12</div><div class="l">Documents</div></div>
+    <div class="cc-e"><div class="c">206</div><div class="l">Auto runs</div></div>
+    <div class="cc-e"><div class="c">4</div><div class="l">Issues</div></div>
+  </div>
+
+  <div class="cc-grid">
+    <!-- ═══════ MAIN ═══════ -->
+    <div class="cc-main">
+
+      <!-- Operational inbox / queue -->
+      <div class="cc-card">
+        <div class="cc-head">
+          <div><div class="h">Operational Inbox</div><div class="sub">15 items need an owner decision — sorted by severity</div></div>
+          <span class="act">Assign all owned</span>
+        </div>
+        <div class="cc-filter">
+          <span class="f on">All · 15</span>
+          <span class="f">Blocked · 4</span>
+          <span class="f">Waiting on client · 3</span>
+          <span class="f">Failed automations · 2</span>
+          <span class="f">Unpaid · 2</span>
+          <span class="f">Unsigned · 2</span>
+          <span class="f">Stale · 2</span>
+        </div>
+
+        <div class="sd-row"><span class="sd-pill blocked">Blocked</span>
+          <div class="r-who">Proposal signature missing — <b>Hargrove Property Services</b><span class="sub">Deal · Pro tier · $4,188/yr · 11 days since sent</span></div>
+          <span class="sd-obj deal">Deal</span>
+          <span class="r-meta">DUE 0d</span>
+          <span class="r-owner"><span class="av">JC</span>JC</span>
+        </div>
+        <div class="sd-row"><span class="sd-pill failed">Failed</span>
+          <div class="r-who">Instantly sender warmup dropped — <b>charlie@digiarcgsystems.com</b><span class="sub">Automation · Bounce Guard paused Pricing Diagnosis funnel</span></div>
+          <span class="sd-obj auto">Auto</span>
+          <span class="r-meta">-1h</span>
+          <span class="r-owner"><span class="av" style="background:linear-gradient(135deg,#ff6b6b,#ff4d4f)">SY</span>System</span>
+        </div>
+        <div class="sd-row"><span class="sd-pill blocked">Blocked</span>
+          <div class="r-who">Subcontractor insurance expired — <b>Riverdale Maids</b><span class="sub">Job · Cleaning Route 14 · cannot dispatch next Tuesday</span></div>
+          <span class="sd-obj job">Job</span>
+          <span class="r-meta">DUE 2d</span>
+          <span class="r-owner"><span class="av">DL</span>DL</span>
+        </div>
+        <div class="sd-row"><span class="sd-pill wait-client">Waiting · client</span>
+          <div class="r-who">MSA countersign — <b>Meridian Realty Partners</b><span class="sub">Document · Operator tier · sent 4 days ago</span></div>
+          <span class="sd-obj doc">Doc</span>
+          <span class="r-meta">+4d</span>
+          <span class="r-owner"><span class="av">JC</span>JC</span>
+        </div>
+        <div class="sd-row"><span class="sd-pill warning">Warning</span>
+          <div class="r-who">Invoice overdue — <b>Summit Facilities · INV-0218</b><span class="sub">Invoice · $2,450 · net-30 expired 3d ago</span></div>
+          <span class="sd-obj invoice">Invoice</span>
+          <span class="r-meta">+3d</span>
+          <span class="r-owner"><span class="av">FN</span>Finance</span>
+        </div>
+        <div class="sd-row"><span class="sd-pill wait-internal">Waiting · internal</span>
+          <div class="r-who">Bid / no-bid decision — <b>DLA RFQ SP0700-26-Q-1184</b><span class="sub">Deal · GovCon · pWIN 0.41 · pursuit closes in 6d</span></div>
+          <span class="sd-obj deal">Deal</span>
+          <span class="r-meta">DUE 3d</span>
+          <span class="r-owner"><span class="av">JC</span>JC</span>
+        </div>
+        <div class="sd-row"><span class="sd-pill escalated">Escalated</span>
+          <div class="r-who">Delivery SLA breach — <b>RiverTide Property Mgmt</b><span class="sub">Job · Move-in clean · response > 24h on work order #4421</span></div>
+          <span class="sd-obj issue">Issue</span>
+          <span class="r-meta">-26h</span>
+          <span class="r-owner"><span class="av">DL</span>DL</span>
+        </div>
+        <div class="sd-row"><span class="sd-pill warning">Warning</span>
+          <div class="r-who">Stale deal — <b>NorthStar Dispatch HVAC</b><span class="sub">Deal · no activity 18 days · proposal not yet sent</span></div>
+          <span class="sd-obj deal">Deal</span>
+          <span class="r-meta">+18d</span>
+          <span class="r-owner"><span class="av">JC</span>JC</span>
+        </div>
+        <div class="sd-row"><span class="sd-pill failed">Failed</span>
+          <div class="r-who">Airtable → HubSpot sync — <b>retry 3/3</b><span class="sub">Automation · 4 deal records queued · credential likely expired</span></div>
+          <span class="sd-obj auto">Auto</span>
+          <span class="r-meta">-22m</span>
+          <span class="r-owner"><span class="av" style="background:linear-gradient(135deg,#ff6b6b,#ff4d4f)">SY</span>System</span>
+        </div>
+        <div class="sd-row"><span class="sd-pill blocked">Blocked</span>
+          <div class="r-who">Prior-auth request missing attachments — <b>Bethesda Ophth · AUTH #A-44812</b><span class="sub">Task · MedPilot vertical · surgical date at risk</span></div>
+          <span class="sd-obj task">Task</span>
+          <span class="r-meta">DUE 1d</span>
+          <span class="r-owner"><span class="av">OP</span>OP</span>
+        </div>
+        <div class="sd-row"><span class="sd-pill wait-client">Waiting · client</span>
+          <div class="r-who">W-9 + COI pack requested — <b>Cascade Staffing Group</b><span class="sub">Document · new vendor onboarding · 48h since ask</span></div>
+          <span class="sd-obj doc">Doc</span>
+          <span class="r-meta">+2d</span>
+          <span class="r-owner"><span class="av">FN</span>Finance</span>
+        </div>
+        <div class="sd-row"><span class="sd-pill warning">Warning</span>
+          <div class="r-who">Invoice draft not sent — <b>Halcyon Federal Services · INV-0219 draft</b><span class="sub">Invoice · $7,988 · created 5d ago</span></div>
+          <span class="sd-obj invoice">Invoice</span>
+          <span class="r-meta">+5d</span>
+          <span class="r-owner"><span class="av">FN</span>Finance</span>
+        </div>
+        <div class="sd-row"><span class="sd-pill wait-client">Waiting · client</span>
+          <div class="r-who">Portal approval pending — <b>Acme Commercial · change order CO-07</b><span class="sub">Document · Job #J-2031 · $1,850 scope delta</span></div>
+          <span class="sd-obj doc">Doc</span>
+          <span class="r-meta">+3d</span>
+          <span class="r-owner"><span class="av">JC</span>JC</span>
+        </div>
+        <div class="sd-row"><span class="sd-pill escalated">Escalated</span>
+          <div class="r-who">Reply requires human review — <b>"Who handles procurement?"</b><span class="sub">Lead · Reply Classifier tag: REFERRAL · 2h idle</span></div>
+          <span class="sd-obj lead">Lead</span>
+          <span class="r-meta">-2h</span>
+          <span class="r-owner"><span class="av">JC</span>JC</span>
+        </div>
+        <div class="sd-row"><span class="sd-pill approved">Approved · ready</span>
+          <div class="r-who">Proposal ready to send — <b>Pelagic Property Management</b><span class="sub">Document · all win themes inserted · 1 click to DocuSign</span></div>
+          <span class="sd-obj doc">Doc</span>
+          <span class="r-meta">now</span>
+          <span class="r-owner"><span class="av">JC</span>JC</span>
+        </div>
+      </div>
+
+      <!-- Revenue attribution path -->
+      <div class="cc-card">
+        <div class="cc-head">
+          <div><div class="h">Revenue Path · 30d</div><div class="sub">Lead → Outreach → Reply → Meeting → Proposal → Invoice → Paid</div></div>
+          <span class="act">By Campaign</span>
+        </div>
+        <div class="cc-flow">
+          <div class="cc-stage"><div class="sh">Lead</div><div class="sc">1,482</div><div class="sv">qualified</div></div>
+          <div class="cc-stage"><div class="sh">Outreach</div><div class="sc">1,286</div><div class="sv">sent</div></div>
+          <div class="cc-stage"><div class="sh">Reply</div><div class="sc">218</div><div class="sv">17.0%</div></div>
+          <div class="cc-stage a"><div class="sh">Meeting</div><div class="sc">41</div><div class="sv green">booked</div></div>
+          <div class="cc-stage"><div class="sh">Proposal</div><div class="sc">23</div><div class="sv">sent</div></div>
+          <div class="cc-stage"><div class="sh">Invoice</div><div class="sc">14</div><div class="sv">$48.2K</div></div>
+          <div class="cc-stage"><div class="sh">Paid</div><div class="sc">11</div><div class="sv green">$37.9K</div></div>
+        </div>
+      </div>
+
+      <!-- SOP / playbook execution -->
+      <div class="cc-card">
+        <div class="cc-head">
+          <div><div class="h">Playbooks in flight</div><div class="sub">Executable SOPs · owner-assigned · completion evidence required</div></div>
+          <span class="act">+ New playbook</span>
+        </div>
+
+        <div class="cc-pb">
+          <div class="ph">New Client Onboarding — <span style="color:var(--muted);font-weight:500">Meridian Realty Partners</span><span class="sd-pill automated">Auto</span></div>
+          <div class="pn">Playbook · 8 steps · owner JC · SLA 5 business days</div>
+          <div class="steps">
+            <div class="step done"><span class="ck"></span><span class="t">Signed MSA received</span></div>
+            <div class="step done"><span class="ck"></span><span class="t">Stripe customer created + portal link sent</span></div>
+            <div class="step done"><span class="ck"></span><span class="t">W-9 requested + received</span></div>
+            <div class="step doing"><span class="ck"></span><span class="t">Kickoff call scheduled (Cal.com · +2 days)</span></div>
+            <div class="step"><span class="ck"></span><span class="t">Workspace provisioned + keys intake email sent</span></div>
+          </div>
+        </div>
+
+        <div class="cc-pb">
+          <div class="ph">Move-out Clean Dispatch — <span style="color:var(--muted);font-weight:500">Unit #4421 · RiverTide</span><span class="sd-pill escalated">SLA</span></div>
+          <div class="pn">Playbook · 6 steps · owner DL · SLA 24h response</div>
+          <div class="steps">
+            <div class="step done"><span class="ck"></span><span class="t">Work order received</span></div>
+            <div class="step done"><span class="ck"></span><span class="t">Subcontractor matched + COI verified</span></div>
+            <div class="step doing"><span class="ck"></span><span class="t">Sub confirmation pending (overdue · escalated)</span></div>
+            <div class="step"><span class="ck"></span><span class="t">On-site check-in photo submitted</span></div>
+          </div>
+        </div>
+
+        <div class="cc-pb">
+          <div class="ph">Proposal → Close — <span style="color:var(--muted);font-weight:500">Pelagic Property Management</span><span class="sd-pill approved">Ready</span></div>
+          <div class="pn">Playbook · 5 steps · owner JC · converts at 62% in our data</div>
+          <div class="steps">
+            <div class="step done"><span class="ck"></span><span class="t">Discovery call notes + pain map</span></div>
+            <div class="step done"><span class="ck"></span><span class="t">Pricing calibrated (Pro · annual invoice)</span></div>
+            <div class="step done"><span class="ck"></span><span class="t">Proposal drafted by Proposal Agent</span></div>
+            <div class="step doing"><span class="ck"></span><span class="t">Send via DocuSign (one click)</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══════ SIDE ═══════ -->
+    <div class="cc-side">
+
+      <!-- Readiness -->
+      <div class="cc-card">
+        <div class="cc-head"><div><div class="h">Implementation readiness</div><div class="sub">7 / 9 gates passed</div></div></div>
+        <div style="padding:4px 16px 16px;display:flex;flex-direction:column;gap:8px">
+          <div class="sd-ready"><div class="rg"><svg width="56" height="56" viewBox="0 0 56 56"><circle cx="28" cy="28" r="22" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="5"/><circle cx="28" cy="28" r="22" fill="none" stroke="var(--green)" stroke-width="5" stroke-linecap="round" stroke-dasharray="138.23" stroke-dashoffset="30" /></svg><div class="cv">78%</div></div><div class="rbody"><div class="rh">Workspace ready</div><div class="rsub">Connections, mappings, tests passed — 2 gates still open.</div></div></div>
+          <div style="display:grid;grid-template-columns:1fr;gap:4px;margin-top:4px">
+            <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:0.5px solid rgba(255,255,255,0.04);font-size:12px"><span style="color:var(--sub)">Connections complete</span><span class="sd-pill healthy" style="font-size:9px">5/5</span></div>
+            <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:0.5px solid rgba(255,255,255,0.04);font-size:12px"><span style="color:var(--sub)">Field mapping complete</span><span class="sd-pill healthy" style="font-size:9px">8/8</span></div>
+            <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:0.5px solid rgba(255,255,255,0.04);font-size:12px"><span style="color:var(--sub)">Test events received</span><span class="sd-pill healthy" style="font-size:9px">✓</span></div>
+            <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:0.5px solid rgba(255,255,255,0.04);font-size:12px"><span style="color:var(--sub)">Workspace live</span><span class="sd-pill healthy" style="font-size:9px">✓</span></div>
+            <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:0.5px solid rgba(255,255,255,0.04);font-size:12px"><span style="color:var(--sub)">Automations active</span><span class="sd-pill warning" style="font-size:9px">4/6</span></div>
+            <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:0.5px solid rgba(255,255,255,0.04);font-size:12px"><span style="color:var(--sub)">Deliverability health</span><span class="sd-pill warning" style="font-size:9px">Pending</span></div>
+            <div style="display:flex;justify-content:space-between;padding:7px 0;font-size:12px"><span style="color:var(--sub)">Client portal published</span><span class="sd-pill manual" style="font-size:9px">Not started</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Connector health -->
+      <div class="cc-card">
+        <div class="cc-head"><div><div class="h">Connector health</div><div class="sub">8 live · 1 degraded · 1 failed</div></div><span class="act">Retry all failed</span></div>
+        <div class="cc-conn-grid">
+          <div class="sd-conn"><div class="ch-head"><div><div class="ch-name">Stripe</div><div class="ch-type">Billing · checkout</div></div><span class="sd-pill healthy">Healthy</span></div><div class="ch-meta"><b>Last event</b> 34s ago · <b>retry queue</b> 0</div></div>
+          <div class="sd-conn"><div class="ch-head"><div><div class="ch-name">Instantly</div><div class="ch-type">Email · outbound</div></div><span class="sd-pill warning">Warning</span></div><div class="ch-meta"><b>Last sync</b> 11m ago · <b>bounce rate</b> 4.2% (over 3% threshold)</div></div>
+          <div class="sd-conn"><div class="ch-head"><div><div class="ch-name">Airtable → HubSpot</div><div class="ch-type">CRM · sync</div></div><span class="sd-pill failed">Failed</span></div><div class="ch-meta"><b>Last run</b> 22m ago · <b>retries</b> 3/3 · <b>action</b> Re-auth OAuth</div></div>
+          <div class="sd-conn"><div class="ch-head"><div><div class="ch-name">Twilio SMS</div><div class="ch-type">SMS channel</div></div><span class="sd-pill healthy">Healthy</span></div><div class="ch-meta"><b>Last send</b> 4m ago · <b>queue</b> 2 pending</div></div>
+          <div class="sd-conn"><div class="ch-head"><div><div class="ch-name">DocuSign</div><div class="ch-type">eSignature</div></div><span class="sd-pill healthy">Healthy</span></div><div class="ch-meta"><b>Last signed</b> 1h ago · <b>pending</b> 3</div></div>
+          <div class="sd-conn"><div class="ch-head"><div><div class="ch-name">Cal.com</div><div class="ch-type">Booking</div></div><span class="sd-pill healthy">Healthy</span></div><div class="ch-meta"><b>Last booking</b> 2h ago · <b>upcoming 7d</b> 6</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer class="sd-foot">SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">·</span> &copy; 2026 Ariel's River Contracting Group LLC</footer>
+
+<!-- Tidio chat (SourceDeck support bot) -->
+<script src="//code.tidio.co/80d20949327f4c7c81e2295df563dc46.js" async></script>
+</body>
+</html>
