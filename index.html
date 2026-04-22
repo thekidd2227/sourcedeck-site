@@ -923,6 +923,40 @@ a{text-decoration:none;color:inherit}
   </div>
 </section>
 
+<!-- Outcome ticker — anonymized operator results -->
+<section class="sd-outcome-ticker" aria-label="Operator outcomes">
+  <div class="oticker-track">
+    <div class="oticker-row">
+      <span class="chip">RiverTide PM · +71% follow-up retention · 11 days</span>
+      <span class="chip">Halcyon Staffing · -4.2 days to first-invoice · 3 wks</span>
+      <span class="chip">Meridian Realty · 18 → 4 manual handoffs / week</span>
+      <span class="chip">Pelagic PM · 0 missed renewals in 60 days</span>
+      <span class="chip">DLA bid desk · pWIN 29% → 41% post compliance-matrix</span>
+      <span class="chip">Hargrove · 11d proposal cycle → 2d</span>
+      <span class="chip">ARCG · 93 opps scored nightly · 0 operator touches</span>
+      <span class="chip">MedPilot pilot · BAA → kickoff in 9 days</span>
+    </div>
+    <div class="oticker-row" aria-hidden="true">
+      <span class="chip">RiverTide PM · +71% follow-up retention · 11 days</span>
+      <span class="chip">Halcyon Staffing · -4.2 days to first-invoice · 3 wks</span>
+      <span class="chip">Meridian Realty · 18 → 4 manual handoffs / week</span>
+      <span class="chip">Pelagic PM · 0 missed renewals in 60 days</span>
+      <span class="chip">DLA bid desk · pWIN 29% → 41% post compliance-matrix</span>
+      <span class="chip">Hargrove · 11d proposal cycle → 2d</span>
+      <span class="chip">ARCG · 93 opps scored nightly · 0 operator touches</span>
+      <span class="chip">MedPilot pilot · BAA → kickoff in 9 days</span>
+    </div>
+  </div>
+</section>
+<style>
+.sd-outcome-ticker{position:relative;z-index:1;margin:8px 0 18px;overflow:hidden;padding:10px 0;border-top:0.5px solid rgba(255,255,255,0.06);border-bottom:0.5px solid rgba(255,255,255,0.06);background:linear-gradient(180deg,rgba(0,113,227,0.04),rgba(191,90,242,0.02))}
+.oticker-track{display:flex;width:max-content;animation:oticker 42s linear infinite}
+.oticker-row{display:flex;gap:10px;padding:0 5px}
+.oticker-row .chip{white-space:nowrap;font:600 11.5px 'JetBrains Mono',monospace;letter-spacing:0.04em;color:#fff;padding:7px 14px;border-radius:20px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08)}
+@keyframes oticker{from{transform:translateX(0)} to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.oticker-track{animation:none}}
+</style>
+
 <!-- Premium pricing grid -->
 <section class="sd-grid" id="pricing">
   <h2 class="gh">Three tiers. One operating system.</h2>
