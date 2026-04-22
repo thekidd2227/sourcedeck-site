@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SourceDeck · API</title>
+<meta name="description" content="Public REST API for SourceDeck. Authentication, resources, webhooks, rate limits.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sd-theme.css">
+<style>
+.api-wrap{max-width:980px;margin:0 auto;padding:22px 20px 80px;position:relative;z-index:1}
+.api-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:22px}
+@media(max-width:720px){.api-grid{grid-template-columns:1fr}}
+.api-card{background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:18px 20px}
+.api-card h3{font-size:14px;font-weight:700;color:#fff;margin-bottom:6px;letter-spacing:-0.01em}
+.api-card p{font-size:12.5px;color:var(--sub);line-height:1.6}
+.api-card code{font:500 11.5px 'JetBrains Mono',monospace;background:rgba(255,255,255,0.05);padding:1px 6px;border-radius:4px;color:var(--accent2)}
+.api-ep{display:flex;justify-content:space-between;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.04);font:500 12px 'JetBrains Mono',monospace}
+.api-ep:last-child{border-bottom:0}
+.api-ep .m{font-weight:700;letter-spacing:0.08em;padding:2px 7px;border-radius:4px;font-size:10px}
+.api-ep .m.get{color:var(--accent2);background:rgba(41,151,255,0.1)}
+.api-ep .m.post{color:var(--green);background:rgba(48,209,88,0.1)}
+.api-ep .m.patch{color:var(--gold);background:rgba(212,168,67,0.1)}
+.api-ep .p{color:#fff;flex:1;margin:0 10px}
+.api-ep .d{color:var(--muted);font-size:11px;font-family:'Inter',sans-serif}
+</style>
+</head>
+<body>
+<div class="sd-bg"></div><div class="sd-grid"></div>
+
+<nav class="sd-nav">
+  <a class="sd-brand" href="/"><span class="glyph">S</span> SourceDeck</a>
+  <div class="links">
+    <a href="/app/">App</a>
+    <a href="/status/">Status</a>
+    <a href="/changelog/">Changelog</a>
+    <a href="/api/">API</a>
+    <a class="cta" href="/#pricing">Choose Plan</a>
+  </div>
+</nav>
+
+<section class="sd-hero" style="padding-bottom:14px">
+  <div class="sd-eyebrow"><span class="dot"></span> Public API</div>
+  <h1>REST. Idempotent. Operator-shaped.</h1>
+  <p class="lede">Leads, deals, jobs, tasks, invoices, approvals, webhooks. Full SQL + REST spec under <code>/docs/sourcedeck/SELF_SETUP_SQL_AND_API_SPEC.md</code>.</p>
+</section>
+
+<div class="api-wrap">
+
+  <div class="api-grid">
+    <div class="api-card">
+      <h3>Base URL</h3>
+      <p><code>https://api.sourcedeck.app/v1/</code> · TLS only · JSON only · UTF-8.</p>
+    </div>
+    <div class="api-card">
+      <h3>Auth</h3>
+      <p>Bearer token. Issue per-workspace under <code>/settings/</code> → API keys. Scope-limited (read · write · admin).</p>
+    </div>
+    <div class="api-card">
+      <h3>Rate limits</h3>
+      <p>600 req/min workspace · 60 req/min per token. <code>429</code> with <code>Retry-After</code> header.</p>
+    </div>
+    <div class="api-card">
+      <h3>Idempotency</h3>
+      <p>All POST accepts <code>Idempotency-Key</code> header. 24h replay window. Dedupes at create-time.</p>
+    </div>
+  </div>
+
+  <div class="api-card" style="margin-bottom:22px">
+    <h3 style="margin-bottom:10px">Core endpoints</h3>
+    <div class="api-ep"><span class="m post">POST</span><span class="p">/v1/leads</span><span class="d">create lead · runs ICP scoring</span></div>
+    <div class="api-ep"><span class="m get">GET</span><span class="p">/v1/leads?score_gte=80</span><span class="d">list leads · filter by ICP fit</span></div>
+    <div class="api-ep"><span class="m post">POST</span><span class="p">/v1/deals</span><span class="d">create deal from lead</span></div>
+    <div class="api-ep"><span class="m post">POST</span><span class="p">/v1/jobs</span><span class="d">create delivery job · triggers playbook</span></div>
+    <div class="api-ep"><span class="m patch">PATCH</span><span class="p">/v1/tasks/:id</span><span class="d">update task · fires state event</span></div>
+    <div class="api-ep"><span class="m post">POST</span><span class="p">/v1/invoices</span><span class="d">draft invoice · syncs to Stripe</span></div>
+    <div class="api-ep"><span class="m get">GET</span><span class="p">/v1/approvals?status=pending</span><span class="d">list pending approvals</span></div>
+    <div class="api-ep"><span class="m post">POST</span><span class="p">/v1/approvals/:id/decide</span><span class="d">approve or reject</span></div>
+    <div class="api-ep"><span class="m post">POST</span><span class="p">/v1/webhooks</span><span class="d">register outbound subscription</span></div>
+    <div class="api-ep"><span class="m get">GET</span><span class="p">/v1/events?type=lead_qualified</span><span class="d">tail event stream</span></div>
+  </div>
+
+  <div class="api-grid">
+    <div class="api-card">
+      <h3>Webhooks · outbound</h3>
+      <p>HMAC-signed with <code>X-SourceDeck-Signature</code>. At-least-once delivery · 24h exponential retry. Event taxonomy: <code>lead.*</code> · <code>deal.*</code> · <code>job.*</code> · <code>invoice.*</code> · <code>approval.*</code>.</p>
+    </div>
+    <div class="api-card">
+      <h3>SDKs</h3>
+      <p>Node + Python coming Phase 2. In the meantime: standard <code>fetch</code> or <code>requests</code> works fine. Full OpenAPI schema under <code>/docs/sourcedeck/</code>.</p>
+    </div>
+    <div class="api-card">
+      <h3>Sandbox</h3>
+      <p>Test-mode workspace with fixture data. Provision with <code>X-Sandbox: true</code> header on any key issued from a trial workspace.</p>
+    </div>
+    <div class="api-card">
+      <h3>Support</h3>
+      <p>Operator-tier customers get a shared Slack channel + 4h response. Other tiers: <a href="mailto:api@arivergrop.com" style="color:var(--accent2)">api@arivergrop.com</a>.</p>
+    </div>
+  </div>
+
+  <div class="api-card" style="margin-top:18px">
+    <h3 style="margin-bottom:6px">Full spec</h3>
+    <p>Authoritative contract (Postgres DDL + REST definitions + error taxonomy + RBAC): <a href="/docs/sourcedeck/" style="color:var(--accent2);font-weight:600">/docs/sourcedeck/ →</a></p>
+  </div>
+
+</div>
+
+<footer class="sd-foot">SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">·</span> &copy; 2026 Ariel's River Contracting Group LLC</footer>
+
+<script src="//code.tidio.co/80d20949327f4c7c81e2295df563dc46.js" async></script>
+</body>
+</html>

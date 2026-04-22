@@ -1,0 +1,85 @@
+{
+  "_spec_ref": "One-stop-shop Layer 1 — industry packs",
+  "version": "2026-04-21",
+  "note": "One-click presets. Each pack installs an ICP, 3 playbooks, a reporting template, a deliverable library, a compliance posture, and seed industries into a fresh workspace.",
+  "packs": [
+    {
+      "id": "pack_pm",
+      "name": "Property Management Pack",
+      "industry_id": "pm",
+      "tagline": "Multi-site property ops, chair-time recovery, vendor dispatch.",
+      "icp": { "target_roles": ["Regional Director", "Portfolio Manager", "Operations Manager"], "company_size_min": 5, "company_size_max": 500, "target_geographies": ["US"] },
+      "playbooks": ["New Client Onboarding", "Move-out Clean Dispatch", "Rent Collection Escalation"],
+      "reporting": "Weekly portfolio health + per-property blockers",
+      "deliverables": ["Monthly ops report", "Vendor compliance audit", "Maintenance SLA summary"],
+      "compliance_posture": ["Fair Housing reference", "State-specific property regs note"],
+      "outbound_tone": "Operator-to-operator, revenue-aware",
+      "default_campaign_name": "Property Ops Diagnosis Funnel"
+    },
+    {
+      "id": "pack_staffing",
+      "name": "Staffing & Recruiting Pack",
+      "industry_id": "staffing",
+      "tagline": "Intake automation, candidate velocity, placement margin protection.",
+      "icp": { "target_roles": ["VP Operations", "Director of Recruiting"], "company_size_min": 10, "company_size_max": 250, "target_geographies": ["US"] },
+      "playbooks": ["Intake → Placement", "Candidate Re-engagement", "Client NPS follow-up"],
+      "reporting": "Weekly fills · cycle time · margin per placement",
+      "deliverables": ["Recruiter activity report", "Client scorecard", "Quarterly retention review"],
+      "compliance_posture": ["EEO reference", "I-9 / E-Verify intake notes"],
+      "outbound_tone": "Peer-to-peer, speed-to-slate focused",
+      "default_campaign_name": "Staffing Intake Diagnosis Funnel"
+    },
+    {
+      "id": "pack_home_services",
+      "name": "Home Services Pack",
+      "industry_id": "home_services",
+      "tagline": "Dispatch, callback discipline, subcontractor compliance.",
+      "icp": { "target_roles": ["Owner/Operator", "Dispatch Manager", "Service Manager"], "company_size_min": 2, "company_size_max": 100, "target_geographies": ["US"] },
+      "playbooks": ["New Job Dispatch", "48h Callback", "Technician Mobilization"],
+      "reporting": "Daily dispatch log · callback rate · tech utilization",
+      "deliverables": ["Weekly route report", "Insurance validity audit", "Monthly revenue-per-tech"],
+      "compliance_posture": ["State licensing reference", "Insurance minimum validation"],
+      "outbound_tone": "Direct, revenue-per-truck focused",
+      "default_campaign_name": "Home Services Dispatch Funnel"
+    },
+    {
+      "id": "pack_govcon",
+      "name": "GovCon Pack",
+      "industry_id": "govcon",
+      "tagline": "SAM search, compliance matrix, proposal discipline, past-perf library.",
+      "icp": { "target_roles": ["Capture Manager", "Proposal Manager", "BD Director", "Program Manager"], "company_size_min": 10, "company_size_max": 500, "target_geographies": ["US"] },
+      "playbooks": ["Bid/No-Bid Triage", "Compliance-First Proposal", "Incumbent Recompete Tracker"],
+      "reporting": "Pipeline pWIN · capture ROI · compliance-matrix coverage",
+      "deliverables": ["Weekly opportunity digest", "Past-performance inventory", "Pricing assumption review"],
+      "compliance_posture": ["FAR/DFARS reference", "SDVOSB/WOSB/8(a)/HUBZone certs", "CMMC L2 posture link"],
+      "outbound_tone": "Federal-BD operator, capture-discipline framing",
+      "default_campaign_name": "GovCon Capture Diagnosis Funnel"
+    },
+    {
+      "id": "pack_pro_services",
+      "name": "Professional Services Pack",
+      "industry_id": "pro_services",
+      "tagline": "Scoped engagements, milestone billing, client signoff discipline.",
+      "icp": { "target_roles": ["Principal", "Managing Director", "Partner"], "company_size_min": 3, "company_size_max": 100, "target_geographies": ["US", "CA", "UK"] },
+      "playbooks": ["Kickoff → First Milestone", "Mid-Engagement Signoff", "Expansion Conversation"],
+      "reporting": "Engagement health · utilization · scope creep alerts",
+      "deliverables": ["Weekly client brief", "Milestone signoff doc", "QBR deck"],
+      "compliance_posture": ["Client data retention policy", "SOC 2 reference for mid-market"],
+      "outbound_tone": "Consultative, premium voice, defensible",
+      "default_campaign_name": "Pro Services Engagement Funnel"
+    },
+    {
+      "id": "pack_health_ops",
+      "name": "Healthcare Ops Pack (MedPilot)",
+      "industry_id": "health_ops",
+      "tagline": "Chart velocity, claim denial drift, prior-auth bottleneck recovery.",
+      "icp": { "target_roles": ["Practice Manager", "Administrator", "Director of Operations"], "company_size_min": 3, "company_size_max": 250, "target_geographies": ["US"] },
+      "playbooks": ["New-patient Chart Assembly", "Denial Work-Queue", "Prior-Auth Escalation"],
+      "reporting": "Weekly denial trend · chart turnaround · prior-auth SLA",
+      "deliverables": ["Weekly ops report", "MIPS score tracker", "Audit-risk flag summary"],
+      "compliance_posture": ["HIPAA BAA required", "HITECH reference", "42 CFR Part 2 note"],
+      "outbound_tone": "Clinical-operator peer-to-peer, defensibility first",
+      "default_campaign_name": "MedPilot Diagnosis Funnel"
+    }
+  ]
+}

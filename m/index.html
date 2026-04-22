@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>SourceDeck · Mobile</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#000;--card:#111;--text:#f5f5f7;--sub:rgba(245,245,247,0.7);--muted:rgba(245,245,247,0.4);
+  --accent:#0071e3;--accent2:#2997ff;--gold:#d4a843;--green:#30d158;--purple:#bf5af2;
+}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Inter',system-ui,sans-serif;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;padding-bottom:env(safe-area-inset-bottom)}
+.topbar{position:sticky;top:0;z-index:10;padding:env(safe-area-inset-top) 16px 12px;background:rgba(0,0,0,0.85);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:space-between}
+.topbar .brand{display:flex;align-items:center;gap:8px;font-weight:700;letter-spacing:-0.01em}
+.topbar .brand .g{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--accent),var(--purple));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
+.topbar .av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--purple));display:inline-flex;align-items:center;justify-content:center;font:700 12px 'Inter',sans-serif}
+
+.tabs{position:fixed;bottom:0;left:0;right:0;background:rgba(17,17,17,0.95);backdrop-filter:blur(20px);border-top:0.5px solid rgba(255,255,255,0.08);display:flex;padding:8px 6px calc(10px + env(safe-area-inset-bottom));z-index:10}
+.tabs .tab{flex:1;text-align:center;padding:6px 4px;color:var(--muted);text-decoration:none}
+.tabs .tab.on{color:#fff}
+.tabs .tab .ic{font-size:20px}
+.tabs .tab .lb{font:600 9.5px 'JetBrains Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;display:block;margin-top:2px}
+
+main{padding:12px 14px 90px}
+.pane{display:none}
+.pane.on{display:block}
+
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px}
+.kpi{background:var(--card);border:0.5px solid rgba(255,255,255,0.06);border-radius:12px;padding:12px 14px}
+.kpi .l{font:600 9.5px 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.14em;text-transform:uppercase}
+.kpi .v{font:800 22px/1 'Inter',sans-serif;letter-spacing:-0.02em;margin-top:4px}
+.kpi.gold .v{color:var(--gold)}
+.kpi.green .v{color:var(--green)}
+.kpi.warn .v{color:#ffb020}
+
+.section-h{font:600 11px 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.14em;text-transform:uppercase;margin:16px 4px 8px}
+
+.item{background:var(--card);border:0.5px solid rgba(255,255,255,0.06);border-radius:12px;padding:12px 14px;margin-bottom:8px}
+.item .t{font-size:14px;font-weight:600;letter-spacing:-0.005em}
+.item .m{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5}
+.item .foot{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font:500 10.5px 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.04em}
+.item .pill{display:inline-flex;align-items:center;gap:5px;font:600 9.5px 'JetBrains Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;padding:3px 7px;border-radius:4px}
+.item .pill::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor}
+.pill.blocked{color:#ff6b6b;background:rgba(255,107,107,0.1)}
+.pill.warning{color:#ffb020;background:rgba(255,176,32,0.1)}
+.pill.wait-client{color:var(--purple);background:rgba(191,90,242,0.1)}
+.pill.escalated{color:var(--gold);background:rgba(212,168,67,0.1)}
+.pill.approved{color:var(--green);background:rgba(48,209,88,0.1)}
+
+.row-actions{display:flex;gap:8px;margin-top:10px}
+.btn-sm{flex:1;padding:9px;border-radius:8px;font:600 11.5px 'Inter',sans-serif;border:0;cursor:pointer}
+.btn-sm.approve{background:rgba(48,209,88,0.14);color:var(--green)}
+.btn-sm.reject{background:rgba(255,77,79,0.12);color:#ff6b6b}
+
+.event{display:grid;grid-template-columns:56px 1fr;gap:10px;padding:10px 14px;border-bottom:0.5px solid rgba(255,255,255,0.05)}
+.event .when{font:600 10.5px 'JetBrains Mono',monospace;color:var(--accent2);letter-spacing:0.08em}
+.event .subj{font-size:13px;font-weight:500}
+.event .loc{font-size:11.5px;color:var(--muted);margin-top:2px}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand"><span class="g">S</span> <span>SourceDeck</span></div>
+  <span class="av">JC</span>
+</div>
+
+<main>
+
+<!-- TODAY -->
+<div class="pane on" id="p-today">
+  <div class="section-h">Today</div>
+  <div class="kpis">
+    <div class="kpi gold"><div class="l">Next action</div><div class="v">Sign MSA</div></div>
+    <div class="kpi"><div class="l">Agenda items</div><div class="v">5</div></div>
+    <div class="kpi warn"><div class="l">Due in 24h</div><div class="v">3</div></div>
+    <div class="kpi green"><div class="l">MRR today</div><div class="v">$348</div></div>
+  </div>
+
+  <div class="section-h">Agenda</div>
+  <div class="event"><span class="when">09:00</span><div><div class="subj">Kickoff · Meridian Realty Partners</div><div class="loc">Cal.com · 30 min · remote</div></div></div>
+  <div class="event"><span class="when">11:30</span><div><div class="subj">Dispatch review · J-4421</div><div class="loc">RiverTide Property Mgmt · sub mobilization</div></div></div>
+  <div class="event"><span class="when">14:00</span><div><div class="subj">Bid / no-bid · DLA RFQ</div><div class="loc">Capture call · pWIN 41%</div></div></div>
+  <div class="event"><span class="when">16:30</span><div><div class="subj">Proposal send · Pelagic Property Management</div><div class="loc">DocuSign · 1-click</div></div></div>
+
+  <div class="section-h">Weather at on-sites</div>
+  <div class="item"><div class="t">Hyattsville, MD · job J-2031</div><div class="m">63°F · clear · wind 8mph NE · no site issues expected</div></div>
+</div>
+
+<!-- INBOX -->
+<div class="pane" id="p-inbox">
+  <div class="section-h">Operational inbox · needs you</div>
+  <div class="item">
+    <span class="pill blocked">Blocked</span>
+    <div class="t" style="margin-top:6px">Proposal signature · Hargrove</div>
+    <div class="m">$4,188/yr · 11 days since sent</div>
+    <div class="row-actions"><button class="btn-sm reject">Follow-up</button><button class="btn-sm approve">Chase</button></div>
+  </div>
+  <div class="item">
+    <span class="pill warning">Warning</span>
+    <div class="t" style="margin-top:6px">Invoice overdue · INV-0218</div>
+    <div class="m">$2,450 · net-30 expired 3d ago</div>
+    <div class="row-actions"><button class="btn-sm reject">Note</button><button class="btn-sm approve">Send reminder</button></div>
+  </div>
+  <div class="item">
+    <span class="pill wait-client">Wait · client</span>
+    <div class="t" style="margin-top:6px">MSA countersign · Meridian</div>
+    <div class="m">Operator tier · 4d pending</div>
+    <div class="row-actions"><button class="btn-sm reject">Defer</button><button class="btn-sm approve">Nudge</button></div>
+  </div>
+  <div class="item">
+    <span class="pill escalated">Escalated</span>
+    <div class="t" style="margin-top:6px">Delivery SLA breach · J-4421</div>
+    <div class="m">RiverTide · response &gt; 24h</div>
+    <div class="row-actions"><button class="btn-sm reject">Defer</button><button class="btn-sm approve">Dispatch now</button></div>
+  </div>
+</div>
+
+<!-- APPROVE -->
+<div class="pane" id="p-approve">
+  <div class="section-h">Pending my approval</div>
+  <div class="item">
+    <span class="pill approved">Ready</span>
+    <div class="t" style="margin-top:6px">Proposal ready · Pelagic Property</div>
+    <div class="m">All win themes inserted · 1-click to DocuSign</div>
+    <div class="row-actions"><button class="btn-sm reject">Reject</button><button class="btn-sm approve">Approve &amp; send</button></div>
+  </div>
+  <div class="item">
+    <div class="t">LinkedIn post · feature release</div>
+    <div class="m">Pro · 2-step approval · awaits your signoff</div>
+    <div class="row-actions"><button class="btn-sm reject">Reject</button><button class="btn-sm approve">Approve</button></div>
+  </div>
+  <div class="item">
+    <div class="t">INV-0219 draft · Halcyon</div>
+    <div class="m">$7,988 · J-2024 complete · ready to issue</div>
+    <div class="row-actions"><button class="btn-sm reject">Hold</button><button class="btn-sm approve">Issue invoice</button></div>
+  </div>
+</div>
+
+<!-- FUNNEL -->
+<div class="pane" id="p-funnel">
+  <div class="section-h">Funnel · last 30 days</div>
+  <div class="kpis">
+    <div class="kpi"><div class="l">Qualified</div><div class="v">1,482</div></div>
+    <div class="kpi"><div class="l">Replied</div><div class="v">218</div></div>
+    <div class="kpi gold"><div class="l">Pricing clicks</div><div class="v">94</div></div>
+    <div class="kpi green"><div class="l">Paid</div><div class="v">11</div></div>
+  </div>
+  <div class="section-h">Drop-off</div>
+  <div class="item"><div class="t" style="font-size:13px">Enrolled → Sent</div><div class="m">1,286 of 1,482 · 87% through · -13% drop</div></div>
+  <div class="item"><div class="t" style="font-size:13px">Sent → Replied</div><div class="m">218 of 1,286 · 17% reply rate</div></div>
+  <div class="item"><div class="t" style="font-size:13px">Pricing click → Checkout</div><div class="m">23 of 94 · 24% through · -76% drop</div></div>
+</div>
+
+</main>
+
+<nav class="tabs">
+  <a class="tab on" data-p="today"   onclick="go('today')"  ><div class="ic">📅</div><div class="lb">Today</div></a>
+  <a class="tab"    data-p="inbox"   onclick="go('inbox')"  ><div class="ic">⚡</div><div class="lb">Inbox</div></a>
+  <a class="tab"    data-p="approve" onclick="go('approve')"><div class="ic">✓</div><div class="lb">Approve</div></a>
+  <a class="tab"    data-p="funnel"  onclick="go('funnel')" ><div class="ic">📊</div><div class="lb">Funnel</div></a>
+</nav>
+
+<script>
+function go(p){
+  document.querySelectorAll('.pane').forEach(x => x.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(x => x.classList.remove('on'));
+  document.getElementById('p-'+p).classList.add('on');
+  document.querySelector('.tab[data-p="'+p+'"]').classList.add('on');
+}
+</script>
+<script src="//code.tidio.co/80d20949327f4c7c81e2295df563dc46.js" async></script>
+</body>
+</html>

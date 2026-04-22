@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SourceDeck · Playbooks</title>
+<meta name="description" content="Author executable SOPs — templated repeatable workflows with owner, due logic, completion evidence, and triggered actions.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sd-theme.css">
+<style>
+.pb-wrap{max-width:1100px;margin:0 auto;padding:22px 20px 80px;position:relative;z-index:1}
+.pb-grid{display:grid;grid-template-columns:360px 1fr;gap:14px}
+@media(max-width:900px){.pb-grid{grid-template-columns:1fr}}
+.pb-card{background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;overflow:hidden}
+.pb-head{padding:14px 18px 12px;border-bottom:0.5px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center;gap:10px}
+.pb-head .h{font-size:14px;font-weight:700;color:#fff;letter-spacing:-0.01em}
+.pb-head .sub{font-size:11px;color:var(--muted);margin-top:2px}
+.pb-list .row{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:0.5px solid rgba(255,255,255,0.04);cursor:pointer;transition:background 0.15s}
+.pb-list .row:hover{background:rgba(255,255,255,0.02)}
+.pb-list .row.on{background:rgba(0,113,227,0.08);border-left:2px solid var(--accent)}
+.pb-list .row .name{flex:1;font-size:12.5px;font-weight:600;color:#fff;letter-spacing:-0.005em}
+.pb-list .row .meta{font:500 10px 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.04em}
+.pb-form{padding:18px 20px}
+.pb-form label{display:block;font:500 10.5px 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:5px;margin-top:14px}
+.pb-form label:first-child{margin-top:0}
+.pb-form input,.pb-form select,.pb-form textarea{width:100%;padding:9px 12px;background:rgba(255,255,255,0.03);border:0.5px solid rgba(255,255,255,0.12);border-radius:9px;color:#fff;font:500 13px 'Inter',sans-serif;outline:none}
+.pb-form input:focus,.pb-form select:focus,.pb-form textarea:focus{border-color:var(--accent)}
+.pb-form textarea{min-height:60px;resize:vertical;font-family:inherit}
+.steps{margin-top:14px;border:0.5px dashed rgba(255,255,255,0.1);border-radius:10px;padding:14px;background:rgba(255,255,255,0.015)}
+.step{display:grid;grid-template-columns:32px 1fr 120px 110px auto;gap:8px;align-items:center;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.04)}
+.step:last-child{border-bottom:0}
+.step .sn{font:700 11px 'JetBrains Mono',monospace;color:var(--accent2);letter-spacing:0.08em}
+.step input{padding:7px 9px;font-size:12px}
+.step button.rm{background:transparent;border:0;color:var(--muted);cursor:pointer;font-size:16px;padding:4px 8px}
+.step button.rm:hover{color:#ff6b6b}
+.pb-actions{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}
+.empty{padding:40px 18px;text-align:center;color:var(--muted);font-size:12.5px;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="sd-bg"></div><div class="sd-grid"></div>
+
+<nav class="sd-nav">
+  <a class="sd-brand" href="/"><span class="glyph">S</span> SourceDeck</a>
+  <div class="links">
+    <a href="/app/">App</a>
+    <a href="/command/">Command</a>
+    <a href="/app/playbooks/">Playbooks</a>
+    <a href="/app/approvals/">Approvals</a>
+    <a href="/settings/">Settings</a>
+    <a class="cta" href="/#pricing">Choose Plan</a>
+  </div>
+</nav>
+
+<section class="sd-hero" style="padding-bottom:14px">
+  <div class="sd-eyebrow"><span class="dot"></span> Playbooks · SOP authoring</div>
+  <h1>Executable SOPs. Not shelf-ware.</h1>
+  <p class="lede">Every playbook is a template with owners, due offsets, evidence requirements, and triggered actions. Ships with 3 starter playbooks; clone, edit, or author from scratch.</p>
+</section>
+
+<div class="pb-wrap">
+  <div class="pb-grid">
+
+    <div class="pb-card">
+      <div class="pb-head"><div><div class="h">Playbook library</div><div class="sub" id="pb-count">loading…</div></div><button class="sd-btn primary" onclick="newPlaybook()">+ New</button></div>
+      <div class="pb-list" id="pb-list"></div>
+    </div>
+
+    <div class="pb-card">
+      <div class="pb-head"><div><div class="h" id="editor-title">Select or create a playbook</div><div class="sub" id="editor-sub">Load a starter or start blank</div></div><span id="editor-status" class="sd-pill manual">—</span></div>
+      <div id="editor-body" class="pb-form">
+        <div class="empty">Nothing selected. Pick a playbook from the library, or click <b>+ New</b>.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="sd-foot">SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">·</span> &copy; 2026 Ariel's River Contracting Group LLC</footer>
+
+<script src="/assets/sd-config.js"></script>
+<script>
+const LS = 'sd_playbooks';
+const SEED = [
+  { id:'pb_onboard', name:'New Client Onboarding', cadence:'per engagement', owner_role:'PM', sla_days:5, trigger:'client.created', steps:[
+    {name:'Signed MSA received', owner:'PM', due_offset_days:0, evidence_required:true, approval_required:false},
+    {name:'Stripe customer + portal link sent', owner:'Ops', due_offset_days:0, evidence_required:true, approval_required:false},
+    {name:'W-9 requested + received', owner:'Finance', due_offset_days:2, evidence_required:true, approval_required:false},
+    {name:'Kickoff call scheduled', owner:'PM', due_offset_days:2, evidence_required:false, approval_required:false},
+    {name:'Workspace provisioned + keys intake sent', owner:'Ops', due_offset_days:3, evidence_required:true, approval_required:true}
+  ]},
+  { id:'pb_dispatch', name:'Move-out Clean Dispatch', cadence:'per work order', owner_role:'Dispatch', sla_days:1, trigger:'job.work_order_received', steps:[
+    {name:'Work order acknowledged', owner:'Dispatch', due_offset_days:0, evidence_required:true, approval_required:false},
+    {name:'Subcontractor matched + COI verified', owner:'Dispatch', due_offset_days:0, evidence_required:true, approval_required:true},
+    {name:'Sub confirmation received', owner:'Dispatch', due_offset_days:0, evidence_required:false, approval_required:false},
+    {name:'On-site check-in photo submitted', owner:'Sub', due_offset_days:1, evidence_required:true, approval_required:false},
+    {name:'Completion photo + customer signoff', owner:'Sub', due_offset_days:1, evidence_required:true, approval_required:true}
+  ]},
+  { id:'pb_proposal', name:'Proposal → Close', cadence:'per deal', owner_role:'BD', sla_days:7, trigger:'deal.stage_proposal', steps:[
+    {name:'Discovery notes + pain map complete', owner:'BD', due_offset_days:0, evidence_required:true, approval_required:false},
+    {name:'Pricing calibrated from pricing profile', owner:'BD', due_offset_days:1, evidence_required:true, approval_required:true},
+    {name:'Proposal drafted by Proposal Agent', owner:'BD', due_offset_days:2, evidence_required:true, approval_required:false},
+    {name:'Send via DocuSign', owner:'BD', due_offset_days:3, evidence_required:true, approval_required:true},
+    {name:'Signed proposal → Stripe invoice', owner:'Finance', due_offset_days:7, evidence_required:true, approval_required:false}
+  ]}
+];
+function list(){ try { const v = JSON.parse(localStorage.getItem(LS)||'null'); return v && v.length ? v : SEED; } catch(_){ return SEED; } }
+function save(arr){ localStorage.setItem(LS, JSON.stringify(arr)); }
+
+let current = null;
+
+function render(){
+  const pbs = list();
+  document.getElementById('pb-count').textContent = pbs.length + ' playbook' + (pbs.length===1?'':'s');
+  document.getElementById('pb-list').innerHTML = pbs.map(p =>
+    `<div class="row ${current&&current.id===p.id?'on':''}" onclick="openPlaybook('${p.id}')">
+       <div style="flex:1"><div class="name">${escape(p.name)}</div><div class="meta">${escape(p.cadence)} · owner ${escape(p.owner_role)} · ${p.steps.length} steps</div></div>
+       <span class="sd-pill automated">SLA ${p.sla_days}d</span>
+     </div>`).join('');
+}
+function openPlaybook(id){
+  current = list().find(p=>p.id===id);
+  if (!current) return;
+  document.getElementById('editor-title').textContent = current.name;
+  document.getElementById('editor-sub').textContent = 'trigger · ' + current.trigger;
+  document.getElementById('editor-status').className = 'sd-pill healthy';
+  document.getElementById('editor-status').textContent = 'editing';
+  document.getElementById('editor-body').innerHTML = editorHtml(current);
+  render();
+}
+function newPlaybook(){
+  current = { id:'pb_'+Math.random().toString(36).slice(2,8), name:'Untitled playbook', cadence:'per engagement', owner_role:'PM', sla_days:5, trigger:'custom', steps:[] };
+  document.getElementById('editor-title').textContent = current.name;
+  document.getElementById('editor-sub').textContent = 'trigger · ' + current.trigger;
+  document.getElementById('editor-status').className = 'sd-pill manual';
+  document.getElementById('editor-status').textContent = 'new · unsaved';
+  document.getElementById('editor-body').innerHTML = editorHtml(current);
+}
+function editorHtml(p){
+  return `
+    <label>Name</label><input value="${escape(p.name)}" onchange="current.name=this.value;markDirty()">
+    <label>Cadence</label><select onchange="current.cadence=this.value;markDirty()">
+      ${['per engagement','daily','weekly','monthly','per deal','per work order','per lead','quarterly','annually'].map(v=>`<option ${p.cadence===v?'selected':''}>${v}</option>`).join('')}
+    </select>
+    <label>Owner role</label><input value="${escape(p.owner_role)}" onchange="current.owner_role=this.value;markDirty()">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div><label>Trigger event</label><input value="${escape(p.trigger)}" onchange="current.trigger=this.value;markDirty()" placeholder="client.created · job.work_order_received · deal.stage_proposal"></div>
+      <div><label>SLA (days)</label><input type="number" min="0" max="180" value="${p.sla_days}" onchange="current.sla_days=+this.value;markDirty()"></div>
+    </div>
+
+    <label style="margin-top:18px">Steps</label>
+    <div class="steps" id="steps">${p.steps.map((s,i)=>stepRow(s,i)).join('')}</div>
+    <div style="margin-top:10px"><button class="sd-btn secondary" onclick="addStep()">+ Add step</button></div>
+
+    <div class="pb-actions">
+      <button class="sd-btn primary" onclick="savePlaybook()">Save playbook</button>
+      <button class="sd-btn ghost" onclick="clonePlaybook()">Clone</button>
+      <button class="sd-btn secondary" onclick="deletePlaybook()" style="color:#ff6b6b;border-color:rgba(255,107,107,0.25)">Delete</button>
+    </div>`;
+}
+function stepRow(s,i){
+  return `<div class="step">
+    <span class="sn">${String(i+1).padStart(2,'0')}</span>
+    <input value="${escape(s.name)}" placeholder="Step name" onchange="current.steps[${i}].name=this.value;markDirty()">
+    <input value="${escape(s.owner||'')}" placeholder="Owner" onchange="current.steps[${i}].owner=this.value;markDirty()">
+    <input type="number" min="0" max="180" value="${s.due_offset_days||0}" onchange="current.steps[${i}].due_offset_days=+this.value;markDirty()" title="Due offset days">
+    <span style="font-size:11px;color:var(--muted);display:flex;gap:6px;align-items:center">
+      <label style="margin:0;padding:0;font-size:11px;text-transform:none;letter-spacing:0"><input type="checkbox" ${s.evidence_required?'checked':''} onchange="current.steps[${i}].evidence_required=this.checked;markDirty()"> evidence</label>
+      <label style="margin:0;padding:0;font-size:11px;text-transform:none;letter-spacing:0"><input type="checkbox" ${s.approval_required?'checked':''} onchange="current.steps[${i}].approval_required=this.checked;markDirty()"> approval</label>
+      <button class="rm" onclick="removeStep(${i})" title="Remove step">×</button>
+    </span>
+  </div>`;
+}
+function addStep(){ if (!current) return; current.steps.push({name:'',owner:current.owner_role,due_offset_days:0,evidence_required:false,approval_required:false}); document.getElementById('steps').innerHTML = current.steps.map(stepRow).join(''); markDirty(); }
+function removeStep(i){ current.steps.splice(i,1); document.getElementById('steps').innerHTML = current.steps.map(stepRow).join(''); markDirty(); }
+function markDirty(){ const s = document.getElementById('editor-status'); s.className='sd-pill warning'; s.textContent='unsaved'; document.getElementById('editor-title').textContent = current.name; }
+function savePlaybook(){
+  if (!current) return;
+  const arr = list(); const i = arr.findIndex(p=>p.id===current.id);
+  if (i>=0) arr[i] = current; else arr.push(current);
+  save(arr);
+  const s = document.getElementById('editor-status'); s.className='sd-pill healthy'; s.textContent='saved';
+  window.sdTrack && window.sdTrack('playbook_saved', { id:current.id, name:current.name, steps:current.steps.length });
+  render();
+}
+function clonePlaybook(){ if (!current) return; const copy={...current,id:'pb_'+Math.random().toString(36).slice(2,8),name:current.name+' (copy)'}; const arr=list(); arr.push(copy); save(arr); current=copy; render(); openPlaybook(copy.id); }
+function deletePlaybook(){ if (!current) return; if (!confirm('Delete "'+current.name+'"? This cannot be undone.')) return; save(list().filter(p=>p.id!==current.id)); current=null; document.getElementById('editor-body').innerHTML='<div class="empty">Deleted. Pick another playbook or create a new one.</div>'; document.getElementById('editor-title').textContent='Select or create a playbook'; document.getElementById('editor-sub').textContent='—'; document.getElementById('editor-status').className='sd-pill manual'; document.getElementById('editor-status').textContent='—'; render(); }
+function escape(s){ return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+render();
+</script>
+<script src="//code.tidio.co/80d20949327f4c7c81e2295df563dc46.js" async></script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SourceDeck · Security &amp; Compliance</title>
+<meta name="description" content="SOC 2 Type II posture · HIPAA for MedPilot · FedRAMP-ready for GovCon · DPA · audit log · retention · deletion policy. Documented artifacts for procurement.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sd-theme.css">
+<style>
+.cp-wrap{max-width:1000px;margin:0 auto;padding:22px 20px 80px;position:relative;z-index:1}
+.cp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(max-width:720px){.cp-grid{grid-template-columns:1fr}}
+.cp-card{background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:10px}
+.cp-card h3{font-size:15px;font-weight:700;color:#fff;letter-spacing:-0.01em;margin-bottom:4px}
+.cp-card .status{font:600 10px 'JetBrains Mono',monospace;letter-spacing:0.14em;text-transform:uppercase;padding:3px 7px;border-radius:4px;display:inline-flex;align-items:center;gap:4px;width:fit-content}
+.cp-card .status::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor}
+.cp-card .status.live{color:var(--green);background:rgba(48,209,88,0.1)}
+.cp-card .status.progress{color:var(--gold);background:rgba(212,168,67,0.1)}
+.cp-card .status.planned{color:var(--muted);background:rgba(255,255,255,0.05)}
+.cp-card p{font-size:12.5px;color:var(--sub);line-height:1.6}
+.cp-card .req{font:500 11px 'JetBrains Mono',monospace;color:var(--muted);margin-top:6px}
+.cp-card a{color:var(--accent2);font-size:12.5px;font-weight:600;text-decoration:none}
+.cp-card a:hover{text-decoration:underline}
+.cp-intro{background:linear-gradient(180deg,rgba(0,113,227,0.06),rgba(191,90,242,0.02));border:0.5px solid rgba(0,113,227,0.2);border-radius:14px;padding:20px 22px;margin-bottom:18px;font-size:13px;color:var(--sub);line-height:1.6}
+.cp-intro b{color:#fff}
+</style>
+</head>
+<body>
+<div class="sd-bg"></div><div class="sd-grid"></div>
+
+<nav class="sd-nav">
+  <a class="sd-brand" href="/"><span class="glyph">S</span> SourceDeck</a>
+  <div class="links">
+    <a href="/app/">App</a>
+    <a href="/compliance/">Compliance</a>
+    <a href="/#pricing">Pricing</a>
+    <a class="cta" href="/quote/operator/">Request Proposal</a>
+  </div>
+</nav>
+
+<section class="sd-hero" style="padding-bottom:14px">
+  <div class="sd-eyebrow"><span class="dot"></span> Security &amp; Compliance</div>
+  <h1>The artifacts procurement needs.</h1>
+  <p class="lede">Every ARCG Systems customer can ask for, and receive, the security and compliance artifacts their legal team requires — in the format they expect.</p>
+</section>
+
+<div class="cp-wrap">
+
+  <div class="cp-intro">
+    <b>Who this page is for.</b> Procurement, legal, and security teams evaluating SourceDeck for mid-market and enterprise use. Every item below is a real artifact we will produce under a signed MSA. Artifacts marked <i>in progress</i> are on the current attestation roadmap; contact the Operator-tier team for current evidence and remediation commitments.
+  </div>
+
+  <div class="cp-grid">
+
+    <div class="cp-card">
+      <div class="status progress">SOC 2 Type II · in progress</div>
+      <h3>SOC 2 Type II attestation</h3>
+      <p>Security · availability · processing integrity · confidentiality. Remediation phase targeting completion in FY2026. Interim: Type I available under NDA.</p>
+      <a href="mailto:sales@arivergrop.com?subject=SourceDeck%20SOC%202%20status">Request current status letter →</a>
+    </div>
+
+    <div class="cp-card">
+      <div class="status live">Live</div>
+      <h3>Data Processing Addendum (DPA)</h3>
+      <p>Standard DPA + GDPR / CCPA data-subject rights, data-transfer SCCs where applicable. Counter-signed within one business day of request.</p>
+      <a href="/quote/operator/?reason=dpa">Request signed DPA →</a>
+    </div>
+
+    <div class="cp-card">
+      <div class="status live">Live</div>
+      <h3>MSA &amp; SOW templates</h3>
+      <p>Standard Master Services Agreement and statement-of-work template attached to every Operator proposal. Redline-friendly.</p>
+      <a href="/quote/operator/">Request templates →</a>
+    </div>
+
+    <div class="cp-card">
+      <div class="status progress">MedPilot vertical · in progress</div>
+      <h3>HIPAA BAA</h3>
+      <p>Business Associate Agreement for MedPilot deployments. Required before any PHI touches the platform. Limited availability in Operator tier; broader rollout after SOC 2 Type II.</p>
+      <a href="mailto:sales@arivergrop.com?subject=MedPilot%20BAA">Request BAA discussion →</a>
+    </div>
+
+    <div class="cp-card">
+      <div class="status planned">Planned · FY2026 H2</div>
+      <h3>FedRAMP-ready posture</h3>
+      <p>Targeting FedRAMP Moderate equivalency for GovCon workloads. Currently tracked against NIST 800-171 and CMMC Level 2 controls under ARCG Systems as an SDVOSB.</p>
+      <a href="mailto:sales@arivergrop.com?subject=FedRAMP%20Posture">Request current control matrix →</a>
+    </div>
+
+    <div class="cp-card">
+      <div class="status live">Live</div>
+      <h3>Retention &amp; deletion policy</h3>
+      <p>Per-workspace retention. Workspace reset purges localStorage, cached analytics, saved campaign state. Full account deletion on request; 30-day verifiable purge window.</p>
+      <a href="/docs/sourcedeck/">Public retention policy →</a>
+    </div>
+
+    <div class="cp-card">
+      <div class="status progress">Scaffolded · shipping in Phase 2</div>
+      <h3>Audit log</h3>
+      <p>Every state change (approvals, secret reads, workspace mutations, webhook deliveries) written to an append-only audit log. UI surface in Phase 2; log schema already in <code style="font-family:monospace;font-size:11px;color:var(--accent2)">SELF_SETUP_SQL_AND_API_SPEC.md §19.1</code>.</p>
+    </div>
+
+    <div class="cp-card">
+      <div class="status live">Live</div>
+      <h3>Security review questionnaire</h3>
+      <p>SIG Lite, CAIQ, CIS, and custom vendor questionnaires. Turnaround ≤ 5 business days under a signed NDA.</p>
+      <a href="/quote/operator/?reason=security_review">Submit questionnaire →</a>
+    </div>
+
+    <div class="cp-card">
+      <div class="status live">Live</div>
+      <h3>Subprocessor list</h3>
+      <p>Current subprocessors — Stripe (billing), Cloudflare (edge + Workers), Postmark (transactional email), Basin (form intake), Tidio (chat). Full DPAs in place with each. Updated on change, notice-first.</p>
+    </div>
+
+    <div class="cp-card">
+      <div class="status live">Live</div>
+      <h3>Insurance</h3>
+      <p>General liability + professional liability + cyber liability. COIs issued per customer request within one business day.</p>
+      <a href="mailto:sales@arivergrop.com?subject=COI%20Request">Request COI →</a>
+    </div>
+
+  </div>
+
+  <div class="cp-card" style="margin-top:18px">
+    <h3 style="margin-bottom:8px">What to expect on a procurement call</h3>
+    <ol style="padding-left:18px;color:var(--sub);font-size:13px;line-height:1.85">
+      <li>Operator-tier scoping call within one business day of <a href="/quote/operator/">proposal request</a>.</li>
+      <li>Signed NDA routed via DocuSign within 2 business days; security pack released on receipt.</li>
+      <li>Written proposal with DPA, MSA, SOW, and any requested compliance artifacts within 5 business days.</li>
+      <li>Security-review questionnaire turned in ≤ 5 business days with evidence cited per control.</li>
+      <li>Kickoff once signed; workspace provisioned via the activation flow.</li>
+    </ol>
+  </div>
+
+</div>
+
+<footer class="sd-foot">SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">·</span> &copy; 2026 Ariel's River Contracting Group LLC</footer>
+
+<script src="//code.tidio.co/80d20949327f4c7c81e2295df563dc46.js" async></script>
+</body>
+</html>

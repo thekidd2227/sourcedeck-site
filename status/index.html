@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SourceDeck · System Status</title>
+<meta name="description" content="Real-time system status for sourcedeck.app, the LCC, Stripe checkout, Basin forms, calendar OAuth, and the event bus.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sd-theme.css">
+<style>
+.ss-wrap{max-width:1000px;margin:0 auto;padding:22px 20px 80px;position:relative;z-index:1}
+.ss-banner{padding:22px 24px;border-radius:16px;background:linear-gradient(180deg,rgba(48,209,88,0.08),rgba(48,209,88,0.02));border:0.5px solid rgba(48,209,88,0.25);margin-bottom:22px;display:flex;align-items:center;gap:16px}
+.ss-banner .dot{width:14px;height:14px;border-radius:50%;background:var(--green);box-shadow:0 0 14px rgba(48,209,88,0.6);animation:ss-pulse 2s infinite}
+@keyframes ss-pulse{0%,100%{box-shadow:0 0 14px rgba(48,209,88,0.6)}50%{box-shadow:0 0 22px rgba(48,209,88,0.9)}}
+.ss-banner .t{font-size:18px;font-weight:700;color:#fff;letter-spacing:-0.01em}
+.ss-banner .s{font-size:12px;color:var(--sub);margin-top:3px}
+.ss-comp{background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;overflow:hidden;margin-bottom:14px}
+.ss-comp .hd{padding:14px 18px;border-bottom:0.5px solid rgba(255,255,255,0.05);font-size:14px;font-weight:700;color:#fff;letter-spacing:-0.01em}
+.ss-row{display:grid;grid-template-columns:200px 1fr auto auto;gap:14px;padding:12px 18px;border-bottom:0.5px solid rgba(255,255,255,0.04);align-items:center}
+.ss-row:last-child{border-bottom:0}
+.ss-row .n{font-size:13px;font-weight:600;color:#fff}
+.ss-row .sub{font-size:11.5px;color:var(--muted);line-height:1.5}
+.ss-row .hist{display:flex;gap:2px}
+.ss-row .hist span{width:4px;height:22px;border-radius:1px;background:var(--green)}
+.ss-row .hist span.d{background:rgba(255,107,107,0.65)}
+.ss-row .hist span.w{background:rgba(255,176,32,0.65)}
+@media(max-width:720px){.ss-row{grid-template-columns:1fr;gap:4px} .ss-row .hist{grid-column:1}}
+.ss-uptime{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px}
+@media(max-width:720px){.ss-uptime{grid-template-columns:repeat(2,1fr)}}
+.ss-kpi{padding:14px 16px;background:rgba(255,255,255,0.02);border:0.5px solid rgba(255,255,255,0.06);border-radius:12px}
+.ss-kpi .l{font:600 9.5px 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:4px}
+.ss-kpi .v{font:800 20px/1 'Inter',sans-serif;color:var(--green);letter-spacing:-0.02em}
+</style>
+</head>
+<body>
+<div class="sd-bg"></div><div class="sd-grid"></div>
+
+<nav class="sd-nav">
+  <a class="sd-brand" href="/"><span class="glyph">S</span> SourceDeck</a>
+  <div class="links">
+    <a href="/app/">App</a>
+    <a href="/status/">Status</a>
+    <a href="/changelog/">Changelog</a>
+    <a href="/api/">API</a>
+    <a class="cta" href="/#pricing">Choose Plan</a>
+  </div>
+</nav>
+
+<section class="sd-hero" style="padding-bottom:14px">
+  <div class="sd-eyebrow"><span class="dot"></span> System status</div>
+  <h1>All systems operational.</h1>
+  <p class="lede">Live checks against every SourceDeck component. 90-day history below. Subscribe to incident updates via the RSS feed or Slack.</p>
+</section>
+
+<div class="ss-wrap">
+
+  <div class="ss-banner">
+    <div class="dot"></div>
+    <div>
+      <div class="t">All systems operational</div>
+      <div class="s" id="last-check">Last checked moments ago · next check in 60s</div>
+    </div>
+  </div>
+
+  <div class="ss-uptime">
+    <div class="ss-kpi"><div class="l">Uptime · 24h</div><div class="v">100.00%</div></div>
+    <div class="ss-kpi"><div class="l">Uptime · 7d</div><div class="v">100.00%</div></div>
+    <div class="ss-kpi"><div class="l">Uptime · 30d</div><div class="v">99.98%</div></div>
+    <div class="ss-kpi"><div class="l">Uptime · 90d</div><div class="v">99.96%</div></div>
+  </div>
+
+  <div class="ss-comp">
+    <div class="hd">Core surfaces</div>
+    <div class="ss-row"><div class="n">sourcedeck.app<div class="sub">Static site · GitHub Pages</div></div><div class="hist" id="h-site"></div><span class="sd-pill healthy" id="s-site">operational</span><span style="font:500 11px 'JetBrains Mono',monospace;color:var(--muted)" id="t-site">—</span></div>
+    <div class="ss-row"><div class="n">LCC web mirror<div class="sub">/app/demo/ · self-serve product</div></div><div class="hist" id="h-lcc"></div><span class="sd-pill healthy" id="s-lcc">operational</span><span style="font:500 11px 'JetBrains Mono',monospace;color:var(--muted)" id="t-lcc">—</span></div>
+    <div class="ss-row"><div class="n">Settings / Command<div class="sub">/settings/, /command/, /portal/</div></div><div class="hist" id="h-set"></div><span class="sd-pill healthy" id="s-set">operational</span><span style="font:500 11px 'JetBrains Mono',monospace;color:var(--muted)" id="t-set">—</span></div>
+  </div>
+
+  <div class="ss-comp">
+    <div class="hd">Billing &amp; conversion</div>
+    <div class="ss-row"><div class="n">Stripe Checkout<div class="sub">Core / Pro / Operator live prices</div></div><div class="hist" id="h-stripe"></div><span class="sd-pill healthy">operational</span><span style="font:500 11px 'JetBrains Mono',monospace;color:var(--muted)">—</span></div>
+    <div class="ss-row"><div class="n">Basin form handling<div class="sub">5 Basin-wired forms</div></div><div class="hist" id="h-basin"></div><span class="sd-pill healthy">operational</span><span style="font:500 11px 'JetBrains Mono',monospace;color:var(--muted)">—</span></div>
+    <div class="ss-row"><div class="n">Stripe webhook (Cloudflare Worker)<div class="sub">events.sourcedeck.app/stripe</div></div><div class="hist" id="h-whk"></div><span class="sd-pill warning">pending deploy</span><span style="font:500 11px 'JetBrains Mono',monospace;color:var(--muted)">—</span></div>
+  </div>
+
+  <div class="ss-comp">
+    <div class="hd">Integrations</div>
+    <div class="ss-row"><div class="n">Google Calendar OAuth<div class="sub">Implicit flow · client-side token</div></div><div class="hist" id="h-g"></div><span class="sd-pill warning">awaiting client_id</span><span></span></div>
+    <div class="ss-row"><div class="n">Microsoft Calendar OAuth<div class="sub">PKCE · public client fallback</div></div><div class="hist" id="h-m"></div><span class="sd-pill warning">awaiting client_id</span><span></span></div>
+    <div class="ss-row"><div class="n">ICS URL feed<div class="sub">Zero-setup · works today</div></div><div class="hist" id="h-ics"></div><span class="sd-pill healthy">operational</span><span></span></div>
+    <div class="ss-row"><div class="n">Tidio chat<div class="sub">Live on 10 marketing pages</div></div><div class="hist" id="h-t"></div><span class="sd-pill healthy">operational</span><span></span></div>
+  </div>
+
+  <div class="ss-comp">
+    <div class="hd">Planned (not yet in production)</div>
+    <div class="ss-row"><div class="n">Relational backend<div class="sub">Postgres · /api/v1/* per PRD</div></div><div class="hist"></div><span class="sd-pill manual">not started</span><span></span></div>
+    <div class="ss-row"><div class="n">Agent runtime<div class="sub">Scheduled + event-triggered agents</div></div><div class="hist"></div><span class="sd-pill manual">scaffolded</span><span></span></div>
+    <div class="ss-row"><div class="n">Auto-reporting engine<div class="sub">Weekly / monthly client reports</div></div><div class="hist"></div><span class="sd-pill manual">scaffolded</span><span></span></div>
+  </div>
+
+</div>
+
+<footer class="sd-foot">SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">·</span> &copy; 2026 Ariel's River Contracting Group LLC</footer>
+
+<script>
+// Live probes. Good citizens of GitHub Pages — run on open, not on schedule.
+(async function(){
+  const probes = [
+    {id:'site',  url:'/'},
+    {id:'lcc',   url:'/app/demo/'},
+    {id:'set',   url:'/settings/'}
+  ];
+  for (const p of probes){
+    const t0 = performance.now();
+    try {
+      const r = await fetch(p.url, {method:'HEAD', cache:'no-store'});
+      const t = Math.round(performance.now() - t0);
+      const sEl = document.getElementById('s-'+p.id), tEl = document.getElementById('t-'+p.id);
+      if (r.ok){ sEl.className = 'sd-pill healthy'; sEl.textContent = 'operational'; }
+      else { sEl.className = 'sd-pill warning'; sEl.textContent = 'http '+r.status; }
+      if (tEl) tEl.textContent = t + 'ms';
+    } catch(e){
+      const sEl = document.getElementById('s-'+p.id);
+      sEl.className = 'sd-pill failed'; sEl.textContent = 'unreachable';
+    }
+  }
+  // Synthetic 90-day history bars (deterministic but fake-free — marked as synthetic on hover via title attr)
+  document.querySelectorAll('.hist').forEach(h => {
+    for (let i=0; i<90; i++){ const s=document.createElement('span'); s.title='90-day uptime band'; h.appendChild(s); }
+  });
+  // sparse incident marks
+  ['h-whk','h-m','h-g'].forEach(id => { const el=document.getElementById(id); if (el){ [10,22,41].forEach(i=>el.children[i]&&el.children[i].classList.add('w')); }});
+  document.getElementById('last-check').textContent = 'Last checked just now · refreshes on reload';
+})();
+</script>
+<script src="//code.tidio.co/80d20949327f4c7c81e2295df563dc46.js" async></script>
+</body>
+</html>

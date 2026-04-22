@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SourceDeck · Inbound Capture</title>
+<meta name="description" content="Hosted forms · chatbot handoff · email-to-lead parser · Zapier/Make triggers. Complement to Instantly outbound.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sd-theme.css">
+<style>
+.in-wrap{max-width:1100px;margin:0 auto;padding:22px 20px 80px;position:relative;z-index:1}
+.in-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(max-width:820px){.in-grid{grid-template-columns:1fr}}
+.in-card{background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:22px}
+.in-card .ic{width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--purple));display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px}
+.in-card .ic.g{background:linear-gradient(135deg,var(--green),#0ba360)}
+.in-card .ic.a{background:linear-gradient(135deg,var(--gold),#c88f1a)}
+.in-card .ic.p{background:linear-gradient(135deg,var(--purple),#8e30d9)}
+.in-card h3{font-size:16px;font-weight:700;letter-spacing:-0.01em;color:#fff;margin-bottom:6px}
+.in-card p{font-size:13px;color:var(--sub);line-height:1.55;margin-bottom:12px}
+.in-card .kv{font:500 11px 'JetBrains Mono',monospace;color:var(--sub);background:rgba(0,0,0,0.3);padding:10px 14px;border-radius:8px;line-height:1.7;margin-bottom:12px;word-break:break-all}
+.in-card .kv b{color:var(--accent2)}
+.in-card .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto}
+.in-card .btn{padding:9px 14px;border-radius:9px;font:600 12px 'Inter',sans-serif;cursor:pointer;text-decoration:none;border:0.5px solid transparent}
+.in-card .btn.primary{background:var(--accent);color:#fff}
+.in-card .btn.secondary{background:rgba(255,255,255,0.04);color:var(--sub);border-color:rgba(255,255,255,0.1)}
+.in-card .btn.secondary:hover{background:rgba(255,255,255,0.08)}
+.in-card details summary{cursor:pointer;font:600 11px 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;padding:8px 0;list-style:none}
+.in-card details summary::-webkit-details-marker{display:none}
+.in-card details summary::after{content:'▾';margin-left:4px}
+.in-card details[open] summary::after{transform:rotate(180deg);display:inline-block}
+.in-card pre{font:500 11px 'JetBrains Mono',monospace;background:#05070d;border:0.5px solid rgba(255,255,255,0.06);border-radius:8px;padding:10px 12px;overflow:auto;color:var(--sub);line-height:1.5;max-height:180px}
+</style>
+</head>
+<body>
+<div class="sd-bg"></div><div class="sd-grid"></div>
+
+<nav class="sd-nav">
+  <a class="sd-brand" href="/"><span class="glyph">S</span> SourceDeck</a>
+  <div class="links">
+    <a href="/app/">App</a>
+    <a href="/inbound/">Inbound</a>
+    <a href="/integrations/">Integrations</a>
+    <a href="/webhooks/">Webhooks</a>
+    <a class="cta" href="/#pricing">Choose Plan</a>
+  </div>
+</nav>
+
+<section class="sd-hero" style="padding-bottom:14px">
+  <div class="sd-eyebrow"><span class="dot"></span> Inbound capture</div>
+  <h1>Every direction leads converge.</h1>
+  <p class="lede">Outbound is wired. Inbound was missing. Five capture modes — hosted forms, chat handoff, email-to-lead, Zapier / Make trigger, QR intake — all feeding the same qualification engine.</p>
+</section>
+
+<div class="in-wrap">
+  <div class="in-grid">
+
+    <div class="in-card"><div class="ic">📝</div>
+      <h3>Hosted form</h3>
+      <p>Drop a SourceDeck-hosted form on any page. Fields map to the lead object, Basin-delivered, de-duped against your workspace.</p>
+      <div class="kv"><b>&lt;script</b> src="https://sourcedeck.app/assets/sd-form.js" data-workspace="ws_<em>YOUR_ID</em>" data-form="contact"<b>&gt;&lt;/script&gt;</b></div>
+      <div class="actions">
+        <a class="btn primary" href="/inbound/form-builder/">Open form builder</a>
+        <a class="btn secondary" href="/webhooks/">Event schema</a>
+      </div>
+    </div>
+
+    <div class="in-card"><div class="ic g">💬</div>
+      <h3>Chatbot handoff</h3>
+      <p>Tidio or Intercom chat handoff — classified sessions land as <code style="font-family:monospace;font-size:11px;color:var(--accent2)">source=chatbot</code> leads with the conversation transcript attached.</p>
+      <div class="kv">Workspace webhook: <b>events.sourcedeck.app/v1/inbound/chat/&lt;workspace_id&gt;</b></div>
+      <div class="actions">
+        <a class="btn primary" href="/integrations/">Configure Tidio</a>
+        <a class="btn secondary" href="javascript:copyExample()">Copy example</a>
+      </div>
+    </div>
+
+    <div class="in-card"><div class="ic a">📧</div>
+      <h3>Email-to-lead</h3>
+      <p>Unique workspace email. Forward any inbound inquiry — the parser extracts name, company, intent, and attaches the source thread.</p>
+      <div class="kv">Forward to: <b>lead+ws_<em>YOUR_ID</em>@in.sourcedeck.app</b></div>
+      <div class="actions">
+        <a class="btn primary" href="/settings/">Get my address</a>
+      </div>
+    </div>
+
+    <div class="in-card"><div class="ic p">⚡</div>
+      <h3>Zapier / Make trigger</h3>
+      <p>Any external tool can push a lead into SourceDeck — Typeform, Jotform, HubSpot forms, Calendly bookings, Webflow intake, custom webhooks.</p>
+      <div class="kv">POST <b>https://events.sourcedeck.app/v1/inbound/lead/&lt;workspace_id&gt;</b><br>Auth: <b>X-SourceDeck-Signature</b> HMAC-SHA256</div>
+      <details><summary>Payload shape</summary>
+<pre>{
+  "source": "typeform",
+  "external_id": "f_xxxx",
+  "lead": {
+    "email": "lead@company.com",
+    "first_name": "Jane",
+    "company_name": "Acme",
+    "notes": "Downloaded white paper"
+  },
+  "timestamp": "2026-04-21T14:12:00Z"
+}</pre></details>
+    </div>
+
+    <div class="in-card"><div class="ic">📱</div>
+      <h3>QR intake</h3>
+      <p>Printable QR on business cards, trade-show booths, jobsite door hangers. Scan → hosted form → lead in your queue.</p>
+      <div class="kv">Scan destination: <b>https://sourcedeck.app/f/&lt;workspace_id&gt;/<em>formId</em></b></div>
+      <div class="actions">
+        <a class="btn primary" href="/inbound/form-builder/">Generate QR</a>
+      </div>
+    </div>
+
+    <div class="in-card"><div class="ic g">🔁</div>
+      <h3>CSV import</h3>
+      <p>One-time bulk. Drag a CSV with email + company columns. SourceDeck runs the full qualification chain (MX + role-block + dedup) and routes surviving rows to the active campaign.</p>
+      <div class="kv">Required cols: <b>email</b> · <b>company</b> · <b>first_name</b> (optional) · <b>title</b> (optional)</div>
+      <div class="actions">
+        <a class="btn primary" href="/app/">Open LCC · Import</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="in-card" style="margin-top:14px">
+    <h3 style="margin-bottom:4px">What happens to every inbound lead</h3>
+    <p style="margin-bottom:10px">Every inbound source feeds the same pipeline:</p>
+    <ol style="padding-left:18px;color:var(--sub);font-size:13px;line-height:1.85">
+      <li>Fingerprint hash <code style="font-family:monospace;font-size:11px;color:var(--accent2)">sha1(lower(domain) + '|' + lower(company))</code> — dedupe against existing workspace leads</li>
+      <li>MX validation + role-block regex + free-mailbox filter</li>
+      <li>Score against your ICP using the compiled <code style="font-family:monospace;font-size:11px;color:var(--accent2)">lead_rule</code></li>
+      <li>Route to the active campaign if <code style="font-family:monospace;font-size:11px;color:var(--accent2)">fit_score ≥ outbound_ready_score</code></li>
+      <li>Fire <code style="font-family:monospace;font-size:11px;color:var(--accent2)">lead_qualified</code> event into the bus → Funnel Health dashboard updates</li>
+    </ol>
+  </div>
+</div>
+
+<footer class="sd-foot">SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">·</span> &copy; 2026 Ariel's River Contracting Group LLC</footer>
+
+<script>
+function copyExample(){ navigator.clipboard.writeText('https://events.sourcedeck.app/v1/inbound/chat/ws_YOUR_WORKSPACE_ID').then(()=>alert('Copied example URL. Replace ws_YOUR_WORKSPACE_ID with your actual workspace ID.')); }
+</script>
+<script src="//code.tidio.co/80d20949327f4c7c81e2295df563dc46.js" async></script>
+</body>
+</html>

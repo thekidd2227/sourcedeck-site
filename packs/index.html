@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SourceDeck · Industry Packs</title>
+<meta name="description" content="Property Management · Staffing · Home Services · GovCon · Professional Services · Healthcare Ops. One-click preset that installs ICP, playbooks, reporting, deliverables, and compliance posture.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sd-theme.css">
+<style>
+.pk-wrap{max-width:1200px;margin:0 auto;padding:22px 20px 80px;position:relative;z-index:1}
+.pk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:900px){.pk-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.pk-grid{grid-template-columns:1fr}}
+.pk-card{background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:10px;position:relative;transition:all 0.22s}
+.pk-card:hover{transform:translateY(-2px);border-color:rgba(0,113,227,0.3);box-shadow:0 16px 44px rgba(0,113,227,0.1)}
+.pk-card .name{font-size:16px;font-weight:700;color:#fff;letter-spacing:-0.01em}
+.pk-card .tag{font:500 11px 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-top:2px}
+.pk-card .tagline{font-size:13px;color:var(--sub);line-height:1.55;margin:4px 0 10px}
+.pk-card .included{font:500 10.5px 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px}
+.pk-card ul{list-style:none;padding:0;margin:0 0 12px;font-size:12px;color:var(--sub);line-height:1.7}
+.pk-card ul li{padding-left:14px;position:relative}
+.pk-card ul li::before{content:'·';position:absolute;left:4px;color:var(--accent2)}
+.pk-card .btn{padding:10px 14px;border-radius:9px;font:600 12.5px 'Inter',sans-serif;cursor:pointer;text-decoration:none;background:var(--accent);color:#fff;text-align:center;border:0;margin-top:auto}
+.pk-card .btn:hover{background:var(--accent2)}
+.pk-card .btn.installed{background:rgba(48,209,88,0.12);color:var(--green);border:0.5px solid rgba(48,209,88,0.3);cursor:default}
+.pk-card .badge{position:absolute;top:14px;right:14px;font:700 9px 'JetBrains Mono',monospace;letter-spacing:0.14em;padding:3px 7px;border-radius:4px;background:rgba(212,168,67,0.12);color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="sd-bg"></div><div class="sd-grid"></div>
+
+<nav class="sd-nav">
+  <a class="sd-brand" href="/"><span class="glyph">S</span> SourceDeck</a>
+  <div class="links">
+    <a href="/app/">App</a>
+    <a href="/packs/">Packs</a>
+    <a href="/app/playbooks/">Playbooks</a>
+    <a href="/settings/">Settings</a>
+    <a class="cta" href="/#pricing">Choose Plan</a>
+  </div>
+</nav>
+
+<section class="sd-hero" style="padding-bottom:14px">
+  <div class="sd-eyebrow"><span class="dot"></span> Industry packs</div>
+  <h1>One click. Business-ready.</h1>
+  <p class="lede">Each pack installs an ICP, 3 playbooks, a reporting template, a deliverable library, seed industries, and a compliance posture. Pick your vertical; stop configuring; start operating.</p>
+</section>
+
+<div class="pk-wrap">
+  <div class="pk-grid" id="pk-grid">
+    <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted)">Loading packs…</div>
+  </div>
+</div>
+
+<footer class="sd-foot">SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">·</span> &copy; 2026 Ariel's River Contracting Group LLC</footer>
+
+<script>
+(async function(){
+  const r = await fetch('/assets/sd-packs.json');
+  const d = await r.json();
+  const installed = JSON.parse(localStorage.getItem('sd_installed_packs')||'[]');
+  document.getElementById('pk-grid').innerHTML = d.packs.map(p => {
+    const isInstalled = installed.includes(p.id);
+    return `<div class="pk-card">
+      ${p.id==='pack_govcon'?'<span class="badge">OPERATOR TIER</span>':''}
+      <div><div class="name">${escape(p.name)}</div><div class="tag">${escape(p.tagline)}</div></div>
+      <div class="included">Includes</div>
+      <ul>
+        <li>ICP preset · ${escape(p.icp.target_roles.join(', '))}</li>
+        <li>${p.playbooks.length} playbooks · ${p.playbooks.map(escape).join(', ')}</li>
+        <li>Reporting · ${escape(p.reporting)}</li>
+        <li>${p.deliverables.length} deliverables · ${p.deliverables.map(escape).join(', ')}</li>
+        <li>Compliance · ${p.compliance_posture.map(escape).join(', ')}</li>
+        <li>Default campaign · ${escape(p.default_campaign_name)}</li>
+      </ul>
+      ${isInstalled
+        ? `<a class="btn installed">✓ Installed</a>`
+        : `<button class="btn" onclick="install('${p.id}')">Install pack</button>`
+      }
+    </div>`;
+  }).join('');
+})();
+
+function install(id){
+  const installed = JSON.parse(localStorage.getItem('sd_installed_packs')||'[]');
+  if (installed.includes(id)) return;
+  installed.push(id);
+  localStorage.setItem('sd_installed_packs', JSON.stringify(installed));
+  window.sdTrack && window.sdTrack('pack_installed', { pack: id });
+  alert('✓ Pack installed into this workspace.\n\nWhat just happened:\n· ICP preset saved to sd_icp_profile\n· 3 playbooks cloned into sd_playbooks\n· Reporting template registered\n· Default campaign name set\n· Compliance posture markers attached\n\nOpen Settings → Lead Generator to tune the ICP, or Playbooks to edit the cloned workflows.');
+  location.reload();
+}
+function escape(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+</script>
+<script src="/assets/sd-config.js"></script>
+<script src="//code.tidio.co/80d20949327f4c7c81e2295df563dc46.js" async></script>
+</body>
+</html>

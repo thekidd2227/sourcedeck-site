@@ -1,0 +1,46 @@
+{
+  "$schema": "https://claude.com/claude-code/settings.schema.json",
+  "permissions": {
+    "additionalDirectories": [],
+    "deny": [
+      "Bash(rm -rf /)",
+      "Bash(git push --force*)",
+      "Bash(git push -f*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -c \"import json,sys,re,os; p=json.load(sys.stdin); t=p.get('tool_input',{}) or {}; fp=t.get('file_path') or t.get('path') or ''; \\\n   SENSITIVE=[r'^CNAME$', r'\\\\.env(\\\\..+)?$', r'_workers/.*secrets?', r'\\\\.claude/settings\\\\.json$']; \\\n   pat=[re.compile(x) for x in SENSITIVE]; rel=os.path.relpath(fp) if fp else ''; \\\n   hit=next((x.pattern for x in pat if x.search(rel)),None); \\\n   sys.stderr.write('[guard] sensitive edit blocked on '+rel+' ('+hit+') — remove this hook in .claude/settings.json if the edit is intended.\\\\n') or sys.exit(2) if hit else sys.exit(0)\""
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -c \"import json,sys,os,subprocess; p=json.load(sys.stdin); t=p.get('tool_input',{}) or {}; fp=t.get('file_path') or t.get('path') or ''; \\\n   if not fp: sys.exit(0); \\\n   # This repo has no package.json — skip build. Run HTML/JS sanity where cheap. \\\n   if fp.endswith('.html'): \\\n      r=subprocess.run(['node','-e','const fs=require(\\\"fs\\\"),h=fs.readFileSync(process.argv[1],\\\"utf8\\\");const m=h.match(/<script>([\\\\s\\\\S]*?)<\\\\/script>/g)||[];let e=0;m.forEach(s=>{try{new Function(s.replace(/^<script>/,\\\"\\\").replace(/<\\\\/script>$/,\\\"\\\"));}catch(err){e++;console.error(\\\"js-syntax:\\\",err.message.slice(0,120));}});process.exit(e?2:0);', fp], capture_output=True, text=True); \\\n      sys.stderr.write(r.stderr); sys.exit(r.returncode); \\\n   if fp.endswith(('.js','.mjs')): \\\n      r=subprocess.run(['node','--check',fp], capture_output=True, text=True); \\\n      sys.stderr.write(r.stderr); sys.exit(r.returncode); \\\n   sys.exit(0)\""
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "osascript -e 'display notification \"sourcedeck-site: review needed\" with title \"Claude Code\" sound name \"Pop\"' 2>/dev/null; exit 0"
+          }
+        ]
+      }
+    ]
+  }
+}

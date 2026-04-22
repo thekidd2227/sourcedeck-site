@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SourceDeck · GovCon Engine</title>
+<meta name="description" content="SAM.gov search, saved searches, solicitation parser, compliance-first proposal drafter, past-performance library, pricing assumptions.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sd-theme.css">
+<style>
+.gc-wrap{max-width:1200px;margin:0 auto;padding:22px 20px 80px;position:relative;z-index:1}
+.gc-banner{padding:14px 18px;background:linear-gradient(90deg,rgba(212,168,67,0.08),rgba(191,90,242,0.04));border:0.5px solid rgba(212,168,67,0.3);border-radius:12px;margin-bottom:18px;font-size:13px;color:var(--sub);line-height:1.55}
+.gc-banner b{color:#fff}
+.gc-tabs{display:flex;gap:3px;padding:4px;background:rgba(255,255,255,0.02);border:0.5px solid rgba(255,255,255,0.06);border-radius:12px;margin-bottom:16px;overflow-x:auto}
+.gc-tabs .t{flex:1;min-width:fit-content;padding:10px 14px;border-radius:9px;font:600 12px/1 'Inter',sans-serif;text-align:center;cursor:pointer;color:var(--sub);white-space:nowrap;border:0.5px solid transparent;transition:all 0.15s}
+.gc-tabs .t.on{background:rgba(0,113,227,0.14);color:#fff;border-color:rgba(0,113,227,0.3)}
+.gc-grid{display:grid;grid-template-columns:320px 1fr;gap:14px}
+@media(max-width:900px){.gc-grid{grid-template-columns:1fr}}
+.gc-card{background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;overflow:hidden}
+.gc-head{padding:14px 18px 12px;border-bottom:0.5px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center;gap:10px}
+.gc-head .h{font-size:14px;font-weight:700;color:#fff;letter-spacing:-0.01em}
+.gc-head .sub{font-size:11px;color:var(--muted);margin-top:2px}
+.gc-body{padding:16px 18px}
+.gc-filter{display:flex;flex-direction:column;gap:10px}
+.gc-filter label{font:500 10.5px/1.2 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase}
+.gc-filter input,.gc-filter select{width:100%;padding:9px 11px;background:rgba(255,255,255,0.03);border:0.5px solid rgba(255,255,255,0.12);border-radius:9px;color:#fff;font:500 12.5px 'Inter',sans-serif;outline:none;margin-top:4px}
+.gc-filter input:focus,.gc-filter select:focus{border-color:var(--accent)}
+.gc-row{display:grid;grid-template-columns:100px 1fr 110px 90px;gap:12px;padding:12px 14px;border-bottom:0.5px solid rgba(255,255,255,0.04);align-items:center;font-size:12.5px;cursor:pointer;transition:background 0.15s}
+.gc-row:hover{background:rgba(255,255,255,0.02)}
+.gc-row .tt{color:#fff;font-weight:500;letter-spacing:-0.005em}
+.gc-row .tt .sub{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+.gc-row .meta{font:500 10px 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.02em}
+.gc-workflow{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;padding:12px}
+.gc-step{padding:10px 6px;border-radius:6px;text-align:center;background:rgba(255,255,255,0.02);border:0.5px solid transparent;font-size:10px}
+.gc-step.done{background:rgba(48,209,88,0.08);border-color:rgba(48,209,88,0.2);color:var(--green)}
+.gc-step.active{background:rgba(0,113,227,0.14);border-color:rgba(0,113,227,0.35);color:#fff}
+.gc-step.locked{color:var(--muted);opacity:0.55}
+.gc-step .n{font:700 9px/1.2 'JetBrains Mono',monospace;letter-spacing:0.12em;margin-bottom:4px}
+.gc-step .t{font-weight:600}
+.cm-row{display:grid;grid-template-columns:60px 80px 1fr 90px 80px;gap:10px;padding:9px 12px;border-bottom:0.5px solid rgba(255,255,255,0.05);font-size:12px;align-items:center}
+.cm-row.head{background:rgba(255,255,255,0.02);font:600 9.5px 'JetBrains Mono',monospace;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted)}
+.cm-row .req{color:var(--sub);line-height:1.45}
+.empty{padding:34px 18px;text-align:center;color:var(--muted);font-size:12.5px;line-height:1.7}
+.empty .next{margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.empty .btn{padding:8px 14px;border-radius:9px;font:600 11.5px 'Inter',sans-serif;background:rgba(0,113,227,0.12);color:var(--accent2);border:0.5px solid rgba(0,113,227,0.3);text-decoration:none;cursor:pointer}
+.empty .btn:hover{background:rgba(0,113,227,0.2)}
+</style>
+</head>
+<body>
+<div class="sd-bg"></div><div class="sd-grid"></div>
+
+<nav class="sd-nav">
+  <a class="sd-brand" href="/"><span class="glyph">S</span> SourceDeck</a>
+  <div class="links">
+    <a href="/app/">App</a>
+    <a href="/command/">Command</a>
+    <a href="/app/govcon/">GovCon</a>
+    <a href="/app/playbooks/">Playbooks</a>
+    <a href="/settings/">Settings</a>
+    <a class="cta" href="/#pricing">Choose Plan</a>
+  </div>
+</nav>
+
+<section class="sd-hero" style="padding-bottom:14px">
+  <div class="sd-eyebrow"><span class="dot" style="background:var(--gold)"></span> GovCon Engine</div>
+  <h1>Compliance-first proposal discipline.</h1>
+  <p class="lede">SAM search · saved searches · solicitation parser · compliance matrix · proposal drafter · past-performance library · pricing assumptions. Executes in enforced order — parse → matrix → outline → ExecSum → sections.</p>
+</section>
+
+<div class="gc-wrap">
+
+  <div class="gc-banner">
+    <b>Operator tier.</b> GovCon engine requires a SAM.gov API key under workspace secrets. Past-performance library and pricing profiles travel with the workspace. Workflow enforces parse → compliance matrix → outline → Executive Summary → section-by-section — drafting cannot start before the matrix exists.
+  </div>
+
+  <div class="gc-tabs">
+    <div class="t on" data-pane="search">Search</div>
+    <div class="t" data-pane="saved">Saved searches</div>
+    <div class="t" data-pane="review">Opportunity review</div>
+    <div class="t" data-pane="proposal">Proposal drafter</div>
+    <div class="t" data-pane="past">Past performance</div>
+    <div class="t" data-pane="pricing">Pricing profiles</div>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="pane" id="pane-search">
+    <div class="gc-grid">
+      <div class="gc-card">
+        <div class="gc-head"><div><div class="h">Filters</div><div class="sub">NAICS · PSC · agency · state · set-aside</div></div></div>
+        <div class="gc-body">
+          <div class="gc-filter">
+            <div><label>Keywords</label><input type="text" id="f-kw" placeholder="facility maintenance"></div>
+            <div><label>NAICS (comma-separated)</label><input type="text" id="f-naics" placeholder="561210, 238990"></div>
+            <div><label>PSC</label><input type="text" id="f-psc" placeholder="S201"></div>
+            <div><label>Department</label><select id="f-dept"><option value="">Any</option><option>DOD</option><option>VA</option><option>DHS</option><option>GSA</option><option>HHS</option><option>Treasury</option><option>DOE</option></select></div>
+            <div><label>State (2-letter)</label><input type="text" id="f-state" placeholder="DC" maxlength="2"></div>
+            <div><label>Set-aside</label><select id="f-sa"><option value="">Any</option><option>SDVOSB</option><option>WOSB</option><option>8(a)</option><option>HUBZone</option><option>SBA</option><option>Total SB</option></select></div>
+            <div><label>Notice type</label><select id="f-nt"><option value="">Any</option><option>Solicitation</option><option>Combined Synopsis/Solicitation</option><option>Presolicitation</option><option>Sources Sought</option><option>Special Notice</option></select></div>
+            <div><label>Due window (days)</label><input type="number" id="f-due" min="1" max="365" value="30"></div>
+            <button onclick="runSearch()" class="sd-btn primary lg" style="margin-top:8px">Run search</button>
+            <button onclick="saveCurrentSearch()" class="sd-btn secondary">Save search</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="gc-card">
+        <div class="gc-head"><div><div class="h">Results</div><div class="sub" id="r-count">Run a search to populate</div></div><span class="sd-pill manual" id="r-status">idle</span></div>
+        <div id="gc-results">
+          <div class="empty">
+            No opportunities loaded yet.<br>
+            Connect a SAM.gov API key in Settings, then run a search.
+            <div class="next">
+              <a class="btn" href="/settings/">Add SAM.gov key →</a>
+              <a class="btn" href="javascript:demoPopulate()">Load demo results</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SAVED -->
+  <div class="pane" id="pane-saved" style="display:none">
+    <div class="gc-card">
+      <div class="gc-head"><div><div class="h">Saved searches</div><div class="sub">Persist between sessions · auto-refresh daily · notify on new matches</div></div></div>
+      <div id="saved-list"><div class="empty">No saved searches yet. Save one from the Search tab.</div></div>
+    </div>
+  </div>
+
+  <!-- REVIEW -->
+  <div class="pane" id="pane-review" style="display:none">
+    <div class="gc-card">
+      <div class="gc-head"><div><div class="h">Opportunity review workspace</div><div class="sub">Bid / no-bid decision · pWIN estimate · past-perf match</div></div></div>
+      <div class="empty">Open an opportunity from the Search tab to begin review.</div>
+    </div>
+  </div>
+
+  <!-- PROPOSAL DRAFTER -->
+  <div class="pane" id="pane-proposal" style="display:none">
+    <div class="gc-card">
+      <div class="gc-head"><div><div class="h">Proposal workflow</div><div class="sub">Enforced order — the drafter refuses to skip steps</div></div></div>
+      <div class="gc-workflow">
+        <div class="gc-step done"><div class="n">01</div><div class="t">Ingest solicitation</div></div>
+        <div class="gc-step active"><div class="n">02</div><div class="t">Parse structure</div></div>
+        <div class="gc-step locked"><div class="n">03</div><div class="t">Detect C/L/M</div></div>
+        <div class="gc-step locked"><div class="n">04</div><div class="t">Compliance matrix</div></div>
+        <div class="gc-step locked"><div class="n">05</div><div class="t">Proposal outline</div></div>
+        <div class="gc-step locked"><div class="n">06</div><div class="t">Draft ExecSum</div></div>
+        <div class="gc-step locked"><div class="n">07</div><div class="t">Operator approves</div></div>
+        <div class="gc-step locked"><div class="n">08</div><div class="t">Section-by-section</div></div>
+      </div>
+    </div>
+
+    <div class="gc-card" style="margin-top:14px">
+      <div class="gc-head"><div><div class="h">Compliance matrix</div><div class="sub">Built BEFORE any drafting begins · source references required per row</div></div></div>
+      <div class="cm-row head"><span>ID</span><span>Source</span><span>Requirement</span><span>Page limit</span><span>Status</span></div>
+      <div class="cm-row"><span class="meta">L.4.1</span><span class="meta">Sec L</span><span class="req">Technical approach · demonstrate methodology for SOW Tasks 1–4</span><span class="meta">15</span><span class="sd-pill wait-internal">Pending</span></div>
+      <div class="cm-row"><span class="meta">L.4.2</span><span class="meta">Sec L</span><span class="req">Past performance · minimum 3 relevant contracts within 5 years, $500K+</span><span class="meta">10</span><span class="sd-pill warning">Missing PP</span></div>
+      <div class="cm-row"><span class="meta">L.4.3</span><span class="meta">Sec L</span><span class="req">Management approach · staffing plan + key personnel resumes</span><span class="meta">8</span><span class="sd-pill wait-internal">Pending</span></div>
+      <div class="cm-row"><span class="meta">M.2</span><span class="meta">Sec M</span><span class="req">Evaluation factor 1 · technical merit (weighted 40%)</span><span class="meta">—</span><span class="sd-pill automated">Mapped</span></div>
+      <div class="cm-row"><span class="meta">M.3</span><span class="meta">Sec M</span><span class="req">Evaluation factor 2 · past performance (weighted 30%)</span><span class="meta">—</span><span class="sd-pill warning">Needs PP refs</span></div>
+      <div class="cm-row"><span class="meta">M.4</span><span class="meta">Sec M</span><span class="req">Evaluation factor 3 · price (weighted 20%)</span><span class="meta">—</span><span class="sd-pill wait-internal">Pending pricing</span></div>
+      <div class="cm-row"><span class="meta">C.1.2</span><span class="meta">Sec C</span><span class="req">Place of performance · government facility + 30% contractor site OK</span><span class="meta">—</span><span class="sd-pill approved">Confirmed</span></div>
+    </div>
+  </div>
+
+  <!-- PAST PERFORMANCE -->
+  <div class="pane" id="pane-past" style="display:none">
+    <div class="gc-card">
+      <div class="gc-head"><div><div class="h">Past performance library</div><div class="sub">Reusable across proposals · tagged by NAICS / PSC / scope</div></div><button class="sd-btn primary" onclick="newPP()">+ Add past performance</button></div>
+      <div id="pp-list"><div class="empty">No past-performance records yet.<br>Add one to make it available across every proposal draft.</div></div>
+    </div>
+  </div>
+
+  <!-- PRICING PROFILES -->
+  <div class="pane" id="pane-pricing" style="display:none">
+    <div class="gc-card">
+      <div class="gc-head"><div><div class="h">Pricing profiles</div><div class="sub">Labor categories · rate basis · travel · ODC · subcontract · markup</div></div><button class="sd-btn primary" onclick="newPricing()">+ New profile</button></div>
+      <div id="pricing-list"><div class="empty">No pricing profiles yet. Add one to reuse labor categories and fee assumptions across proposals.</div></div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="sd-foot">SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">·</span> &copy; 2026 Ariel's River Contracting Group LLC</footer>
+
+<script src="/assets/sd-config.js"></script>
+<script>
+document.querySelectorAll('.gc-tabs .t').forEach(t => t.addEventListener('click', () => {
+  document.querySelectorAll('.gc-tabs .t').forEach(x => x.classList.remove('on'));
+  t.classList.add('on');
+  document.querySelectorAll('.pane').forEach(p => p.style.display = 'none');
+  document.getElementById('pane-' + t.dataset.pane).style.display = '';
+}));
+
+function demoPopulate(){
+  const rows = [
+    {n:'SP0700-26-Q-1184', t:'Janitorial services · Bldg 200', a:'DLA Troop Support', due:'+14d', score:82},
+    {n:'36C24626R0042',    t:'Facility maintenance · multi-site', a:'VA Maryland Health Care', due:'+22d', score:74},
+    {n:'W912DR-26-R-0031',  t:'Grounds maintenance · Aberdeen', a:'USACE Baltimore', due:'+28d', score:69},
+    {n:'140G0226R0009',     t:'IT support services · hybrid', a:'DOI NPS', due:'+19d', score:61}
+  ];
+  const html = rows.map(r =>
+    `<div class="gc-row"><span class="sd-pill wait-internal">New</span>
+      <div class="tt">${r.t}<span class="sub">${r.a}</span></div>
+      <span class="meta">${r.n}</span>
+      <span class="meta" style="color:var(--gold)">pWIN ${r.score}%</span></div>`).join('');
+  document.getElementById('gc-results').innerHTML = html;
+  document.getElementById('r-count').textContent = rows.length + ' demo opportunities (synthetic)';
+  document.getElementById('r-status').className = 'sd-pill automated';
+  document.getElementById('r-status').textContent = 'demo';
+}
+
+function runSearch(){
+  alert('Connect SAM.gov API key in Settings → Integrations → SAM.gov to run live searches.\n\nUntil then, use "Load demo results" to preview the review workspace.');
+}
+function saveCurrentSearch(){ alert('Saved search requires a live SAM.gov connection. Open Settings → Integrations to connect.'); }
+function newPP(){ alert('Past-performance authoring UI — ships Phase 2. Tracked in /docs/sourcedeck/SELF_SETUP_IMPLEMENTATION_NOTES.md.'); }
+function newPricing(){ alert('Pricing-profile authoring UI — ships Phase 2.'); }
+</script>
+<script src="//code.tidio.co/80d20949327f4c7c81e2295df563dc46.js" async></script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SourceDeck · Approvals</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sd-theme.css">
+<style>
+.ap-wrap{max-width:1100px;margin:0 auto;padding:22px 20px 80px;position:relative;z-index:1}
+.ap-filter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.ap-filter .f{padding:7px 12px;border-radius:980px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);color:var(--sub);font:500 12px 'Inter',sans-serif;cursor:pointer}
+.ap-filter .f.on{background:rgba(0,113,227,0.14);color:#fff;border-color:rgba(0,113,227,0.3)}
+.ap-card{background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:16px 18px;margin-bottom:10px;display:grid;grid-template-columns:120px 1fr auto;gap:14px;align-items:center}
+@media(max-width:700px){.ap-card{grid-template-columns:1fr;gap:10px}}
+.ap-card .title{font-size:14px;font-weight:700;color:#fff;letter-spacing:-0.01em;margin-bottom:4px}
+.ap-card .meta{font-size:12px;color:var(--sub);line-height:1.5}
+.ap-card .who{display:flex;align-items:center;gap:8px;margin-top:6px;font:500 11px 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.04em}
+.ap-card .av{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--purple));display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:700}
+.ap-card .actions{display:flex;gap:8px}
+.ap-card .actions button{padding:8px 14px;border-radius:9px;font:600 11.5px 'Inter',sans-serif;border:0.5px solid transparent;cursor:pointer}
+.ap-card .actions .approve{background:rgba(48,209,88,0.12);color:var(--green);border-color:rgba(48,209,88,0.3)}
+.ap-card .actions .approve:hover{background:rgba(48,209,88,0.2)}
+.ap-card .actions .reject{background:rgba(255,77,79,0.1);color:#ff6b6b;border-color:rgba(255,77,79,0.3)}
+.ap-card .actions .reject:hover{background:rgba(255,77,79,0.18)}
+.ap-card .actions .view{background:rgba(255,255,255,0.04);color:var(--sub);border-color:rgba(255,255,255,0.1)}
+.ap-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:18px}
+@media(max-width:700px){.ap-kpis{grid-template-columns:repeat(2,1fr)}}
+.ap-kpi{padding:14px 16px;background:rgba(255,255,255,0.02);border:0.5px solid rgba(255,255,255,0.06);border-radius:12px}
+.ap-kpi .l{font:600 9.5px 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:4px}
+.ap-kpi .v{font:800 22px/1 'Inter',sans-serif;color:#fff;letter-spacing:-0.02em}
+.ap-kpi.warn .v{color:var(--warn,#ffb020)}
+.ap-kpi.esc .v{color:var(--gold)}
+.ap-kpi.done .v{color:var(--green)}
+.empty{padding:60px 20px;text-align:center;color:var(--muted);font-size:13px;line-height:1.7}
+.empty .next{margin-top:14px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.empty .btn{padding:9px 16px;border-radius:9px;font:600 12px 'Inter',sans-serif;background:rgba(0,113,227,0.12);color:var(--accent2);border:0.5px solid rgba(0,113,227,0.3);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="sd-bg"></div><div class="sd-grid"></div>
+
+<nav class="sd-nav">
+  <a class="sd-brand" href="/"><span class="glyph">S</span> SourceDeck</a>
+  <div class="links">
+    <a href="/app/">App</a>
+    <a href="/command/">Command</a>
+    <a href="/app/approvals/">Approvals</a>
+    <a href="/app/playbooks/">Playbooks</a>
+    <a href="/settings/">Settings</a>
+    <a class="cta" href="/#pricing">Choose Plan</a>
+  </div>
+</nav>
+
+<section class="sd-hero" style="padding-bottom:14px">
+  <div class="sd-eyebrow"><span class="dot"></span> Approvals</div>
+  <h1>One inbox. Every pending signoff.</h1>
+  <p class="lede">Proposals · deliverables · invoices · campaign posts · playbook steps. All approvals routed to the right owner with SLA + escalation tracking.</p>
+</section>
+
+<div class="ap-wrap">
+  <div class="ap-kpis">
+    <div class="ap-kpi"><div class="l">Awaiting</div><div class="v" id="kpi-waiting">0</div></div>
+    <div class="ap-kpi warn"><div class="l">Due &lt; 24h</div><div class="v" id="kpi-due">0</div></div>
+    <div class="ap-kpi esc"><div class="l">Escalated</div><div class="v" id="kpi-esc">0</div></div>
+    <div class="ap-kpi done"><div class="l">Approved today</div><div class="v" id="kpi-done">0</div></div>
+  </div>
+
+  <div class="ap-filter">
+    <span class="f on" data-f="all">All</span>
+    <span class="f" data-f="proposal">Proposals</span>
+    <span class="f" data-f="deliverable">Deliverables</span>
+    <span class="f" data-f="invoice">Invoices</span>
+    <span class="f" data-f="post">Campaign posts</span>
+    <span class="f" data-f="step">Playbook steps</span>
+  </div>
+
+  <div id="ap-list"></div>
+</div>
+
+<footer class="sd-foot">SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">·</span> &copy; 2026 Ariel's River Contracting Group LLC</footer>
+
+<script src="/assets/sd-config.js"></script>
+<script>
+// Demo queue — in production this reads from the approvals API per workspace
+const DEMO = [
+  { id:'a1', type:'proposal',    title:'Proposal signature · Hargrove Property Services',     meta:'Pro tier · $4,188/yr · 11 days since sent', owner:'JC', sla:'overdue', severity:'blocked' },
+  { id:'a2', type:'deliverable', title:'Milestone signoff · Q2 Turnover Clean',                meta:'Job J-2031 · Acme Commercial · ready for client review', owner:'PM', sla:'24h', severity:'wait-client' },
+  { id:'a3', type:'invoice',     title:'INV-0219 · Halcyon Federal Services',                  meta:'$7,988 · draft · J-2024 complete', owner:'Finance', sla:'48h', severity:'warning' },
+  { id:'a4', type:'post',        title:'LinkedIn post · Q3 feature-release announcement',      meta:'Pro · approval_required=true · 2-step chain', owner:'Marketing', sla:'72h', severity:'wait-internal' },
+  { id:'a5', type:'step',        title:'Playbook step · Subcontractor COI verified',           meta:'Dispatch · J-4421 · RiverTide Property Mgmt', owner:'DL', sla:'4h', severity:'escalated' },
+  { id:'a6', type:'proposal',    title:'MSA countersign · Meridian Realty Partners',           meta:'Operator tier · DocuSign sent 4 days ago', owner:'JC', sla:'overdue', severity:'wait-client' },
+  { id:'a7', type:'post',        title:'X thread · Pricing page refresh',                      meta:'Pro · approval_required=true', owner:'Marketing', sla:'24h', severity:'wait-internal' }
+];
+const LS = 'sd_approvals_decided';
+let filter = 'all';
+
+function render(){
+  const decided = JSON.parse(localStorage.getItem(LS)||'{}');
+  const pending = DEMO.filter(a => !decided[a.id] && (filter==='all' || a.type===filter));
+  const host = document.getElementById('ap-list');
+  const waiting = DEMO.filter(a => !decided[a.id]).length;
+  const due    = DEMO.filter(a => !decided[a.id] && (a.sla==='overdue' || a.sla==='24h' || a.sla==='4h')).length;
+  const esc    = DEMO.filter(a => !decided[a.id] && a.severity==='escalated').length;
+  const done   = Object.values(decided).filter(v => v.decided_at > Date.now() - 86400000 && v.action==='approve').length;
+  document.getElementById('kpi-waiting').textContent = waiting;
+  document.getElementById('kpi-due').textContent     = due;
+  document.getElementById('kpi-esc').textContent     = esc;
+  document.getElementById('kpi-done').textContent    = done;
+
+  if (!pending.length){
+    host.innerHTML = '<div class="empty">No approvals waiting in this queue.<br><span style="font-size:12px">When proposals, deliverables, invoices, or posts need signoff, they appear here.</span>' +
+      '<div class="next"><a class="btn" href="/app/playbooks/">Author a playbook</a><a class="btn" href="/command/">Open command center</a></div></div>';
+    return;
+  }
+  host.innerHTML = pending.map(a => `
+    <div class="ap-card">
+      <span class="sd-pill ${a.severity}">${escape(a.type)}</span>
+      <div>
+        <div class="title">${escape(a.title)}</div>
+        <div class="meta">${escape(a.meta)}</div>
+        <div class="who"><span class="av">${escape(a.owner.slice(0,2))}</span>${escape(a.owner)} · SLA ${escape(a.sla)}</div>
+      </div>
+      <div class="actions">
+        <button class="view" onclick="viewDetails('${a.id}')">View</button>
+        <button class="reject" onclick="decide('${a.id}','reject')">Reject</button>
+        <button class="approve" onclick="decide('${a.id}','approve')">Approve</button>
+      </div>
+    </div>`).join('');
+}
+function decide(id, action){
+  const decided = JSON.parse(localStorage.getItem(LS)||'{}');
+  decided[id] = { action, decided_at: Date.now() };
+  localStorage.setItem(LS, JSON.stringify(decided));
+  window.sdTrack && window.sdTrack('approval_decided', { id, action });
+  render();
+}
+function viewDetails(id){ const a = DEMO.find(x=>x.id===id); if(!a) return; alert(a.title+'\n\n'+a.meta+'\n\nType: '+a.type+'\nOwner: '+a.owner+'\nSLA: '+a.sla); }
+
+document.querySelectorAll('.ap-filter .f').forEach(f => f.addEventListener('click', () => {
+  document.querySelectorAll('.ap-filter .f').forEach(x => x.classList.remove('on'));
+  f.classList.add('on');
+  filter = f.dataset.f; render();
+}));
+function escape(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+render();
+</script>
+<script src="//code.tidio.co/80d20949327f4c7c81e2295df563dc46.js" async></script>
+</body>
+</html>

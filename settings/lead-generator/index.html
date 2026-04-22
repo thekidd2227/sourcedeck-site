@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SourceDeck · Lead Generator Setup</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sd-theme.css">
+<style>
+.lg-wrap{max-width:1000px;margin:0 auto;padding:22px 20px 80px;position:relative;z-index:1}
+.lg-tabs{display:flex;gap:3px;padding:4px;background:rgba(255,255,255,0.02);border:0.5px solid rgba(255,255,255,0.06);border-radius:12px;margin-bottom:16px;overflow-x:auto}
+.lg-tabs .t{flex:1;min-width:fit-content;padding:10px 14px;border-radius:9px;font:600 12px/1 'Inter',sans-serif;text-align:center;cursor:pointer;color:var(--sub);white-space:nowrap;transition:all 0.15s}
+.lg-tabs .t.on{background:rgba(0,113,227,0.14);color:#fff}
+.lg-card{background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:22px 24px}
+.lg-card + .lg-card{margin-top:14px}
+.lg-card h3{font-size:15px;font-weight:700;color:#fff;letter-spacing:-0.01em;margin-bottom:4px}
+.lg-card .note{font-size:12px;color:var(--muted);margin-bottom:18px;line-height:1.55}
+.field{display:block;margin-bottom:14px}
+.field label{font:500 10.5px 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:5px;display:block}
+.field label .req{color:#ff6b6b;margin-left:4px}
+.field input,.field select,.field textarea{width:100%;padding:9px 12px;background:rgba(255,255,255,0.03);border:0.5px solid rgba(255,255,255,0.12);border-radius:9px;color:#fff;font:500 13px 'Inter',sans-serif;outline:none}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent)}
+.field textarea{min-height:70px;resize:vertical}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:640px){.row2{grid-template-columns:1fr}}
+.chips{display:flex;flex-wrap:wrap;gap:6px;padding:8px;background:rgba(255,255,255,0.02);border:0.5px dashed rgba(255,255,255,0.12);border-radius:9px;min-height:42px}
+.chip{font:500 11.5px 'Inter',sans-serif;padding:5px 10px;border-radius:980px;background:rgba(0,113,227,0.14);color:var(--accent2);border:0.5px solid rgba(0,113,227,0.3);cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.chip .x{color:var(--muted);font-size:14px;line-height:1}
+.chip:hover .x{color:#ff6b6b}
+.chip-add{font:500 11.5px 'Inter',sans-serif;padding:5px 10px;border-radius:980px;background:transparent;color:var(--muted);border:0.5px dashed rgba(255,255,255,0.15);cursor:pointer}
+.chip-add:hover{color:#fff;border-color:rgba(255,255,255,0.3)}
+.weight-row{display:grid;grid-template-columns:160px 1fr 50px;gap:10px;align-items:center;padding:7px 0;border-bottom:0.5px solid rgba(255,255,255,0.04)}
+.weight-row:last-child{border-bottom:0}
+.weight-row .l{font-size:12.5px;color:var(--sub)}
+.weight-row input[type=range]{-webkit-appearance:none;height:3px;background:rgba(255,255,255,0.1);border-radius:3px}
+.weight-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--accent);cursor:pointer}
+.weight-row .v{font:700 13px 'JetBrains Mono',monospace;color:var(--gold);text-align:right;letter-spacing:0.02em}
+.save-bar{position:sticky;bottom:14px;margin-top:18px;padding:12px 18px;background:rgba(17,17,17,0.95);backdrop-filter:blur(20px);border:0.5px solid rgba(0,113,227,0.3);border-radius:12px;display:flex;justify-content:space-between;align-items:center;gap:14px;box-shadow:0 20px 50px rgba(0,0,0,0.5)}
+.save-bar .hint{font-size:12px;color:var(--sub)}
+.readiness{display:flex;align-items:center;gap:10px}
+.readiness .bar{width:140px;height:6px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden}
+.readiness .bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--green));transition:width 0.3s}
+</style>
+</head>
+<body>
+<div class="sd-bg"></div><div class="sd-grid"></div>
+
+<nav class="sd-nav">
+  <a class="sd-brand" href="/"><span class="glyph">S</span> SourceDeck</a>
+  <div class="links">
+    <a href="/app/">App</a>
+    <a href="/settings/">Settings</a>
+    <a href="/app/playbooks/">Playbooks</a>
+    <a class="cta" href="/#pricing">Choose Plan</a>
+  </div>
+</nav>
+
+<section class="sd-hero" style="padding-bottom:14px">
+  <div class="sd-eyebrow"><span class="dot"></span> Settings · Lead Generator</div>
+  <h1>Define who you sell to. Once.</h1>
+  <p class="lede">Business identity · offer · ICP · qualification rules. The compiler turns these settings into executable filters and scoring rules that drive discovery, qualification, and routing.</p>
+</section>
+
+<div class="lg-wrap">
+  <div class="lg-tabs">
+    <div class="t on" data-p="identity">Business identity</div>
+    <div class="t" data-p="offer">Offer</div>
+    <div class="t" data-p="icp">ICP</div>
+    <div class="t" data-p="rules">Rules</div>
+    <div class="t" data-p="scoring">Scoring</div>
+  </div>
+
+  <!-- IDENTITY -->
+  <div class="pane" id="pane-identity">
+    <div class="lg-card"><h3>Business identity</h3><p class="note">This context drives messaging voice + domain reputation on outbound.</p>
+      <div class="row2">
+        <div class="field"><label>Legal business name <span class="req">*</span></label><input id="f-legal" placeholder="Acme Ops LLC"></div>
+        <div class="field"><label>Display brand name <span class="req">*</span></label><input id="f-brand" placeholder="Acme"></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label>Website URL <span class="req">*</span></label><input id="f-url" type="url" placeholder="https://acmeops.com"></div>
+        <div class="field"><label>Primary sending domain <span class="req">*</span></label><input id="f-domain" placeholder="acmeops.com"></div>
+      </div>
+      <div class="field"><label>Business description <span class="req">*</span></label><textarea id="f-desc" placeholder="We install operational systems for property managers. 50-2000 chars."></textarea></div>
+      <div class="field"><label>Operating regions</label><div class="chips" id="c-regions"></div></div>
+    </div>
+  </div>
+
+  <!-- OFFER -->
+  <div class="pane" id="pane-offer" style="display:none">
+    <div class="lg-card"><h3>Primary offer</h3><p class="note">Used in outbound message generation and pricing page alignment.</p>
+      <div class="row2">
+        <div class="field"><label>Offer name <span class="req">*</span></label><input id="f-offer-name" placeholder="Operational Intelligence Install"></div>
+        <div class="field"><label>Primary CTA <span class="req">*</span></label><input id="f-cta" placeholder="Book a 15-min diagnostic"></div>
+      </div>
+      <div class="field"><label>Offer description <span class="req">*</span></label><textarea id="f-offer-desc" placeholder="What the offer actually is. 30-1500 chars."></textarea></div>
+      <div class="field"><label>Differentiators <span class="req">*</span> · 1–10</label><div class="chips" id="c-diff"></div></div>
+      <div class="field"><label>Pain points solved <span class="req">*</span> · 1–20</label><div class="chips" id="c-pain"></div></div>
+    </div>
+  </div>
+
+  <!-- ICP -->
+  <div class="pane" id="pane-icp" style="display:none">
+    <div class="lg-card"><h3>Ideal Customer Profile</h3><p class="note">Industries are seeded from <code style="font-family:monospace;font-size:11px;color:var(--accent2)">/assets/sd-industries.json</code> — 40 preloaded, editable per workspace.</p>
+      <div class="field"><label>Target industries <span class="req">*</span></label><div class="chips" id="c-industries"></div></div>
+      <div class="field"><label>Target roles <span class="req">*</span></label><div class="chips" id="c-roles"></div></div>
+      <div class="row2">
+        <div class="field"><label>Company size min</label><input id="f-size-min" type="number" min="1" placeholder="5"></div>
+        <div class="field"><label>Company size max</label><input id="f-size-max" type="number" min="1" placeholder="500"></div>
+      </div>
+      <div class="field"><label>Target geographies <span class="req">*</span></label><div class="chips" id="c-geo"></div></div>
+      <div class="field"><label>Exclusions (domains, keywords, competitor names)</label><div class="chips" id="c-excl"></div></div>
+    </div>
+  </div>
+
+  <!-- RULES -->
+  <div class="pane" id="pane-rules" style="display:none">
+    <div class="lg-card"><h3>Qualification rules</h3>
+      <div class="row2">
+        <div class="field"><label>Minimum fit score <span class="req">*</span> · 0-100</label><input id="f-minfit" type="number" min="0" max="100" value="60"></div>
+        <div class="field"><label>Outbound-ready score <span class="req">*</span> · 0-100</label><input id="f-outready" type="number" min="0" max="100" value="75"></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label>Duplicate strategy</label><select id="f-dup"><option>merge</option><option>reject</option><option>keep_latest</option><option>manual_review</option></select></div>
+        <div class="field"><label>Role-based email policy</label><select id="f-role-email"><option>flag</option><option>reject</option><option>manual_review</option><option>allow</option></select></div>
+      </div>
+      <div class="field"><label>Bad-data policy</label><select id="f-bad"><option>repair_if_possible</option><option>flag</option><option>reject</option></select></div>
+      <div class="field"><label>Blocked domains</label><div class="chips" id="c-blocked"></div></div>
+    </div>
+  </div>
+
+  <!-- SCORING -->
+  <div class="pane" id="pane-scoring" style="display:none">
+    <div class="lg-card"><h3>Fit scoring weights</h3><p class="note">Leads are scored 0-100 using these weights. Adjust where you want the system to lean harder.</p>
+      <div id="weights"></div>
+      <div style="margin-top:14px;font:500 11px 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.04em">Sum (auto-normalized at save): <span id="wsum" style="color:var(--gold)">—</span></div>
+    </div>
+  </div>
+
+  <!-- SAVE BAR -->
+  <div class="save-bar">
+    <div class="readiness">
+      <span style="font:500 10.5px 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase">Readiness</span>
+      <div class="bar"><div class="bar-fill" id="readiness-bar" style="width:0%"></div></div>
+      <span id="readiness-pct" style="font:700 13px 'JetBrains Mono',monospace;color:var(--gold)">0%</span>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <span class="hint" id="save-hint">—</span>
+      <button class="sd-btn primary lg" onclick="compile()">Compile + save</button>
+    </div>
+  </div>
+</div>
+
+<footer class="sd-foot">SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">·</span> &copy; 2026 Ariel's River Contracting Group LLC</footer>
+
+<script src="/assets/sd-config.js"></script>
+<script>
+const LS = 'sd_icp_profile';
+const LS_RULE = 'sd_lead_rule';
+
+// Tabs
+document.querySelectorAll('.lg-tabs .t').forEach(t => t.addEventListener('click', () => {
+  document.querySelectorAll('.lg-tabs .t').forEach(x => x.classList.remove('on'));
+  t.classList.add('on');
+  document.querySelectorAll('.pane').forEach(p => p.style.display = 'none');
+  document.getElementById('pane-' + t.dataset.p).style.display = '';
+}));
+
+// Chip fields (multi-value editor)
+function chipField(containerId, placeholder){
+  const c = document.getElementById(containerId);
+  function render(){
+    const vals = JSON.parse(c.dataset.vals || '[]');
+    c.innerHTML = vals.map((v,i)=>`<span class="chip" onclick="chipRemove('${containerId}',${i})">${escape(v)} <span class="x">×</span></span>`).join('')
+      + `<button class="chip-add" onclick="chipAdd('${containerId}','${placeholder}')">+ add</button>`;
+    scoreReadiness();
+  }
+  if (!c.dataset.vals) c.dataset.vals = '[]';
+  render();
+}
+window.chipAdd = function(id, placeholder){
+  const v = prompt(placeholder);
+  if (!v) return;
+  const c = document.getElementById(id); const arr = JSON.parse(c.dataset.vals || '[]'); arr.push(v.trim());
+  c.dataset.vals = JSON.stringify(arr);
+  chipField(id, placeholder);
+};
+window.chipRemove = function(id, i){
+  const c = document.getElementById(id); const arr = JSON.parse(c.dataset.vals || '[]'); arr.splice(i,1);
+  c.dataset.vals = JSON.stringify(arr);
+  chipField(id, '');
+};
+function chipGet(id){ return JSON.parse((document.getElementById(id).dataset.vals)||'[]'); }
+
+// Weights
+const WEIGHT_DEFS = [
+  {id:'industry_match',label:'Industry match',default:25},
+  {id:'role_match',label:'Role match',default:20},
+  {id:'geo_match',label:'Geography match',default:15},
+  {id:'company_size_match',label:'Company size match',default:15},
+  {id:'data_completeness',label:'Data completeness',default:15},
+  {id:'tech_match',label:'Tech-stack match',default:10}
+];
+function renderWeights(){
+  const state = JSON.parse(localStorage.getItem(LS_RULE)||'{}').weights || {};
+  const host = document.getElementById('weights');
+  host.innerHTML = WEIGHT_DEFS.map(w => `
+    <div class="weight-row">
+      <span class="l">${w.label}</span>
+      <input type="range" min="0" max="100" value="${state[w.id]||w.default}" data-w="${w.id}" oninput="document.getElementById('w-${w.id}').textContent=this.value;sumWeights()">
+      <span class="v" id="w-${w.id}">${state[w.id]||w.default}</span>
+    </div>`).join('');
+  sumWeights();
+}
+function sumWeights(){
+  const sum = WEIGHT_DEFS.reduce((s,w) => s + (+document.querySelector('[data-w="'+w.id+'"]').value || 0), 0);
+  document.getElementById('wsum').textContent = sum;
+}
+
+// Load saved
+(function init(){
+  const saved = JSON.parse(localStorage.getItem(LS)||'{}');
+  document.getElementById('f-legal').value = saved.legal_business_name || '';
+  document.getElementById('f-brand').value = saved.display_brand_name || '';
+  document.getElementById('f-url').value   = saved.website_url || '';
+  document.getElementById('f-domain').value= saved.primary_domain || '';
+  document.getElementById('f-desc').value  = saved.business_description || '';
+  document.getElementById('f-offer-name').value = saved.offer_name || '';
+  document.getElementById('f-cta').value   = saved.cta || '';
+  document.getElementById('f-offer-desc').value = saved.offer_desc || '';
+  document.getElementById('f-size-min').value = saved.size_min || '';
+  document.getElementById('f-size-max').value = saved.size_max || '';
+  const r = JSON.parse(localStorage.getItem(LS_RULE)||'{}');
+  document.getElementById('f-minfit').value = r.minimum_fit_score ?? 60;
+  document.getElementById('f-outready').value = r.outbound_ready_score ?? 75;
+  document.getElementById('f-dup').value = r.duplicate_strategy || 'merge';
+  document.getElementById('f-role-email').value = r.role_based_email_policy || 'flag';
+  document.getElementById('f-bad').value = r.bad_data_policy || 'repair_if_possible';
+
+  // populate chip fields
+  const setChips = (id,arr) => { const c=document.getElementById(id); c.dataset.vals = JSON.stringify(arr||[]); };
+  setChips('c-regions', saved.regions || []);
+  setChips('c-diff', saved.differentiators || []);
+  setChips('c-pain', saved.pain_points || []);
+  setChips('c-industries', saved.industries || []);
+  setChips('c-roles', saved.roles || []);
+  setChips('c-geo', saved.geographies || []);
+  setChips('c-excl', saved.exclusions || []);
+  setChips('c-blocked', r.blocked_domains || []);
+
+  chipField('c-regions','Region (e.g. DMV, US)');
+  chipField('c-diff','Differentiator');
+  chipField('c-pain','Pain point');
+  chipField('c-industries','Industry name');
+  chipField('c-roles','Target role');
+  chipField('c-geo','Geography');
+  chipField('c-excl','Domain, keyword, or competitor');
+  chipField('c-blocked','Domain to block');
+  renderWeights();
+
+  // Attach input change listeners for readiness scoring
+  document.querySelectorAll('.lg-wrap input, .lg-wrap select, .lg-wrap textarea').forEach(el => el.addEventListener('input', scoreReadiness));
+  scoreReadiness();
+})();
+
+// Readiness scoring
+function scoreReadiness(){
+  const requiredFields = [
+    'f-legal','f-brand','f-url','f-domain','f-desc','f-offer-name','f-cta','f-offer-desc','f-minfit','f-outready'
+  ];
+  const requiredChips = ['c-industries','c-roles','c-geo','c-diff','c-pain'];
+  let ok = 0, total = requiredFields.length + requiredChips.length;
+  requiredFields.forEach(id => { if ((document.getElementById(id).value||'').trim()) ok++; });
+  requiredChips.forEach(id => { if (chipGet(id).length > 0) ok++; });
+  const pct = Math.round(100*ok/total);
+  document.getElementById('readiness-bar').style.width = pct + '%';
+  document.getElementById('readiness-pct').textContent = pct + '%';
+  document.getElementById('save-hint').textContent = pct === 100 ? 'Ready to compile.' : (total-ok) + ' required field' + (total-ok===1?'':'s') + ' remaining.';
+}
+
+// Compile: validate + persist ICP + lead_rule
+function compile(){
+  const profile = {
+    legal_business_name: val('f-legal'),
+    display_brand_name:  val('f-brand'),
+    website_url:         val('f-url'),
+    primary_domain:      val('f-domain'),
+    business_description:val('f-desc'),
+    regions:             chipGet('c-regions'),
+    offer_name:          val('f-offer-name'),
+    cta:                 val('f-cta'),
+    offer_desc:          val('f-offer-desc'),
+    differentiators:     chipGet('c-diff'),
+    pain_points:         chipGet('c-pain'),
+    industries:          chipGet('c-industries'),
+    roles:               chipGet('c-roles'),
+    geographies:         chipGet('c-geo'),
+    size_min: +val('f-size-min') || null,
+    size_max: +val('f-size-max') || null,
+    exclusions:          chipGet('c-excl'),
+    updated_at: Date.now()
+  };
+
+  // Missing-field guard
+  const missing = [];
+  if (!profile.legal_business_name) missing.push('Legal business name');
+  if (!profile.website_url) missing.push('Website URL');
+  if (!profile.business_description) missing.push('Business description');
+  if (!profile.offer_name) missing.push('Offer name');
+  if (!profile.offer_desc) missing.push('Offer description');
+  if (!profile.differentiators.length) missing.push('Differentiators');
+  if (!profile.pain_points.length) missing.push('Pain points solved');
+  if (!profile.industries.length) missing.push('Target industries');
+  if (!profile.roles.length) missing.push('Target roles');
+  if (!profile.geographies.length) missing.push('Target geographies');
+  if (missing.length) { alert('Cannot compile — missing required fields:\n\n· ' + missing.join('\n· ')); return; }
+
+  // Normalize weights
+  const weights = {}; let wsum = 0;
+  WEIGHT_DEFS.forEach(w => { weights[w.id] = +document.querySelector('[data-w="'+w.id+'"]').value || 0; wsum += weights[w.id]; });
+  if (wsum > 0) WEIGHT_DEFS.forEach(w => { weights[w.id] = Math.round(100 * weights[w.id] / wsum); });
+
+  const lead_rule = {
+    minimum_fit_score:  +val('f-minfit'),
+    outbound_ready_score:+val('f-outready'),
+    duplicate_strategy: val('f-dup'),
+    role_based_email_policy: val('f-role-email'),
+    bad_data_policy:    val('f-bad'),
+    blocked_domains:    chipGet('c-blocked'),
+    weights,
+    compiled_at: Date.now()
+  };
+
+  localStorage.setItem(LS, JSON.stringify(profile));
+  localStorage.setItem(LS_RULE, JSON.stringify(lead_rule));
+  window.sdTrack && window.sdTrack('icp_compiled', { industries: profile.industries.length, roles: profile.roles.length, weights_sum: Object.values(weights).reduce((a,b)=>a+b,0) });
+  alert('✓ Compiled + saved.\n\nICP profile: ' + profile.industries.length + ' industries × ' + profile.roles.length + ' roles × ' + profile.geographies.length + ' geos.\nFit threshold: ' + lead_rule.minimum_fit_score + ' · outbound-ready: ' + lead_rule.outbound_ready_score + '.');
+}
+function val(id){ return (document.getElementById(id).value||'').trim(); }
+function escape(s){ return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+</script>
+<script src="//code.tidio.co/80d20949327f4c7c81e2295df563dc46.js" async></script>
+</body>
+</html>

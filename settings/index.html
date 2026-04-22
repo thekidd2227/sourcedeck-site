@@ -9,15 +9,33 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/sd-theme.css">
 <style>
-.set-grid{max-width:1100px;margin:0 auto;padding:24px 20px 80px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;position:relative;z-index:1}
-@media(max-width:900px){.set-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:620px){.set-grid{grid-template-columns:1fr}}
-.set-card{background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:8px;transition:all 0.18s;text-decoration:none;color:inherit}
-.set-card:hover{transform:translateY(-2px);border-color:rgba(0,113,227,0.3);box-shadow:0 16px 40px rgba(0,113,227,0.08)}
-.set-card .ic{width:38px;height:38px;border-radius:9px;background:linear-gradient(135deg,var(--accent),var(--purple));display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:16px;margin-bottom:6px}
-.set-card .h{font-size:14.5px;font-weight:700;color:#fff;letter-spacing:-0.01em}
-.set-card .d{font-size:12px;color:var(--sub);line-height:1.55;flex:1}
-.set-card .s{margin-top:6px}
+.st-hero{max-width:1100px;margin:0 auto;padding:18px 20px 0;position:relative;z-index:1}
+.st-grid{max-width:1100px;margin:0 auto;padding:14px 20px 80px;display:grid;grid-template-columns:380px 1fr;gap:18px;position:relative;z-index:1}
+@media(max-width:900px){.st-grid{grid-template-columns:1fr}}
+.st-radar{background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:18px;padding:22px 22px 28px;position:sticky;top:80px;height:fit-content}
+.st-radar h3{font-size:15px;font-weight:700;color:#fff;letter-spacing:-0.01em;margin-bottom:4px}
+.st-radar .sub{font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.5}
+.st-radar svg{width:100%;height:auto;display:block}
+.st-radar .legend{display:grid;grid-template-columns:1fr;gap:6px;margin-top:16px;font-size:12px}
+.st-radar .legend .r{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:rgba(255,255,255,0.02);border-radius:7px;cursor:pointer;transition:background 0.15s}
+.st-radar .legend .r:hover{background:rgba(255,255,255,0.05)}
+.st-radar .legend .r .n{color:var(--sub);font-weight:500}
+.st-radar .legend .r .v{font:700 12px 'JetBrains Mono',monospace;letter-spacing:0.02em}
+.st-overall{padding:14px;background:linear-gradient(180deg,rgba(0,113,227,0.08),rgba(48,209,136,0.04));border:0.5px solid rgba(0,113,227,0.2);border-radius:12px;margin-top:14px;text-align:center}
+.st-overall .pct{font:900 36px/1 'Inter',sans-serif;letter-spacing:-0.03em;color:var(--gold)}
+.st-overall .l{font:600 10.5px 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.14em;text-transform:uppercase;margin-top:6px}
+
+.st-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:620px){.st-cards{grid-template-columns:1fr}}
+.st-card{background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px 22px;display:flex;flex-direction:column;gap:8px;text-decoration:none;color:inherit;transition:all 0.2s}
+.st-card:hover{transform:translateY(-2px);border-color:rgba(0,113,227,0.3);box-shadow:0 16px 40px rgba(0,113,227,0.08)}
+.st-card .ic{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;background:linear-gradient(135deg,var(--accent),var(--purple));color:#fff;font-weight:700;margin-bottom:6px}
+.st-card h3{font-size:14.5px;font-weight:700;color:#fff;letter-spacing:-0.01em}
+.st-card p{font-size:12px;color:var(--muted);line-height:1.5;flex:1}
+.st-card .foot{display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+.st-card .state{font:600 10.5px 'JetBrains Mono',monospace;letter-spacing:0.1em;text-transform:uppercase}
+.st-card .bar{width:60px;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden}
+.st-card .bar .fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--green));transition:width 0.3s}
 </style>
 </head>
 <body>
@@ -29,37 +47,142 @@
     <a href="/app/">App</a>
     <a href="/command/">Command</a>
     <a href="/settings/">Settings</a>
-    <a href="/#pricing">Pricing</a>
+    <a href="/packs/">Packs</a>
     <a class="cta" href="/#pricing">Choose Plan</a>
   </div>
 </nav>
 
-<section class="sd-hero">
+<section class="sd-hero" style="padding-bottom:6px">
   <div class="sd-eyebrow"><span class="dot"></span> Workspace settings</div>
-  <h1>Settings.</h1>
-  <p class="lede">Workspace, integrations, modules, and developer controls — one place.</p>
+  <h1>Readiness radar.</h1>
+  <p class="lede">The shortest spoke is the next thing to fix. Every module reports its own completion, rolled up into an overall workspace readiness score.</p>
 </section>
 
-<div class="set-grid">
-  <a class="set-card" href="/settings/calendar/"><div class="ic">📅</div><div class="h">Calendar</div><div class="d">Google, Outlook, iCloud via ICS, or custom feeds. Required for Daily Ops automation.</div><div class="s"><span id="p-cal" class="sd-pill manual">Not connected</span></div></a>
-  <a class="set-card" href="/integrations/"><div class="ic">🔌</div><div class="h">Integrations</div><div class="d">CRM, comms, billing, docs, data, automation — 21 connectors.</div><div class="s"><span class="sd-pill healthy">2 live</span></div></a>
-  <a class="set-card" href="/agents/"><div class="ic">🤖</div><div class="h">AI Agents</div><div class="d">Reply classifier, lead scorer, bounce guard, proposal drafter, more.</div><div class="s"><span class="sd-pill healthy">9 available</span></div></a>
-  <a class="set-card" href="/webhooks/"><div class="ic">🔔</div><div class="h">Webhooks</div><div class="d">Stream every SourceDeck event into Zapier, Make, or any HTTPS endpoint.</div><div class="s"><span class="sd-pill healthy">Signed · retried</span></div></a>
-  <a class="set-card" href="/command/"><div class="ic">⚡</div><div class="h">Command Center</div><div class="d">Operational inbox, revenue path, playbooks, connector health, readiness.</div><div class="s"><span class="sd-pill healthy">Live</span></div></a>
-  <a class="set-card" href="/onboarding/"><div class="ic">🚀</div><div class="h">Onboarding wizard</div><div class="d">5-step workspace setup for a fresh instance.</div><div class="s"><span class="sd-pill automated">Guided</span></div></a>
+<div class="st-grid">
+
+  <div class="st-radar">
+    <h3>Module readiness</h3>
+    <div class="sub">Click a spoke or a legend row to jump into that module's setup.</div>
+    <svg id="radar" viewBox="0 0 320 320" aria-hidden="true"></svg>
+    <div class="legend" id="legend"></div>
+    <div class="st-overall"><div class="pct" id="overall">—</div><div class="l">Overall readiness</div></div>
+  </div>
+
+  <div>
+    <div class="st-cards" id="cards"></div>
+  </div>
+
 </div>
 
 <footer class="sd-foot">SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">·</span> &copy; 2026 Ariel's River Contracting Group LLC</footer>
 
 <script src="/assets/sd-calendar.js"></script>
+<script src="/assets/sd-config.js"></script>
 <script>
-(function(){
-  const cals = window.sdCalendar.list().filter(c => c.status !== 'disconnected');
-  const el = document.getElementById('p-cal');
-  if (cals.length) { el.className = 'sd-pill healthy'; el.textContent = cals.length + ' connected'; }
-})();
+// Compute per-module readiness from real local state
+function readiness(){
+  const icp = JSON.parse(localStorage.getItem('sd_icp_profile')||'{}');
+  const rule = JSON.parse(localStorage.getItem('sd_lead_rule')||'{}');
+  const cal = (window.sdCalendar && window.sdCalendar.list().filter(c=>c.status!=='disconnected').length) || 0;
+  const playbooks = JSON.parse(localStorage.getItem('sd_playbooks')||'[]').length;
+  const packs = JSON.parse(localStorage.getItem('sd_installed_packs')||'[]').length;
+
+  const icpScore = (() => {
+    const req = ['legal_business_name','display_brand_name','website_url','primary_domain','business_description','offer_name','offer_desc'];
+    const chips = ['industries','roles','geographies','differentiators','pain_points'];
+    let ok = 0, total = req.length + chips.length + 1;
+    req.forEach(k => { if (icp[k]) ok++; });
+    chips.forEach(k => { if ((icp[k]||[]).length) ok++; });
+    if (rule.compiled_at) ok++;
+    return Math.round(100*ok/total);
+  })();
+  const dailyOpsScore = Math.min(100, cal ? 60 + Math.min(cal,3)*14 : 10);  // calendar connected = huge boost
+  const marketingScore = 20;  // channels not yet buildable
+  const deliveryScore = packs ? 70 : (playbooks ? 50 : 10);
+  const govconScore = 10;  // SAM not yet connected
+  return [
+    {id:'lead_generator',  label:'Lead Generator', score:icpScore,       href:'/settings/lead-generator/'},
+    {id:'operations',      label:'Daily Ops',      score:dailyOpsScore,   href:'/settings/calendar/'},
+    {id:'marketing',       label:'Ad Engine',      score:marketingScore,  href:'/integrations/'},
+    {id:'delivery',        label:'Client Delivery',score:deliveryScore,   href:'/app/playbooks/'},
+    {id:'govcon',          label:'GovCon',         score:govconScore,     href:'/app/govcon/'}
+  ];
+}
+
+function renderRadar(){
+  const mods = readiness();
+  const cx = 160, cy = 160, maxR = 110;
+  const rings = 4; // concentric %
+  let svg = '';
+  // rings
+  for (let r = 1; r <= rings; r++) {
+    const rad = (r/rings) * maxR;
+    svg += `<circle cx="${cx}" cy="${cy}" r="${rad}" fill="none" stroke="rgba(255,255,255,${0.05 + r*0.015})" stroke-width="1"/>`;
+  }
+  // spokes + labels
+  const N = mods.length;
+  for (let i = 0; i < N; i++) {
+    const ang = -Math.PI/2 + (i / N) * 2 * Math.PI;
+    const x = cx + maxR * Math.cos(ang), y = cy + maxR * Math.sin(ang);
+    svg += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>`;
+    // label
+    const lx = cx + (maxR + 20) * Math.cos(ang), ly = cy + (maxR + 20) * Math.sin(ang);
+    svg += `<text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="middle" fill="rgba(245,245,247,0.6)" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="1.5">${mods[i].label.toUpperCase()}</text>`;
+  }
+  // filled polygon
+  const pts = mods.map((m,i) => {
+    const ang = -Math.PI/2 + (i/N) * 2*Math.PI;
+    const r = (m.score/100) * maxR;
+    return [cx + r*Math.cos(ang), cy + r*Math.sin(ang)];
+  });
+  const poly = pts.map(p => p.join(',')).join(' ');
+  svg += `<polygon points="${poly}" fill="rgba(0,113,227,0.25)" stroke="#0071e3" stroke-width="1.5" stroke-linejoin="round"/>`;
+  // dots at vertices
+  pts.forEach((p,i) => {
+    svg += `<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="#d4a843" stroke="#000" stroke-width="1.5" style="cursor:pointer" onclick="location.href='${mods[i].href}'"/>`;
+  });
+  document.getElementById('radar').innerHTML = svg;
+
+  // Legend
+  document.getElementById('legend').innerHTML = mods.map(m => {
+    const status = m.score >= 90 ? 'healthy' : m.score >= 60 ? 'warning' : 'blocked';
+    return `<a class="r" href="${m.href}" style="text-decoration:none;color:inherit"><span class="n">${m.label}</span><span class="v sd-pill ${status}">${m.score}%</span></a>`;
+  }).join('');
+
+  // Overall
+  const overall = Math.round(mods.reduce((s,m)=>s+m.score,0) / mods.length);
+  document.getElementById('overall').textContent = overall + '%';
+
+  // Cards
+  const cardDefs = [
+    { href:'/settings/lead-generator/', ic:'🎯', h:'Lead Generator', p:'Business identity, ICP, qualification rules, fit scoring.', mod:'lead_generator' },
+    { href:'/settings/calendar/',       ic:'📅', h:'Calendar',       p:'Google, Outlook, iCloud, ICS. Required for Daily Ops automation.', mod:'operations' },
+    { href:'/integrations/',            ic:'🔌', h:'Integrations',   p:'CRM, comms, billing, docs, automation — 21 connectors.', mod:'marketing' },
+    { href:'/app/playbooks/',           ic:'📋', h:'Playbooks',      p:'Executable SOPs with owner, due offsets, evidence, triggers.', mod:'delivery' },
+    { href:'/app/govcon/',              ic:'🏛', h:'GovCon Engine',  p:'SAM search, compliance matrix, proposal drafter, past-perf library.', mod:'govcon' },
+    { href:'/packs/',                   ic:'📦', h:'Industry packs', p:'One-click preset — ICP, playbooks, reporting, compliance.', mod:'delivery' },
+    { href:'/agents/',                  ic:'🤖', h:'AI Agents',      p:'Reply classifier, lead scorer, bounce guard, proposal drafter.', mod:null },
+    { href:'/webhooks/',                ic:'🔔', h:'Webhooks',       p:'Stream every SourceDeck event into Zapier, Make, or HTTPS.', mod:null },
+    { href:'/inbound/',                 ic:'📥', h:'Inbound capture',p:'Forms, chat handoff, email-to-lead, Zapier triggers, QR intake.', mod:null },
+    { href:'/compliance/',              ic:'🔒', h:'Compliance',     p:'DPA, SOC 2, HIPAA, audit log, retention policy.', mod:null }
+  ];
+  document.getElementById('cards').innerHTML = cardDefs.map(c => {
+    const m = mods.find(x => x.id === c.mod);
+    const state = m ? (m.score >= 90 ? 'healthy' : m.score >= 60 ? 'warning' : m.score >= 30 ? 'wait-internal' : 'blocked') : 'automated';
+    const stateLabel = m ? (m.score >= 90 ? 'ready' : m.score >= 60 ? 'almost' : m.score >= 30 ? 'in progress' : 'not started') : 'live';
+    return `<a class="st-card" href="${c.href}">
+      <div class="ic">${c.ic}</div>
+      <h3>${c.h}</h3>
+      <p>${c.p}</p>
+      <div class="foot">
+        <span class="sd-pill ${state}">${stateLabel}</span>
+        ${m ? `<div class="bar"><div class="fill" style="width:${m.score}%"></div></div>` : ''}
+      </div>
+    </a>`;
+  }).join('');
+}
+renderRadar();
 </script>
-<!-- Tidio chat (SourceDeck support bot) -->
 <script src="//code.tidio.co/80d20949327f4c7c81e2295df563dc46.js" async></script>
 </body>
 </html>

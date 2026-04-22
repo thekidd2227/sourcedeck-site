@@ -3,5 +3,26 @@
   <url><loc>https://sourcedeck.app/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
   <url><loc>https://sourcedeck.app/pricing/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://sourcedeck.app/app/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://sourcedeck.app/invoice/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sourcedeck.app/app/demo/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://sourcedeck.app/app/govcon/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sourcedeck.app/app/playbooks/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sourcedeck.app/app/approvals/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sourcedeck.app/command/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sourcedeck.app/portal/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sourcedeck.app/settings/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sourcedeck.app/settings/calendar/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://sourcedeck.app/settings/lead-generator/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://sourcedeck.app/onboarding/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://sourcedeck.app/activate/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://sourcedeck.app/integrations/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://sourcedeck.app/agents/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://sourcedeck.app/webhooks/</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://sourcedeck.app/inbound/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sourcedeck.app/packs/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sourcedeck.app/compliance/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://sourcedeck.app/m/</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://sourcedeck.app/status/</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
+  <url><loc>https://sourcedeck.app/changelog/</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://sourcedeck.app/api/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://sourcedeck.app/invoice/</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
 </urlset>
