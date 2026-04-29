@@ -27,12 +27,24 @@ import { createOpenaiProvider }  from './openai.js';
 import { createAnthropicProvider } from './anthropic.js';
 import { createGoogleProvider }    from './google.js';
 import { createCustomProvider }    from './custom.js';
+import { wrapWithResilience, createCircuitBreaker } from './resilience.js';
+import { preflight as meterPreflight, record as meterRecord } from './metering.js';
 import { log } from '../../logger.js';
 
 const P  = PROVIDER_IDS;
 const CM = CREDENTIAL_MODES;
 
-export function createAiGateway({ cfg }) {
+export function createAiGateway({ cfg, resilience: resilienceOpts } = { cfg: undefined }) {
+  // One breaker shared across the gateway so repeated provider failures
+  // open the circuit even across distinct requests.
+  const breaker = createCircuitBreaker(resilienceOpts?.breaker);
+  const wrapOpts = {
+    timeoutMs:   resilienceOpts?.timeoutMs   ?? 20_000,
+    maxRetries:  resilienceOpts?.maxRetries  ?? 2,
+    baseDelayMs: resilienceOpts?.baseDelayMs ?? 200,
+    breaker,
+    keyFn: (_args) => `${this?.providerId || 'p'}`        // overwritten by .providerId at call time
+  };
 
   /** Lazy provider builder. Returns the configured adapter or null. */
   async function buildProvider({ providerId, credentialMode, tenantId, userId }) {
@@ -60,13 +72,15 @@ export function createAiGateway({ cfg }) {
     }
     if (!apiKey && providerId !== P.CUSTOM) return null;
 
+    let raw;
     switch (providerId) {
-      case P.OPENAI:    return createOpenaiProvider({ apiKey });
-      case P.ANTHROPIC: return createAnthropicProvider({ apiKey });
-      case P.GOOGLE:    return createGoogleProvider({ apiKey });
-      case P.CUSTOM:    return createCustomProvider({ apiKey, endpoint: cfg.ai.custom?.endpoint });
+      case P.OPENAI:    raw = createOpenaiProvider({ apiKey }); break;
+      case P.ANTHROPIC: raw = createAnthropicProvider({ apiKey }); break;
+      case P.GOOGLE:    raw = createGoogleProvider({ apiKey }); break;
+      case P.CUSTOM:    raw = createCustomProvider({ apiKey, endpoint: cfg.ai.custom?.endpoint }); break;
       default:          return null;
     }
+    return wrapWithResilience(raw, { ...wrapOpts, keyFn: () => raw.providerId });
   }
 
   /**
@@ -76,6 +90,18 @@ export function createAiGateway({ cfg }) {
    */
   async function execute(req) {
     const wf = resolveWorkflow(req.workflowType);
+
+    // Pre-flight tier metering. Throws UsageCapError / InputTooLargeError
+    // before we touch any provider.
+    await meterPreflight({
+      tenantId:         req.tenantId,
+      userId:           req.userId,
+      subscriptionTier: req.subscriptionTier,
+      input:            req.input,
+      correlationId:    req.requestId,
+      workflowType:     wf.workflowType
+    });
+
     const decision = decideProvider({
       workflowType:      req.workflowType,
       tenantId:          req.tenantId,
@@ -193,6 +219,16 @@ export function createAiGateway({ cfg }) {
       modelId: result.modelId,
       promptVersion: result.promptVersion,
       metadata: { ...auditCommon.metadata, latencyMs: result.latencyMs, usage: result.usage }
+    });
+
+    // Post-flight metering record (after success).
+    await meterRecord({
+      tenantId:       req.tenantId,
+      userId:         req.userId,
+      workflowType:   wf.workflowType,
+      taskType:       wf.taskType,
+      providerId:     decision.selectedProvider,
+      credentialMode: decision.credentialMode
     });
 
     return {

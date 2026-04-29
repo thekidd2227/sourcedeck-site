@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>SourceDeck · AI Provider Settings</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sd-theme.css">
+<style>
+.ai-wrap{max-width:1000px;margin:0 auto;padding:24px 20px 80px;position:relative;z-index:1}
+.ai-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+@media(max-width:720px){.ai-grid{grid-template-columns:1fr}}
+.ai-card{background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px 22px}
+.ai-card h3{font-size:14px;font-weight:700;color:#fff;margin-bottom:6px;letter-spacing:-0.01em}
+.ai-card p,.ai-card li{font-size:12.5px;color:var(--sub);line-height:1.6}
+.ai-pill{display:inline-flex;align-items:center;gap:5px;font:600 10px 'JetBrains Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;padding:3px 8px;border-radius:5px;margin-right:6px}
+.ai-pill.live{color:var(--green);background:rgba(48,209,88,0.1)}
+.ai-pill.warn{color:var(--gold);background:rgba(212,168,67,0.1)}
+.ai-pill.off{color:var(--muted);background:rgba(255,255,255,0.05)}
+.ai-pill.gov{color:#ff6b6b;background:rgba(255,107,107,0.1)}
+.ai-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.04);font-size:12.5px}
+.ai-row:last-child{border-bottom:0}
+.ai-row .l{color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.04em;text-transform:uppercase}
+.ai-row .v{color:#fff;font-weight:600}
+.ai-banner{padding:14px 18px;background:linear-gradient(90deg,rgba(0,113,227,0.06),rgba(191,90,242,0.03));border:0.5px solid rgba(0,113,227,0.18);border-radius:12px;margin-bottom:18px;font-size:12.5px;color:var(--sub)}
+.ai-banner b{color:#fff}
+code{font:500 11.5px 'JetBrains Mono',monospace;background:rgba(255,255,255,0.05);padding:1px 6px;border-radius:4px;color:var(--accent2)}
+</style>
+</head>
+<body>
+<div class="sd-bg"></div><div class="sd-grid"></div>
+
+<nav class="sd-nav">
+  <a class="sd-brand" href="/"><span class="glyph">S</span> SourceDeck</a>
+  <div class="links">
+    <a href="/app/">App</a>
+    <a href="/settings/">Settings</a>
+    <a href="/compliance/">Compliance</a>
+    <a class="cta" href="/#pricing">Choose Plan</a>
+  </div>
+</nav>
+
+<section class="sd-hero" style="padding-bottom:14px">
+  <div class="sd-eyebrow"><span class="dot"></span> AI provider settings</div>
+  <h1>Provider, policy &amp; BYOK.</h1>
+  <p class="lede">watsonx is the default and only provider used for governed work. Optional providers and BYOK are admin-controlled.</p>
+</section>
+
+<div class="ai-wrap">
+
+  <div class="ai-banner">
+    <b>Heads up.</b> Document analysis, summarization, classification, scope-of-work and any saved/shared deliverable always runs on <b>watsonx</b>. BYOK + alternate providers apply only to drafting workflows. Government tenants are pinned to watsonx.
+  </div>
+
+  <div class="ai-grid">
+    <div class="ai-card">
+      <h3>Defaults</h3>
+      <div class="ai-row"><span class="l">Default provider</span><span class="v" id="r-default">watsonx</span></div>
+      <div class="ai-row"><span class="l">Subscription tier</span><span class="v" id="r-tier">—</span></div>
+      <div class="ai-row"><span class="l">Tenant type</span><span class="v" id="r-tenant-type">standard</span></div>
+      <div class="ai-row"><span class="l">Government restriction</span><span class="v" id="r-gov">off</span></div>
+    </div>
+
+    <div class="ai-card">
+      <h3>BYOK</h3>
+      <div class="ai-row"><span class="l">BYOK enabled</span><span class="v" id="r-byok">false</span></div>
+      <div class="ai-row"><span class="l">Allowed for governed</span><span class="v">never</span></div>
+      <div class="ai-row"><span class="l">Allowed providers</span><span class="v" id="r-allowed">watsonx</span></div>
+      <div class="ai-row"><span class="l">Stored keys</span><span class="v" id="r-keys">none</span></div>
+    </div>
+  </div>
+
+  <div class="ai-card" style="margin-bottom:14px">
+    <h3 style="margin-bottom:10px">Provider health</h3>
+    <div id="r-health">Run <code>GET /api/v1/ai/health</code> as admin to populate.</div>
+  </div>
+
+  <div class="ai-card" style="margin-bottom:14px">
+    <h3 style="margin-bottom:10px">Endpoint contract</h3>
+    <p style="margin-bottom:10px">All admin actions require role <code>admin</code> on the active workspace.</p>
+    <div class="ai-row"><span class="l">GET  /api/v1/ai/policy</span><span class="v">read tenant AI policy</span></div>
+    <div class="ai-row"><span class="l">PUT  /api/v1/ai/policy</span><span class="v">update tenant AI policy</span></div>
+    <div class="ai-row"><span class="l">GET  /api/v1/ai/allowed</span><span class="v">providers permitted for a workflow</span></div>
+    <div class="ai-row"><span class="l">POST /api/v1/ai/resolve</span><span class="v">policy decision (no execution)</span></div>
+    <div class="ai-row"><span class="l">POST /api/v1/ai/execute</span><span class="v">run an AI workflow</span></div>
+    <div class="ai-row"><span class="l">GET  /api/v1/ai/byok</span><span class="v">list masked BYOK keys for current user</span></div>
+    <div class="ai-row"><span class="l">POST /api/v1/ai/byok</span><span class="v">register a BYOK key (admin)</span></div>
+    <div class="ai-row"><span class="l">DELETE /api/v1/ai/byok/:provider</span><span class="v">revoke BYOK key</span></div>
+    <div class="ai-row"><span class="l">GET  /api/v1/ai/health</span><span class="v">per-provider health summary</span></div>
+  </div>
+
+  <div class="ai-card">
+    <h3 style="margin-bottom:6px">Strategy &amp; full reference</h3>
+    <p>See <a href="/docs/sourcedeck/" style="color:var(--accent2);font-weight:600">/docs/sourcedeck/</a> and <a href="https://github.com/thekidd2227/sourcedeck-site/blob/main/docs/AI_PROVIDER_STRATEGY.md" style="color:var(--accent2);font-weight:600" target="_blank" rel="noopener">AI_PROVIDER_STRATEGY.md</a>.</p>
+  </div>
+
+</div>
+
+<footer class="sd-foot">SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">·</span> &copy; 2026 Ariel's River Contracting Group LLC</footer>
+
+<script>
+// Best-effort live read against the API. Falls back silently if the API
+// host isn't bound to this origin (which it usually won't be on the
+// static deploy — admin actions belong on the operator surface).
+(async function () {
+  const apiBase = window.SOURCEDECK_API_BASE || '';   // set by ops if backend is co-hosted
+  if (!apiBase) return;
+  try {
+    const headers = { 'x-user-id': 'demo', 'x-user-role': 'admin', 'x-tenant-id': 'demo' };
+    const [polRes, healthRes] = await Promise.all([
+      fetch(apiBase + '/api/v1/ai/policy', { headers }),
+      fetch(apiBase + '/api/v1/ai/health', { headers })
+    ]);
+    if (polRes.ok) {
+      const { policy, subscriptionTier } = await polRes.json();
+      document.getElementById('r-tier').textContent  = subscriptionTier || '—';
+      document.getElementById('r-byok').textContent  = String(!!policy?.byokEnabled);
+      document.getElementById('r-allowed').textContent = (policy?.allowedDraftingProviders || ['watsonx']).join(', ');
+      if (subscriptionTier === 'government') {
+        document.getElementById('r-gov').innerHTML = '<span class="ai-pill gov">restricted</span>';
+        document.getElementById('r-tenant-type').textContent = 'government';
+      }
+    }
+    if (healthRes.ok) {
+      const { providers } = await healthRes.json();
+      const lines = Object.entries(providers).map(([id, h]) =>
+        `<div class="ai-row"><span class="l">${id}</span><span class="v">${h.ok ? '<span class="ai-pill live">healthy</span>' : '<span class="ai-pill off">' + (h.reason || 'down') + '</span>'}</span></div>`
+      ).join('');
+      document.getElementById('r-health').innerHTML = lines || 'no providers';
+    }
+  } catch (e) { /* silent — page degrades gracefully */ }
+})();
+</script>
+</body>
+</html>

@@ -1,8 +1,19 @@
 // server/src/routes/process.js
 // POST /api/v1/process — run a versioned prompt against a stored file.
 //
-// Flow: load file → call AI provider → persist result → audit. Document
-// content is read from storage; not accepted in the request body.
+// MIGRATED to the AI Gateway. Document processing is treated as a
+// governed workflow — the gateway forces watsonx, blocks BYOK, and
+// emits the AI_PROVIDER_SELECTED → AI_REQUEST_CREATED →
+// AI_RESPONSE_RECEIVED audit chain in addition to the legacy
+// FILE_PROCESSING_* events the existing UI consumes.
+//
+// Backward compatibility:
+//   - Request body still { fileId, promptId } (and now optional
+//     `requestedProvider` which is ALWAYS overridden to watsonx for
+//     governed work).
+//   - Response shape preserved: { processing: { id, status, result, ... } }
+//   - Legacy FILE_PROCESSING_STARTED / _COMPLETED / _FAILED audit events
+//     remain so existing dashboards keep working.
 
 import { Router } from 'express';
 import { recordAuditEvent, EVENT_TYPES } from '../services/audit.js';
@@ -12,7 +23,15 @@ import { PROMPTS } from '../services/ai/prompts.js';
 
 const SUPPORTED_PROMPTS = new Set(Object.keys(PROMPTS));
 
-export function processRouter({ deps, store }) {
+// Map prompt id → governed workflow id used by the gateway/policy engine.
+const PROMPT_TO_WORKFLOW = {
+  document_summary_v1:        'document_summary',
+  key_field_extraction_v1:    'field_extraction',
+  document_classification_v1: 'document_classification',
+  action_checklist_v1:        'action_checklist'
+};
+
+export function processRouter({ deps, store, tenantSettings }) {
   const router = Router();
 
   router.post('/',
@@ -55,47 +74,47 @@ export function processRouter({ deps, store }) {
       store.processing.set(processingId, record);
 
       try {
-        // Load document content via the storage adapter — it never
-        // touches user-supplied paths.
-        const buffer = await deps.storage.getBuffer(file.storageKey);
-        const content = buffer.toString('utf8'); // text-only path; binary docs require an extractor (out of scope).
+        // Load document content via the storage adapter — never touches
+        // user-supplied paths.
+        const buffer  = await deps.storage.getBuffer(file.storageKey);
+        const content = buffer.toString('utf8');
 
-        recordAuditEvent({
-          ...baseAudit,
-          type:          EVENT_TYPES.WATSONX_REQUEST_CREATED,
-          modelId:       deps.ai.modelId,
-          promptVersion: PROMPTS[promptId].version,
-          status:        'pending',
-          metadata:      { provider: deps.ai.name, promptId }
+        // Resolve tenant policy (persisted) for tier + tenant overrides.
+        const tenant = await tenantSettings.get(req.tenantId);
+
+        // Document processing is a governed workflow. The gateway
+        // ignores any requestedProvider for governed work and forces
+        // watsonx — we still pass it through so audit captures the
+        // intent + the GOVERNED_WORKFLOW_ENFORCED event fires.
+        const workflowType = PROMPT_TO_WORKFLOW[promptId] || 'document_summary';
+
+        const aiResult = await deps.gateway.execute({
+          tenantId:          req.tenantId,
+          userId:            req.user.id,
+          workflowType,
+          requestedProvider: req.body?.requestedProvider || null,
+          tenantPolicy:      tenant.aiPolicy || tenant,
+          subscriptionTier:  tenant.subscriptionTier,
+          userByok:          null,                       // BYOK never used for governed
+          input:             content,
+          promptId,
+          requestId:         req.correlationId
         });
 
-        const result = await deps.ai.invoke({ promptId, content });
-
-        recordAuditEvent({
-          ...baseAudit,
-          type:          EVENT_TYPES.WATSONX_RESPONSE_RECEIVED,
-          modelId:       result.modelId,
-          promptVersion: result.promptVersion,
-          status:        'ok',
-          metadata: {
-            provider:  result.provider,
-            latencyMs: result.latencyMs,
-            usage:     result.usage
-          }
-        });
-
-        record.status    = 'completed';
-        record.result    = result.output;
-        record.provider  = result.provider;
-        record.modelId   = result.modelId;
+        record.status      = 'completed';
+        record.result      = aiResult.output;
+        record.provider    = aiResult.providerId;
+        record.modelId     = aiResult.modelId;
+        record.promptVersion = aiResult.promptVersion;
+        record.policy      = aiResult.policy;
         record.completedAt = new Date().toISOString();
         store.processing.set(processingId, record);
 
         recordAuditEvent({
           ...baseAudit,
           type:          EVENT_TYPES.FILE_PROCESSING_COMPLETED,
-          modelId:       result.modelId,
-          promptVersion: result.promptVersion,
+          modelId:       aiResult.modelId,
+          promptVersion: aiResult.promptVersion,
           status:        'ok'
         });
 
@@ -110,8 +129,15 @@ export function processRouter({ deps, store }) {
           ...baseAudit,
           type:     EVENT_TYPES.FILE_PROCESSING_FAILED,
           status:   'error',
-          metadata: { reason: err.message }
+          metadata: { reason: err.message, code: err.code || null }
         });
+
+        // Map gateway / metering errors to clean HTTP codes.
+        if (err.code === 'usage_cap_exceeded') return res.status(429).json({ error: err.code, processingId, ...err.meta });
+        if (err.code === 'input_too_large')    return res.status(413).json({ error: err.code, processingId, ...err.meta });
+        if (err.code === 'policy_rejected')    return res.status(403).json({ error: err.code, processingId, policy: err.policy });
+        if (err.code === 'circuit_open')       return res.status(503).json({ error: err.code, processingId });
+        if (err.code === 'timeout')            return res.status(504).json({ error: err.code, processingId });
         res.status(502).json({ error: 'processing_failed', processingId });
       }
     }
