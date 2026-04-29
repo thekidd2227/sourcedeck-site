@@ -13,11 +13,12 @@ import { log, setLevel, requestLogger } from './src/logger.js';
 import { secureHeaders, rateLimit } from './src/middleware/security.js';
 import { createUploadMiddleware } from './src/middleware/upload.js';
 import { createStorage } from './src/services/storage/index.js';
-import { createAiProvider } from './src/services/ai/index.js';
+import { createAiProvider, createAiGateway } from './src/services/ai/index.js';
 import { healthRouter }  from './src/routes/health.js';
 import { uploadRouter }  from './src/routes/upload.js';
 import { processRouter } from './src/routes/process.js';
 import { resultsRouter } from './src/routes/results.js';
+import { aiRouter }      from './src/routes/ai.js';
 
 async function bootstrap() {
   const cfg = loadConfig();
@@ -25,13 +26,26 @@ async function bootstrap() {
 
   const deps = {
     storage: await createStorage(cfg),
-    ai:      createAiProvider(cfg)
+    ai:      createAiProvider(cfg),
+    gateway: createAiGateway({ cfg })
   };
 
   // In-memory stores. Replace with Postgres per docs/sourcedeck/SELF_SETUP_SQL_AND_API_SPEC.md.
   const store = {
     files:      new Map(),
-    processing: new Map()
+    processing: new Map(),
+    tenants:    new Map()  // tenantId → { subscriptionTier, aiPolicy }
+  };
+
+  // Tenant settings shim. Production wires this to the real tenant table.
+  const tenantSettings = {
+    async get(tenantId) {
+      if (!store.tenants.has(tenantId)) {
+        store.tenants.set(tenantId, { subscriptionTier: 'starter', aiPolicy: {} });
+      }
+      return store.tenants.get(tenantId);
+    },
+    async set(tenantId, value) { store.tenants.set(tenantId, value); }
   };
 
   const app = express();
@@ -64,6 +78,7 @@ async function bootstrap() {
   app.use('/api/v1/files',     uploadRouter({ cfg, deps, store, uploadMw }));
   app.use('/api/v1/process',   processRouter({ deps, store }));
   app.use('/api/v1/results',   resultsRouter({ store }));
+  app.use('/api/v1/ai',        aiRouter({ gateway: deps.gateway, tenantSettings }));
 
   app.use((req, res) => res.status(404).json({ error: 'not_found', path: req.path }));
 

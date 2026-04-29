@@ -70,13 +70,25 @@ export function loadConfig(env = process.env) {
     },
 
     ai: {
-      provider: pickEnum(env, 'AI_PROVIDER', 'mock'),
+      provider:        pickEnum(env, 'AI_PROVIDER', 'mock'),
+      defaultProvider: env.AI_DEFAULT_PROVIDER || 'watsonx',
+      enableByok:      env.AI_ENABLE_BYOK === 'true',
+      allowedDraftingProviders: pickList(env, 'AI_ALLOWED_DRAFTING_PROVIDERS',
+        ['watsonx', 'openai', 'anthropic', 'google']),
       watsonx:  {
         apiKey:    env.WATSONX_API_KEY,
         url:       env.WATSONX_URL,
         projectId: env.WATSONX_PROJECT_ID,
         spaceId:   env.WATSONX_SPACE_ID,
         modelId:   env.WATSONX_MODEL_ID || 'ibm/granite-13b-chat-v2'
+      },
+      openai:    { apiKey: env.OPENAI_API_KEY     || null, model: env.OPENAI_MODEL    || null },
+      anthropic: { apiKey: env.ANTHROPIC_API_KEY  || null, model: env.ANTHROPIC_MODEL || null },
+      google:    { apiKey: env.GOOGLE_AI_API_KEY  || null, model: env.GOOGLE_AI_MODEL || null },
+      custom:    {
+        apiKey:   env.CUSTOM_AI_API_KEY  || null,
+        endpoint: env.CUSTOM_AI_ENDPOINT || null,
+        model:    env.CUSTOM_AI_MODEL    || null
       }
     },
 

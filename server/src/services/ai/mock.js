@@ -6,8 +6,19 @@ import { getPrompt } from './prompts.js';
 
 export function createMockProvider() {
   return {
-    name:    'mock',
-    modelId: 'mock-deterministic-v1',
+    // Legacy alias preserved for backwards compatibility.
+    name:        'mock',
+    providerId:  'mock',
+    displayName: 'Mock (local)',
+    modelId:     'mock-deterministic-v1',
+
+    /** Mock works for any workflow — only used in dev/tests. */
+    supportsWorkflow(_category) { return true; },
+    redactForLogging(req) {
+      const { input, ...rest } = req || {};
+      return { ...rest, input: input ? '[REDACTED]' : undefined };
+    },
+    async healthCheck() { return { ok: true }; },
 
     async invoke({ promptId, content }) {
       const p = getPrompt(promptId);

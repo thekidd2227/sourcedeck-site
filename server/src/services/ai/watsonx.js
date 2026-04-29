@@ -44,8 +44,25 @@ export function createWatsonxProvider(cfg) {
   const modelId = cfg.modelId || 'ibm/granite-13b-chat-v2';
 
   return {
-    name:    'watsonx',
+    // Legacy alias preserved.
+    name:        'watsonx',
+    providerId:  'watsonx',
+    displayName: 'IBM watsonx.ai',
     modelId,
+
+    /** watsonx is the only provider eligible for governed workflows. */
+    supportsWorkflow(category) {
+      return category === 'governed' || category === 'user_drafting' ||
+             category === 'enterprise_configurable' || category === 'government_restricted';
+    },
+    redactForLogging(req) {
+      const { input, ...rest } = req || {};
+      return { ...rest, input: input ? '[REDACTED]' : undefined };
+    },
+    async healthCheck() {
+      try { await getIamToken(cfg.apiKey); return { ok: true }; }
+      catch (e) { return { ok: false, reason: e.message }; }
+    },
 
     async invoke({ promptId, content, parameters = {} }) {
       const p = getPrompt(promptId);

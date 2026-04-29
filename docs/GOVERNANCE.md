@@ -46,6 +46,46 @@ Each audit event is a single JSON object:
 | `RESULT_VIEWED`               | A user fetches a result                                            |
 | `ADMIN_ROLE_CHANGED`          | Role grant/revoke in admin UI                                      |
 | `CONFIG_CHANGED`              | Server-side config / policy mutation                               |
+| `AI_PROVIDER_SELECTED`           | Gateway resolved a provider for a request                       |
+| `AI_PROVIDER_REJECTED_BY_POLICY` | A request was denied by the policy engine                       |
+| `AI_PROVIDER_FALLBACK_USED`      | Selected provider unavailable → watsonx fallback                |
+| `AI_REQUEST_CREATED`             | Gateway is about to call the provider                           |
+| `AI_RESPONSE_RECEIVED`           | Provider returned a response                                    |
+| `AI_REQUEST_FAILED`              | Provider call failed                                            |
+| `BYOK_KEY_ADDED`                 | Tenant admin added a BYOK key (masked-only)                     |
+| `BYOK_KEY_REMOVED`               | Tenant admin removed a BYOK key                                 |
+| `BYOK_PROVIDER_USED`             | A request executed against a user-BYOK provider                 |
+| `GOVERNED_WORKFLOW_ENFORCED`     | Non-watsonx requested for a governed workflow → forced watsonx  |
+| `GOVERNMENT_PROVIDER_RESTRICTED` | Government tenant attempted a non-watsonx provider              |
+| `TENANT_AI_POLICY_UPDATED`       | Tenant admin changed AI policy via /api/v1/ai/policy            |
+
+## How AI policy decisions are audited
+
+Every AI request triggers at least three audit events, all sharing the
+same `correlationId` so a chain is reconstructable end-to-end:
+
+1. `AI_PROVIDER_SELECTED` — emitted before execution. Carries
+   `requestedProvider`, `selectedProvider`, `credentialMode`,
+   `policyDecision`, `policyReason`, and `subscriptionTier`.
+2. `AI_REQUEST_CREATED` — gateway is about to invoke the chosen provider.
+3. `AI_RESPONSE_RECEIVED` (or `AI_REQUEST_FAILED`) — provider returned.
+   Carries `modelId`, `promptVersion`, `latencyMs`, and `usage` (token
+   counts only). Never carries prompt or response body.
+
+Additional events surface policy decisions explicitly:
+
+- `GOVERNED_WORKFLOW_ENFORCED` — a non-watsonx provider was requested
+  for a governed workflow and was forced to watsonx.
+- `GOVERNMENT_PROVIDER_RESTRICTED` — a government-tenant request asked
+  for a non-watsonx provider and was rejected.
+- `AI_PROVIDER_FALLBACK_USED` — selected drafting provider couldn't be
+  reached (missing key, etc.); fell back to watsonx.
+- `BYOK_PROVIDER_USED` — request executed against a user's BYOK key.
+
+This lets compliance reconstruct, for any AI output: who requested
+what, what policy decided, which provider actually ran it, what model
+served it, what version of the prompt was used, and how many tokens
+were consumed — all without ever storing the actual prompt or output.
 
 ## Sensitive-data minimization
 

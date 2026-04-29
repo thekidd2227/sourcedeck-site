@@ -19,7 +19,21 @@ export const EVENT_TYPES = Object.freeze({
   FILE_PROCESSING_FAILED:     'FILE_PROCESSING_FAILED',
   RESULT_VIEWED:              'RESULT_VIEWED',
   ADMIN_ROLE_CHANGED:         'ADMIN_ROLE_CHANGED',
-  CONFIG_CHANGED:             'CONFIG_CHANGED'
+  CONFIG_CHANGED:             'CONFIG_CHANGED',
+
+  // ── AI gateway events ────────────────────────────────────────────────
+  AI_PROVIDER_SELECTED:           'AI_PROVIDER_SELECTED',
+  AI_PROVIDER_REJECTED_BY_POLICY: 'AI_PROVIDER_REJECTED_BY_POLICY',
+  AI_PROVIDER_FALLBACK_USED:      'AI_PROVIDER_FALLBACK_USED',
+  AI_REQUEST_CREATED:             'AI_REQUEST_CREATED',
+  AI_RESPONSE_RECEIVED:           'AI_RESPONSE_RECEIVED',
+  AI_REQUEST_FAILED:              'AI_REQUEST_FAILED',
+  BYOK_KEY_ADDED:                 'BYOK_KEY_ADDED',
+  BYOK_KEY_REMOVED:               'BYOK_KEY_REMOVED',
+  BYOK_PROVIDER_USED:             'BYOK_PROVIDER_USED',
+  GOVERNED_WORKFLOW_ENFORCED:     'GOVERNED_WORKFLOW_ENFORCED',
+  GOVERNMENT_PROVIDER_RESTRICTED: 'GOVERNMENT_PROVIDER_RESTRICTED',
+  TENANT_AI_POLICY_UPDATED:       'TENANT_AI_POLICY_UPDATED'
 });
 
 const ALLOWED_STATUS = new Set(['ok', 'error', 'pending', 'denied']);
@@ -27,7 +41,9 @@ const ALLOWED_STATUS = new Set(['ok', 'error', 'pending', 'denied']);
 // Keys that must NEVER appear in event metadata.
 const FORBIDDEN_META_KEYS = new Set([
   'document', 'documentContent', 'fileContent', 'fileBody', 'body',
-  'prompt', 'promptText', 'aiPrompt', 'rawText'
+  'prompt', 'promptText', 'aiPrompt', 'rawText',
+  'apiKey', 'api_key', 'apikey', 'authorization', 'token', 'secret',
+  'WATSONX_API_KEY', 'OPENAI_API_KEY', 'ANTHROPIC_API_KEY', 'GOOGLE_AI_API_KEY', 'CUSTOM_AI_API_KEY'
 ]);
 
 function newEventId() {

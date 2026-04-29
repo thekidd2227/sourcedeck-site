@@ -75,6 +75,41 @@ boundary.
 - Versioning + WORM bucket for regulated tenants (see GOVERNANCE.md).
 - No object content is logged anywhere.
 
+## BYOK (bring your own key)
+
+Full strategy in `docs/AI_PROVIDER_STRATEGY.md`. Security-relevant
+rules summarized here:
+
+- BYOK is **disabled by default**, even on tiers that permit it.
+- Only `Business`, `Enterprise` tiers may enable BYOK; `Starter`, `Pro`,
+  and `Government` cannot.
+- BYOK is allowed only for `user_drafting` workflows.
+- BYOK is **never** used for `governed` workflows, even if a key exists.
+- Tenant admin enables; regular users cannot bypass.
+- The default in-memory key store (`server/src/services/ai/byok.js`) is
+  **dev-only** and refuses to start in production unless an external
+  secrets store has been bound (`bindExternalStore()`). Intended
+  production backends: IBM Secrets Manager, HashiCorp Vault, or a
+  KMS-encrypted Postgres column. Plaintext columns are forbidden.
+- Keys are never returned to the frontend; only masked references
+  (`sk-…lue`) are surfaced.
+- Keys are never logged. Audit denylist redacts `apiKey`, `api_key`,
+  `authorization`, `token`, `secret`, and provider env-var names.
+- Provider-data-routing risk: when BYOK is used, request payloads leave
+  IBM-controlled infrastructure. The gateway records `BYOK_PROVIDER_USED`
+  on every such call so compliance can audit data routing.
+
+## Provider data routing
+
+| Provider mode               | Where data goes                         | Audit signal                          |
+|-----------------------------|-----------------------------------------|---------------------------------------|
+| platform-managed watsonx    | IBM Cloud watsonx region pinned by URL  | AI_RESPONSE_RECEIVED                  |
+| tenant-managed (any)        | Provider's network, key owned by tenant | AI_RESPONSE_RECEIVED                  |
+| user BYOK                   | Provider's network, key owned by user   | AI_RESPONSE_RECEIVED + BYOK_PROVIDER_USED |
+| mock (dev only)             | Process memory, never network           | AI_RESPONSE_RECEIVED                  |
+
+Government tenants are pinned to platform-managed watsonx.
+
 ## AI prompt / data handling
 
 - Prompts are versioned and stored only as templates with `{{content}}`
@@ -157,6 +192,11 @@ review before merging.
 - [ ] `AUTH_PROVIDER=ibm_iam` (or hardened OIDC) in prod
 - [ ] `STORAGE_PROVIDER=ibm_cos` with bucket-level IAM
 - [ ] `AI_PROVIDER=watsonx` with project-scoped service ID
+- [ ] `AI_DEFAULT_PROVIDER=watsonx` and `AI_ENABLE_BYOK=false` at tenant
+       defaults; admins must explicitly enable BYOK per workspace
+- [ ] BYOK external secrets store bound (no in-memory store in prod)
+- [ ] Government tenants pinned to `subscriptionTier=government`
+       (policy engine refuses non-watsonx providers)
 - [ ] `GOVERNANCE_ENABLED=true` with watsonx.governance project bound
 - [ ] All secrets in Code Engine / k8s Secret — none in env files
 - [ ] Trusted Profile bound to the workload — no long-lived IBM API key
