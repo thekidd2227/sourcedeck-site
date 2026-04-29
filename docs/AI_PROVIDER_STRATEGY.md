@@ -93,6 +93,10 @@ real metering before billing tie-in.
 
 ## 5. BYOK rules
 
+> Operator runbook for the IBM Cloud Secrets Manager adapter:
+> [`docs/BYOK_SECRETS_MANAGER.md`](./BYOK_SECRETS_MANAGER.md).
+
+
 - BYOK **disabled by default**, even on tiers that permit it.
 - BYOK only for `user_drafting` workflows.
 - BYOK never for `governed` workflows or `government` tenants.

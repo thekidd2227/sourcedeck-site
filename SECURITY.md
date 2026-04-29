@@ -77,8 +77,9 @@ boundary.
 
 ## BYOK (bring your own key)
 
-Full strategy in `docs/AI_PROVIDER_STRATEGY.md`. Security-relevant
-rules summarized here:
+Full strategy in `docs/AI_PROVIDER_STRATEGY.md`. Operator setup runbook
+for binding IBM Cloud Secrets Manager: `docs/BYOK_SECRETS_MANAGER.md`.
+Security-relevant rules summarized here:
 
 - BYOK is **disabled by default**, even on tiers that permit it.
 - Only `Business`, `Enterprise` tiers may enable BYOK; `Starter`, `Pro`,
