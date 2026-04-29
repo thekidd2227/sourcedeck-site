@@ -1,0 +1,10 @@
+{
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "chartnavmd.com" }],
+      "destination": "https://arcgsystems.com/chartnav",
+      "permanent": false
+    }
+  ]
+}
