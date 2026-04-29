@@ -15,6 +15,8 @@
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://sourcedeck.app/assets/sourcedeck-logo.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#0a0a0a">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -1374,6 +1376,15 @@ function sdPlayVideo(){
     // No live video URL set yet — route to /app/demo/ for an interactive alternative
     window.location.href = '/app/demo/';
   }
+}
+</script>
+
+<script>
+// Register the safety-first service worker. Boundaries documented in /sw.js.
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => { /* non-fatal */ });
+  });
 }
 </script>
 

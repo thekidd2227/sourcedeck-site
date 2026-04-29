@@ -1,0 +1,16 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: sourcedeck-api
+  labels: { app: sourcedeck-api }
+spec:
+  host: api.sourcedeck.app
+  to:
+    kind: Service
+    name: sourcedeck-api
+    weight: 100
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect

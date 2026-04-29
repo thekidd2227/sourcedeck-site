@@ -1,0 +1,19 @@
+version: "3.9"
+# Local-only compose for the SourceDeck API. The static site is unaffected.
+services:
+  api:
+    build: .
+    image: sourcedeck-api:dev
+    ports:
+      - "8080:8080"
+    environment:
+      APP_ENV: development
+      LOG_LEVEL: debug
+      STORAGE_PROVIDER: local
+      AI_PROVIDER: mock
+      MAX_UPLOAD_MB: 25
+    volumes:
+      - sd-data:/app/.data
+    restart: unless-stopped
+volumes:
+  sd-data:

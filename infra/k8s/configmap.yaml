@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sourcedeck-config
+data:
+  APP_ENV: "production"
+  PORT: "8080"
+  LOG_LEVEL: "info"
+  STORAGE_PROVIDER: "ibm_cos"
+  AI_PROVIDER: "watsonx"
+  AUTH_PROVIDER: "ibm_iam"
+  MAX_UPLOAD_MB: "25"
+  WATSONX_URL: "https://us-south.ml.cloud.ibm.com"
+  WATSONX_MODEL_ID: "ibm/granite-13b-chat-v2"
+  GOVERNANCE_ENABLED: "true"
