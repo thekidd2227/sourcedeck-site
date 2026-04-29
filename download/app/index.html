@@ -3,106 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SourceDeck | Desktop app — waitlist</title>
-<!-- Chatwoot support chat (SourceDeck) -->
-<script src="/assets/chatwoot.js" defer></script>
-<meta name="description" content="Join the waitlist for the SourceDeck desktop app. Signed macOS build in progress; Windows and Linux to follow.">
+<title>SourceDeck | Now delivered as a PWA</title>
+<meta name="description" content="SourceDeck is now delivered as a Progressive Web App. Install it from your browser — no separate desktop installer.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://sourcedeck.app/app/">
+<meta http-equiv="refresh" content="2; url=/app/">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/sd-theme.css">
 </head>
 <body>
-
 <div class="sd-bg"></div><div class="sd-grid"></div>
 
 <nav class="sd-nav">
   <a class="sd-brand" href="/"><span class="glyph">S</span> SourceDeck</a>
   <div class="links">
     <a href="/app/">Launch</a>
-    <a href="/app/#pricing">Pricing</a><a class="cta" href="/app/#pricing">Choose Plan</a>
+    <a class="cta" href="/#pricing">Choose Plan</a>
   </div>
 </nav>
 
-<section class="sd-hero">
-  <div class="sd-eyebrow"><span class="dot" style="background:var(--gold)"></span> Download · Desktop App</div>
-  <h1>Desktop build is on the way.</h1>
-  <p class="lede">A signed macOS build is in final testing. Windows and Linux follow. Drop your email to be notified when the signed installer ships.</p>
+<section class="sd-hero" style="padding-bottom:40px">
+  <div class="sd-eyebrow"><span class="dot" style="background:var(--green)"></span> Now a Progressive Web App</div>
+  <h1>SourceDeck installs from your browser.</h1>
+  <p class="lede">No separate desktop installer. Open <a href="/app/" style="color:var(--accent2);font-weight:600">/app/</a> and use your browser's <em>Install</em> action (Chrome / Edge: address-bar install icon · Safari: Share → Add to Home Screen).</p>
+  <p class="lede" style="font-size:13px;color:var(--muted);margin-top:18px">Redirecting to <a href="/app/" style="color:var(--accent2)">/app/</a> in 2 seconds…</p>
 </section>
 
-<section class="sd-section narrow">
-  <div class="sd-card">
-    <h3>Current status</h3>
-    <p>
-      <strong style="color:var(--sub)">Signed macOS build — in final testing.</strong>
-      We're validating the notarization + auto-update loop against a production bundle. Windows and Linux builds follow once macOS is stable in the wild.
-    </p>
-    <p class="mono">PHASE · macOS notarization · Windows / Linux queued</p>
-  </div>
-
-  <div class="sd-card">
-    <h3>What the desktop app adds over the web</h3>
-    <ul>
-      <li>Offline-first workspace — full functionality without network</li>
-      <li>Native file handles for local ledger, export, and backup</li>
-      <li>Signed auto-updates (Sparkle on macOS, MSIX on Windows) — no manual download of new versions</li>
-      <li>Menubar / tray quick-capture for leads and follow-ups</li>
-      <li>Keychain-backed credential storage (no browser localStorage leaks)</li>
-    </ul>
-    <p class="mono">TARGETS · MACOS 12+ (APPLE SILICON + INTEL) · WINDOWS 11 · LINUX APPIMAGE</p>
-  </div>
-
-  <div class="sd-card">
-    <h3>Join the waitlist</h3>
-    <p>No marketing list. No drip sequence. You only hear from us once — when the signed build for your platform is ready to download.</p>
-    <!-- LIVE: Basin endpoint. Submissions tagged _form_source=waitlist. -->
-    <form class="sd-form" action="https://usebasin.com/f/c60baae0eef17516eca2bea81e419768" method="POST" accept-charset="UTF-8">
-      <input type="hidden" name="_form_source" value="waitlist">
-      <input type="hidden" name="_subject" value="SourceDeck Desktop — Waitlist Signup">
-      <input type="hidden" name="_redirect" value="https://sourcedeck.app/thanks/?src=waitlist">
-      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px">
-      <div class="full">
-        <label for="dwa-email">Work email</label>
-        <input id="dwa-email" type="email" name="email" placeholder="you@company.com" required>
-      </div>
-      <div class="full">
-        <label for="dwa-platform">Primary platform</label>
-        <select id="dwa-platform" name="platform">
-          <option value="macos-silicon">macOS · Apple Silicon (M1/M2/M3)</option>
-          <option value="macos-intel">macOS · Intel</option>
-          <option value="windows">Windows 11</option>
-          <option value="linux">Linux · AppImage</option>
-        </select>
-      </div>
-      <div class="full">
-        <label for="dwa-role">How will you use it? (optional)</label>
-        <input id="dwa-role" type="text" name="role" placeholder="Daily driver · offline work · field use · air-gapped lab">
-      </div>
-      <div class="full submit">
-        <button type="submit" class="sd-btn primary lg" style="width:100%">Join the waitlist</button>
-      </div>
-    </form>
-    <p style="font-size:11.5px;color:var(--muted);margin-top:12px;line-height:1.55">
-      <strong style="color:var(--sub)">What happens next:</strong> we add you to the desktop waitlist — one operator, one list, no email sequence. When your platform ships, you get one email with the signed installer and release notes.
-    </p>
-  </div>
-
-  <div class="sd-card">
-    <h3>Need it today?</h3>
-    <p>Both paths below ship real product right now — no waitlist, no install.</p>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
-      <a class="sd-btn primary lg" href="/app/demo/" style="flex:1;min-width:220px">Start with Demo</a>
-      <a class="sd-btn secondary lg" href="/download/html/" style="flex:1;min-width:220px">Download the HTML file</a>
-    </div>
-    <p style="font-size:11.5px;color:var(--muted);margin-top:12px">
-      Rolling out to a team and need offline clients?  — we can prioritize your platform.
-    </p>
-  </div>
-</section>
-
-<footer class="sd-foot">
-  SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">·</span> &copy; 2026 Ariel's River Contracting Group LLC
-  <span class="sep">·</span> <a href="/app/">Launch</a>
-  <span class="sep">·</span></footer>
-
+<footer class="sd-foot">SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">·</span> &copy; 2026 Ariel's River Contracting Group LLC</footer>
 </body>
 </html>
