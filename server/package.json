@@ -9,10 +9,13 @@
     "node": ">=20"
   },
   "scripts": {
-    "dev": "node --watch server.js",
-    "start": "node server.js",
-    "test": "node --test 'test/*.test.js'",
-    "lint": "node --check server.js && find src test -name '*.js' -exec node --check {} +"
+    "dev":             "node --env-file=.env --watch server.js",
+    "dev:nodotenv":    "node --watch server.js",
+    "start":           "node server.js",
+    "test":            "node --test 'test/*.test.js'",
+    "lint":            "node --check server.js && find src test -name '*.js' -exec node --check {} +",
+    "verify:watsonx":  "node --env-file=.env scripts/verify-watsonx.mjs",
+    "verify:agents":   "node --env-file=.env scripts/verify-watsonx.mjs"
   },
   "dependencies": {
     "express": "^4.21.2",
