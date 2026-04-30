@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="SourceDeck">
+  <title>SourceDeck</title>
+  <defs>
+    <linearGradient id="sd-gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0"   stop-color="#f3d684"/>
+      <stop offset="0.5" stop-color="#d4a843"/>
+      <stop offset="1"   stop-color="#8a6b22"/>
+    </linearGradient>
+    <linearGradient id="sd-stone" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1a1a1c"/>
+      <stop offset="1" stop-color="#0a0a0a"/>
+    </linearGradient>
+    <radialGradient id="sd-glint" cx="0.7" cy="0.25" r="0.5">
+      <stop offset="0"   stop-color="rgba(255,255,255,0.18)"/>
+      <stop offset="1"   stop-color="rgba(255,255,255,0)"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Stone tile -->
+  <rect width="200" height="200" rx="22" fill="url(#sd-stone)"/>
+  <rect width="200" height="200" rx="22" fill="url(#sd-glint)"/>
+
+  <!-- Four chevron quadrants converging on center void.
+       Each quadrant is two stacked frames: outer L-bracket + inner arrow. -->
+  <g fill="none" stroke="url(#sd-gold)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+    <!-- TOP-LEFT -->
+    <path d="M22 22 L92 22 L82 32 L42 32 L42 72 L32 82 L22 82 Z"/>
+    <path d="M48 38 L78 38 L70 46 L56 46 L56 60 L48 68 Z"/>
+
+    <!-- TOP-RIGHT (mirror of TL across vertical axis x=100) -->
+    <path d="M178 22 L108 22 L118 32 L158 32 L158 72 L168 82 L178 82 Z"/>
+    <path d="M152 38 L122 38 L130 46 L144 46 L144 60 L152 68 Z"/>
+
+    <!-- BOTTOM-LEFT -->
+    <path d="M22 178 L92 178 L82 168 L42 168 L42 128 L32 118 L22 118 Z"/>
+    <path d="M48 162 L78 162 L70 154 L56 154 L56 140 L48 132 Z"/>
+
+    <!-- BOTTOM-RIGHT -->
+    <path d="M178 178 L108 178 L118 168 L158 168 L158 128 L168 118 L178 118 Z"/>
+    <path d="M152 162 L122 162 L130 154 L144 154 L144 140 L152 132 Z"/>
+  </g>
+
+  <!-- Subtle center diamond hint -->
+  <g fill="none" stroke="url(#sd-gold)" stroke-width="0.8" opacity="0.45">
+    <path d="M100 92 L108 100 L100 108 L92 100 Z"/>
+  </g>
+</svg>

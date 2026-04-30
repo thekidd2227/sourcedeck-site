@@ -39,15 +39,15 @@
 html{scroll-behavior:smooth}
 body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 a{text-decoration:none;color:inherit}
-::selection{background:rgba(0,113,227,0.3)}
+::selection{background:rgba(212,168,67,0.35);color:#0a0a0a}
 
-/* ── ANIMATED GRADIENT BACKGROUND ── */
+/* ── ANIMATED GRADIENT BACKGROUND — gold-led, brand-matched ── */
 .gradient-bg{
   position:fixed;inset:0;z-index:0;pointer-events:none;
   background:
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0,113,227,0.15) 0%, transparent 50%),
-    radial-gradient(ellipse 60% 40% at 80% 60%, rgba(191,90,242,0.08) 0%, transparent 50%),
-    radial-gradient(ellipse 50% 50% at 20% 80%, rgba(48,209,88,0.06) 0%, transparent 50%);
+    radial-gradient(ellipse 90% 55% at 50% -15%, rgba(212,168,67,0.18) 0%, transparent 55%),
+    radial-gradient(ellipse 65% 45% at 82% 60%, rgba(243,214,132,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 50% at 18% 78%, rgba(0,113,227,0.05) 0%, transparent 60%);
 }
 
 /* ── GRID OVERLAY ── */
@@ -67,21 +67,22 @@ a{text-decoration:none;color:inherit}
   background:rgba(0,0,0,0.72);backdrop-filter:saturate(180%) blur(20px);
   border-bottom:0.5px solid rgba(255,255,255,0.08);
 }
-.nav-brand{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px;letter-spacing:-0.01em}
-.nav-brand .glyph{
-  width:28px;height:28px;border-radius:7px;
-  background:linear-gradient(135deg,var(--accent),var(--purple));
-  display:flex;align-items:center;justify-content:center;
-  font-weight:800;font-size:13px;color:#fff;
+.nav-brand{display:flex;align-items:center;gap:9px;font-weight:700;font-size:15px;letter-spacing:-0.01em;color:#fff}
+.nav-brand .mark{
+  width:30px;height:30px;border-radius:7px;display:block;
+  box-shadow:0 0 0 0.5px rgba(212,168,67,0.35), 0 4px 14px rgba(212,168,67,0.18);
 }
+.nav-brand .word{font-weight:700;letter-spacing:-0.01em}
 .nav-links{display:flex;gap:28px;align-items:center}
 .nav-links a{font-size:13px;color:var(--sub);transition:color 0.15s;font-weight:500}
 .nav-links a:hover{color:var(--text)}
 .nav-cta{
-  padding:6px 16px;border-radius:980px;font-size:12px;font-weight:600;
-  background:var(--accent);color:#fff;transition:all 0.2s;border:none;cursor:pointer;
+  padding:7px 18px;border-radius:980px;font-size:12px;font-weight:700;letter-spacing:0.01em;
+  background:linear-gradient(135deg,#f3d684,#d4a843 50%,#a07b2a);
+  color:#0a0a0a;transition:all 0.2s;border:none;cursor:pointer;
+  box-shadow:0 4px 14px rgba(212,168,67,0.25);
 }
-.nav-cta:hover{background:var(--accent2);transform:scale(1.02)}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(212,168,67,0.45)}
 
 /* ── HERO ── */
 .hero{
@@ -100,6 +101,12 @@ a{text-decoration:none;color:inherit}
   animation:pulse 2s infinite;
 }
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.hero-mark{
+  width:clamp(96px,11vw,140px);height:auto;display:block;margin:0 auto 22px;
+  filter:drop-shadow(0 12px 40px rgba(212,168,67,0.28));
+  animation:mark-rise 700ms cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes mark-rise{from{opacity:0;transform:translateY(8px) scale(0.96)}to{opacity:1;transform:none}}
 .hero h1{
   font-size:clamp(34px,5.4vw,62px);font-weight:800;
   letter-spacing:-0.03em;line-height:1.08;
@@ -108,22 +115,48 @@ a{text-decoration:none;color:inherit}
   background:linear-gradient(to bottom, #f5f5f7 30%, rgba(245,245,247,0.55));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
 }
+.hero h1 .accent{
+  background:linear-gradient(135deg,#f3d684 0%,#d4a843 60%,#8a6b22 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
 .hero p.lede{
   font-size:clamp(16px,1.7vw,19px);color:var(--sub);
   max-width:760px;margin:0 auto 32px;font-weight:400;
   line-height:1.55;letter-spacing:-0.005em;
 }
-.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:18px}
+.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:24px}
 .btn{
   padding:12px 28px;border-radius:980px;font-size:15px;font-weight:600;
   cursor:pointer;border:none;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px;
+  text-decoration:none;
 }
-.btn-primary{background:var(--accent);color:#fff}
-.btn-primary:hover{background:var(--accent2);transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,113,227,0.4)}
-.btn-secondary{background:rgba(255,255,255,0.08);color:var(--text);border:0.5px solid rgba(255,255,255,0.12)}
-.btn-secondary:hover{background:rgba(255,255,255,0.12)}
+.btn-primary{
+  background:linear-gradient(135deg,#f3d684,#d4a843 55%,#a07b2a);
+  color:#0a0a0a;font-weight:700;
+  box-shadow:0 6px 22px rgba(212,168,67,0.28);
+}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 10px 30px rgba(212,168,67,0.45)}
+.btn-secondary{background:rgba(255,255,255,0.04);color:var(--text);border:0.5px solid rgba(255,255,255,0.14)}
+.btn-secondary:hover{background:rgba(255,255,255,0.09);border-color:rgba(212,168,67,0.35)}
+.btn:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 .hero-support{
   font-size:13px;color:var(--muted);margin-top:6px;letter-spacing:-0.005em;
+}
+/* Trust / credibility row */
+.hero-trust{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:8px;
+  max-width:760px;margin:14px auto 6px;
+}
+.hero-trust .chip{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 12px;border-radius:980px;
+  font:600 11px/1 'JetBrains Mono',ui-monospace,monospace;letter-spacing:0.08em;text-transform:uppercase;
+  background:rgba(212,168,67,0.06);color:#e8c66a;
+  border:0.5px solid rgba(212,168,67,0.22);
+}
+.hero-trust .chip::before{
+  content:'';width:5px;height:5px;border-radius:50%;background:#d4a843;
+  box-shadow:0 0 8px rgba(212,168,67,0.6);
 }
 
 /* ── PRODUCT PREVIEW (mock UI) ── */
@@ -399,7 +432,8 @@ a{text-decoration:none;color:inherit}
 <!-- NAV -->
 <nav class="nav">
   <a href="/" class="nav-brand" aria-label="SourceDeck home">
-    <img src="/assets/sourcedeck-logo.png" alt="SourceDeck" width="138" height="30" style="display:block;height:30px;width:auto">
+    <img class="mark" src="/assets/sourcedeck-mark.svg" alt="SourceDeck logo" width="30" height="30">
+    <span class="word">SourceDeck</span>
   </a>
   <div class="nav-links">
     <a href="/command/">Command</a>
@@ -414,17 +448,25 @@ a{text-decoration:none;color:inherit}
 
 <!-- HERO -->
 <section class="hero">
+  <img class="hero-mark" src="/assets/sourcedeck-mark.svg" alt="SourceDeck logo" width="140" height="140">
   <div class="hero-eyebrow">
     <span class="dot"></span>
-    Lead Command Center for Operators
+    Operator AI · watsonx-ready · governed
   </div>
-  <h1>The Lead Command Center for Leads, Follow-Up &amp; Workflow</h1>
-  <p class="lede">One place to track leads, run follow-up, and see what's slowing the business down.</p>
+  <h1>SourceDeck turns operator workflows into <span class="accent">governed AI systems</span>.</h1>
+  <p class="lede">Build, launch, and control secure AI-powered workflows for lead generation, client delivery, daily operations, and GovCon — with watsonx.ai as the default enterprise AI layer.</p>
   <div class="hero-actions">
-    <a href="#pricing" class="btn btn-primary">Choose Plan</a>
-    <a href="#features" class="btn btn-secondary">See How It Works</a>
+    <a href="/app/" class="btn btn-primary" aria-label="Open the SourceDeck app">Open the App →</a>
+    <a href="/app/demo/" class="btn btn-secondary">See the Demo</a>
   </div>
-  <div class="hero-support">Built for teams that have outgrown spreadsheets and scattered tools. Runs in your browser — install as an app from your address bar.</div>
+  <div class="hero-trust" aria-label="Platform attributes">
+    <span class="chip">PWA-first</span>
+    <span class="chip">watsonx-ready</span>
+    <span class="chip">Governed AI workflows</span>
+    <span class="chip">Audit-ready</span>
+    <span class="chip">Vercel-hosted</span>
+  </div>
+  <div class="hero-support">Runs in any modern browser — install as an app from your address bar. No installer, no download.</div>
 </section>
 
 <!-- PRODUCT PREVIEW -->
