@@ -21,6 +21,7 @@ import { resultsRouter } from './src/routes/results.js';
 import { aiRouter }      from './src/routes/ai.js';
 import { getTenantPolicyRepo, ensureProductionPersistence, autoBindPersistence } from './src/services/persistence/index.js';
 import { autoBindByokStore } from './src/services/ai/byok.js';
+import { createAuthMiddleware } from './src/middleware/oidc.js';
 
 async function bootstrap() {
   const cfg = loadConfig();
@@ -97,20 +98,11 @@ async function bootstrap() {
   app.use(requestLogger());
   app.use(rateLimit({ windowMs: 60_000, max: 120 }));
 
-  // Stub auth: accept x-user-id / x-user-role / x-tenant-id headers in non-prod
-  // for local development. Production must replace this with the real auth
-  // provider middleware (OIDC / IBM IAM).
-  app.use((req, _res, next) => {
-    if (req.headers['x-user-id']) {
-      req.user = {
-        id:       String(req.headers['x-user-id']),
-        role:     String(req.headers['x-user-role']  || 'viewer'),
-        tenantId: String(req.headers['x-tenant-id']  || 'default'),
-        scopes:   ['multi_tenant']
-      };
-    }
-    next();
-  });
+  // Auth: dev header shim in dev/test, OIDC/JWT in production. Refuses
+  // to start in production unless AUTH_PROVIDER=oidc + AUTH_ISSUER_URL +
+  // AUTH_AUDIENCE + AUTH_JWKS_URL are set (or ALLOW_DEV_HEADERS_PROD=true
+  // is explicit).
+  app.use(createAuthMiddleware(cfg));
 
   const uploadMw = createUploadMiddleware(cfg);
 
