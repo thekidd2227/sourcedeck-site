@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sourcedeck.app/schemas/ai-contract.schema.json",
+  "title": "SourceDeck AI Contract",
+  "description": "Authoritative enums + shapes for the SourceDeck AI surface. Source-of-truth doc: docs/AI_CONTRACT.md",
+  "version": "1.0.0",
+
+  "$defs": {
+    "ProviderId":       { "enum": ["watsonx", "openai", "anthropic", "google", "custom", "mock"] },
+    "WorkflowCategory": { "enum": ["governed", "user_drafting", "enterprise_configurable", "government_restricted"] },
+    "CredentialMode":   { "enum": ["platform_managed", "tenant_managed", "user_byok", "mock"] },
+    "SubscriptionTier": { "enum": ["starter", "pro", "business", "enterprise", "government"] },
+    "Role":             { "enum": ["owner", "admin", "analyst", "viewer"] },
+    "TaskType":         { "enum": ["summarize", "extract", "classify", "checklist", "generate"] },
+    "PolicyDecision":   { "enum": ["allowed", "forced_watsonx", "rejected", "fallback"] },
+    "EventType": {
+      "enum": [
+        "AI_PROVIDER_SELECTED",
+        "AI_PROVIDER_REJECTED_BY_POLICY",
+        "AI_PROVIDER_FALLBACK_USED",
+        "AI_REQUEST_CREATED",
+        "AI_RESPONSE_RECEIVED",
+        "AI_REQUEST_FAILED",
+        "BYOK_KEY_ADDED",
+        "BYOK_KEY_REMOVED",
+        "BYOK_PROVIDER_USED",
+        "GOVERNED_WORKFLOW_ENFORCED",
+        "GOVERNMENT_PROVIDER_RESTRICTED",
+        "TENANT_AI_POLICY_UPDATED"
+      ]
+    },
+
+    "AiRequest": {
+      "type": "object",
+      "required": ["tenantId", "userId", "workflowType", "taskType", "promptId", "input", "requestId"],
+      "additionalProperties": true,
+      "properties": {
+        "tenantId":         { "type": "string", "minLength": 1 },
+        "userId":           { "type": "string", "minLength": 1 },
+        "role":             { "$ref": "#/$defs/Role" },
+        "workflowType":     { "type": "string", "minLength": 1 },
+        "taskType":         { "$ref": "#/$defs/TaskType" },
+        "promptId":         { "type": "string", "minLength": 1 },
+        "promptVersion":    { "type": "integer", "minimum": 1 },
+        "requestedProvider":{ "$ref": "#/$defs/ProviderId" },
+        "selectedProvider": { "$ref": "#/$defs/ProviderId" },
+        "modelId":          { "type": "string" },
+        "credentialMode":   { "$ref": "#/$defs/CredentialMode" },
+        "input":            { "type": "string" },
+        "metadata":         { "type": "object" },
+        "requestId":        { "type": "string", "minLength": 1 },
+        "subscriptionTier": { "$ref": "#/$defs/SubscriptionTier" }
+      }
+    },
+
+    "AiResponse": {
+      "type": "object",
+      "required": ["providerId", "modelId", "promptId", "promptVersion", "output", "latencyMs", "status", "requestId", "createdAt"],
+      "additionalProperties": true,
+      "properties": {
+        "providerId":    { "$ref": "#/$defs/ProviderId" },
+        "modelId":       { "type": "string" },
+        "promptId":      { "type": "string" },
+        "promptVersion": { "type": "integer", "minimum": 1 },
+        "output":        {},
+        "usage":         {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "inputTokens":  { "type": ["integer", "null"] },
+            "outputTokens": { "type": ["integer", "null"] },
+            "inputChars":   { "type": ["integer", "null"] },
+            "outputChars":  { "type": ["integer", "null"] }
+          }
+        },
+        "latencyMs":     { "type": "integer", "minimum": 0 },
+        "status":        { "enum": ["ok", "error"] },
+        "error":         { "type": "string" },
+        "requestId":     { "type": "string", "minLength": 1 },
+        "createdAt":     { "type": "string", "format": "date-time" },
+        "policy": {
+          "type": "object",
+          "required": ["decision", "reason", "credentialMode"],
+          "additionalProperties": true,
+          "properties": {
+            "decision":          { "$ref": "#/$defs/PolicyDecision" },
+            "reason":            { "type": "string" },
+            "credentialMode":    { "$ref": "#/$defs/CredentialMode" },
+            "requestedProvider": { "$ref": "#/$defs/ProviderId" }
+          }
+        }
+      }
+    },
+
+    "AuditEvent": {
+      "type": "object",
+      "required": ["eventId", "eventType", "tenantId", "timestamp", "status"],
+      "additionalProperties": true,
+      "properties": {
+        "eventId":       { "type": "string", "minLength": 1 },
+        "eventType":     { "$ref": "#/$defs/EventType" },
+        "tenantId":      { "type": ["string", "null"] },
+        "userId":        { "type": ["string", "null"] },
+        "resourceType":  { "type": ["string", "null"] },
+        "resourceId":    { "type": ["string", "null"] },
+        "correlationId": { "type": ["string", "null"] },
+        "ip":            { "type": ["string", "null"] },
+        "userAgent":     { "type": ["string", "null"] },
+        "status":        { "enum": ["ok", "error", "pending", "denied"] },
+        "riskFlags":     { "type": "array", "items": { "type": "string" } },
+        "metadata":      { "type": "object" },
+        "timestamp":     { "type": "string", "format": "date-time" },
+        "governance": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "schemaVersion": { "type": "string" },
+            "modelId":       { "type": ["string", "null"] },
+            "promptVersion": { "type": ["integer", "null"] }
+          }
+        }
+      }
+    }
+  }
+}
