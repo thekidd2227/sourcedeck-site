@@ -19,6 +19,7 @@ import { uploadRouter }  from './src/routes/upload.js';
 import { processRouter } from './src/routes/process.js';
 import { resultsRouter } from './src/routes/results.js';
 import { aiRouter }      from './src/routes/ai.js';
+import { agentsRouter }  from './src/routes/agents.js';
 import { getTenantPolicyRepo, ensureProductionPersistence, autoBindPersistence } from './src/services/persistence/index.js';
 import { autoBindByokStore } from './src/services/ai/byok.js';
 import { createAuthMiddleware } from './src/middleware/oidc.js';
@@ -111,6 +112,7 @@ async function bootstrap() {
   app.use('/api/v1/process',   processRouter({ deps, store, tenantSettings }));
   app.use('/api/v1/results',   resultsRouter({ store }));
   app.use('/api/v1/ai',        aiRouter({ gateway: deps.gateway, tenantSettings }));
+  app.use('/api/v1/agents',    agentsRouter({ deps, tenantSettings }));
 
   app.use((req, res) => res.status(404).json({ error: 'not_found', path: req.path }));
 

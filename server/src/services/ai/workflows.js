@@ -31,7 +31,20 @@ export const WORKFLOWS = Object.freeze({
   marketing_copy:           { category: WF.USER_DRAFTING, taskType: 'generate', defaultPromptId: 'document_summary_v1' },
   social_post:              { category: WF.USER_DRAFTING, taskType: 'generate', defaultPromptId: 'document_summary_v1' },
   brainstorm:               { category: WF.USER_DRAFTING, taskType: 'generate', defaultPromptId: 'document_summary_v1' },
-  tone_adjust:              { category: WF.USER_DRAFTING, taskType: 'generate', defaultPromptId: 'document_summary_v1' }
+  tone_adjust:              { category: WF.USER_DRAFTING, taskType: 'generate', defaultPromptId: 'document_summary_v1' },
+
+  // ── Agent workflows (real, gateway-backed) ─────────────────────────
+  // Governed = official, audit-sensitive, watsonx-only:
+  lead_score:               { category: WF.GOVERNED, taskType: 'classify',  defaultPromptId: 'lead_score_v1' },
+  proposal_draft:           { category: WF.GOVERNED, taskType: 'generate',  defaultPromptId: 'proposal_draft_v1' },
+  rfp_response:             { category: WF.GOVERNED, taskType: 'generate',  defaultPromptId: 'rfp_response_v1' },
+  denial_predict:           { category: WF.GOVERNED, taskType: 'classify',  defaultPromptId: 'denial_predict_v1' },
+  sla_watch:                { category: WF.GOVERNED, taskType: 'classify',  defaultPromptId: 'sla_watch_v1' },
+  // User drafting = triage / personal scratch / drafted-but-not-sent:
+  reply_classify:           { category: WF.USER_DRAFTING, taskType: 'classify',  defaultPromptId: 'reply_classify_v1' },
+  bounce_guard:             { category: WF.USER_DRAFTING, taskType: 'classify',  defaultPromptId: 'bounce_guard_v1' },
+  meeting_summary:          { category: WF.USER_DRAFTING, taskType: 'summarize', defaultPromptId: 'meeting_summary_v1' },
+  followup_draft:           { category: WF.USER_DRAFTING, taskType: 'generate',  defaultPromptId: 'followup_draft_v1' }
 });
 
 export function resolveWorkflow(workflowType) {

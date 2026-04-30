@@ -4,37 +4,41 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SourceDeck · AI Agents Library</title>
-<meta name="description" content="Pre-packaged AI agents that plug into SourceDeck workflow: reply classifier, proposal drafter, lead scorer, meeting summarizer, denial predictor, RFP responder.">
+<meta name="description" content="Production AI agents that run through the SourceDeck AI Gateway: Reply Classifier, Lead Scorer, Proposal Drafter, Bounce Guard, Meeting Summarizer, RFP Responder, Denial Predictor, Follow-Up Engine, SLA Watcher. All powered by IBM watsonx.ai.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/sd-theme.css">
 <style>
 .ag-wrap{max-width:1200px;margin:0 auto;padding:40px 24px 80px;position:relative;z-index:1}
+.ag-banner{background:linear-gradient(135deg,rgba(212,168,67,0.07),rgba(212,168,67,0.02));border:0.5px solid rgba(212,168,67,0.25);border-radius:14px;padding:18px 22px;margin-bottom:22px;display:flex;gap:14px;align-items:flex-start}
+.ag-banner .ic{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#f3d684,#a07b2a);display:flex;align-items:center;justify-content:center;flex:0 0 32px;color:#0a0a0a;font-weight:800}
+.ag-banner .t{font-size:14.5px;font-weight:700;color:#fff;letter-spacing:-0.01em;margin-bottom:4px}
+.ag-banner .d{font-size:12.5px;color:var(--sub);line-height:1.55}
 .ag-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 @media(max-width:900px){.ag-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:620px){.ag-grid{grid-template-columns:1fr}}
 .ag-card{background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:10px;position:relative;transition:all 0.22s}
-.ag-card:hover{transform:translateY(-2px);border-color:rgba(0,113,227,0.3);box-shadow:0 16px 40px rgba(0,113,227,0.08)}
+.ag-card:hover{transform:translateY(-2px);border-color:rgba(212,168,67,0.35);box-shadow:0 16px 40px rgba(212,168,67,0.10)}
 .ag-head{display:flex;align-items:center;gap:12px;margin-bottom:4px}
-.ag-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex:0 0 40px;background:linear-gradient(135deg,rgba(0,113,227,0.22),rgba(191,90,242,0.22));border:0.5px solid rgba(255,255,255,0.12)}
+.ag-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex:0 0 40px;background:linear-gradient(135deg,rgba(212,168,67,0.20),rgba(212,168,67,0.08));border:0.5px solid rgba(212,168,67,0.25)}
 .ag-name{font-size:15px;font-weight:700;color:#fff;letter-spacing:-0.01em}
 .ag-meta{font:500 9.5px/1.2 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.14em;text-transform:uppercase;margin-top:3px}
 .ag-desc{font-size:12.5px;color:var(--sub);line-height:1.6;flex:1}
 .ag-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px}
 .ag-tag{font:500 9.5px/1.2 'JetBrains Mono',monospace;padding:3px 8px;border-radius:4px;background:rgba(255,255,255,0.04);color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;border:0.5px solid rgba(255,255,255,0.06)}
-.ag-btn{display:block;text-align:center;padding:9px 14px;border-radius:10px;font-size:12.5px;font-weight:600;background:rgba(0,113,227,0.1);color:var(--accent2);border:0.5px solid rgba(0,113,227,0.3);text-decoration:none;cursor:pointer;transition:all 0.15s;margin-top:6px}
-.ag-btn:hover{background:rgba(0,113,227,0.18)}
+.ag-tag.governed{background:rgba(212,168,67,0.10);color:#e8c66a;border-color:rgba(212,168,67,0.25)}
+.ag-btn{display:block;text-align:center;padding:9px 14px;border-radius:10px;font-size:12.5px;font-weight:700;background:linear-gradient(135deg,#f3d684,#d4a843 55%,#a07b2a);color:#0a0a0a;border:0;text-decoration:none;cursor:pointer;transition:all 0.15s;margin-top:6px}
+.ag-btn:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(212,168,67,0.30)}
 .ag-status{position:absolute;top:14px;right:14px;font:600 9px/1.2 'JetBrains Mono',monospace;letter-spacing:0.12em;padding:3px 7px;border-radius:4px}
 .ag-status.live{background:rgba(48,209,88,0.12);color:var(--green)}
-.ag-status.beta{background:rgba(191,90,242,0.12);color:var(--purple)}
-.ag-status.soon{background:rgba(212,168,67,0.12);color:var(--gold)}
+.ag-loading{opacity:0.5;pointer-events:none}
 </style>
 </head>
 <body>
 <div class="sd-bg"></div><div class="sd-grid"></div>
 
 <nav class="sd-nav">
-  <a class="sd-brand" href="/"><span class="glyph">S</span> SourceDeck</a>
+  <a class="sd-brand" href="/"><img src="/assets/sourcedeck-mark.svg" alt="SourceDeck logo" width="26" height="26" style="display:block;vertical-align:middle;margin-right:6px"> SourceDeck</a>
   <div class="links">
     <a href="/app/">App</a>
     <a href="/#pricing">Pricing</a>
@@ -45,74 +49,85 @@
 </nav>
 
 <section class="sd-hero">
-  <div class="sd-eyebrow"><span class="dot"></span> AI Agents library</div>
-  <h1>Autopilot for the moving parts.</h1>
-  <p class="lede">Pre-packaged AI agents that plug into the existing Funnel Health event bus. Each one is scoped, observable, and disable-able per workspace.</p>
+  <div class="sd-eyebrow"><span class="dot"></span> AI Agents library · live</div>
+  <h1>Production agents, powered by watsonx.</h1>
+  <p class="lede">Each card below runs through the SourceDeck AI Gateway and is backed by a real <code>POST /api/v1/agents/:id/run</code> endpoint. Governed agents (saved deliverables, compliance work) execute on watsonx only. Drafting agents (triage, suggestions) are watsonx-default with optional BYOK on Business+ tiers.</p>
 </section>
 
 <div class="ag-wrap">
-  <div class="ag-grid">
+
+  <div class="ag-banner">
+    <div class="ic">i</div>
+    <div>
+      <div class="t">All 9 agents are wired through the AI Gateway.</div>
+      <div class="d">Authenticated tenants execute via <code>POST /api/v1/agents/:id/run</code>. Every call emits the full audit chain (<code>AI_PROVIDER_SELECTED</code> → <code>AI_REQUEST_CREATED</code> → <code>AI_RESPONSE_RECEIVED</code>) with model id, prompt version, and token usage. Public catalog: <code>GET /api/v1/agents</code>. See <a href="https://github.com/thekidd2227/sourcedeck-site/blob/main/docs/AI_CONTRACT.md" target="_blank" rel="noopener" style="color:var(--accent2)">AI_CONTRACT.md</a> for shapes.</div>
+    </div>
+  </div>
+
+  <div class="ag-grid" id="ag-grid">
+    <!-- Cards rendered from /api/v1/agents at runtime when the API is co-hosted. -->
+    <!-- Static fallback below renders on the marketing host. -->
 
     <div class="ag-card"><span class="ag-status live">LIVE</span>
-      <div class="ag-head"><div class="ag-icon">🧠</div><div><div class="ag-name">Reply Classifier</div><div class="ag-meta">EVENT · reply_received</div></div></div>
-      <div class="ag-desc">Tags every inbound reply as {positive · objection · unsubscribe · out-of-office · question · referral} using GPT-4o-mini. Top 5 "needs human eyes" surface on the LCC dashboard daily.</div>
-      <div class="ag-tags"><span class="ag-tag">Email</span><span class="ag-tag">Core+</span><span class="ag-tag">BYOK · OpenAI</span></div>
+      <div class="ag-head"><div class="ag-icon">🧠</div><div><div class="ag-name">Reply Classifier</div><div class="ag-meta">workflow · reply_classify</div></div></div>
+      <div class="ag-desc">Tags every inbound reply as positive / objection / unsubscribe / out-of-office / question / referral. Returns sentiment, urgency, and a one-line next-action. Drafting workflow — watsonx-default.</div>
+      <div class="ag-tags"><span class="ag-tag">Email</span><span class="ag-tag">Triage</span><span class="ag-tag">watsonx</span></div>
       <a class="ag-btn" href="/app/#pricing">Enable in workspace</a>
-    </div>
-
-    <div class="ag-card"><span class="ag-status live">LIVE</span>
-      <div class="ag-head"><div class="ag-icon">📊</div><div><div class="ag-name">Lead Scorer</div><div class="ag-meta">EVENT · lead_qualified</div></div></div>
-      <div class="ag-desc">Scores every new lead 0–100 on fit × intent using firmographic signals, email quality, and historical engagement patterns from your workspace.</div>
-      <div class="ag-tags"><span class="ag-tag">Pipeline</span><span class="ag-tag">Pro+</span><span class="ag-tag">BYOK · OpenAI</span></div>
-      <a class="ag-btn" href="/app/#pricing">Enable in workspace</a>
-    </div>
-
-    <div class="ag-card"><span class="ag-status beta">BETA</span>
-      <div class="ag-head"><div class="ag-icon">📝</div><div><div class="ag-name">Proposal Drafter</div><div class="ag-meta">EVENT · deal_stage_proposal</div></div></div>
-      <div class="ag-desc">Generates a fully branded proposal from a deal workspace. Routes to DocuSign or PandaDoc on one click. Signed-event fires conversion.</div>
-      <div class="ag-tags"><span class="ag-tag">Revenue</span><span class="ag-tag">Operator</span><span class="ag-tag">DocuSign</span></div>
-      <a class="ag-btn" href="/app/#pricing">Request access</a>
     </div>
 
     <div class="ag-card"><span class="ag-status live">LIVE</span>
-      <div class="ag-head"><div class="ag-icon">🔔</div><div><div class="ag-name">Bounce Guard</div><div class="ag-meta">EVENT · bounce_rate_threshold</div></div></div>
-      <div class="ag-desc">Auto-pauses a campaign when bounce rate crosses 3% on the last 50 sends. Sends a Slack alert with the failing addresses and a one-click resume once fixed.</div>
-      <div class="ag-tags"><span class="ag-tag">Deliverability</span><span class="ag-tag">All tiers</span><span class="ag-tag">Slack</span></div>
+      <div class="ag-head"><div class="ag-icon">📊</div><div><div class="ag-name">Lead Scorer</div><div class="ag-meta">workflow · lead_score</div></div></div>
+      <div class="ag-desc">Scores every new lead 0–100 on fit × intent using firmographics, role match, geo, and engagement clues. Returns a tier bucket and a recommended next step. <strong>Governed — watsonx only.</strong></div>
+      <div class="ag-tags"><span class="ag-tag">Pipeline</span><span class="ag-tag governed">Governed</span><span class="ag-tag">watsonx</span></div>
       <a class="ag-btn" href="/app/#pricing">Enable in workspace</a>
     </div>
 
-    <div class="ag-card"><span class="ag-status beta">BETA</span>
-      <div class="ag-head"><div class="ag-icon">🗣️</div><div><div class="ag-name">Meeting Summarizer</div><div class="ag-meta">EVENT · meeting_completed</div></div></div>
-      <div class="ag-desc">Ingests Cal.com / Zoom / Fathom transcripts. Writes a 5-line summary + 3 action items + a next-touch recommendation back into the deal workspace.</div>
-      <div class="ag-tags"><span class="ag-tag">Revenue</span><span class="ag-tag">Pro+</span><span class="ag-tag">Cal.com</span></div>
+    <div class="ag-card"><span class="ag-status live">LIVE</span>
+      <div class="ag-head"><div class="ag-icon">📝</div><div><div class="ag-name">Proposal Drafter</div><div class="ag-meta">workflow · proposal_draft</div></div></div>
+      <div class="ag-desc">Generates a complete branded proposal from a deal context. Returns executive summary, scope sections, pricing options, assumptions, next steps, and signature block. <strong>Governed — saved deliverables run on watsonx only.</strong></div>
+      <div class="ag-tags"><span class="ag-tag">Revenue</span><span class="ag-tag governed">Governed</span><span class="ag-tag">watsonx</span></div>
       <a class="ag-btn" href="/app/#pricing">Enable in workspace</a>
     </div>
 
-    <div class="ag-card"><span class="ag-status soon">SOON</span>
-      <div class="ag-head"><div class="ag-icon">🏛️</div><div><div class="ag-name">RFP Responder</div><div class="ag-meta">EVENT · rfp_uploaded</div></div></div>
-      <div class="ag-desc">Ingests solicitation PDFs (SAM.gov, state, commercial). Outputs section-by-section response drafts, past-performance matches, and a pWIN estimate.</div>
-      <div class="ag-tags"><span class="ag-tag">GovCon</span><span class="ag-tag">Operator</span><span class="ag-tag">Vertical pack</span></div>
-      <a class="ag-btn" href="/app/#pricing">Join waitlist</a>
-    </div>
-
-    <div class="ag-card"><span class="ag-status soon">SOON</span>
-      <div class="ag-head"><div class="ag-icon">🩺</div><div><div class="ag-name">Denial Predictor</div><div class="ag-meta">EVENT · claim_ready</div></div></div>
-      <div class="ag-desc">MedPilot vertical pack. Flags claim denial risk before submission based on documentation gaps, code mismatches, and payer-policy deltas.</div>
-      <div class="ag-tags"><span class="ag-tag">MedPilot</span><span class="ag-tag">Operator</span><span class="ag-tag">Vertical pack</span></div>
-      <a class="ag-btn" href="/app/#pricing">Join waitlist</a>
-    </div>
-
-    <div class="ag-card"><span class="ag-status beta">BETA</span>
-      <div class="ag-head"><div class="ag-icon">🔁</div><div><div class="ag-name">Follow-Up Engine</div><div class="ag-meta">EVENT · reply_silence_48h</div></div></div>
-      <div class="ag-desc">Detects 48h reply silence on in-progress deals. Drafts a context-aware nudge, routes to owner for one-click send or auto-send based on policy.</div>
-      <div class="ag-tags"><span class="ag-tag">Pipeline</span><span class="ag-tag">Pro+</span><span class="ag-tag">Autopilot</span></div>
+    <div class="ag-card"><span class="ag-status live">LIVE</span>
+      <div class="ag-head"><div class="ag-icon">🔔</div><div><div class="ag-name">Bounce Guard</div><div class="ag-meta">workflow · bounce_guard</div></div></div>
+      <div class="ag-desc">Analyzes the campaign deliverability snapshot and recommends pause/severity, top failure addresses, and remediation steps. Drafting workflow — does not write to live campaign state until you click Apply.</div>
+      <div class="ag-tags"><span class="ag-tag">Deliverability</span><span class="ag-tag">Operations</span><span class="ag-tag">watsonx</span></div>
       <a class="ag-btn" href="/app/#pricing">Enable in workspace</a>
     </div>
 
-    <div class="ag-card"><span class="ag-status beta">BETA</span>
-      <div class="ag-head"><div class="ag-icon">⏱️</div><div><div class="ag-name">SLA Watcher</div><div class="ag-meta">EVENT · sla_breach</div></div></div>
-      <div class="ag-desc">Define SLAs per stage ("reply within 24h", "proposal in 5d"). Breaches fire Slack alerts + assign a named owner automatically.</div>
-      <div class="ag-tags"><span class="ag-tag">Governance</span><span class="ag-tag">Operator</span><span class="ag-tag">Slack</span></div>
+    <div class="ag-card"><span class="ag-status live">LIVE</span>
+      <div class="ag-head"><div class="ag-icon">🗣️</div><div><div class="ag-name">Meeting Summarizer</div><div class="ag-meta">workflow · meeting_summary</div></div></div>
+      <div class="ag-desc">Ingests Cal.com / Zoom / Fathom transcripts. Outputs a 5-line summary, three action items with owners and due offsets, and a next-touch recommendation written back to the deal workspace.</div>
+      <div class="ag-tags"><span class="ag-tag">Revenue</span><span class="ag-tag">Triage</span><span class="ag-tag">watsonx</span></div>
+      <a class="ag-btn" href="/app/#pricing">Enable in workspace</a>
+    </div>
+
+    <div class="ag-card"><span class="ag-status live">LIVE</span>
+      <div class="ag-head"><div class="ag-icon">🏛️</div><div><div class="ag-name">RFP Responder</div><div class="ag-meta">workflow · rfp_response</div></div></div>
+      <div class="ag-desc">Ingests solicitation excerpts (SAM.gov, state, commercial). Outputs parsed requirements, compliance matrix, section response drafts, a past-performance retrieval query, and a pWIN estimate with rationale. <strong>Governed — watsonx only.</strong></div>
+      <div class="ag-tags"><span class="ag-tag">GovCon</span><span class="ag-tag governed">Governed</span><span class="ag-tag">watsonx</span></div>
+      <a class="ag-btn" href="/app/#pricing">Enable in workspace</a>
+    </div>
+
+    <div class="ag-card"><span class="ag-status live">LIVE</span>
+      <div class="ag-head"><div class="ag-icon">🩺</div><div><div class="ag-name">Denial Predictor</div><div class="ag-meta">workflow · denial_predict</div></div></div>
+      <div class="ag-desc">MedPilot vertical pack. Flags claim denial risk before submission based on documentation gaps, code mismatches, and payer-policy deltas. <strong>Governed + HIPAA-aware</strong> — input must be de-identified; the prompt instructs the model not to echo PHI.</div>
+      <div class="ag-tags"><span class="ag-tag">MedPilot</span><span class="ag-tag governed">Governed</span><span class="ag-tag">watsonx</span></div>
+      <a class="ag-btn" href="/app/#pricing">Enable in workspace</a>
+    </div>
+
+    <div class="ag-card"><span class="ag-status live">LIVE</span>
+      <div class="ag-head"><div class="ag-icon">🔁</div><div><div class="ag-name">Follow-Up Engine</div><div class="ag-meta">workflow · followup_draft</div></div></div>
+      <div class="ag-desc">Detects 48h+ reply silence on in-progress deals. Drafts a context-aware nudge and routes to the owner for one-click send, or auto-sends only when tenant policy allows.</div>
+      <div class="ag-tags"><span class="ag-tag">Pipeline</span><span class="ag-tag">Triage</span><span class="ag-tag">watsonx</span></div>
+      <a class="ag-btn" href="/app/#pricing">Enable in workspace</a>
+    </div>
+
+    <div class="ag-card"><span class="ag-status live">LIVE</span>
+      <div class="ag-head"><div class="ag-icon">⏱️</div><div><div class="ag-name">SLA Watcher</div><div class="ag-meta">workflow · sla_watch</div></div></div>
+      <div class="ag-desc">Given an SLA breach record, recommends priority, owner role, escalation, customer message, and internal action. <strong>Governed — auditable and reproducible.</strong></div>
+      <div class="ag-tags"><span class="ag-tag">Governance</span><span class="ag-tag governed">Governed</span><span class="ag-tag">watsonx</span></div>
       <a class="ag-btn" href="/app/#pricing">Enable in workspace</a>
     </div>
 
@@ -123,7 +138,37 @@
   SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">·</span> &copy; 2026 Ariel's River Contracting Group LLC
 </footer>
 
-<!-- Tidio chat (SourceDeck support bot) -->
+<!-- Live catalog refresh — when the API is reachable from this origin,
+     replace the static cards with the live registry. Degrades silently. -->
+<script>
+(async function () {
+  const apiBase = window.SOURCEDECK_API_BASE || '';
+  if (!apiBase) return;
+  try {
+    const r = await fetch(apiBase + '/api/v1/agents');
+    if (!r.ok) return;
+    const { items } = await r.json();
+    const grid = document.getElementById('ag-grid');
+    if (!grid || !Array.isArray(items) || !items.length) return;
+    grid.innerHTML = items.map(a => `
+      <div class="ag-card"><span class="ag-status live">LIVE</span>
+        <div class="ag-head"><div class="ag-icon">${a.icon || '⚙️'}</div>
+          <div><div class="ag-name">${escapeHtml(a.name)}</div>
+            <div class="ag-meta">workflow · ${escapeHtml(a.workflowType)}</div></div></div>
+        <div class="ag-desc">${escapeHtml(a.description)}</div>
+        <div class="ag-tags">${(a.tags || []).map(t =>
+          `<span class="ag-tag${/governed/i.test(t) ? ' governed' : ''}">${escapeHtml(t)}</span>`).join('')}</div>
+        <a class="ag-btn" href="/app/#pricing" data-agent="${escapeHtml(a.id)}">Run agent</a>
+      </div>`).join('');
+  } catch (_) { /* silent */ }
+  function escapeHtml(s) {
+    return String(s ?? '').replace(/[&<>"']/g, c => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+  }
+})();
+</script>
+
 <script src="//code.tidio.co/80d20949327f4c7c81e2295df563dc46.js" async></script>
 </body>
 </html>
