@@ -41,7 +41,8 @@ const NEVER_CACHE_PATHS = [
   '/m/',
   '/inbound/',
   '/approvals/',
-  '/checkout/'
+  '/checkout/',
+  '/auth/callback/'
 ];
 
 self.addEventListener('install', (event) => {
