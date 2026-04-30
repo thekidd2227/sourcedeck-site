@@ -25,11 +25,49 @@ let _externalStore = null;
 /** Wire a production-grade store before serving requests. */
 export function bindExternalStore(store) {
   _externalStore = store;
+  log.info('byok.external_store_bound', { name: store?.name || 'custom' });
 }
 
+/** Test-only / hot-reload helper. */
+export function unbindExternalStore() { _externalStore = null; }
+
+/** True iff a real (non-in-memory) BYOK store is currently bound. */
+export function hasExternalStore() { return !!_externalStore; }
+
 function ensureProductionExternalStore() {
-  if (process.env.APP_ENV === 'production' && !_externalStore) {
+  if (process.env.APP_ENV !== 'production') return;
+  if (process.env.ALLOW_IN_MEMORY_PROD === 'true') {
+    log.warn('byok.in_memory_prod_override_active');
+    return;
+  }
+  if (!_externalStore) {
     throw new Error('byok: in-memory store is dev-only. Bind an external secrets store before production.');
+  }
+}
+
+/**
+ * Boot-time auto-bind. When IBM_SECRETS_MANAGER_URL +
+ * IBM_SECRETS_MANAGER_API_KEY are present, binds the IBM adapter.
+ * Otherwise leaves the dev in-memory store in place.
+ */
+export async function autoBindByokStore(env = process.env) {
+  if (!env.IBM_SECRETS_MANAGER_URL || !env.IBM_SECRETS_MANAGER_API_KEY) {
+    return { bound: false, reason: 'env_not_present' };
+  }
+  try {
+    const { createIbmSecretsManagerByokStore } = await import('./byokIbmSecretsManager.js');
+    const store = createIbmSecretsManagerByokStore({
+      url:        env.IBM_SECRETS_MANAGER_URL,
+      apiKey:     env.IBM_SECRETS_MANAGER_API_KEY,
+      groupId:    env.IBM_SECRETS_MANAGER_GROUP_ID,
+      instanceId: env.IBM_SECRETS_MANAGER_INSTANCE_ID
+    });
+    bindExternalStore(store);
+    return { bound: true, name: 'ibm_secrets_manager' };
+  } catch (err) {
+    if (env.APP_ENV === 'production' && env.ALLOW_IN_MEMORY_PROD !== 'true') throw err;
+    log.warn('byok.ibm_bind_failed', { reason: err.message });
+    return { bound: false, reason: err.message };
   }
 }
 

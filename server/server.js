@@ -20,6 +20,7 @@ import { processRouter } from './src/routes/process.js';
 import { resultsRouter } from './src/routes/results.js';
 import { aiRouter }      from './src/routes/ai.js';
 import { getTenantPolicyRepo, ensureProductionPersistence, autoBindPersistence } from './src/services/persistence/index.js';
+import { autoBindByokStore } from './src/services/ai/byok.js';
 
 async function bootstrap() {
   const cfg = loadConfig();
@@ -41,6 +42,10 @@ async function bootstrap() {
   // Auto-bind real persistence adapters when env is set.
   const persistenceSummary = await autoBindPersistence();
   log.info('persistence.summary', persistenceSummary);
+
+  // Auto-bind IBM Secrets Manager BYOK store when env is set.
+  const byokSummary = await autoBindByokStore();
+  log.info('byok.summary', byokSummary);
 
   // Hard-fail in production if persistence repos are still in-memory.
   // Bypassable via ALLOW_IN_MEMORY_PROD=true (dev / staging escape hatch).
