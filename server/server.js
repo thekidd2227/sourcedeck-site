@@ -19,7 +19,7 @@ import { uploadRouter }  from './src/routes/upload.js';
 import { processRouter } from './src/routes/process.js';
 import { resultsRouter } from './src/routes/results.js';
 import { aiRouter }      from './src/routes/ai.js';
-import { getTenantPolicyRepo, ensureProductionPersistence } from './src/services/persistence/index.js';
+import { getTenantPolicyRepo, ensureProductionPersistence, autoBindPersistence } from './src/services/persistence/index.js';
 
 async function bootstrap() {
   const cfg = loadConfig();
@@ -38,8 +38,12 @@ async function bootstrap() {
     tenants:    new Map()  // tenantId → { subscriptionTier, aiPolicy }
   };
 
+  // Auto-bind real persistence adapters when env is set.
+  const persistenceSummary = await autoBindPersistence();
+  log.info('persistence.summary', persistenceSummary);
+
   // Hard-fail in production if persistence repos are still in-memory.
-  // Bypassable in dev / tests.
+  // Bypassable via ALLOW_IN_MEMORY_PROD=true (dev / staging escape hatch).
   ensureProductionPersistence();
 
   // Tenant settings — backed by the persistence layer (in-memory by
