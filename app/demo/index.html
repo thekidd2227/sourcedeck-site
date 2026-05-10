@@ -2501,8 +2501,8 @@ RULES (BINDING):
    public LinkedIn profile, a public directory listing, or an equivalent
    public source.
 2. The email domain MUST match the verified company website domain.
-   - If website = roseassociates.com, the only valid email domain
-     is @roseassociates.com. An email @rose.associates, @roseassoc.com,
+   - If website = examplerealty.com, the only valid email domain
+     is @examplerealty.com. An email @example.realty, @roseassoc.com,
      or any other variant is INVALID unless you can cite a real, currently
      reachable public page that explicitly shows that alternate-domain email.
 3. Do NOT swap, shorten, split, re-TLD, or creatively derive email domains
@@ -2513,8 +2513,8 @@ RULES (BINDING):
    infinitely better than a hallucinated email that burns the sender's
    reputation.
 5. contact_quality_reason MUST name the exact page where the email was
-   displayed (e.g. "Email arose@roseassociates.com found on
-   https://www.roseassociates.com/team"). A bare claim without a specific
+   displayed (e.g. "Email alex@examplerealty.com found on
+   https://www.examplerealty.com/team"). A bare claim without a specific
    page URL is not sufficient — downstream validation will reject it.
 6. source_urls MUST include the page that showed the email. If source_urls
    does not contain a plausible email-source page, the lead will be
@@ -2528,17 +2528,17 @@ RULES (BINDING):
 DIRECT-EMAIL EXAMPLE:
 
 CORRECT:
-  website: "https://www.roseassociates.com"
-  verified_email: "arose@roseassociates.com"
-  contact_quality_reason: "Email arose@roseassociates.com found on
-    https://www.roseassociates.com/team — Amy Rose listed as CEO with
+  website: "https://www.examplerealty.com"
+  verified_email: "alex@examplerealty.com"
+  contact_quality_reason: "Email alex@examplerealty.com found on
+    https://www.examplerealty.com/team — Alex Demo listed as CEO with
     direct email on the same page."
-  source_urls: ["https://www.roseassociates.com/team", ...]
+  source_urls: ["https://www.examplerealty.com/team", ...]
 
 WRONG — DO NOT EMIT:
-  website: "https://www.roseassociates.com"
-  verified_email: "arose@rose.associates"
-  (WRONG: email domain rose.associates ≠ website domain roseassociates.com.
+  website: "https://www.examplerealty.com"
+  verified_email: "alex@example.realty"
+  (WRONG: email domain example.realty ≠ website domain examplerealty.com.
    No public source cited showing the alternate domain. This email was
    invented by pattern inference, not found on a real page.)
 
@@ -2813,33 +2813,33 @@ EXAMPLES — CORRECT vs WRONG LEAD CLASSIFICATIONS
 Study these. Any output that matches the WRONG pattern will be rejected downstream.
 
 CORRECT — Direct Decision-Maker Email:
-  verified_contact_name: "Amy Rose"
-  verified_email: "arose@rose.associates"
+  verified_contact_name: "Alex Demo"
+  verified_email: "alex@example.realty"
   contact_quality: "Direct Decision-Maker Email"
   generic_inbox_fallback: false
   preferred_outreach_channel: "email"
-  contact_quality_reason: "Found Amy Rose listed as CEO on https://www.rose.associates/team with direct email on the same page. Did not need fallback."
+  contact_quality_reason: "Found Alex Demo listed as CEO on https://www.example.realty/team with direct email on the same page. Did not need fallback."
 
 WRONG — DO NOT EMIT (misclassified generic inbox as direct):
   verified_contact_name: ""
-  verified_email: "info@rose.associates"
+  verified_email: "info@example.realty"
   contact_quality: "Direct Decision-Maker Email"       (WRONG: info@ is NOT a decision-maker email)
   generic_inbox_fallback: false                         (WRONG: MUST be true for any info@/contact@/etc.)
 
 CORRECT — Generic Inbox Fallback with alternate path:
   verified_contact_name: ""
-  verified_email: "info@rose.associates"
+  verified_email: "info@example.realty"
   contact_quality: "Generic Inbox Fallback"
   generic_inbox_fallback: true
   preferred_outreach_channel: "linkedin"
-  alternate_verified_contact_paths: ["https://www.linkedin.com/company/rose-associates/"]
+  alternate_verified_contact_paths: ["https://www.linkedin.com/company/example-realty/"]
   contact_quality_reason: "Searched /team, /about, /leadership, LinkedIn company + people pages, Hunter.io, ZoomInfo, Facebook — no named decision-maker publicly listed. Only info@ available. Verified LinkedIn company page as alternate path."
 
 CORRECT — No Verified Email (Lane B):
-  verified_contact_name: "Sarah Saltzberg"
+  verified_contact_name: "Drew Example"
   verified_email: ""
-  verified_phone: "(212) 663-6215"
-  linkedin_url: "https://www.linkedin.com/in/sarah-saltzberg/"
+  verified_phone: "(212) 555-0163"
+  linkedin_url: "https://www.linkedin.com/in/example-contact/"
   contact_quality: "No Verified Email"
   generic_inbox_fallback: false
   preferred_outreach_channel: "linkedin"
@@ -2987,8 +2987,8 @@ Return only verified leads from real, publicly accessible sources. If you cannot
         // For leads classified as Direct/Named/Team/Departmental (the email-eligible
         // tiers), verify the email domain matches the company website domain.
         // If they don't match, the email is suspicious (likely hallucinated via
-        // alternate-TLD inference — e.g. arose@rose.associates when the website is
-        // roseassociates.com). Allow it only if explicit public-source evidence
+        // alternate-TLD inference — e.g. alex@example.realty when the website is
+        // examplerealty.com). Allow it only if explicit public-source evidence
         // supports the alternate domain. Otherwise demote.
         const EMAIL_TIERS = ['Direct Decision-Maker Email','Named Employee / Team Email','Departmental / Functional Inbox'];
         if(EMAIL_TIERS.includes(l.contact_quality) && l.email && l.email.includes('@') && !l._demoted){
@@ -3720,7 +3720,7 @@ Rules:
 - Tone: direct, confident, peer-to-peer B2B. Premium consulting voice. Never salesy. Never "I noticed your website" fluff.
 - BANNED phrases: "automate your business", "AI solution", "revolutionary", "game-changing", "scale your business", "unlock", "supercharge", "cutting-edge", "leverage", "synergy", "take your business to the next level", "we help companies like yours", "quick win", "low-hanging fruit"
 - BANNED claims: do NOT promise specific dollar savings, percentages, ROI figures, or timeframes. Do NOT mention pricing. Do NOT mention "fixed-fee".
-- Sign: Jean-Max Charles | ARCG Systems | arcgsystems.com
+- Sign: Workspace Owner | Demo Workspace | example.com
 - Subject line at top: Subject: [6-10 words, specific to the breakdown observed, no clickbait]
 
 Output ONLY the email — subject line first, then body. No preamble. No explanation.`;
@@ -3735,7 +3735,7 @@ Output ONLY the email — subject line first, then body. No preamble. No explana
     toast('Intro email generated','ok');
     logActivity('✉','var(--blue)','Intro email: '+biz);
   } catch(e){
-    const fallback = `Subject: Where ${biz} is likely leaking operationally\n\nHi ${contact},\n\nI've been looking at ${biz} and the pattern I keep seeing is ${problems||'manual handoffs and no real source of truth across your operation'}. That kind of breakdown usually costs more than anyone tracks — not just time, but accountability and customer trust.\n\nARCG is a diagnosis-first operational intelligence firm. Before we recommend a single fix, we map where the waste actually is and rank it by impact. ${arcgHelp||'The first deliverable is clarity, not software.'}\n\nWorth a quick 10-minute triage call? No pitch — I'll show you exactly how ARCG would diagnose the breakdown.\n\nJean-Max Charles | ARCG Systems | arcgsystems.com`;
+    const fallback = `Subject: Where ${biz} is likely leaking operationally\n\nHi ${contact},\n\nI've been looking at ${biz} and the pattern I keep seeing is ${problems||'manual handoffs and no real source of truth across your operation'}. That kind of breakdown usually costs more than anyone tracks — not just time, but accountability and customer trust.\n\nARCG is a diagnosis-first operational intelligence firm. Before we recommend a single fix, we map where the waste actually is and rank it by impact. ${arcgHelp||'The first deliverable is clarity, not software.'}\n\nWorth a quick 10-minute triage call? No pitch — I'll show you exactly how ARCG would diagnose the breakdown.\n\nWorkspace Owner | Demo Workspace | example.com`;
     currentIntroEmail = fallback;
     if(box){ box.textContent=fallback; box.style.display='block'; }
     if(acts) acts.style.display='flex';
@@ -3845,16 +3845,16 @@ let raCache={intent:'',summary:'',response:'',next:''};
 
 // ─── MOCK LEADS (replace with Airtable fetch when AT_PAT is set) ───
 const MOCK_LEADS=[
-  {id:'rec001',fields:{'Business Name':'Robert E. Hill Inc — Riverdale Bronx','Contact Name':'K. Hackett','Email':'khackett@robertehill.com','Status':'Contacted','Priority':'High','Location':'Bronx, NY','ARCG Best Services':'AI Automation, Compliance Reporting, Facilities Support','Priority Rationale':'Est. 1919, 31 co-ops/condos. Heavy compliance exposure.','Fit Score':88,'Urgency Score':74,'Revenue Score':82,'Deal Value':24000,'Close Probability':40,'Current Stage':'Outreach Sent','Days in Stage':5,'Next Action':'Follow-up Day 5'}},
-  {id:'rec002',fields:{'Business Name':'Maxwell-Kates Inc (Associa)','Contact Name':'Andy Marks','Email':'amarks@maxwellkates.com','Status':'Contacted','Priority':'High','Location':'NYC Metro','ARCG Best Services':'Workflow Automation, Compliance Reporting','Priority Rationale':'14K units NYC. Top-tier firm.','Fit Score':92,'Urgency Score':65,'Revenue Score':90,'Deal Value':48000,'Close Probability':30,'Current Stage':'Outreach Sent','Days in Stage':3,'Next Action':'Day 5 follow-up April 3'}},
-  {id:'rec003',fields:{'Business Name':'HPM Property Management','Contact Name':'Robb Pair','Email':'askai@harlempm.com','Status':'Replied','Priority':'High','Location':'Harlem, NY','ARCG Best Services':'Workflow Automation, Tenant Systems','Priority Rationale':'70 buildings Harlem. Replied with interest.','Fit Score':85,'Urgency Score':92,'Revenue Score':80,'Deal Value':36000,'Close Probability':55,'Current Stage':'Replied','Days in Stage':2,'Next Action':'🔥 BOOK NOW — replied with interest'}},
-  {id:'rec004',fields:{'Business Name':'Alma Realty Corp','Contact Name':'F. Villalta','Email':'fvillalta@almarealty.com','Status':'Contacted','Priority':'High','Location':'Queens, NY','ARCG Best Services':'AI Automation, Facilities Coordination','Priority Rationale':'Large affordable housing portfolio.','Fit Score':80,'Urgency Score':62,'Revenue Score':78,'Deal Value':30000,'Close Probability':35,'Current Stage':'Outreach Sent','Days in Stage':6,'Next Action':'Follow-up before Day 7'}},
-  {id:'rec005',fields:{'Business Name':'Premier Placements — Staffing','Contact Name':'Shelby Weidler','Email':'info@apartmentstaffing.com','Status':'Contacted','Priority':'High','Location':'Atlanta, GA','ARCG Best Services':'Staffing Workflow Automation','Priority Rationale':'65 markets. National.','Fit Score':75,'Urgency Score':55,'Revenue Score':72,'Deal Value':42000,'Close Probability':25,'Current Stage':'Outreach Sent','Days in Stage':8,'Next Action':'⚠ OVERDUE — follow up now'}},
-  {id:'rec006',fields:{'Business Name':'Century Management','Contact Name':'A.J. Rexhepi','Email':'info@centuryny.com','Status':'Contacted','Priority':'High','Location':'Manhattan, NY','ARCG Best Services':'Workflow, Reporting Systems','Priority Rationale':'15K units.','Fit Score':87,'Urgency Score':60,'Revenue Score':85,'Deal Value':54000,'Close Probability':28,'Current Stage':'Outreach Sent','Days in Stage':4,'Next Action':'Watch for reply — Day 5 tomorrow'}},
-  {id:'rec007',fields:{'Business Name':'ELH Mgmt LLC','Contact Name':'Denise DiPalo','Email':'denise@elhmgmt.com','Status':'Contacted','Priority':'High','Location':'Bronx/Brooklyn','ARCG Best Services':'AI Automation, Affordable Housing','Priority Rationale':'Bronx/Brooklyn portfolio.','Fit Score':78,'Urgency Score':58,'Revenue Score':75,'Deal Value':28000,'Close Probability':30,'Current Stage':'Outreach Sent','Days in Stage':7,'Next Action':'⚠ OVERDUE — hit Day 7'}},
-  {id:'rec008',fields:{'Business Name':'Riverbay Corporation (Co-op City)','Contact Name':'Management Office','Email':'','Status':'New','Priority':'High','Location':'Co-op City, Bronx','ARCG Best Services':'Compliance Automation, Facility Systems','Priority Rationale':'STAR: 15,372 units. Needs vendor reg call (718) 320-3300. GET EMAIL.','Fit Score':95,'Urgency Score':50,'Revenue Score':95,'Deal Value':120000,'Close Probability':15,'Current Stage':'New','Days in Stage':14,'Next Action':'📞 Call (718) 320-3300 for vendor registration'}},
-  {id:'rec009',fields:{'Business Name':'Blue Hill Realty','Contact Name':'Management Team','Email':'office@bluehillrealty.com','Status':'Contacted','Priority':'Medium','Location':'Staten Island / Brooklyn','ARCG Best Services':'Workflow Automation','Priority Rationale':'Multi-borough.','Fit Score':68,'Urgency Score':48,'Revenue Score':65,'Deal Value':18000,'Close Probability':30,'Current Stage':'Outreach Sent','Days in Stage':5,'Next Action':'Watch for reply'}},
-  {id:'rec010',fields:{'Business Name':'Henderson Properties','Contact Name':'Phil Henderson','Email':'info@hendersonproperties.com','Status':'Contacted','Priority':'Medium','Location':'Charlotte, NC','ARCG Best Services':'Workflow, Reporting','Priority Rationale':'Southeast regional PM.','Fit Score':62,'Urgency Score':45,'Revenue Score':60,'Deal Value':15000,'Close Probability':25,'Current Stage':'Outreach Sent','Days in Stage':9,'Next Action':'⚠ OVERDUE 9 days'}},
+  {id:'rec001',fields:{'Business Name':'Demo PM Co — Bronx Sample','Contact Name':'Demo Contact 01','Email':'contact01@example.com','Status':'Contacted','Priority':'High','Location':'Bronx, NY','ARCG Best Services':'AI Automation, Compliance Reporting, Facilities Support','Priority Rationale':'Synthetic demo record. Heavy compliance exposure.','Fit Score':88,'Urgency Score':74,'Revenue Score':82,'Deal Value':24000,'Close Probability':40,'Current Stage':'Outreach Sent','Days in Stage':5,'Next Action':'Follow-up Day 5'}},
+  {id:'rec002',fields:{'Business Name':'Demo PM Co — NYC Sample','Contact Name':'Demo Contact 02','Email':'contact02@example.com','Status':'Contacted','Priority':'High','Location':'NYC Metro','ARCG Best Services':'Workflow Automation, Compliance Reporting','Priority Rationale':'Synthetic demo record. Top-tier firm.','Fit Score':92,'Urgency Score':65,'Revenue Score':90,'Deal Value':48000,'Close Probability':30,'Current Stage':'Outreach Sent','Days in Stage':3,'Next Action':'Day 5 follow-up'}},
+  {id:'rec003',fields:{'Business Name':'Demo PM Co — Harlem Sample','Contact Name':'Demo Contact 03','Email':'contact03@example.com','Status':'Replied','Priority':'High','Location':'Harlem, NY','ARCG Best Services':'Workflow Automation, Tenant Systems','Priority Rationale':'Synthetic demo record. Replied with interest.','Fit Score':85,'Urgency Score':92,'Revenue Score':80,'Deal Value':36000,'Close Probability':55,'Current Stage':'Replied','Days in Stage':2,'Next Action':'🔥 BOOK NOW — replied with interest'}},
+  {id:'rec004',fields:{'Business Name':'Demo Realty Corp — Queens Sample','Contact Name':'Demo Contact 04','Email':'contact04@example.com','Status':'Contacted','Priority':'High','Location':'Queens, NY','ARCG Best Services':'AI Automation, Facilities Coordination','Priority Rationale':'Synthetic demo record. Affordable housing portfolio.','Fit Score':80,'Urgency Score':62,'Revenue Score':78,'Deal Value':30000,'Close Probability':35,'Current Stage':'Outreach Sent','Days in Stage':6,'Next Action':'Follow-up before Day 7'}},
+  {id:'rec005',fields:{'Business Name':'Demo Staffing Co','Contact Name':'Demo Contact 05','Email':'contact05@example.com','Status':'Contacted','Priority':'High','Location':'Atlanta, GA','ARCG Best Services':'Staffing Workflow Automation','Priority Rationale':'Synthetic demo record. National coverage.','Fit Score':75,'Urgency Score':55,'Revenue Score':72,'Deal Value':42000,'Close Probability':25,'Current Stage':'Outreach Sent','Days in Stage':8,'Next Action':'⚠ OVERDUE — follow up now'}},
+  {id:'rec006',fields:{'Business Name':'Demo Management — Manhattan Sample','Contact Name':'Demo Contact 06','Email':'contact06@example.com','Status':'Contacted','Priority':'High','Location':'Manhattan, NY','ARCG Best Services':'Workflow, Reporting Systems','Priority Rationale':'Synthetic demo record.','Fit Score':87,'Urgency Score':60,'Revenue Score':85,'Deal Value':54000,'Close Probability':28,'Current Stage':'Outreach Sent','Days in Stage':4,'Next Action':'Watch for reply — Day 5 tomorrow'}},
+  {id:'rec007',fields:{'Business Name':'Demo Mgmt LLC','Contact Name':'Demo Contact 07','Email':'contact07@example.com','Status':'Contacted','Priority':'High','Location':'Bronx/Brooklyn','ARCG Best Services':'AI Automation, Affordable Housing','Priority Rationale':'Synthetic demo record.','Fit Score':78,'Urgency Score':58,'Revenue Score':75,'Deal Value':28000,'Close Probability':30,'Current Stage':'Outreach Sent','Days in Stage':7,'Next Action':'⚠ OVERDUE — hit Day 7'}},
+  {id:'rec008',fields:{'Business Name':'Demo Co-op Corporation','Contact Name':'Management Office','Email':'','Status':'New','Priority':'High','Location':'Co-op City, Bronx','ARCG Best Services':'Compliance Automation, Facility Systems','Priority Rationale':'Synthetic demo record. Needs vendor reg call (212) 555-0185. GET EMAIL.','Fit Score':95,'Urgency Score':50,'Revenue Score':95,'Deal Value':120000,'Close Probability':15,'Current Stage':'New','Days in Stage':14,'Next Action':'📞 Call (212) 555-0185 for vendor registration'}},
+  {id:'rec009',fields:{'Business Name':'Demo Realty — Multi-borough','Contact Name':'Management Team','Email':'contact09@example.com','Status':'Contacted','Priority':'Medium','Location':'Staten Island / Brooklyn','ARCG Best Services':'Workflow Automation','Priority Rationale':'Synthetic demo record.','Fit Score':68,'Urgency Score':48,'Revenue Score':65,'Deal Value':18000,'Close Probability':30,'Current Stage':'Outreach Sent','Days in Stage':5,'Next Action':'Watch for reply'}},
+  {id:'rec010',fields:{'Business Name':'Demo Properties — Charlotte','Contact Name':'Demo Contact 10','Email':'contact10@example.com','Status':'Contacted','Priority':'Medium','Location':'Charlotte, NC','ARCG Best Services':'Workflow, Reporting','Priority Rationale':'Synthetic demo record. Southeast regional PM.','Fit Score':62,'Urgency Score':45,'Revenue Score':60,'Deal Value':15000,'Close Probability':25,'Current Stage':'Outreach Sent','Days in Stage':9,'Next Action':'⚠ OVERDUE 9 days'}},
 ];
 
 let allLeads=[...MOCK_LEADS];
@@ -4311,7 +4311,7 @@ window.getLeadTruthBadge = getLeadTruthBadge;
 // Catches hallucinated emails whose domain doesn't match the company website.
 // Conservative: if in doubt, returns "mismatch" and lets the caller decide.
 
-// extractWebsiteDomain('https://www.roseassociates.com/team') → 'roseassociates.com'
+// extractWebsiteDomain('https://www.examplerealty.com/team') → 'examplerealty.com'
 function extractWebsiteDomain(website){
   if(!website) return '';
   try {
@@ -4322,14 +4322,14 @@ function extractWebsiteDomain(website){
   } catch(e){ return ''; }
 }
 
-// extractEmailDomain('arose@rose.associates') → 'rose.associates'
+// extractEmailDomain('alex@example.realty') → 'example.realty'
 function extractEmailDomain(email){
   if(!email || !email.includes('@')) return '';
   return email.trim().toLowerCase().split('@')[1] || '';
 }
 
-// doEmailDomainMatch('roseassociates.com', 'roseassociates.com') → true
-// doEmailDomainMatch('roseassociates.com', 'rose.associates') → false
+// doEmailDomainMatch('examplerealty.com', 'examplerealty.com') → true
+// doEmailDomainMatch('examplerealty.com', 'example.realty') → false
 // Exact match only — no fuzzy matching, no subdomain tolerance.
 function doEmailDomainMatch(websiteDomain, emailDomain){
   if(!websiteDomain || !emailDomain) return false;
@@ -4340,7 +4340,7 @@ function doEmailDomainMatch(websiteDomain, emailDomain){
 // Returns true ONLY if explicit evidence supports the alternate domain.
 // "Explicit evidence" means source_urls contains a URL whose hostname
 // includes the alternate email domain (e.g. source_urls has
-// "https://rose.associates/team" and email is @rose.associates).
+// "https://example.realty/team" and email is @example.realty).
 // OR contact_quality_reason contains the exact alternate domain string
 // together with a URL-like citation. Both signals must be present.
 // Conservative: if in doubt, returns false.
@@ -4378,7 +4378,7 @@ window.checkEmailDomainConsistency = checkEmailDomainConsistency;
 // ── GENERIC INBOX DETECTOR — fallback-only classifier ──
 // Detects the conventional "mailbox role" generic addresses that should never
 // ride the verified-email lane. Normalizes the local-part before matching so
-// "Info@ROSE.associates" and " info@rose.associates " both match.
+// "Info@EXAMPLE.realty" and " info@example.realty " both match.
 // Keep this list in sync with the ENFORCEMENT block in the generator sysPrompt.
 function isGenericInboxEmail(email){
   if(!email) return false;
@@ -4399,10 +4399,10 @@ window.isGenericInboxEmail = isGenericInboxEmail;
 // Rejects any NANP phone whose 7-digit subscriber block matches 555-01xx or 555-1xxx.
 // Normalizes input to digits first so formatting (parentheses, dashes, country code, spaces,
 // plus signs, unicode dashes, extensions) doesn't bypass the rule.
-//   Examples rejected:  (212) 555-0634  |  212-555-1543  |  +1-809-555-1234  |  6465551932
-//   Examples allowed:   (212) 555-2486  is REJECTED (5552486 matches 5552xxx? no — 5550/5551 only)
-//                       (212) 489-1200  PASSES (non-555 exchange)
-//                       (212) 555-2000  PASSES (not in 5550xxx/5551xxx block)
+//   Examples rejected:  555-01XX subscriber blocks (NANP fictional reserved)
+//                       555-1XXX subscriber blocks (NANP fictional reserved)
+//   Examples allowed:   any non-555 exchange
+//                       555 exchange OUTSIDE the 5550xxx/5551xxx reserved block
 // Returns true if the phone is fictional / should be rejected. Empty/missing phone returns false.
 function isFictionalPhone(phone){
   if(!phone) return false;
@@ -4569,8 +4569,8 @@ RULES (BINDING):
    public LinkedIn profile, a public directory listing, or an equivalent
    public source.
 2. The email domain MUST match the verified company website domain.
-   - If website = roseassociates.com, the only valid email domain
-     is @roseassociates.com. An email @rose.associates, @roseassoc.com,
+   - If website = examplerealty.com, the only valid email domain
+     is @examplerealty.com. An email @example.realty, @roseassoc.com,
      or any other variant is INVALID unless you can cite a real, currently
      reachable public page that explicitly shows that alternate-domain email.
 3. Do NOT swap, shorten, split, re-TLD, or creatively derive email domains
@@ -4581,8 +4581,8 @@ RULES (BINDING):
    infinitely better than a hallucinated email that burns the sender's
    reputation.
 5. contact_quality_reason MUST name the exact page where the email was
-   displayed (e.g. "Email arose@roseassociates.com found on
-   https://www.roseassociates.com/team"). A bare claim without a specific
+   displayed (e.g. "Email alex@examplerealty.com found on
+   https://www.examplerealty.com/team"). A bare claim without a specific
    page URL is not sufficient — downstream validation will reject it.
 6. source_urls MUST include the page that showed the email. If source_urls
    does not contain a plausible email-source page, the lead will be
@@ -4596,17 +4596,17 @@ RULES (BINDING):
 DIRECT-EMAIL EXAMPLE:
 
 CORRECT:
-  website: "https://www.roseassociates.com"
-  verified_email: "arose@roseassociates.com"
-  contact_quality_reason: "Email arose@roseassociates.com found on
-    https://www.roseassociates.com/team — Amy Rose listed as CEO with
+  website: "https://www.examplerealty.com"
+  verified_email: "alex@examplerealty.com"
+  contact_quality_reason: "Email alex@examplerealty.com found on
+    https://www.examplerealty.com/team — Alex Demo listed as CEO with
     direct email on the same page."
-  source_urls: ["https://www.roseassociates.com/team", ...]
+  source_urls: ["https://www.examplerealty.com/team", ...]
 
 WRONG — DO NOT EMIT:
-  website: "https://www.roseassociates.com"
-  verified_email: "arose@rose.associates"
-  (WRONG: email domain rose.associates ≠ website domain roseassociates.com.
+  website: "https://www.examplerealty.com"
+  verified_email: "alex@example.realty"
+  (WRONG: email domain example.realty ≠ website domain examplerealty.com.
    No public source cited showing the alternate domain. This email was
    invented by pattern inference, not found on a real page.)
 
@@ -4881,33 +4881,33 @@ EXAMPLES — CORRECT vs WRONG LEAD CLASSIFICATIONS
 Study these. Any output that matches the WRONG pattern will be rejected downstream.
 
 CORRECT — Direct Decision-Maker Email:
-  verified_contact_name: "Amy Rose"
-  verified_email: "arose@rose.associates"
+  verified_contact_name: "Alex Demo"
+  verified_email: "alex@example.realty"
   contact_quality: "Direct Decision-Maker Email"
   generic_inbox_fallback: false
   preferred_outreach_channel: "email"
-  contact_quality_reason: "Found Amy Rose listed as CEO on https://www.rose.associates/team with direct email on the same page. Did not need fallback."
+  contact_quality_reason: "Found Alex Demo listed as CEO on https://www.example.realty/team with direct email on the same page. Did not need fallback."
 
 WRONG — DO NOT EMIT (misclassified generic inbox as direct):
   verified_contact_name: ""
-  verified_email: "info@rose.associates"
+  verified_email: "info@example.realty"
   contact_quality: "Direct Decision-Maker Email"       (WRONG: info@ is NOT a decision-maker email)
   generic_inbox_fallback: false                         (WRONG: MUST be true for any info@/contact@/etc.)
 
 CORRECT — Generic Inbox Fallback with alternate path:
   verified_contact_name: ""
-  verified_email: "info@rose.associates"
+  verified_email: "info@example.realty"
   contact_quality: "Generic Inbox Fallback"
   generic_inbox_fallback: true
   preferred_outreach_channel: "linkedin"
-  alternate_verified_contact_paths: ["https://www.linkedin.com/company/rose-associates/"]
+  alternate_verified_contact_paths: ["https://www.linkedin.com/company/example-realty/"]
   contact_quality_reason: "Searched /team, /about, /leadership, LinkedIn company + people pages, Hunter.io, ZoomInfo, Facebook — no named decision-maker publicly listed. Only info@ available. Verified LinkedIn company page as alternate path."
 
 CORRECT — No Verified Email (Lane B):
-  verified_contact_name: "Sarah Saltzberg"
+  verified_contact_name: "Drew Example"
   verified_email: ""
-  verified_phone: "(212) 663-6215"
-  linkedin_url: "https://www.linkedin.com/in/sarah-saltzberg/"
+  verified_phone: "(212) 555-0163"
+  linkedin_url: "https://www.linkedin.com/in/example-contact/"
   contact_quality: "No Verified Email"
   generic_inbox_fallback: false
   preferred_outreach_channel: "linkedin"
@@ -6333,7 +6333,7 @@ function buildAdCopy(topic, vertical, pipelineOut, ind){
   const sys    = pipelineOut?.systemType || 'physical operational system';
   const offer  = isMed ? 'Free 10-minute clinical-ops triage with MedPilot'
                        : 'Free 10-minute operations diagnostic with ARCG Systems';
-  const landing = isMed ? 'medpilot.ai/triage' : 'arcgsystems.com/assessment';
+  const landing = isMed ? 'medpilot.ai/triage' : 'example.com/assessment';
   const dmTag   = isMed ? 'MEDPILOT' : 'TRIAGE';
 
   // Headline — punchy, problem-named, scroll-stopping (8–12 words).
@@ -6415,7 +6415,7 @@ function renderFullAd(ad, imagePrompt){
 const PROMPT_LIBRARY={
 "Broken Operations":{
   hook:"Your business is running — just barely. Here is what broken looks like.",
-  caption:"Most operations that look fine from the outside are quietly leaking money.\n\nMissed handoffs. No intake system. Manual reporting. Everyone reacting.\n\nThis is not a staffing problem. It is a systems problem.\n\narcgsystems.com/assessment or DM \"AUDIT\"",
+  caption:"Most operations that look fine from the outside are quietly leaking money.\n\nMissed handoffs. No intake system. Manual reporting. Everyone reacting.\n\nThis is not a staffing problem. It is a systems problem.\n\nexample.com/assessment or DM \"AUDIT\"",
   carousel:["Your Operations Are Broken. Most businesses don\'t know until it costs them.","Requests arrive with no home. No intake system = no accountability.","Every missed handoff is a missed deliverable.","Manual status updates mean leadership is always the last to know.","The fix is not hiring more people. It is building systems."],
   imgB:[
     "Aerial editorial view of a fractured operational flowchart on a white strategy table: broken handoff arrows highlighted in red, ownership fields empty, process map incomplete. Premium business photography, text-safe left zone. ARCG Systems mark lower-right.",
@@ -6432,7 +6432,7 @@ const PROMPT_LIBRARY={
 },
 "Cost of Manual Process":{
   hook:"One manual process costs your business 572 hours a year. Do the math.",
-  caption:"Add up every spreadsheet your team updates manually. Every email used as an approval system. Every report compiled by hand.\n\nNow multiply by 52 weeks.\n\nThat is the real cost of manual operations.\n\narcgsystems.com/assessment or DM \"AUDIT\"",
+  caption:"Add up every spreadsheet your team updates manually. Every email used as an approval system. Every report compiled by hand.\n\nNow multiply by 52 weeks.\n\nThat is the real cost of manual operations.\n\nexample.com/assessment or DM \"AUDIT\"",
   carousel:["1 Manual Process. 572 Hours a Year. That\'s the math.","Every manual approval is billable time disappearing into email.","Every spreadsheet update is a decision that should already be made.","The cost is not the task. It is the compounding.","What would your team do with 572 hours back?"],
   imgB:[
     "Macro editorial: a hand entering the same data field into three different forms on three clipboards simultaneously — repetition made physical, precise, and costly. Premium light, credible business detail.",
@@ -6449,7 +6449,7 @@ const PROMPT_LIBRARY={
 },
 "What ARCG Builds":{
   hook:"Not software. Not an app. The operating system your business never had.",
-  caption:"A lot of businesses add tools. Subscribe to another dashboard. And the problems stay the same.\n\nARCG Systems does not sell software. We install operational infrastructure.\n\nEvery request gets a home, an owner, and a deadline. Reports generate automatically. Exceptions alert themselves.\n\narcgsystems.com/assessment or DM \"AUDIT\"",
+  caption:"A lot of businesses add tools. Subscribe to another dashboard. And the problems stay the same.\n\nARCG Systems does not sell software. We install operational infrastructure.\n\nEvery request gets a home, an owner, and a deadline. Reports generate automatically. Exceptions alert themselves.\n\nexample.com/assessment or DM \"AUDIT\"",
   carousel:["ARCG Does Not Sell Software. We install operational infrastructure.","Every request gets a home, an owner, and a deadline.","Reports generate automatically. Exceptions alert themselves.","Your team stops reacting and starts executing.","This is not a tool. It is infrastructure."],
   imgB:[
     "Operations command center: three screens showing unified intake routing, automated reporting panels, and workflow status boards — all connected, all current. Premium corporate environment, no dark desk default.",
@@ -6466,7 +6466,7 @@ const PROMPT_LIBRARY={
 },
 "GovCon Backend Failure":{
   hook:"Government contracts are not lost at the bid. They are lost at the backend.",
-  caption:"Winning the bid is only the beginning.\n\nContractors lose awards mid-performance not because of bad execution — but because they have no backend infrastructure to manage compliance, subcontractors, or reporting.\n\nThe contract was won. The backend was not ready.\n\narcgsystems.com/assessment or DM \"AUDIT\"",
+  caption:"Winning the bid is only the beginning.\n\nContractors lose awards mid-performance not because of bad execution — but because they have no backend infrastructure to manage compliance, subcontractors, or reporting.\n\nThe contract was won. The backend was not ready.\n\nexample.com/assessment or DM \"AUDIT\"",
   carousel:["GovCon Companies Don\'t Lose Contracts at the Bid. They lose them at the backend.","You won the award. Do you have subcontractor tracking? Compliance reporting? Invoice workflows?","Most GovCon failures are backend failures.","Federal clients do not wait for systems to catch up.","The proposal was perfect. The execution infrastructure was not."],
   imgB:[
     "Federal contract execution strategy table: proposal binders organized on one side, compliance deadline board and subcontractor tracking matrix on the other — gaps visible, backend incomplete. Premium editorial light.",
@@ -6483,7 +6483,7 @@ const PROMPT_LIBRARY={
 },
 "Property Manager Compliance Gap":{
   hook:"NYC Local Law violations: $250 to $1,000 per day. Most PMs track compliance in a spreadsheet.",
-  caption:"Every building in your portfolio has a compliance clock running.\n\nLocal Law deadlines. Inspection certifications. Maintenance windows. Tracked in a spreadsheet — or not tracked at all.\n\nOne missed deadline is not a paperwork issue. It is a liability event.\n\narcgsystems.com/assessment or DM \"AUDIT\"",
+  caption:"Every building in your portfolio has a compliance clock running.\n\nLocal Law deadlines. Inspection certifications. Maintenance windows. Tracked in a spreadsheet — or not tracked at all.\n\nOne missed deadline is not a paperwork issue. It is a liability event.\n\nexample.com/assessment or DM \"AUDIT\"",
   carousel:["Property Managers Are One Inspection Away from a Fine They Didn\'t See Coming.","Local Law 11. Local Law 152. Local Law 97. Automated tracking across your full portfolio.","One spreadsheet is not a compliance system.","Vendors need reminders. Certifications expire. Deadlines do not care.","The fine does not come with a warning. The system should."],
   imgB:[
     "Multi-property compliance operations board: 12 building status columns, inspection markers in multiple states — several flagged overdue, unresolved, at risk. Operations context, no desk default. Premium editorial.",
@@ -6500,7 +6500,7 @@ const PROMPT_LIBRARY={
 },
 "11-Hour Weekly Waste":{
   hook:"Your team loses 11 hours a week to work that should not be human.",
-  caption:"You cannot see the 11 hours. That is the problem.\n\nNot one meeting. Not one task. The compounding cost of every manual report, every approval chase, every update sent because a system did not send it automatically.\n\narcgsystems.com/assessment or DM \"AUDIT\"",
+  caption:"You cannot see the 11 hours. That is the problem.\n\nNot one meeting. Not one task. The compounding cost of every manual report, every approval chase, every update sent because a system did not send it automatically.\n\nexample.com/assessment or DM \"AUDIT\"",
   carousel:["11 Hours Per Week. That Is What Manual Operations Cost Your Team.","3 hours compiling reports that should be automated.","2 hours chasing approvals that should route themselves.","2.5 hours on data re-entry that should never happen.","11 hours. Every week. Every team member. Every year."],
   imgB:[
     "Dramatic editorial visualization: a weekly calendar with 11 hours precisely blocked and labeled — \'Report Compilation: 3h\', \'Approval Chasing: 2h\', \'Data Re-entry: 2.5h\', \'Status Updates: 1.5h\', \'Manual Scheduling: 2h\'. Clean, premium, business-credible.",
@@ -6517,7 +6517,7 @@ const PROMPT_LIBRARY={
 },
 "Chaos vs Control":{
   hook:"Every business operates in one of two modes. Chaos or control. Most do not choose.",
-  caption:"Most businesses do not choose chaos. It chooses them — when they grow without building systems to support that growth.\n\nEvery reactive decision. Every missed handoff. Every fire drill. That is chaos operating as a system.\n\narcgsystems.com/assessment or DM \"AUDIT\"",
+  caption:"Most businesses do not choose chaos. It chooses them — when they grow without building systems to support that growth.\n\nEvery reactive decision. Every missed handoff. Every fire drill. That is chaos operating as a system.\n\nexample.com/assessment or DM \"AUDIT\"",
   carousel:["Two Operating Modes. Chaos. Or Control. Most businesses never choose.","Chaos: Your team reacts. Decisions lag. Deadlines slip.","Control: Intake is routed. Reports are automatic. Exceptions alert themselves.","Chaos is not a problem. It is the absence of a system.","Control does not happen by accident. It is installed."],
   imgB:[
     "Dramatic aerial split-frame: left half shows operational chaos — misaligned boards, unclaimed requests, fragmented workflow; right half shows structured control — routed intake, clear ownership, live reporting. Same building, two operating modes.",
@@ -6534,7 +6534,7 @@ const PROMPT_LIBRARY={
 },
 "Staffing Firm Intake Bottleneck":{
   hook:"Your staffing firm\'s intake process is why placements are delayed. Here is what it looks like from inside.",
-  caption:"Staffing firms do not lose placements because of bad recruiters. They lose placements because of bad intake systems.\n\nCandidate enters through email. Falls into a thread. No owner. No routing. No timeline.\n\nThe recruiter finds out the role was filled when the client stops responding.\n\narcgsystems.com/assessment or DM \"AUDIT\"",
+  caption:"Staffing firms do not lose placements because of bad recruiters. They lose placements because of bad intake systems.\n\nCandidate enters through email. Falls into a thread. No owner. No routing. No timeline.\n\nThe recruiter finds out the role was filled when the client stops responding.\n\nexample.com/assessment or DM \"AUDIT\"",
   carousel:["Your Staffing Firm Is Losing Placements at Intake. Not at the search stage.","Candidate comes in. Falls into an email thread. No owner. No routing.","The best recruiters cannot fix a broken intake system.","Every unrouted requisition is a placement your competitor is making.","Intake is the system. Intake is broken. That is the problem."],
   imgB:[
     "Staffing pipeline visualization: candidate flow entering wide on the left, passing through a visible single-point bottleneck in the center, emerging narrow on the right. Editorial business infographic, premium treatment.",
@@ -6551,7 +6551,7 @@ const PROMPT_LIBRARY={
 },
 "Before/After Operational Transformation":{
   hook:"Same business. Twelve weeks apart. Here is the difference a system makes.",
-  caption:"The operations did not change overnight. But within 12 weeks, the business ran differently.\n\nBefore: manual intake, reactive reporting, compliance tracked in a spreadsheet.\n\nAfter: automated intake, real-time reporting, compliance monitored systemically.\n\narcgsystems.com/assessment or DM \"AUDIT\"",
+  caption:"The operations did not change overnight. But within 12 weeks, the business ran differently.\n\nBefore: manual intake, reactive reporting, compliance tracked in a spreadsheet.\n\nAfter: automated intake, real-time reporting, compliance monitored systemically.\n\nexample.com/assessment or DM \"AUDIT\"",
   carousel:["Before ARCG. After ARCG. The gap is not small.","Before: Requests arrived with no system. After: Every request has an intake, owner, and deadline.","Before: Reports were compiled manually. After: Reports generate automatically.","Before: Compliance was a spreadsheet. After: Compliance is monitored in real time.","12 weeks. The same business. A different operating system."],
   imgB:[
     "Dramatic split-frame editorial: left half shows the operations environment before — scattered materials, reactive workflow visible; right half shows after — structured routing boards, organized execution. Same space, two states.",
@@ -6568,7 +6568,7 @@ const PROMPT_LIBRARY={
 },
 "AI Automation for Property Management":{
   hook:"Property management does not need more staff. It needs better systems. AI changes what is possible.",
-  caption:"The property management firms that will separate from the competition are not the ones with more staff.\n\nThey are the ones with better systems.\n\nAI routes maintenance automatically. Vendors are assigned without coordinator bottleneck. Compliance deadlines trigger alerts before they are missed.\n\narcgsystems.com/assessment or DM \"AUDIT\"",
+  caption:"The property management firms that will separate from the competition are not the ones with more staff.\n\nThey are the ones with better systems.\n\nAI routes maintenance automatically. Vendors are assigned without coordinator bottleneck. Compliance deadlines trigger alerts before they are missed.\n\nexample.com/assessment or DM \"AUDIT\"",
   carousel:["AI Automation for Property Management Is Not a Trend. It Is a Competitive Advantage.","Right now, a coordinator is manually routing that maintenance request.","AI does not replace the coordinator. It routes the work before the coordinator sees it.","Compliance deadlines trigger alerts before they are missed. Not after.","Your competitors are automating. The question is when you will."],
   imgB:[
     "Property management command center: multi-building portfolio status board, automated maintenance routing visible on central display, vendor assignments updating in real time. No dark desk. Premium corporate environment.",
@@ -6585,7 +6585,7 @@ const PROMPT_LIBRARY={
 },
 "SDVOSB Federal Advantage":{
   hook:"The SDVOSB certification is not a badge. It is a procurement advantage — if you have the backend to use it.",
-  caption:"The SDVOSB certification is a procurement advantage that most veteran-owned firms underuse.\n\nNot because the opportunity is not there. But because the backend is not ready when the opportunity opens.\n\nSet-aside contracts require more than credentials. They require execution infrastructure.\n\narcgsystems.com/assessment or DM \"AUDIT\"",
+  caption:"The SDVOSB certification is a procurement advantage that most veteran-owned firms underuse.\n\nNot because the opportunity is not there. But because the backend is not ready when the opportunity opens.\n\nSet-aside contracts require more than credentials. They require execution infrastructure.\n\nexample.com/assessment or DM \"AUDIT\"",
   carousel:["Your SDVOSB Certification Opens Doors. Your backend has to be ready when they open.","Set-aside contracts exist. Do you have a system to find, track, and execute them?","The certification is the advantage. The backend is the activation.","Most SDVOSB firms lose contracts they should have won. Backend infrastructure is why.","Procurement advantage + execution infrastructure = competitive positioning."],
   imgB:[
     "Federal procurement readiness table: SDVOSB certification documentation organized, contract vehicles listed, compliance structure visible, competitive positioning evident in the environment. Premium editorial.",
@@ -6602,7 +6602,7 @@ const PROMPT_LIBRARY={
 },
 "Why Scaling Without Backend Breaks":{
   hook:"Growth without infrastructure does not scale. It breaks.",
-  caption:"The manual system that runs a 5-client operation does not run a 30-client operation.\n\nNot without breaking.\n\nMost businesses find out their backend cannot support growth only after growth reveals it. That is the wrong time to find out.\n\narcgsystems.com/assessment or DM \"AUDIT\"",
+  caption:"The manual system that runs a 5-client operation does not run a 30-client operation.\n\nNot without breaking.\n\nMost businesses find out their backend cannot support growth only after growth reveals it. That is the wrong time to find out.\n\nexample.com/assessment or DM \"AUDIT\"",
   carousel:["You Are Growing. Your Backend Is Not. This Is How That Ends.","At 5 clients, manual works. At 15 clients, it strains. At 30 clients, it collapses.","Growth does not break businesses. Unscaled backends break businesses.","Every manual system has a break point. Most businesses find it the hard way.","Build the backend before growth forces you to."],
   imgB:[
     "Scaling pressure visualization: a business growth curve overlaid with a backend capacity indicator flatlined — growth accelerating, infrastructure unchanged. The gap made visual and precise.",
@@ -6889,7 +6889,7 @@ const PROMPT_LIBRARY={
 },
 "Triage Call Invitations":{
   hook:"Worth a quick 10-minute triage call?",
-  caption:"Low-friction diagnostic conversation. No pitch. No obligation. I will show you where your operation is likely leaking and how ARCG would diagnose, blueprint, and fix it.\n\narcgsystems.com/assessment or DM 'TRIAGE'",
+  caption:"Low-friction diagnostic conversation. No pitch. No obligation. I will show you where your operation is likely leaking and how ARCG would diagnose, blueprint, and fix it.\n\nexample.com/assessment or DM 'TRIAGE'",
   carousel:["Worth a quick 10-minute triage call?","No pitch. No obligation. Just a diagnostic conversation.","I will show you where the waste likely is.","If the diagnosis is not useful, you owe nothing.","If it is, we talk about what the blueprint looks like."],
   imgB:[
     "Editorial: a premium consulting calendar on a dark desk with one time-slot circled in gold, ARCG seal, cinematic spotlight.",
@@ -7316,7 +7316,7 @@ const ARCGPromptGen = (() => {
     const ctaLine = isMed
       ? `DM "MEDPILOT" for a 10-minute clinical-ops triage call.`
       : `DM "TRIAGE" for a 10-minute operational-ops diagnostic call.`;
-    const landing = isMed ? 'medpilot.ai/triage' : 'arcgsystems.com/assessment';
+    const landing = isMed ? 'medpilot.ai/triage' : 'example.com/assessment';
     const leadKit = {
       hook: leadHook,
       cta: ctaLine,
@@ -7986,7 +7986,7 @@ function clearChecks(){checkState={};renderDailyOps();toast('Checklist reset','o
 // ─── SYSTEM FLOW ───
 function renderFlow(){
   const steps=[
-    {n:1,t:'Assessment Form',d:'arcgsystems.com/assessment → PROD-01 webhook → Airtable New + Gmail alert'},
+    {n:1,t:'Assessment Form',d:'example.com/assessment → PROD-01 webhook → Airtable New + Gmail alert'},
     {n:2,t:'Qualification',d:'Operator reviews → Status=Qualified in Airtable'},
     {n:3,t:'Notion Sync (Auto)',d:'PROD-02 15min → M3 writeback → Synced to Notion → Notion record created (dedup)'},
     {n:4,t:'Instantly Insert (Auto)',d:'PROD-03 4595758 15min → Campaign insert (ID set in Settings) → Status=Contacted or Duplicate - Instantly'},
@@ -8484,7 +8484,7 @@ async function newDiagnostic(){
   const name=prompt('Client name for new diagnostic:');
   if(!name||!name.trim())return;
   try{
-    const r=await fetch('https://api.airtable.com/v0/'+AT_BASE+'/'+DEL_TBL,{method:'POST',headers:{'Authorization':'Bearer '+AT_PAT,'Content-Type':'application/json'},body:JSON.stringify({fields:{[DEL_F.name]:name.trim(),[DEL_F.stage]:'Diagnose',[DEL_F.health]:'On Track',[DEL_F.owner]:'Jean-Max Charles',[DEL_F.lastUpdate]:new Date().toISOString().split('T')[0],[DEL_F.risk]:'Low'},typecast:true})});
+    const r=await fetch('https://api.airtable.com/v0/'+AT_BASE+'/'+DEL_TBL,{method:'POST',headers:{'Authorization':'Bearer '+AT_PAT,'Content-Type':'application/json'},body:JSON.stringify({fields:{[DEL_F.name]:name.trim(),[DEL_F.stage]:'Diagnose',[DEL_F.health]:'On Track',[DEL_F.owner]:'Workspace Owner',[DEL_F.lastUpdate]:new Date().toISOString().split('T')[0],[DEL_F.risk]:'Low'},typecast:true})});
     const d=await r.json();
     if(!r.ok)throw new Error(d.error?.message||'Create failed');
     const newId=d.id;
@@ -8493,7 +8493,7 @@ async function newDiagnostic(){
     // Create initial task pack
     const tasks=['Run initial diagnostic assessment','Document client systems inventory','Score operational maturity'];
     for(const t of tasks){
-      await fetch('https://api.airtable.com/v0/'+AT_BASE+'/'+DEL_TASK_TBL,{method:'POST',headers:{'Authorization':'Bearer '+AT_PAT,'Content-Type':'application/json'},body:JSON.stringify({fields:{'fldCZykh2Vy6DbYgq':t,'fld8AvWDs2IkSSgWm':'Diagnose','fldPVCrf5YxgYgl7D':'Pending','fldP75nDNp4jHhh9X':'Jean-Max Charles','flduuCkwLXg1qzVVN':[newId]},typecast:true})});
+      await fetch('https://api.airtable.com/v0/'+AT_BASE+'/'+DEL_TASK_TBL,{method:'POST',headers:{'Authorization':'Bearer '+AT_PAT,'Content-Type':'application/json'},body:JSON.stringify({fields:{'fldCZykh2Vy6DbYgq':t,'fld8AvWDs2IkSSgWm':'Diagnose','fldPVCrf5YxgYgl7D':'Pending','fldP75nDNp4jHhh9X':'Workspace Owner','flduuCkwLXg1qzVVN':[newId]},typecast:true})});
     }
     // Create findings shell
     await fetch('https://api.airtable.com/v0/'+AT_BASE+'/'+DEL_FIND_TBL,{method:'POST',headers:{'Authorization':'Bearer '+AT_PAT,'Content-Type':'application/json'},body:JSON.stringify({fields:{'fld6dipykn7zmZ3R9':'Initial assessment pending','fldMFnoSbY4j7nIcr':'Medium','fldKc3xvpBDrBRNIW':'Open','fldbS1SNIx59jpGoP':'Awaiting diagnostic completion','fldqF7wmFYvqz4oBm':[newId]},typecast:true})});

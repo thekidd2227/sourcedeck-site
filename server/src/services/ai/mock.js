@@ -77,9 +77,9 @@ function mockOutput(task, content, promptId) {
                  '[mock] Mutual close target end of next month.'
                ],
                action_items: [
-                 { owner: 'jean@arivergrop.com',    action: 'Send proposal',         due_offset_days: 1 },
+                 { owner: 'owner@example.com',    action: 'Send proposal',         due_offset_days: 1 },
                  { owner: 'customer-stakeholder',   action: 'Loop in CFO + IT',      due_offset_days: 2 },
-                 { owner: 'jean@arivergrop.com',    action: 'Schedule security call', due_offset_days: 3 }
+                 { owner: 'owner@example.com',    action: 'Schedule security call', due_offset_days: 3 }
                ],
                next_touch: { channel: 'email', when: 'tomorrow 9am ET',
                              message_draft: '[mock] Following up with the proposal we discussed…' } };
