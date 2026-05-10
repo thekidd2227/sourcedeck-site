@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SourceDeck &mdash; Sample SourceDeck (synthetic SAM.gov-style opportunity)</title>
+<meta name="description" content="A worked sample of what SourceDeck produces from one government opportunity: sourced summary, bid/no-bid score, compliance matrix, past-performance match, capture actions, and a stakeholder graph. Synthetic data, ungated.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://sourcedeck.app/sample-source-deck/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Sample SourceDeck &mdash; what one opportunity becomes">
+<meta property="og:description" content="A worked sample on a synthetic SAM.gov-style opportunity: deck, bid/no-bid score, compliance matrix, past-performance match, stakeholder graph.">
+<meta property="og:url" content="https://sourcedeck.app/sample-source-deck/">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sd-theme.css">
+<style>
+.ssd-wrap{max-width:1100px;margin:0 auto;padding:48px 22px 80px;position:relative;z-index:1}
+.ssd-eyebrow{font:600 11px 'JetBrains Mono',monospace;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:inline-flex;align-items:center;gap:8px}
+.ssd-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--gold)}
+.ssd-h1{font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-0.025em;line-height:1.1;color:#fff;margin-bottom:14px}
+.ssd-lede{font-size:15.5px;line-height:1.6;color:var(--sub);max-width:760px;margin-bottom:30px}
+.ssd-banner{padding:14px 18px;background:linear-gradient(180deg,rgba(212,168,67,0.06),rgba(212,168,67,0.02));border:0.5px solid rgba(212,168,67,0.28);border-radius:12px;margin-bottom:32px;font-size:13px;color:var(--sub);line-height:1.55}
+.ssd-banner b{color:#fff}
+.ssd-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+@media(max-width:880px){.ssd-grid{grid-template-columns:1fr}}
+.ssd-card{background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:18px 22px}
+.ssd-card.full{grid-column:1/-1}
+.ssd-card h3{font:700 12px 'JetBrains Mono',monospace;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.ssd-card h2{font-size:18px;font-weight:700;color:#fff;letter-spacing:-0.01em;margin-bottom:8px}
+.ssd-card p, .ssd-card li{font-size:13px;color:var(--sub);line-height:1.65}
+.ssd-card ul{list-style:none;padding:0;margin:6px 0}
+.ssd-card ul li{padding-left:14px;position:relative}
+.ssd-card ul li::before{content:'\b7';position:absolute;left:4px;color:var(--gold);font-weight:800;font-size:18px;line-height:1}
+.kvp{display:grid;grid-template-columns:140px 1fr;gap:6px 14px;font-size:12.5px}
+.kvp .k{color:var(--muted);font:600 11px 'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:0.08em;padding-top:2px}
+.kvp .v{color:#fff;font-weight:500}
+.score-row{display:flex;align-items:flex-end;gap:18px;margin:14px 0 6px}
+.score-big{font-size:54px;font-weight:800;color:var(--gold);letter-spacing:-0.03em;line-height:1}
+.score-tag{font:600 12px 'JetBrains Mono',monospace;letter-spacing:0.12em;text-transform:uppercase;color:var(--green);padding:4px 10px;background:rgba(48,209,88,0.10);border-radius:6px}
+.score-bars{display:grid;grid-template-columns:1fr;gap:6px;margin-top:10px}
+.score-bar{display:grid;grid-template-columns:140px 1fr 50px;align-items:center;gap:10px;font-size:12px}
+.score-bar .lbl{color:var(--muted)}
+.score-bar .bar{height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden}
+.score-bar .fill{height:100%;background:linear-gradient(90deg,#d4a843,#b68a2e);border-radius:3px}
+.score-bar .num{text-align:right;font:600 12px 'JetBrains Mono',monospace;color:#fff}
+table.matrix{width:100%;border-collapse:collapse;margin-top:6px;font-size:12px}
+table.matrix th, table.matrix td{padding:8px 10px;text-align:left;border-bottom:0.5px solid rgba(255,255,255,0.06);vertical-align:top}
+table.matrix th{font:700 10.5px 'JetBrains Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)}
+table.matrix td{color:var(--sub)}
+table.matrix td b{color:#fff;font-weight:600}
+.tag{display:inline-block;font:600 10px 'JetBrains Mono',monospace;letter-spacing:0.08em;padding:3px 7px;border-radius:4px;text-transform:uppercase}
+.tag.fit{background:rgba(48,209,88,0.10);color:var(--green)}
+.tag.gap{background:rgba(212,168,67,0.10);color:var(--gold)}
+.tag.risk{background:rgba(255,69,58,0.10);color:#ff453a}
+.stake{display:grid;grid-template-columns:160px 1fr 90px;gap:8px 12px;font-size:12.5px;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)}
+.stake .role{color:var(--muted);font:600 10.5px 'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:0.08em}
+.stake .name{color:#fff;font-weight:600}
+.stake .ok{font-size:11px;text-align:right;color:var(--green);padding-top:1px}
+.stake .caution{font-size:11px;text-align:right;color:var(--gold);padding-top:1px}
+.stake .blocked{font-size:11px;text-align:right;color:#ff453a;padding-top:1px}
+pre.draft{background:#05070d;border:0.5px solid rgba(255,255,255,0.06);border-radius:10px;padding:14px 16px;font:13px/1.65 'JetBrains Mono',monospace;color:var(--sub);white-space:pre-wrap;overflow-x:auto;margin-top:8px}
+.cta-row{margin-top:36px;text-align:center;padding:24px;background:linear-gradient(180deg,rgba(212,168,67,0.06),rgba(212,168,67,0.01));border:0.5px solid rgba(212,168,67,0.22);border-radius:14px}
+.cta-row .ctag{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;background:linear-gradient(135deg,#d4a843,#b68a2e);color:#0a0d14;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none}
+.cta-row .ctag:hover{filter:brightness(1.05)}
+.cta-row .sub{margin-top:10px;font-size:12px;color:var(--muted)}
+.synthetic{font:600 10px 'JetBrains Mono',monospace;letter-spacing:0.08em;color:var(--gold);background:rgba(212,168,67,0.10);padding:2px 6px;border-radius:4px;text-transform:uppercase}
+</style>
+</head>
+<body>
+<div class="sd-bg"></div><div class="sd-grid"></div>
+
+<nav class="sd-nav">
+  <a class="sd-brand" href="/"><img src="/assets/sourcedeck-mark.svg" alt="SourceDeck logo" width="26" height="26" style="display:block;vertical-align:middle;margin-right:6px"> SourceDeck</a>
+  <div class="links">
+    <a href="/">Home</a>
+    <a href="/agents/">Agents</a>
+    <a href="/compare/">Compare</a>
+    <a href="/federal/">Federal</a>
+    <a class="cta" href="mailto:info@arivergroup.com?subject=SourceDeck%20-%20analyze%20one%20opportunity">Analyze one opportunity</a>
+  </div>
+</nav>
+
+<div class="ssd-wrap">
+
+  <div class="ssd-eyebrow"><span class="dot"></span> Sample SourceDeck &middot; synthetic data</div>
+  <h1 class="ssd-h1">DLA &mdash; IT Helpdesk Staff Augmentation (SDVOSB set-aside)</h1>
+  <p class="ssd-lede">A worked example of what SourceDeck produces from one opportunity. Every field below is generated from a synthetic SAM.gov-style solicitation. <b>SourceDeck has not pulled any restricted, private, or attributed-to-real-agency data on this page.</b> All names, contact details, and contract values are illustrative.</p>
+
+  <div class="ssd-banner">
+    <span class="synthetic">Synthetic</span> &nbsp; <b>Why we ungate this:</b> a serious GovCon buyer needs to see the actual artifact before booking a call. This is the artifact &mdash; layout, depth, and citations included &mdash; on a fictional opportunity that mirrors a real DLA staff-aug RFP shape. To run SourceDeck on one of <i>your</i> opportunities, <a href="mailto:info@arivergroup.com?subject=SourceDeck%20-%20analyze%20one%20opportunity" style="color:var(--accent2);font-weight:600">contact sales</a>.
+  </div>
+
+  <!-- Section 01 — Opportunity summary -->
+  <div class="ssd-grid">
+    <div class="ssd-card">
+      <h3>01 &middot; Opportunity summary</h3>
+      <h2>Tier 1 / Tier 2 IT helpdesk support, 12 months base + 4 option years.</h2>
+      <p>The Defense Logistics Agency requires Tier 1 / Tier 2 IT helpdesk staff augmentation supporting end users across CONUS sites, with after-hours on-call coverage. ServiceNow ticketing, Active Directory account ops, MDM support for federally-issued devices. <a href="#cite-1" style="color:var(--accent2)">[L.2, p. 7]</a></p>
+      <div class="kvp" style="margin-top:14px">
+        <div class="k">Solicitation</div><div class="v">SP4701-26-R-XXXX <span class="synthetic">synthetic</span></div>
+        <div class="k">Agency</div><div class="v">DLA &mdash; J6 Information Operations</div>
+        <div class="k">NAICS</div><div class="v">541512 &mdash; Computer Systems Design Services</div>
+        <div class="k">PSC</div><div class="v">D310 &mdash; IT and Telecom &mdash; Helpdesk</div>
+        <div class="k">Set-aside</div><div class="v">SDVOSB total set-aside (FAR 19.14)</div>
+        <div class="k">Contract type</div><div class="v">FFP with T&amp;M CLIN for after-hours</div>
+        <div class="k">Period of performance</div><div class="v">12 mo base + 4 option years</div>
+        <div class="k">Ceiling (est.)</div><div class="v">$8.4M total contract value <span class="synthetic">illustrative</span></div>
+        <div class="k">Place of performance</div><div class="v">Columbus, OH (primary) + remote</div>
+        <div class="k">Q&amp;A deadline</div><div class="v">2026-05-22 17:00 ET</div>
+        <div class="k">Proposal due</div><div class="v">2026-06-05 14:00 ET</div>
+      </div>
+    </div>
+
+    <!-- Section 02 — Fit score + bid/no-bid -->
+    <div class="ssd-card">
+      <h3>02 &middot; Bid/no-bid score</h3>
+      <div class="score-row">
+        <div class="score-big">78</div>
+        <div>
+          <span class="score-tag">Recommendation: BID</span>
+          <p style="font-size:12px;color:var(--muted);margin-top:4px">Above 70 = bid; 50&ndash;70 = consider; below 50 = decline. Threshold configurable per workspace.</p>
+        </div>
+      </div>
+      <div class="score-bars">
+        <div class="score-bar"><span class="lbl">NAICS / PSC fit</span><span class="bar"><span class="fill" style="width:92%"></span></span><span class="num">92</span></div>
+        <div class="score-bar"><span class="lbl">Set-aside eligible</span><span class="bar"><span class="fill" style="width:100%"></span></span><span class="num">100</span></div>
+        <div class="score-bar"><span class="lbl">Past performance</span><span class="bar"><span class="fill" style="width:74%"></span></span><span class="num">74</span></div>
+        <div class="score-bar"><span class="lbl">Agency history</span><span class="bar"><span class="fill" style="width:55%"></span></span><span class="num">55</span></div>
+        <div class="score-bar"><span class="lbl">Capacity vs PoP</span><span class="bar"><span class="fill" style="width:68%"></span></span><span class="num">68</span></div>
+        <div class="score-bar"><span class="lbl">Deadline runway</span><span class="bar"><span class="fill" style="width:80%"></span></span><span class="num">80</span></div>
+      </div>
+      <p style="margin-top:14px;font-size:12px;color:var(--muted);line-height:1.6"><b style="color:#fff">Why bid:</b> NAICS exact match, total SDVOSB set-aside, three relevant CPARS-rated past-performance contracts within window. <b style="color:#fff">Why hesitate:</b> no prior award with DLA J6 specifically; staffing depth at Tier 2 will need a teaming partner.</p>
+    </div>
+  </div>
+
+  <!-- Section 03 — Why this is a fit -->
+  <div class="ssd-card full" style="margin-top:14px">
+    <h3>03 &middot; Why this is a fit / risks</h3>
+    <div class="ssd-grid" style="grid-template-columns:1fr 1fr;gap:18px">
+      <div>
+        <h2 style="font-size:14px">Fit</h2>
+        <ul>
+          <li><span class="tag fit">naics</span> &nbsp; 541512 is your primary NAICS &mdash; SAM registration current. <a href="#cite-1" style="color:var(--accent2)">[SAM]</a></li>
+          <li><span class="tag fit">setaside</span> &nbsp; SDVOSB total set-aside; you hold a current VetCert verification. <a href="#cite-2" style="color:var(--accent2)">[VetCert]</a></li>
+          <li><span class="tag fit">past-perf</span> &nbsp; 3 CPARS-rated DoD helpdesk contracts in the last 36 months, all rated Very Good or higher. <a href="#cite-3" style="color:var(--accent2)">[CPARS export]</a></li>
+          <li><span class="tag fit">tech</span> &nbsp; ServiceNow, AD, Intune MDM are all in your standard tech stack.</li>
+          <li><span class="tag fit">geo</span> &nbsp; You have W-2 staff within 50 miles of Columbus, OH for on-site coverage.</li>
+        </ul>
+      </div>
+      <div>
+        <h2 style="font-size:14px">Risks &amp; red flags</h2>
+        <ul>
+          <li><span class="tag gap">gap</span> &nbsp; No prior award with DLA J6 specifically; agency history score is 55. Mitigate with capture call to Small Business Specialist before Q&amp;A.</li>
+          <li><span class="tag gap">gap</span> &nbsp; Tier 2 staffing depth requires teaming. Identify a Tier 2-heavy SDVOSB sub before Section L review.</li>
+          <li><span class="tag risk">risk</span> &nbsp; After-hours T&amp;M CLIN ceiling caps revenue if utilization is low. Model break-even at 18% utilization.</li>
+          <li><span class="tag risk">risk</span> &nbsp; ServiceNow PROD environment access requires CAC; confirm contractor CAC eligibility timeline.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 04 — Compliance matrix -->
+  <div class="ssd-card full" style="margin-top:14px">
+    <h3>04 &middot; Compliance matrix starter (Section L &harr; Section M)</h3>
+    <p style="margin-bottom:8px">Auto-extracted from the solicitation. Each requirement is mapped to a response location, an owner, and an evidence artifact. Export to Word retains traceability.</p>
+    <table class="matrix">
+      <thead><tr><th>Section L</th><th>Requirement</th><th>Section M factor</th><th>Owner</th><th>Evidence</th></tr></thead>
+      <tbody>
+        <tr><td>L.3.1</td><td><b>Technical Approach</b> &mdash; describe Tier 1/2 staffing model, ticketing workflow, escalation</td><td>M.1 Technical (40%)</td><td>Capture lead</td><td>Resume of proposed Sr. Helpdesk Lead + workflow diagram</td></tr>
+        <tr><td>L.3.2</td><td><b>Past Performance</b> &mdash; 3 contracts within 5 years, $1M+ each, federal preferred</td><td>M.2 Past Perf (25%)</td><td>Proposal lead</td><td>3 CPARS records, customer POC, contract numbers</td></tr>
+        <tr><td>L.3.3</td><td><b>Management &amp; Staffing Plan</b> &mdash; org chart, key personnel resumes, transition plan</td><td>M.1 Technical (40%)</td><td>HR + Capture</td><td>Org chart, 4 key resumes, 30/60/90 transition plan</td></tr>
+        <tr><td>L.3.4</td><td><b>Security &amp; Compliance</b> &mdash; CMMC L1+ posture, ITAR awareness, Section 889</td><td>M.4 Compliance (10%)</td><td>Compliance lead</td><td>889 rep, CMMC self-assessment, no covered telecom statement</td></tr>
+        <tr><td>L.3.5</td><td><b>Price</b> &mdash; FFP rate per FTE per month, T&amp;M after-hours per hour by labor cat</td><td>M.3 Price (25%)</td><td>Finance</td><td>Cost narrative + B&amp;P workbook + DCAA-compliant cost build</td></tr>
+        <tr><td>L.3.6</td><td><b>SDVOSB Self-Performance</b> &mdash; comply with FAR 52.219-14 (50% of cost of personnel)</td><td>M.4 Compliance (10%)</td><td>Compliance lead</td><td>Self-perf attestation + sub MOU if applicable</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 05 — Required documents -->
+  <div class="ssd-grid">
+    <div class="ssd-card">
+      <h3>05 &middot; Required documents</h3>
+      <ul>
+        <li>SF-33 cover (or equivalent solicitation cover sheet)</li>
+        <li>Reps &amp; certs current in SAM (or Section K reps in proposal)</li>
+        <li>Section 889 representation (required by FAR 52.204-25)</li>
+        <li>SDVOSB self-performance attestation (FAR 52.219-14)</li>
+        <li>Three (3) CPARS / past-performance reference forms</li>
+        <li>Key personnel resumes (4 named)</li>
+        <li>Cost / price workbook + cost narrative</li>
+        <li>Subcontracting plan (if &gt; small biz threshold; not required here)</li>
+      </ul>
+    </div>
+
+    <!-- Section 06 — Past performance match -->
+    <div class="ssd-card">
+      <h3>06 &middot; Past-performance match</h3>
+      <ul>
+        <li><b>USAF MAJCOM Helpdesk &mdash; Wright-Patterson AFB</b><br>NAICS 541512 &middot; $4.1M &middot; CPARS Very Good <span class="synthetic">illustrative</span></li>
+        <li><b>NAVAIR Tier 1/2 Support &mdash; Patuxent River</b><br>NAICS 541512 &middot; $2.9M &middot; CPARS Exceptional <span class="synthetic">illustrative</span></li>
+        <li><b>VA OIT Service Desk Augmentation &mdash; Region 5</b><br>NAICS 541513 &middot; $3.6M &middot; CPARS Very Good <span class="synthetic">illustrative</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Section 07 — Capture actions / next steps -->
+  <div class="ssd-card full" style="margin-top:14px">
+    <h3>07 &middot; Capture actions &amp; next steps</h3>
+    <table class="matrix">
+      <thead><tr><th>Day</th><th>Action</th><th>Owner</th><th>Window</th></tr></thead>
+      <tbody>
+        <tr><td>D-21</td><td>Review solicitation in full; flag ambiguities for Q&amp;A submission</td><td>Capture lead</td><td>Pre-Q&amp;A; FAR-aware</td></tr>
+        <tr><td>D-19</td><td>Submit Q&amp;A questions through SAM.gov interest list (no direct CO contact)</td><td>Proposal lead</td><td>Q&amp;A window only</td></tr>
+        <tr><td>D-18</td><td>Identify 2 candidate teaming partners (Tier 2 staffing depth, SDVOSB)</td><td>BD lead</td><td>Open</td></tr>
+        <tr><td>D-15</td><td>Draft technical approach + management plan; route to color-team review</td><td>Proposal team</td><td>Open</td></tr>
+        <tr><td>D-7</td><td>Cost narrative + price workbook complete; legal review reps &amp; certs</td><td>Finance + legal</td><td>Open</td></tr>
+        <tr><td>D-2</td><td>Final compliance check against Section L; production package ready</td><td>Compliance lead</td><td>Open</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 08 — Stakeholder graph -->
+  <div class="ssd-card full" style="margin-top:14px">
+    <h3>08 &middot; Stakeholder graph (approachable contacts only)</h3>
+    <p style="margin-bottom:10px">Roles in the buying constellation, with FAR-aware contact posture. SourceDeck never recommends contacting a CO during a restricted communication period or outside an official mechanism. <a href="/federal/" style="color:var(--accent2)">Read the capture posture &rarr;</a></p>
+    <div class="stake"><span class="role">Contracting officer</span><span><b class="name">CO &mdash; J. Doe</b><br><span style="font-size:11px;color:var(--muted)">Communications restricted during solicitation; route via SAM.gov Q&amp;A only.</span></span><span class="blocked">restricted</span></div>
+    <div class="stake"><span class="role">COR (post-award)</span><span><b class="name">COR &mdash; assigned post-award</b><br><span style="font-size:11px;color:var(--muted)">Identify post-award; do not solicit pre-award.</span></span><span class="blocked">restricted</span></div>
+    <div class="stake"><span class="role">Small Business Specialist</span><span><b class="name">SBS &mdash; DLA J6</b><br><span style="font-size:11px;color:var(--muted)">Approachable for capability-fit conversations; standard outreach OK pre-RFP.</span></span><span class="ok">approachable</span></div>
+    <div class="stake"><span class="role">Program / mission owner</span><span><b class="name">Program lead, J6 IT Ops</b><br><span style="font-size:11px;color:var(--muted)">Approachable through industry days; do not pitch in restricted period.</span></span><span class="caution">caution</span></div>
+    <div class="stake"><span class="role">Likely incumbents</span><span><b class="name">Incumbent prime + 1 sub</b><br><span style="font-size:11px;color:var(--muted)">Public-record FPDS data; useful for win/loss analysis only.</span></span><span class="ok">research</span></div>
+    <div class="stake"><span class="role">Likely teaming subs</span><span><b class="name">2 SDVOSB Tier-2 specialists</b><br><span style="font-size:11px;color:var(--muted)">Approachable through normal teaming outreach; mutual NDA standard.</span></span><span class="ok">approachable</span></div>
+    <p style="margin-top:14px;font-size:12px;color:var(--muted);line-height:1.6"><b style="color:#fff">SourceDeck&rsquo;s stakeholder layer is reference intelligence, not a spam engine.</b> All contact posture respects FAR rules, agency instructions, procurement communication windows, and solicitation restrictions. We do not recommend mass outreach to contracting officers.</p>
+  </div>
+
+  <!-- Section 09 — Sample follow-up email -->
+  <div class="ssd-card full" style="margin-top:14px">
+    <h3>09 &middot; Sample follow-up note (Small Business Specialist, pre-RFP capability conversation)</h3>
+<pre class="draft">Subject: Capability fit conversation &mdash; SDVOSB IT helpdesk, NAICS 541512
+
+[SBS first name],
+
+I lead [Company], an SDVOSB on the GSA MAS schedule under NAICS 541512.
+We currently support Tier 1/2 helpdesk for [USAF MAJCOM site], with a
+CPARS Very Good rating on a comparable scope.
+
+I wanted to introduce our capabilities ahead of any DLA J6 helpdesk
+work in the SP4701 series. We are not asking about any active or
+upcoming solicitation in restricted communication. Specifically, we
+can talk through:
+
+  &middot; SDVOSB self-performance posture (FAR 52.219-14 compliant)
+  &middot; ServiceNow + AD + Intune support depth
+  &middot; W-2 staff within 50 miles of Columbus, OH
+
+If a 20-minute capability conversation is appropriate, I am happy to
+schedule. If the right channel is an industry day or a CO-led pre-
+solicitation forum instead, please point me to it.
+
+Thanks for your time,
+[Your name]
+[Title] &middot; [Company]
+[Phone] &middot; [Email]
+</pre>
+    <p style="margin-top:6px;font-size:11.5px;color:var(--muted)">Drafted to respect FAR 3.104 procurement integrity and any solicitation-imposed communication restrictions. Owner reviews before send.</p>
+  </div>
+
+  <!-- Citations -->
+  <div class="ssd-card full" style="margin-top:14px">
+    <h3>10 &middot; Sources &amp; citations</h3>
+    <p>Every claim above maps to a source. In a real workspace these are deep links into the cached solicitation PDF and your own past-performance library.</p>
+    <ul>
+      <li id="cite-1"><b>[L.2, p. 7]</b> &mdash; Synthetic solicitation Section L.2 (Statement of Work scope paragraph) <span class="synthetic">synthetic</span></li>
+      <li id="cite-2"><b>[VetCert]</b> &mdash; Workspace-uploaded SDVOSB verification (illustrative)</li>
+      <li id="cite-3"><b>[CPARS export]</b> &mdash; Workspace past-performance library (illustrative)</li>
+      <li><b>[SAM]</b> &mdash; SAM.gov entity registration record (illustrative)</li>
+      <li><b>[FPDS]</b> &mdash; FPDS-NG public award history (illustrative)</li>
+    </ul>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-row">
+    <div style="font-size:18px;font-weight:700;color:#fff;letter-spacing:-0.01em;margin-bottom:8px">Want one of your real opportunities turned into a SourceDeck?</div>
+    <p style="font-size:13px;color:var(--sub);max-width:520px;margin:0 auto 16px">Send us a SAM.gov URL or a solicitation PDF. We&rsquo;ll produce a SourceDeck on it as part of an access conversation. No obligation.</p>
+    <a class="ctag" href="mailto:info@arivergroup.com?subject=SourceDeck%20-%20analyze%20one%20opportunity">Analyze one opportunity &rarr;</a>
+    <div class="sub">Or <a href="mailto:info@arivergroup.com?subject=SourceDeck%20access%20request" style="color:var(--accent2)">request access</a> to run SourceDeck on your full pipeline.</div>
+  </div>
+
+</div>
+
+<footer class="sd-foot">SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">&middot;</span> &copy; 2026 Ariel&rsquo;s River Contracting Group LLC</footer>
+</body>
+</html>

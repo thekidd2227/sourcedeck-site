@@ -3,8 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SourceDeck · AI Agents Library</title>
-<meta name="description" content="AI agents that run through the SourceDeck AI Gateway: Reply Classifier, Lead Scorer, Proposal Drafter, Bounce Guard, Meeting Summarizer, RFP Responder, Denial Predictor, Follow-Up Engine, SLA Watcher. AI features available where configured.">
+<title>SourceDeck &mdash; AI agents for GovCon discover, qualify, capture, and propose</title>
+<meta name="description" content="SourceDeck&rsquo;s AI agents organized by GovCon workflow stage: opportunity intake, bid/no-bid scoring, source-deck drafting, compliance matrix extraction, proposal section drafting, outreach triage, and capture follow-up. Source-backed outputs.">
+<link rel="canonical" href="https://sourcedeck.app/agents/">
+<meta property="og:title" content="SourceDeck &mdash; AI agents for GovCon">
+<meta property="og:description" content="AI agents organized by the GovCon workflow: discover, qualify, capture, propose, outreach, pipeline.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/sd-theme.css">
@@ -40,18 +43,19 @@
 <nav class="sd-nav">
   <a class="sd-brand" href="/"><img src="/assets/sourcedeck-mark.svg" alt="SourceDeck logo" width="26" height="26" style="display:block;vertical-align:middle;margin-right:6px"> SourceDeck</a>
   <div class="links">
-    <a href="/app/">App</a>
-    <a href="/#pricing">Pricing</a>
+    <a href="/">Home</a>
+    <a href="/sample-source-deck/">Sample deck</a>
     <a href="/integrations/">Integrations</a>
-    <a href="/agents/">AI Agents</a>
-    <a class="cta" href="/#pricing">Choose Plan</a>
+    <a href="/compare/">Compare</a>
+    <a href="/federal/">Federal</a>
+    <a class="cta" href="mailto:info@arivergroup.com?subject=SourceDeck%20agent%20access%20request">Request access</a>
   </div>
 </nav>
 
 <section class="sd-hero">
-  <div class="sd-eyebrow"><span class="dot"></span> AI Agents library · live</div>
-  <h1>AI agents, gateway-routed.</h1>
-  <p class="lede">Each card below is backed by a real <code>POST /api/v1/agents/:id/run</code> endpoint. AI execution routes through the SourceDeck AI Gateway. Governed workflows (saved deliverables) are pinned to a single configured provider; drafting workflows allow BYOK on Business+ tiers. <strong>Live IBM watsonx runtime association is configuration-pending</strong> — see <a href="/security/" style="color:var(--accent2)">Security</a>.</p>
+  <div class="sd-eyebrow"><span class="dot"></span> Agents &middot; organized by GovCon workflow stage</div>
+  <h1>The agents that turn an opportunity into a deck, a matrix, and a draft.</h1>
+  <p class="lede">SourceDeck&rsquo;s agents are grouped by the stage of the GovCon workflow they run inside: <b>Discover &middot; Qualify &middot; Capture &middot; Propose &middot; Outreach &middot; Pipeline</b>. Outputs are source-backed; saved deliverables emit a full audit chain (provider, model id, prompt version, token usage). See <a href="/federal/" style="color:var(--accent2)">Federal posture</a> for what we do and don&rsquo;t claim.</p>
 </section>
 
 <div class="ag-wrap">
@@ -59,78 +63,102 @@
   <div class="ag-banner">
     <div class="ic">i</div>
     <div>
-      <div class="t">All 9 agents are wired through the AI Gateway.</div>
-      <div class="d">Authenticated tenants execute via <code>POST /api/v1/agents/:id/run</code>. Every call emits the full audit chain (<code>AI_PROVIDER_SELECTED</code> → <code>AI_REQUEST_CREATED</code> → <code>AI_RESPONSE_RECEIVED</code>) with model id, prompt version, and token usage. Public catalog: <code>GET /api/v1/agents</code>. See <a href="https://github.com/thekidd2227/sourcedeck-site/blob/main/docs/AI_CONTRACT.md" target="_blank" rel="noopener" style="color:var(--accent2)">AI_CONTRACT.md</a> for shapes.</div>
+      <div class="t">Agents grouped by GovCon workflow stage.</div>
+      <div class="d">Each card maps a SourceDeck agent to the stage of the workflow it runs in. Saved deliverables emit a full audit chain (provider, model id, prompt version, token usage). Public catalog: <code>GET /api/v1/agents</code>. See <a href="/sample-source-deck/" style="color:var(--accent2)">the sample SourceDeck</a> to see what these agents produce together.</div>
     </div>
   </div>
 
-  <div class="ag-grid" id="ag-grid">
-    <!-- Cards rendered from /api/v1/agents at runtime when the API is co-hosted. -->
-    <!-- Static fallback below renders on the marketing host. -->
-
+  <h2 style="font:700 12px 'JetBrains Mono',monospace;color:var(--gold);letter-spacing:0.14em;text-transform:uppercase;margin:22px 0 10px">Discover &amp; Qualify</h2>
+  <div class="ag-grid">
     <div class="ag-card"><span class="ag-status live">LIVE</span>
-      <div class="ag-head"><div class="ag-icon">🧠</div><div><div class="ag-name">Reply Classifier</div><div class="ag-meta">workflow · reply_classify</div></div></div>
-      <div class="ag-desc">Tags every inbound reply as positive / objection / unsubscribe / out-of-office / question / referral. Returns sentiment, urgency, and a one-line next-action. Drafting workflow — watsonx-default.</div>
-      <div class="ag-tags"><span class="ag-tag">Email</span><span class="ag-tag">Triage</span><span class="ag-tag">watsonx</span></div>
+      <div class="ag-head"><div class="ag-icon">&#128269;</div><div><div class="ag-name">Opportunity Intake</div><div class="ag-meta">workflow &middot; opportunity_intake</div></div></div>
+      <div class="ag-desc">Pulls or accepts pasted SAM.gov solicitations (Sources Sought, RFI, RFP, RFQ, IDIQ task orders, BPA call orders). Normalizes the synopsis, attachments, and amendments into one workspace record.</div>
+      <div class="ag-tags"><span class="ag-tag">Discover</span><span class="ag-tag">SAM.gov</span></div>
       <a class="ag-btn" href="mailto:info@arivergroup.com?subject=SourceDeck%20agent%20access%20request">Request access</a>
     </div>
 
     <div class="ag-card"><span class="ag-status live">LIVE</span>
-      <div class="ag-head"><div class="ag-icon">📊</div><div><div class="ag-name">Lead Scorer</div><div class="ag-meta">workflow · lead_score</div></div></div>
-      <div class="ag-desc">Scores every new lead 0–100 on fit × intent using firmographics, role match, geo, and engagement clues. Returns a tier bucket and a recommended next step. <strong>Governed — watsonx only.</strong></div>
-      <div class="ag-tags"><span class="ag-tag">Pipeline</span><span class="ag-tag governed">Governed</span><span class="ag-tag">watsonx</span></div>
+      <div class="ag-head"><div class="ag-icon">&#9878;</div><div><div class="ag-name">Opportunity Fit Scoring</div><div class="ag-meta">workflow &middot; lead_score &rarr; opportunity_fit</div></div></div>
+      <div class="ag-desc">Bid/no-bid score 0&ndash;100. Evaluates NAICS / PSC fit, agency history, set-aside eligibility, contract type, deadline runway, capacity vs PoP, and past-performance match. Returns a tier and a written rationale. <strong>Governed.</strong></div>
+      <div class="ag-tags"><span class="ag-tag">Qualify</span><span class="ag-tag governed">Governed</span></div>
       <a class="ag-btn" href="mailto:info@arivergroup.com?subject=SourceDeck%20agent%20access%20request">Request access</a>
     </div>
 
     <div class="ag-card"><span class="ag-status live">LIVE</span>
-      <div class="ag-head"><div class="ag-icon">📝</div><div><div class="ag-name">Proposal Drafter</div><div class="ag-meta">workflow · proposal_draft</div></div></div>
-      <div class="ag-desc">Generates a complete branded proposal from a deal context. Returns executive summary, scope sections, pricing options, assumptions, next steps, and signature block. <strong>Governed — saved deliverables run on watsonx only.</strong></div>
-      <div class="ag-tags"><span class="ag-tag">Revenue</span><span class="ag-tag governed">Governed</span><span class="ag-tag">watsonx</span></div>
+      <div class="ag-head"><div class="ag-icon">&#128196;</div><div><div class="ag-name">Source Deck Drafter</div><div class="ag-meta">workflow &middot; source_deck</div></div></div>
+      <div class="ag-desc">Produces a one-page sourced summary of the opportunity: agency, scope, evaluation factors, period of performance, ceiling, set-aside, why it&rsquo;s a fit, risks, decision notes &mdash; with citations to the source document. <strong>Governed.</strong></div>
+      <div class="ag-tags"><span class="ag-tag">Qualify</span><span class="ag-tag governed">Governed</span></div>
+      <a class="ag-btn" href="mailto:info@arivergroup.com?subject=SourceDeck%20agent%20access%20request">Request access</a>
+    </div>
+  </div>
+
+  <h2 style="font:700 12px 'JetBrains Mono',monospace;color:var(--gold);letter-spacing:0.14em;text-transform:uppercase;margin:30px 0 10px">Capture &amp; Propose</h2>
+  <div class="ag-grid">
+    <div class="ag-card"><span class="ag-status live">LIVE</span>
+      <div class="ag-head"><div class="ag-icon">&#9745;</div><div><div class="ag-name">Compliance Matrix Extractor</div><div class="ag-meta">workflow &middot; rfp_response &rarr; compliance_matrix</div></div></div>
+      <div class="ag-desc">Parses Section L instructions and Section M evaluation factors. Maps each requirement to a response location, an owner, and an evidence artifact. Exportable to Word with traceability preserved. <strong>Governed.</strong></div>
+      <div class="ag-tags"><span class="ag-tag">Capture</span><span class="ag-tag governed">Governed</span></div>
       <a class="ag-btn" href="mailto:info@arivergroup.com?subject=SourceDeck%20agent%20access%20request">Request access</a>
     </div>
 
     <div class="ag-card"><span class="ag-status live">LIVE</span>
-      <div class="ag-head"><div class="ag-icon">🔔</div><div><div class="ag-name">Bounce Guard</div><div class="ag-meta">workflow · bounce_guard</div></div></div>
-      <div class="ag-desc">Analyzes the campaign deliverability snapshot and recommends pause/severity, top failure addresses, and remediation steps. Drafting workflow — does not write to live campaign state until you click Apply.</div>
-      <div class="ag-tags"><span class="ag-tag">Deliverability</span><span class="ag-tag">Operations</span><span class="ag-tag">watsonx</span></div>
+      <div class="ag-head"><div class="ag-icon">&#128279;</div><div><div class="ag-name">Stakeholder Graph</div><div class="ag-meta">workflow &middot; stakeholder_graph</div></div></div>
+      <div class="ag-desc">Builds the buying constellation: CO, COR, PCO, Small Business Specialist, program lead, likely incumbents, likely teaming partners. <b>FAR-aware capture posture</b> &mdash; respects restricted communication windows. See <a href="/federal/" style="color:var(--accent2)">Federal posture</a>.</div>
+      <div class="ag-tags"><span class="ag-tag">Capture</span><span class="ag-tag">FAR-aware</span></div>
       <a class="ag-btn" href="mailto:info@arivergroup.com?subject=SourceDeck%20agent%20access%20request">Request access</a>
     </div>
 
     <div class="ag-card"><span class="ag-status live">LIVE</span>
-      <div class="ag-head"><div class="ag-icon">🗣️</div><div><div class="ag-name">Meeting Summarizer</div><div class="ag-meta">workflow · meeting_summary</div></div></div>
-      <div class="ag-desc">Ingests Cal.com / Zoom / Fathom transcripts. Outputs a 5-line summary, three action items with owners and due offsets, and a next-touch recommendation written back to the deal workspace.</div>
-      <div class="ag-tags"><span class="ag-tag">Revenue</span><span class="ag-tag">Triage</span><span class="ag-tag">watsonx</span></div>
+      <div class="ag-head"><div class="ag-icon">&#128221;</div><div><div class="ag-name">Proposal Section Drafter</div><div class="ag-meta">workflow &middot; proposal_draft</div></div></div>
+      <div class="ag-desc">Drafts response sections grounded in your past-performance library. Compliance matrix stays linked to the draft. Output formatted for Word; cost-narrative scaffolding optional. <strong>Governed &mdash; saved deliverables.</strong></div>
+      <div class="ag-tags"><span class="ag-tag">Propose</span><span class="ag-tag governed">Governed</span></div>
       <a class="ag-btn" href="mailto:info@arivergroup.com?subject=SourceDeck%20agent%20access%20request">Request access</a>
     </div>
 
     <div class="ag-card"><span class="ag-status live">LIVE</span>
-      <div class="ag-head"><div class="ag-icon">🏛️</div><div><div class="ag-name">RFP Responder</div><div class="ag-meta">workflow · rfp_response</div></div></div>
-      <div class="ag-desc">Ingests solicitation excerpts (SAM.gov, state, commercial). Outputs parsed requirements, compliance matrix, section response drafts, a past-performance retrieval query, and a pWIN estimate with rationale. <strong>Governed — watsonx only.</strong></div>
-      <div class="ag-tags"><span class="ag-tag">GovCon</span><span class="ag-tag governed">Governed</span><span class="ag-tag">watsonx</span></div>
+      <div class="ag-head"><div class="ag-icon">&#128202;</div><div><div class="ag-name">pWin / Loss Predictor</div><div class="ag-meta">workflow &middot; denial_predict &rarr; pwin_loss</div></div></div>
+      <div class="ag-desc">Estimates probability of win on a pursued opportunity. Surfaces specific weakness signals (past-performance gaps, set-aside risk, staffing depth shortfalls) before color-team review. <strong>Governed.</strong></div>
+      <div class="ag-tags"><span class="ag-tag">Propose</span><span class="ag-tag governed">Governed</span></div>
+      <a class="ag-btn" href="mailto:info@arivergroup.com?subject=SourceDeck%20agent%20access%20request">Request access</a>
+    </div>
+  </div>
+
+  <h2 style="font:700 12px 'JetBrains Mono',monospace;color:var(--gold);letter-spacing:0.14em;text-transform:uppercase;margin:30px 0 10px">Outreach, Pipeline, Operations</h2>
+  <div class="ag-grid">
+    <div class="ag-card"><span class="ag-status live">LIVE</span>
+      <div class="ag-head"><div class="ag-icon">&#128231;</div><div><div class="ag-name">Outreach Response Triage</div><div class="ag-meta">workflow &middot; reply_classify</div></div></div>
+      <div class="ag-desc">Classifies inbound replies on capture outreach (small business specialists, teaming-partner conversations, post-Q&amp;A clarifications) as positive / question / objection / out-of-office. Returns next-action.</div>
+      <div class="ag-tags"><span class="ag-tag">Outreach</span></div>
       <a class="ag-btn" href="mailto:info@arivergroup.com?subject=SourceDeck%20agent%20access%20request">Request access</a>
     </div>
 
     <div class="ag-card"><span class="ag-status live">LIVE</span>
-      <div class="ag-head"><div class="ag-icon">🩺</div><div><div class="ag-name">Denial Predictor</div><div class="ag-meta">workflow · denial_predict</div></div></div>
-      <div class="ag-desc">MedPilot vertical pack. Flags claim denial risk before submission based on documentation gaps, code mismatches, and payer-policy deltas. <strong>Governed + HIPAA-aware</strong> — input must be de-identified; the prompt instructs the model not to echo PHI.</div>
-      <div class="ag-tags"><span class="ag-tag">MedPilot</span><span class="ag-tag governed">Governed</span><span class="ag-tag">watsonx</span></div>
+      <div class="ag-head"><div class="ag-icon">&#128204;</div><div><div class="ag-name">Capture Meeting Notes</div><div class="ag-meta">workflow &middot; meeting_summary</div></div></div>
+      <div class="ag-desc">Ingests teaming-call / industry-day / capture-conversation transcripts. Outputs 5-line summary, action items with owners, next-touch recommendation written back to the opportunity.</div>
+      <div class="ag-tags"><span class="ag-tag">Capture</span></div>
       <a class="ag-btn" href="mailto:info@arivergroup.com?subject=SourceDeck%20agent%20access%20request">Request access</a>
     </div>
 
     <div class="ag-card"><span class="ag-status live">LIVE</span>
-      <div class="ag-head"><div class="ag-icon">🔁</div><div><div class="ag-name">Follow-Up Engine</div><div class="ag-meta">workflow · followup_draft</div></div></div>
-      <div class="ag-desc">Detects 48h+ reply silence on in-progress deals. Drafts a context-aware nudge and routes to the owner for one-click send, or auto-sends only when tenant policy allows.</div>
-      <div class="ag-tags"><span class="ag-tag">Pipeline</span><span class="ag-tag">Triage</span><span class="ag-tag">watsonx</span></div>
+      <div class="ag-head"><div class="ag-icon">&#128257;</div><div><div class="ag-name">Capture Follow-Up</div><div class="ag-meta">workflow &middot; followup_draft</div></div></div>
+      <div class="ag-desc">Detects gaps in capture follow-up (Q&amp;A windows closing, amendment-response deadlines, teaming-partner silence). Drafts a context-aware, FAR-aware nudge and routes to the owner.</div>
+      <div class="ag-tags"><span class="ag-tag">Outreach</span><span class="ag-tag">FAR-aware</span></div>
       <a class="ag-btn" href="mailto:info@arivergroup.com?subject=SourceDeck%20agent%20access%20request">Request access</a>
     </div>
 
     <div class="ag-card"><span class="ag-status live">LIVE</span>
-      <div class="ag-head"><div class="ag-icon">⏱️</div><div><div class="ag-name">SLA Watcher</div><div class="ag-meta">workflow · sla_watch</div></div></div>
-      <div class="ag-desc">Given an SLA breach record, recommends priority, owner role, escalation, customer message, and internal action. <strong>Governed — auditable and reproducible.</strong></div>
-      <div class="ag-tags"><span class="ag-tag">Governance</span><span class="ag-tag governed">Governed</span><span class="ag-tag">watsonx</span></div>
+      <div class="ag-head"><div class="ag-icon">&#9201;</div><div><div class="ag-name">Pipeline / SLA Watch</div><div class="ag-meta">workflow &middot; sla_watch</div></div></div>
+      <div class="ag-desc">Watches the proposal calendar: Q&amp;A submission, amendment publication, color-team review windows, submission deadline. Flags slippage, recommends owner escalation, drafts the customer-facing note. <strong>Governed.</strong></div>
+      <div class="ag-tags"><span class="ag-tag">Pipeline</span><span class="ag-tag governed">Governed</span></div>
       <a class="ag-btn" href="mailto:info@arivergroup.com?subject=SourceDeck%20agent%20access%20request">Request access</a>
     </div>
 
+    <div class="ag-card"><span class="ag-status live">LIVE</span>
+      <div class="ag-head"><div class="ag-icon">&#128737;</div><div><div class="ag-name">Email Deliverability Guard</div><div class="ag-meta">workflow &middot; bounce_guard</div></div></div>
+      <div class="ag-desc">Operations support: monitors deliverability on capture-outreach campaigns. Recommends pause/severity, surfaces failing addresses, suggests remediation. <span style="color:var(--muted)">Operational support tool, not a primary capture stage.</span></div>
+      <div class="ag-tags"><span class="ag-tag">Operations</span></div>
+      <a class="ag-btn" href="mailto:info@arivergroup.com?subject=SourceDeck%20agent%20access%20request">Request access</a>
+    </div>
   </div>
 </div>
 

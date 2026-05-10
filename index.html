@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SourceDeck — Media opportunity management for serious teams</title>
+<title>SourceDeck — GovCon capture, opportunity discovery, and proposal workflow</title>
 <!-- Chatwoot support chat (SourceDeck) -->
 <script src="/assets/chatwoot.js" defer></script>
-<meta name="description" content="SourceDeck helps journalists, experts, PR teams, and agencies manage media opportunities, source workflows, pitches, and coverage tracking from one workspace.">
+<meta name="description" content="SourceDeck turns government opportunities into source-backed capture decks, bid/no-bid scores, compliance matrices, proposal drafts, and follow-up workflows. Built for small and mid-sized GovCon teams.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<meta property="og:title" content="SourceDeck — Media opportunity management for serious teams">
-<meta property="og:description" content="One workspace for journalists, experts, PR teams, and agencies to manage queries, expert responses, pitches, and coverage. Blank by default. User-controlled.">
+<meta property="og:title" content="SourceDeck — GovCon capture, opportunity discovery, and proposal workflow">
+<meta property="og:description" content="Source-backed opportunity analysis, bid/no-bid scoring, compliance matrices, proposal drafts, and capture follow-up — one workflow for small and mid-sized GovCon teams.">
 <meta property="og:image" content="https://sourcedeck.app/assets/sourcedeck-logo.png">
 <meta property="og:url" content="https://sourcedeck.app/">
 <meta property="og:type" content="website">
@@ -436,13 +436,15 @@ a{text-decoration:none;color:inherit}
     <span class="word">SourceDeck</span>
   </a>
   <div class="nav-links">
-    <a href="/command/">Command</a>
-    <a href="/portal/">Portal</a>
+    <a href="#workflow">Workflow</a>
+    <a href="/sample-source-deck/">Sample deck</a>
+    <a href="/agents/">Agents</a>
     <a href="/integrations/">Integrations</a>
-    <a href="/agents/">AI Agents</a>
-    <a href="/settings/">Settings</a>
+    <a href="/compare/">Compare</a>
+    <a href="/federal/">Federal</a>
+    <a href="/resources/">Resources</a>
     <a href="#pricing">Pricing</a>
-    <a href="#pricing" class="nav-cta">Choose your tier</a>
+    <a href="mailto:info@arivergroup.com?subject=SourceDeck%20access%20request" class="nav-cta">Request access</a>
   </div>
 </nav>
 
@@ -451,21 +453,22 @@ a{text-decoration:none;color:inherit}
   <img class="hero-mark" src="/assets/sourcedeck-mark.svg" alt="SourceDeck logo" width="140" height="140">
   <div class="hero-eyebrow">
     <span class="dot"></span>
-    Media opportunity workspace
+    GovCon capture &middot; opportunity discovery &middot; proposal workflow
   </div>
-  <h1>Media opportunity management for <span class="accent">serious teams</span>.</h1>
-  <p class="lede">SourceDeck helps PR teams, agencies, journalists, and experts manage queries, pitches, sources, and coverage workflows — from one secure workspace.</p>
+  <h1>Government opportunities turned into <span class="accent">capture decks</span> your team can act on.</h1>
+  <p class="lede">SourceDeck takes a SAM.gov opportunity and produces a sourced summary, a bid/no-bid score, a compliance matrix, draft response sections, and a capture follow-up plan &mdash; in one workflow built for small and mid-sized GovCon teams.</p>
   <div class="hero-actions">
-    <a href="mailto:info@arivergroup.com?subject=SourceDeck%20enterprise%20demo" class="btn btn-primary" aria-label="Request an enterprise demo">Request Enterprise Demo →</a>
-    <a href="mailto:info@arivergroup.com?subject=SourceDeck%20access%20request" class="btn btn-secondary">Request Access</a>
+    <a href="/sample-source-deck/" class="btn btn-primary">See a sample SourceDeck &rarr;</a>
+    <a href="mailto:info@arivergroup.com?subject=SourceDeck%20-%20analyze%20one%20opportunity" class="btn btn-secondary">Analyze one opportunity</a>
   </div>
   <div class="hero-trust" aria-label="Platform attributes">
-    <span class="chip">Blank workspace by default</span>
-    <span class="chip">User-controlled data</span>
-    <span class="chip">Pitch &amp; query tracking</span>
-    <span class="chip">Authentication-aware access</span>
+    <span class="chip">Source-backed outputs</span>
+    <span class="chip">Bid/no-bid scoring</span>
+    <span class="chip">Compliance matrix</span>
+    <span class="chip">Stakeholder graph</span>
+    <span class="chip">FAR-aware capture</span>
   </div>
-  <div class="hero-support">Runs in any modern browser. No installer, no auto-loaded data.</div>
+  <div class="hero-support">Built for SDVOSB, 8(a), WOSB, HUBZone, and small/mid prime + sub teams. Runs in any modern browser.</div>
 </section>
 
 <!-- PRODUCT PREVIEW -->
@@ -513,105 +516,107 @@ a{text-decoration:none;color:inherit}
 <!-- WHAT IS SOURCEDECK -->
 <section class="section" id="what">
   <div class="section-narrow">
-    <div class="eyebrow">What is SourceDeck</div>
-    <h2>Queries, pitches, sources, and coverage — in one workspace.</h2>
-    <p class="lede">A media opportunity workspace for PR teams, agencies, journalists, and experts. See every active query, every pitch, every source, every piece of coverage — without juggling inboxes, spreadsheets, and DMs.</p>
+    <div class="eyebrow">What SourceDeck is</div>
+    <h2>A capture deck, compliance matrix, proposal draft, and follow-up plan &mdash; from one opportunity URL.</h2>
+    <p class="lede">Paste a SAM.gov opportunity. SourceDeck reads the requirements, scores the fit against your capabilities, builds the compliance matrix, drafts response sections, and turns the buying constellation into capture actions your team can run.</p>
   </div>
 </section>
 
-<!-- FLOW -->
-<section class="flow-section">
-  <h3>Find. Review. Respond. Track. Report.</h3>
+<!-- WORKFLOW STAGES -->
+<section class="flow-section" id="workflow">
+  <h3>Opportunity Intake &rarr; Qualification &rarr; Source Deck &rarr; Compliance Matrix &rarr; Capture &rarr; Proposal</h3>
   <div class="flow-strip">
-    <div class="flow-chip">Find</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-chip">Review</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-chip">Respond</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-chip">Track</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-chip">Report</div>
+    <div class="flow-chip">Intake</div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-chip">Qualify</div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-chip">Source Deck</div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-chip">Compliance</div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-chip">Capture</div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-chip">Proposal</div>
   </div>
 </section>
 
-<!-- FEATURES / WHAT IT DOES -->
+<!-- FEATURES / WORKFLOW STAGES -->
 <section class="section features" id="features">
-  <div class="eyebrow" style="display:block;text-align:center">What SourceDeck does</div>
-  <h2>Replace inbox chaos with a structured media workflow.</h2>
-  <p class="subtitle">Queries, expert responses, pitches, and coverage tracking — in one workspace.</p>
+  <div class="eyebrow" style="display:block;text-align:center">The six-stage workflow</div>
+  <h2>Each stage is a concrete artifact, not a dashboard widget.</h2>
+  <p class="subtitle">Source-backed outputs. Citations on every claim. FAR-aware capture posture.</p>
   <div class="feat-grid">
     <div class="feat-card">
-      <span class="feat-icon">📨</span>
-      <div class="feat-name">Never miss an opportunity</div>
-      <div class="feat-desc">Every journalist query, source request, and inbound brief in one inbox.</div>
+      <span class="feat-icon">&#128229;</span>
+      <div class="feat-name">01 &middot; Opportunity Intake</div>
+      <div class="feat-desc">Pull or paste SAM.gov opportunities. Sources Sought, RFI, RFP, RFQ, IDIQ task orders, BPA call orders. Attach the synopsis and the solicitation package.</div>
     </div>
     <div class="feat-card">
-      <span class="feat-icon">🧑‍🎤</span>
-      <div class="feat-name">Manage expert responses</div>
-      <div class="feat-desc">Match queries to the right experts. Track response status without chasing email threads.</div>
+      <span class="feat-icon">&#9878;</span>
+      <div class="feat-name">02 &middot; Qualification</div>
+      <div class="feat-desc">Bid/no-bid score by NAICS fit, PSC, agency history, set-aside eligibility, contract type, deadline runway, and past-performance match.</div>
     </div>
     <div class="feat-card">
-      <span class="feat-icon">🗂️</span>
-      <div class="feat-name">Pitch to coverage</div>
-      <div class="feat-desc">Track every pitch from query → response → publication. Nothing falls off the radar.</div>
+      <span class="feat-icon">&#128196;</span>
+      <div class="feat-name">03 &middot; Source Deck</div>
+      <div class="feat-desc">A one-page sourced summary: agency, scope, evaluation factors, period of performance, ceiling, set-aside, why this is a fit, risks, decision notes &mdash; with citations to the source document.</div>
     </div>
     <div class="feat-card">
-      <span class="feat-icon">🧭</span>
-      <div class="feat-name">Source management</div>
-      <div class="feat-desc">A clean roster of experts, journalists, and sources — searchable, taggable, never re-typed.</div>
+      <span class="feat-icon">&#9745;</span>
+      <div class="feat-name">04 &middot; Compliance Matrix</div>
+      <div class="feat-desc">Section L vs Section M extraction. Every requirement mapped to a response location, an owner, and an evidence artifact. Exportable to Word or your proposal tool.</div>
     </div>
     <div class="feat-card">
-      <span class="feat-icon">🔭</span>
-      <div class="feat-name">Coverage tracking</div>
-      <div class="feat-desc">See what landed, where, and which pitch produced it. Surface what's working.</div>
+      <span class="feat-icon">&#128279;</span>
+      <div class="feat-name">05 &middot; Capture Actions</div>
+      <div class="feat-desc">Stakeholder graph of CO/COR/PCO/Small Business Specialist, agency program leads, prior incumbents, likely teaming partners. Next-step assignments with FAR-aware contact windows.</div>
     </div>
     <div class="feat-card">
-      <span class="feat-icon">🛡️</span>
-      <div class="feat-name">User-controlled data</div>
-      <div class="feat-desc">Blank workspace by default. No auto-loaded sample data. Your data stays yours.</div>
+      <span class="feat-icon">&#128221;</span>
+      <div class="feat-name">06 &middot; Proposal Drafting</div>
+      <div class="feat-desc">Draft response sections grounded in your past-performance library. Compliance matrix stays linked to the draft. Follow-up reminders inside response windows.</div>
     </div>
   </div>
 </section>
 
-<!-- WHY DISCONNECTED SYSTEMS -->
+<!-- WHY GOVCON TEAMS NEED IT -->
 <section class="section" id="why">
   <div class="section-narrow">
-    <div class="eyebrow">Why teams need it</div>
-    <h2>Media opportunities don't get missed because the work is hard. They get missed because the work is scattered.</h2>
-    <p class="lede">Queries arrive in inboxes. Expert vetting happens in DMs. Pitch tracking lives in spreadsheets. Coverage gets lost. SourceDeck puts the whole pipeline in one place.</p>
+    <div class="eyebrow">Why GovCon teams need it</div>
+    <h2>Most opportunities die between &ldquo;saw it on SAM.gov&rdquo; and &ldquo;decided to bid.&rdquo;</h2>
+    <p class="lede">A small or mid-sized GovCon team can&rsquo;t afford to spend three days reading a 200-page solicitation just to decide it&rsquo;s not a fit. SourceDeck collapses that triage to minutes &mdash; with a written, sourced rationale you can defend in a bid review.</p>
   </div>
 </section>
 
 <!-- WHO IT'S FOR -->
 <section class="section audience" id="who">
   <div class="eyebrow" style="display:block;text-align:center">Who SourceDeck is for</div>
-  <h2>Built for the people who source, pitch, and place stories.</h2>
-  <p class="subtitle">Media-first. Workflow-first. No fluff.</p>
+  <h2>Built for small and mid-sized GovCon operators.</h2>
+  <p class="subtitle">SDVOSB, 8(a), WOSB, HUBZone, small primes, and subs that want a real capture process without GovWin pricing.</p>
   <div class="aud-grid">
     <div class="aud-card">
-      <div class="aud-tag">PR Agencies</div>
-      <div class="aud-desc">Track every client's queries, pitches, and coverage in one workspace.</div>
+      <div class="aud-tag">Capture Managers</div>
+      <div class="aud-desc">Triage 50+ opportunities a week into a defensible bid/no-bid pipeline.</div>
     </div>
     <div class="aud-card">
-      <div class="aud-tag">Communications Teams</div>
-      <div class="aud-desc">Inbound media requests + spokesperson assignments without the inbox tornado.</div>
+      <div class="aud-tag">Proposal Leads</div>
+      <div class="aud-desc">Compliance matrix on day one. Section L/M parsed before the kickoff.</div>
     </div>
     <div class="aud-card">
-      <div class="aud-tag">Newsrooms</div>
-      <div class="aud-desc">Source rosters, response tracking, and assignment status in one place.</div>
+      <div class="aud-tag">BD &amp; Growth</div>
+      <div class="aud-desc">Pursuit pipeline tied to capture actions, not a separate CRM that nobody updates.</div>
     </div>
     <div class="aud-card">
-      <div class="aud-tag">Public Affairs</div>
-      <div class="aud-desc">Stakeholder briefs, query routing, and on-the-record approvals.</div>
+      <div class="aud-tag">Small Business Owners</div>
+      <div class="aud-desc">Run capture, compliance, and proposal review from one workflow before scaling a team.</div>
     </div>
     <div class="aud-card">
-      <div class="aud-tag">Expert Networks</div>
-      <div class="aud-desc">Match queries to experts. Track responses through to publication.</div>
+      <div class="aud-tag">Sub Teaming Leads</div>
+      <div class="aud-desc">Identify primes pursuing your set-aside vehicles. Build a teaming case backed by past performance.</div>
     </div>
     <div class="aud-card">
-      <div class="aud-tag">Independent Experts</div>
-      <div class="aud-desc">Your own queries, pitches, and coverage — without joining a marketplace.</div>
+      <div class="aud-tag">Contracts &amp; Compliance</div>
+      <div class="aud-desc">Section M evaluation factors aligned to your response. Audit-ready trail of who decided what, and why.</div>
     </div>
   </div>
 </section>
@@ -620,16 +625,16 @@ a{text-decoration:none;color:inherit}
 <section class="section pain">
   <div class="eyebrow" style="display:block;text-align:center">Common pain points</div>
   <h2>If this sounds familiar, SourceDeck is probably for you.</h2>
-  <p class="subtitle">The everyday signals your media workflow has outgrown its current setup.</p>
+  <p class="subtitle">The everyday signals your capture process is held together with spreadsheets and PDFs.</p>
   <div class="pain-list">
-    <div class="pain-item"><span class="pain-mark">!</span><span>Queries scattered across HARO/Qwoted/email/DMs.</span></div>
-    <div class="pain-item"><span class="pain-mark">!</span><span>Expert responses tracked in spreadsheets that nobody updates.</span></div>
-    <div class="pain-item"><span class="pain-mark">!</span><span>Pitches sent. Coverage published. No closed loop.</span></div>
-    <div class="pain-item"><span class="pain-mark">!</span><span>Source roster lives in someone's brain, not the team's tools.</span></div>
-    <div class="pain-item"><span class="pain-mark">!</span><span>No structured handoff between SDR-style sourcing and senior comms review.</span></div>
-    <div class="pain-item"><span class="pain-mark">!</span><span>Important follow-ups slip through when the deadline is tomorrow.</span></div>
+    <div class="pain-item"><span class="pain-mark">!</span><span>SAM.gov opportunities flagged in five different inboxes, none of them shared.</span></div>
+    <div class="pain-item"><span class="pain-mark">!</span><span>Bid/no-bid decisions made by gut feel, with no written rationale to learn from.</span></div>
+    <div class="pain-item"><span class="pain-mark">!</span><span>Compliance matrix built from scratch every proposal, on the wrong template.</span></div>
+    <div class="pain-item"><span class="pain-mark">!</span><span>Past-performance library lives in a folder nobody can search.</span></div>
+    <div class="pain-item"><span class="pain-mark">!</span><span>Capture actions tracked in someone&rsquo;s notebook between agency calls.</span></div>
+    <div class="pain-item"><span class="pain-mark">!</span><span>Q&amp;A deadlines and amendment dates missed because nobody owns the calendar.</span></div>
   </div>
-  <div class="pain-close">SourceDeck brings the media pipeline into one workspace — so the next opportunity doesn't disappear into an inbox.</div>
+  <div class="pain-close">SourceDeck takes the capture, qualification, compliance, and proposal workflow and gives it one operating deck &mdash; one your team can defend in a bid review.</div>
 </section>
 
 <!-- ══════════════════ LEAK DIAGNOSTIC (PRE-PRICING HERO) ══════════════════ -->
@@ -845,47 +850,52 @@ a{text-decoration:none;color:inherit}
   .sd-proof .tile .b{font-size:12px;color:var(--muted);line-height:1.5}
 </style>
 
-<!-- Pre-pricing hero: outcome strip + live product preview -->
+<!-- Pre-pricing hero: workflow-step proof strip -->
 <section class="sd-leak">
-  <h2>One workspace. Whole media pipeline.</h2>
-  <p class="sub">From query to coverage — without the inbox and spreadsheet shuffle.</p>
+  <h2>Paste an opportunity. Get a deck. Decide.</h2>
+  <p class="sub">A real walkthrough of the SourceDeck workflow on a synthetic SAM.gov-style opportunity. No login, no fake metrics &mdash; just the artifacts.</p>
   <div class="bullets">
-    <span class="pill"><strong>Find</strong>queries from every source</span>
-    <span class="pill"><strong>Respond</strong>with the right expert</span>
-    <span class="pill"><strong>Track</strong>pitch → publication</span>
+    <span class="pill"><strong>1</strong>paste SAM.gov URL</span>
+    <span class="pill"><strong>2</strong>get fit score + deck</span>
+    <span class="pill"><strong>3</strong>compliance matrix + draft</span>
   </div>
 
-  <!-- Live product preview: animated Funnel Health dashboard mock -->
+  <!-- Sample-deck preview surface -->
   <div class="sd-preview" aria-hidden="true">
-    <div class="chrome"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="crumb">SourceDeck · Funnel Health · live</span></div>
+    <div class="chrome"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="crumb">SourceDeck &middot; Sample Source Deck &middot; synthetic data</span></div>
     <div class="surface">
       <div class="pv-head">
-        <div class="pv-h">Funnel Health</div>
-        <div class="pv-sub"><span class="ping"></span>LIVE · last sync 0s ago</div>
+        <div class="pv-h">DLA &mdash; IT Helpdesk Staff Augmentation (SDVOSB)</div>
+        <div class="pv-sub"><span class="ping"></span>SAMPLE &middot; sourced from synthetic solicitation</div>
       </div>
       <div class="pv-kpis">
-        <div class="pv-k"><div class="lb">Qualified</div><div class="vl" data-target="1482" data-suffix="">0</div></div>
-        <div class="pv-k"><div class="lb">Replied</div><div class="vl" data-target="218" data-suffix="">0</div></div>
-        <div class="pv-k gold"><div class="lb">Pricing clicks</div><div class="vl" data-target="94" data-suffix="">0</div></div>
-        <div class="pv-k green"><div class="lb">MRR</div><div class="vl" data-target="12420" data-prefix="$" data-suffix="">$0</div></div>
+        <div class="pv-k"><div class="lb">NAICS fit</div><div class="vl">541512</div></div>
+        <div class="pv-k gold"><div class="lb">Bid score</div><div class="vl">78<span style="font-size:18px;color:var(--muted)">/100</span></div></div>
+        <div class="pv-k"><div class="lb">PoP</div><div class="vl" style="font-size:22px">12mo + 4 OY</div></div>
+        <div class="pv-k green"><div class="lb">Recommendation</div><div class="vl" style="font-size:18px;color:var(--green)">BID</div></div>
       </div>
       <div class="pv-bars" id="pv-bars"></div>
-      <div class="pv-legend"><span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span><span>SUN</span><span>TODAY</span></div>
+      <div class="pv-legend"><span>L1</span><span>L2</span><span>L3</span><span>L4</span><span>L5</span><span>M1</span><span>M2</span><span>M3</span></div>
     </div>
+  </div>
+
+  <div style="margin-top:28px;text-align:center">
+    <a href="/sample-source-deck/" class="btn btn-primary" style="display:inline-block;padding:14px 28px">Open the full sample SourceDeck &rarr;</a>
   </div>
 </section>
 
-<!-- Trust strip — qualitative team types, no unverified customer names or numbers -->
+<!-- Trust strip — qualitative buyer types, no unverified customer names or numbers -->
 <section class="sd-proof-band">
-  <div class="sp-label">Built for serious teams</div>
+  <div class="sp-label">Built for these GovCon teams</div>
   <div class="sp-row" style="justify-content:center;gap:14px;flex-wrap:wrap">
-    <span class="sp-logo">PR agencies</span>
-    <span class="sp-logo">Communications teams</span>
-    <span class="sp-logo">Newsrooms</span>
-    <span class="sp-logo">Public affairs</span>
-    <span class="sp-logo">Expert networks</span>
+    <span class="sp-logo">SDVOSB primes</span>
+    <span class="sp-logo">8(a) firms</span>
+    <span class="sp-logo">WOSB / EDWOSB</span>
+    <span class="sp-logo">HUBZone</span>
+    <span class="sp-logo">Small-mid primes</span>
+    <span class="sp-logo">Sub teaming leads</span>
   </div>
-  <div class="sp-metric" style="font-size:12px;color:var(--muted);font-weight:500"><a href="/enterprise/" style="color:var(--accent2);text-decoration:none">Talk to us about an enterprise pilot →</a></div>
+  <div class="sp-metric" style="font-size:12px;color:var(--muted);font-weight:500"><a href="/federal/" style="color:var(--accent2);text-decoration:none">Federal posture &amp; security &rarr;</a></div>
 </section>
 
 <!-- Product video slot -->
@@ -912,16 +922,16 @@ a{text-decoration:none;color:inherit}
       <svg viewBox="0 0 26 26" width="22" height="22"><circle cx="13" cy="13" r="11" fill="none" stroke="#2997ff" stroke-width="1.5"/><path d="M13 4 L13 22 M4 13 L22 13 M6.5 6.5 L19.5 19.5 M6.5 19.5 L19.5 6.5" stroke="#2997ff" stroke-width="1" opacity="0.6"/></svg>
     </div>
     <div class="sd-ibm-copy">
-      <div class="sd-ibm-eye">Trust &amp; data control</div>
-      <div class="sd-ibm-h">Blank workspace by default · user-controlled data · authentication-aware access.</div>
+      <div class="sd-ibm-eye">Federal posture &amp; data control</div>
+      <div class="sd-ibm-h">Source-backed outputs &middot; user-controlled data &middot; FAR-aware capture posture &middot; no false certification claims.</div>
     </div>
     <div class="sd-ibm-pills">
-      <span class="ipill">Blank workspace by default</span>
-      <span class="ipill">No auto-loaded data</span>
-      <span class="ipill">User-controlled</span>
-      <span class="ipill">AI features where configured</span>
+      <span class="ipill">Source-backed outputs</span>
+      <span class="ipill">User-controlled data</span>
+      <span class="ipill">CUI caution</span>
+      <span class="ipill">No false claims</span>
     </div>
-    <a class="sd-ibm-cta" href="/security/">Security &amp; trust →</a>
+    <a class="sd-ibm-cta" href="/federal/">Federal &amp; security &rarr;</a>
   </div>
 </section>
 <style>
@@ -943,24 +953,24 @@ a{text-decoration:none;color:inherit}
 <section class="sd-outcome-ticker" aria-label="Platform capabilities">
   <div class="oticker-track">
     <div class="oticker-row">
-      <span class="chip">Blank workspace by default</span>
-      <span class="chip">User-controlled data</span>
-      <span class="chip">Pitch &amp; query tracking</span>
-      <span class="chip">Source / expert management</span>
-      <span class="chip">Coverage tracking</span>
-      <span class="chip">Authentication-aware access</span>
-      <span class="chip">No cross-user data leakage</span>
-      <span class="chip">PWA-first delivery</span>
+      <span class="chip">SAM.gov intake</span>
+      <span class="chip">Bid/no-bid scoring</span>
+      <span class="chip">Section L/M parsing</span>
+      <span class="chip">Compliance matrix</span>
+      <span class="chip">Past-performance match</span>
+      <span class="chip">Stakeholder graph</span>
+      <span class="chip">FAR-aware capture</span>
+      <span class="chip">Source-backed outputs</span>
     </div>
     <div class="oticker-row" aria-hidden="true">
-      <span class="chip">Blank workspace by default</span>
-      <span class="chip">User-controlled data</span>
-      <span class="chip">Pitch &amp; query tracking</span>
-      <span class="chip">Source / expert management</span>
-      <span class="chip">Coverage tracking</span>
-      <span class="chip">Authentication-aware access</span>
-      <span class="chip">No cross-user data leakage</span>
-      <span class="chip">PWA-first delivery</span>
+      <span class="chip">SAM.gov intake</span>
+      <span class="chip">Bid/no-bid scoring</span>
+      <span class="chip">Section L/M parsing</span>
+      <span class="chip">Compliance matrix</span>
+      <span class="chip">Past-performance match</span>
+      <span class="chip">Stakeholder graph</span>
+      <span class="chip">FAR-aware capture</span>
+      <span class="chip">Source-backed outputs</span>
     </div>
   </div>
 </section>
@@ -975,23 +985,24 @@ a{text-decoration:none;color:inherit}
 
 <!-- Premium pricing grid -->
 <section class="sd-grid" id="pricing">
-  <h2 class="gh">Three tiers. One operating system.</h2>
-  <p class="gs">Start with visibility. Add control. Run the whole operation as a system when you're ready.</p>
+  <h2 class="gh">Three tiers. One capture workflow.</h2>
+  <p class="gs">Solo capture for an owner-operator. Team workflow for a small/mid GovCon shop. Enterprise for primes that need SSO, custom DPA, and procurement-grade controls.</p>
   <div class="sd-cards">
 
-    <!-- CORE -->
+    <!-- SOLO -->
     <div class="sd-pk">
-      <div class="eyebrow">Visibility</div>
-      <div class="tier">Core</div>
-      <div class="tag">For operators who need to see what's actually happening.</div>
-      <div class="amount">$79<span>/mo</span></div>
-      <div class="hl">See what's actually happening</div>
+      <div class="eyebrow">Solo</div>
+      <div class="tier">Solo</div>
+      <div class="tag">For owner-operators triaging opportunities solo.</div>
+      <div class="amount">$79<span>/seat/mo</span></div>
+      <div class="hl">Triage 50+ opportunities a week into a defensible bid pipeline</div>
       <ul>
-        <li>Track leads, tasks, and workflow in one system</li>
-        <li>Identify bottlenecks and delays</li>
-        <li>Basic operational reporting</li>
+        <li>Opportunity intake from SAM.gov + manual paste</li>
+        <li>Bid/no-bid scoring with written rationale</li>
+        <li>Sample SourceDeck per opportunity</li>
+        <li>Compliance matrix starter (Section L/M)</li>
       </ul>
-      <a href="#" onclick="return sdCheckout(event,'core','monthly')" class="cta outline">Start tracking your operation</a>
+      <a href="#" onclick="return sdCheckout(event,'core','monthly')" class="cta outline">Choose Solo</a>
       <details class="payment-methods">
         <summary>Other payment methods</summary>
         <div class="method">
@@ -1007,21 +1018,22 @@ a{text-decoration:none;color:inherit}
       </details>
     </div>
 
-    <!-- PRO (FEATURED) -->
+    <!-- TEAM (FEATURED) -->
     <div class="sd-pk featured">
       <span class="badge">Most Popular</span>
-      <div class="eyebrow">Control</div>
-      <div class="tier">Pro</div>
-      <div class="tag">For teams losing revenue to workflow breakdown.</div>
-      <div class="amount">$349<span>/mo</span></div>
-      <div class="hl">Fix what's breaking your revenue</div>
+      <div class="eyebrow">Team</div>
+      <div class="tier">Team</div>
+      <div class="tag">For small/mid GovCon teams running real capture cycles.</div>
+      <div class="amount">$349<span>/seat/mo</span></div>
+      <div class="hl">Capture, compliance matrix, proposal drafting in one workflow</div>
       <ul>
-        <li>Everything in Core</li>
-        <li>Real-time bottleneck alerts</li>
-        <li>Automated workflow handoffs</li>
-        <li>Full operational visibility dashboard</li>
+        <li>Everything in Solo</li>
+        <li>Stakeholder graph (CO/COR/PCO references)</li>
+        <li>Past-performance match against your library</li>
+        <li>Capture actions, follow-up windows, Q&amp;A calendar</li>
+        <li>Proposal section drafting with citations</li>
       </ul>
-      <a href="#" onclick="return sdCheckout(event,'pro','monthly')" class="cta primary">Take control of your workflow</a>
+      <a href="#" onclick="return sdCheckout(event,'pro','monthly')" class="cta primary">Choose Team</a>
       <details class="payment-methods">
         <summary>Other payment methods</summary>
         <div class="method">
@@ -1037,22 +1049,23 @@ a{text-decoration:none;color:inherit}
       </details>
     </div>
 
-    <!-- OPERATOR -->
+    <!-- ENTERPRISE -->
     <div class="sd-pk operator">
-      <div class="eyebrow">For serious operators</div>
-      <div class="tier">Operator</div>
-      <div class="tag">Revenue System</div>
-      <div class="amount">$999<span>/mo</span></div>
-      <div class="note-under-price">Designed for teams where revenue loss is unacceptable.</div>
-      <div class="hl" style="margin-top:18px">Run your business like a system</div>
+      <div class="eyebrow">Enterprise</div>
+      <div class="tier">Enterprise</div>
+      <div class="tag">For primes with procurement-grade requirements.</div>
+      <div class="amount">$999<span>/seat/mo</span></div>
+      <div class="note-under-price">From $999/seat/mo, annual, with custom scoping for larger teams.</div>
+      <div class="hl" style="margin-top:18px">Procurement-ready: SSO, custom DPA, audit logs, private deployment</div>
       <ul>
-        <li>Everything in Pro</li>
-        <li>Multi-user workflow orchestration</li>
-        <li>Advanced reporting and performance tracking</li>
-        <li>Built for scaling teams</li>
+        <li>Everything in Team</li>
+        <li>SSO (Okta / Azure AD / Google Workspace)</li>
+        <li>Custom DPA, BAA on request, security review support</li>
+        <li>Audit logs and admin controls</li>
+        <li>Private deployment / dedicated tenancy options</li>
       </ul>
-      <div style="font-size:11.5px;color:var(--gold);font-style:italic;margin-bottom:14px;line-height:1.5;border-left:2px solid rgba(212,168,67,0.4);padding-left:10px">If your operation is still manual, this will expose it immediately.</div>
-      <a href="/quote/operator/" class="cta premium">Run your operation like a system</a>
+      <div style="font-size:11.5px;color:var(--gold);font-style:italic;margin-bottom:14px;line-height:1.5;border-left:2px solid rgba(212,168,67,0.4);padding-left:10px">Procurement vendor reviews welcomed. We don&rsquo;t claim certifications we don&rsquo;t hold &mdash; see <a href="/federal/" style="color:var(--gold)">Federal posture</a>.</div>
+      <a href="/quote/operator/" class="cta premium">Request Enterprise scoping</a>
     </div>
 
   </div>

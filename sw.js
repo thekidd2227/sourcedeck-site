@@ -15,7 +15,7 @@
  * for everything else.
  */
 
-const VERSION = 'sd-v3';
+const VERSION = 'sd-v5-govcon';
 const SHELL_CACHE = `${VERSION}-shell`;
 
 const SHELL_ALLOWLIST = [
