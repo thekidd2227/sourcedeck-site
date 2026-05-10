@@ -86,11 +86,16 @@ const RISKY_PATTERNS = [
 // ── Safe values that can appear inside risky patterns without flagging. ──
 const SAFE_EMAIL_ALLOWLIST = new Set([
   // Company-owned addresses already used intentionally throughout the site
+  // (legacy typo'd domain — kept allowlisted only for any operational
+  //  references that may still exist in non-user-facing files)
   'sales@arivergrop.com',
   'api@arivergrop.com',
   'security@arivergrop.com',
-  // Primary access-request inbox (commercial-access fix May 2026)
+  // Current commercial-access + ops addresses on the correctly-spelled domain
   'info@arivergroup.com',
+  'sales@arivergroup.com',
+  'security@arivergroup.com',
+  'api@arivergroup.com',
   // SourceDeck product addresses (welcome / system mail)
   'welcome@sourcedeck.app',
   'noreply@sourcedeck.app',

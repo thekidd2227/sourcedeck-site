@@ -6,7 +6,7 @@ intentionally credential-free — all sensitive logic lives behind the API.
 
 ## Reporting a vulnerability
 
-Email **security@arivergrop.com** with steps to reproduce. Please do
+Email **security@arivergroup.com** with steps to reproduce. Please do
 not file public GitHub issues for security reports. We respond within 1
 business day for acknowledgement and 5 business days for triage.
 
@@ -179,7 +179,7 @@ review before merging.
 
 ## Incident response
 
-1. Acknowledge within 1 business day to security@arivergrop.com.
+1. Acknowledge within 1 business day to security@arivergroup.com.
 2. Triage: severity (S1 outage / data exposure → S4 cosmetic).
 3. Containment: revoke compromised credentials, rotate secrets, block
    abused tokens at the edge.

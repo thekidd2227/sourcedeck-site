@@ -86,7 +86,7 @@
     },
 
     /* ── Shared ────────────────────────────────────────────────────── */
-    SALES_EMAIL: 'sales@arivergrop.com',
+    SALES_EMAIL: 'info@arivergroup.com',
     SUCCESS_URL: 'https://sourcedeck.app/thanks/',
     CANCEL_URL:  'https://sourcedeck.app/app/#pricing'
   };
