@@ -73,7 +73,7 @@
   <div class="ss-comp">
     <div class="hd">Core surfaces</div>
     <div class="ss-row"><div class="n">sourcedeck.app<div class="sub">Static site · GitHub Pages</div></div><div class="hist" id="h-site"></div><span class="sd-pill healthy" id="s-site">operational</span><span style="font:500 11px 'JetBrains Mono',monospace;color:var(--muted)" id="t-site">—</span></div>
-    <div class="ss-row"><div class="n">LCC web mirror<div class="sub">/app/demo/ · self-serve product</div></div><div class="hist" id="h-lcc"></div><span class="sd-pill healthy" id="s-lcc">operational</span><span style="font:500 11px 'JetBrains Mono',monospace;color:var(--muted)" id="t-lcc">—</span></div>
+    <div class="ss-row"><div class="n">LCC web mirror<div class="sub">/app/ · access by request</div></div><div class="hist" id="h-lcc"></div><span class="sd-pill healthy" id="s-lcc">operational</span><span style="font:500 11px 'JetBrains Mono',monospace;color:var(--muted)" id="t-lcc">—</span></div>
     <div class="ss-row"><div class="n">Settings / Command<div class="sub">/settings/, /command/, /portal/</div></div><div class="hist" id="h-set"></div><span class="sd-pill healthy" id="s-set">operational</span><span style="font:500 11px 'JetBrains Mono',monospace;color:var(--muted)" id="t-set">—</span></div>
   </div>
 
@@ -108,7 +108,7 @@
 (async function(){
   const probes = [
     {id:'site',  url:'/'},
-    {id:'lcc',   url:'/app/demo/'},
+    {id:'lcc',   url:'/app/'},
     {id:'set',   url:'/settings/'}
   ];
   for (const p of probes){

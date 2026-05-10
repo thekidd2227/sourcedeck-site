@@ -89,6 +89,8 @@ const SAFE_EMAIL_ALLOWLIST = new Set([
   'sales@arivergrop.com',
   'api@arivergrop.com',
   'security@arivergrop.com',
+  // Primary access-request inbox (commercial-access fix May 2026)
+  'info@arivergroup.com',
   // SourceDeck product addresses (welcome / system mail)
   'welcome@sourcedeck.app',
   'noreply@sourcedeck.app',
@@ -135,7 +137,7 @@ function isReservedFictionalNANP(s) {
   if (sub.startsWith('1')) return true;
   return false;
 }
-const SAFE_DOMAIN_FRAGMENTS = ['example.com', 'example.org', 'example.net', 'sourcedeck.app', 'arivergrop.com'];
+const SAFE_DOMAIN_FRAGMENTS = ['example.com', 'example.org', 'example.net', 'sourcedeck.app', 'arivergrop.com', 'arivergroup.com'];
 
 // ── Scope: directories to scan and skip. ────────────────────────────
 const SCAN_DIRS = [

@@ -60,9 +60,7 @@
 (async function(){
   const r = await fetch('/assets/sd-packs.json');
   const d = await r.json();
-  const installed = JSON.parse(localStorage.getItem('sd_installed_packs')||'[]');
   document.getElementById('pk-grid').innerHTML = d.packs.map(p => {
-    const isInstalled = installed.includes(p.id);
     return `<div class="pk-card">
       ${p.id==='pack_govcon'?'<span class="badge">OPERATOR TIER</span>':''}
       <div><div class="name">${escape(p.name)}</div><div class="tag">${escape(p.tagline)}</div></div>
@@ -75,23 +73,11 @@
         <li>Compliance · ${p.compliance_posture.map(escape).join(', ')}</li>
         <li>Default campaign · ${escape(p.default_campaign_name)}</li>
       </ul>
-      ${isInstalled
-        ? `<a class="btn installed">✓ Installed</a>`
-        : `<button class="btn" onclick="install('${p.id}')">Install pack</button>`
-      }
+      <a class="btn" href="mailto:info@arivergroup.com?subject=SourceDeck%20pack%20access%20request%20${escape(p.id)}">Request access</a>
     </div>`;
   }).join('');
 })();
 
-function install(id){
-  const installed = JSON.parse(localStorage.getItem('sd_installed_packs')||'[]');
-  if (installed.includes(id)) return;
-  installed.push(id);
-  localStorage.setItem('sd_installed_packs', JSON.stringify(installed));
-  window.sdTrack && window.sdTrack('pack_installed', { pack: id });
-  alert('✓ Pack installed into this workspace.\n\nWhat just happened:\n· ICP preset saved to sd_icp_profile\n· 3 playbooks cloned into sd_playbooks\n· Reporting template registered\n· Default campaign name set\n· Compliance posture markers attached\n\nOpen Settings → Lead Generator to tune the ICP, or Playbooks to edit the cloned workflows.');
-  location.reload();
-}
 function escape(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 </script>
 <script src="/assets/sd-config.js"></script>

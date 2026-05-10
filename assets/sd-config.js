@@ -44,7 +44,7 @@
 
     /* If the publishable key is missing, these interim pages take over. */
     INTERIM_ROUTES: {
-      core:     '/app/demo/',
+      core:     'mailto:info@arivergroup.com?subject=SourceDeck%20access%20request',
       pro:      '/quote/pro/',
       operator: '/quote/operator/'
     },

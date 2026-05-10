@@ -4,7 +4,7 @@
   "description": "Lead command center for leads, follow-up, and workflow.",
   "start_url": "/",
   "scope": "/",
-  "display": "standalone",
+  "display": "browser",
   "orientation": "any",
   "background_color": "#0a0a0a",
   "theme_color": "#0a0a0a",
