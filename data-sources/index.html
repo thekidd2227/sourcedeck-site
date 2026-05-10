@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SourceDeck &mdash; Data sources and procurement-safe stakeholder posture</title>
+<meta name="description" content="Where SourceDeck&rsquo;s data comes from: user-provided opportunities and documents, SAM.gov references, FPDS / USAspending where supported, agency procurement forecasts, CRM/pipeline data, public web research, contact enrichment. Honest status per category and FAR-aware capture posture.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://sourcedeck.app/data-sources/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="SourceDeck data sources">
+<meta property="og:description" content="Where SourceDeck&rsquo;s data comes from. Honest status per category. FAR-aware stakeholder posture.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sd-theme.css">
+<style>
+.ds-wrap{max-width:880px;margin:0 auto;padding:48px 22px 80px;position:relative;z-index:1}
+.ds-h1{font-size:clamp(28px,4vw,42px);font-weight:800;letter-spacing:-0.025em;line-height:1.08;color:#fff;margin-bottom:14px}
+.ds-lede{font-size:15px;color:var(--sub);max-width:740px;line-height:1.65;margin-bottom:30px}
+.ds-h2{font-size:18px;font-weight:700;color:#fff;letter-spacing:-0.01em;margin:32px 0 10px}
+.ds-card{background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:18px 22px;margin-bottom:10px}
+.ds-card h3{font-size:14.5px;font-weight:700;color:#fff;margin-bottom:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ds-card .pill{font:600 9.5px 'JetBrains Mono',monospace;letter-spacing:0.12em;text-transform:uppercase;padding:3px 7px;border-radius:4px;display:inline-flex;align-items:center;gap:4px}
+.ds-card .pill::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor}
+.ds-card .pill.live{color:var(--green);background:rgba(48,209,88,0.10)}
+.ds-card .pill.manual{color:var(--accent2);background:rgba(41,151,255,0.10)}
+.ds-card .pill.planned{color:var(--gold);background:rgba(212,168,67,0.10)}
+.ds-card .pill.customer{color:var(--muted);background:rgba(255,255,255,0.05)}
+.ds-card p{font-size:13px;color:var(--sub);line-height:1.65}
+.ds-card a{color:var(--accent2);font-weight:600;text-decoration:none}
+.ds-block{padding:18px 22px;background:linear-gradient(180deg,rgba(212,168,67,0.05),rgba(212,168,67,0.01));border:0.5px solid rgba(212,168,67,0.22);border-radius:14px;margin-top:18px}
+.ds-block h2{font-size:15px;font-weight:700;color:#fff;margin-bottom:8px}
+.ds-block p{font-size:13px;color:var(--sub);line-height:1.65;margin-bottom:6px}
+.ds-block ul{list-style:none;padding:0;margin:6px 0}
+.ds-block ul li{padding-left:14px;position:relative;font-size:13px;color:var(--sub);line-height:1.65}
+.ds-block ul li::before{content:'\b7';position:absolute;left:4px;color:var(--gold);font-weight:800;font-size:18px;line-height:1}
+.ds-cta{margin-top:30px;padding:20px 22px;background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;text-align:center}
+.ds-cta a{display:inline-block;padding:12px 22px;background:linear-gradient(135deg,#d4a843,#b68a2e);color:#0a0d14;border-radius:10px;font-weight:700;font-size:13.5px;text-decoration:none;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="sd-bg"></div><div class="sd-grid"></div>
+
+<nav class="sd-nav">
+  <a class="sd-brand" href="/"><img src="/assets/sourcedeck-mark.svg" alt="SourceDeck logo" width="26" height="26" style="display:block;vertical-align:middle;margin-right:6px"> SourceDeck</a>
+  <div class="links">
+    <a href="/">Home</a>
+    <a href="/methodology/">Methodology</a>
+    <a href="/integrations/">Integrations</a>
+    <a href="/federal/">Federal</a>
+    <a class="cta" href="/request-access/">Request access</a>
+  </div>
+</nav>
+
+<div class="ds-wrap">
+
+  <div class="sd-eyebrow"><span class="dot"></span> Data sources</div>
+  <h1 class="ds-h1">Where SourceDeck&rsquo;s data comes from. Honest status per category.</h1>
+  <p class="ds-lede">SourceDeck reads what you bring in and what is publicly available. We do not claim live exclusive feeds we don&rsquo;t have. Each category below is labeled with a status: <b>live</b> means we run it today, <b>manual import</b> means we accept exports from the source, <b>planned</b> is on the roadmap, <b>customer-driven</b> means the next paying customer who needs it tells us when we build it.</p>
+
+  <h2 class="ds-h2">Data source categories</h2>
+
+  <div class="ds-card">
+    <h3>User-provided opportunities and documents <span class="pill live">live</span></h3>
+    <p>Paste a SAM.gov URL or upload a solicitation PDF, attachment, or amendment. Your past-performance library, capability statements, and capture notes also live here. This is the primary input to every SourceDeck workflow.</p>
+  </div>
+
+  <div class="ds-card">
+    <h3>SAM.gov opportunity references <span class="pill live">live</span></h3>
+    <p>Public solicitation data on SAM.gov is read directly when you provide an opportunity URL. Source documents are cached and cited; the official source of truth remains SAM.gov.</p>
+  </div>
+
+  <div class="ds-card">
+    <h3>FPDS-NG award history <span class="pill planned">planned</span></h3>
+    <p>Federal Procurement Data System &mdash; Next Generation. Public award-history lookup planned for incumbent and win-loss analysis on a pursued opportunity. Status: planned, not live.</p>
+  </div>
+
+  <div class="ds-card">
+    <h3>USAspending federal spend data <span class="pill planned">planned</span></h3>
+    <p>Public spend lookup by agency, NAICS, recipient. Planned for capture analysis and teaming research.</p>
+  </div>
+
+  <div class="ds-card">
+    <h3>Agency procurement forecasts <span class="pill customer">customer-driven</span></h3>
+    <p>Per-agency procurement forecasts (DoD, GSA, VA, DLA, NASA, etc.) are publicly available where the agency publishes them. Built per-agency on customer demand &mdash; the next paying customer who needs DLA forecast import tells us when we build it.</p>
+  </div>
+
+  <div class="ds-card">
+    <h3>Market-intelligence platform exports <span class="pill manual">manual import</span></h3>
+    <p>Saved-search exports from GovWin IQ, HigherGov, GovTribe, and Bloomberg Government can be ingested as opportunity intake. We do not have a live API into any of those platforms; the import path is manual export. See <a href="/integrations/">integrations</a>.</p>
+  </div>
+
+  <div class="ds-card">
+    <h3>CRM / pipeline data <span class="pill manual">manual import / customer-driven</span></h3>
+    <p>HubSpot, Salesforce, Airtable opportunities and contacts can be imported. Push back to your CRM is on customer-driven scoping.</p>
+  </div>
+
+  <div class="ds-card">
+    <h3>Public web research <span class="pill live">live where configured</span></h3>
+    <p>Public-web search (SerpAPI) is used for opportunity context: agency news, prior incumbent press, recurring solicitation history. Configured per workspace.</p>
+  </div>
+
+  <div class="ds-card">
+    <h3>Contact enrichment <span class="pill live">live where configured</span></h3>
+    <p>Public-record + commercial enrichment (Apollo, Hunter as fallback) is used for stakeholder graph entries: program leads, teaming-partner contacts. Used per the procurement-safe stakeholder posture below; <b>never</b> used for outreach to contracting officers.</p>
+  </div>
+
+  <h2 class="ds-h2">Procurement-safe stakeholder posture</h2>
+
+  <div class="ds-block">
+    <h2>SourceDeck&rsquo;s stakeholder layer is reference intelligence, not a spam engine.</h2>
+    <p>The stakeholder graph identifies who is in the buying constellation around a specific opportunity and what role they play. It is reference intelligence to help your team decide and act &mdash; not a contact list to mass-outreach.</p>
+    <p style="margin-top:10px"><b>SourceDeck should not be used to bypass solicitation communication rules.</b></p>
+    <ul>
+      <li><b>Contracting officer (CO):</b> communications during a solicitation are restricted to the official mechanism named in the solicitation (typically SAM.gov Q&amp;A). SourceDeck does not recommend, draft, or send direct outreach to a CO during a restricted communication window.</li>
+      <li><b>Contracting Officer&rsquo;s Representative (COR):</b> identified post-award, not solicited pre-award.</li>
+      <li><b>Small Business Specialist (SBS):</b> approachable for capability-fit conversations under standard agency outreach posture, before a solicitation is in restricted communication.</li>
+      <li><b>Program / mission owner:</b> approachable through industry days and pre-RFP forums; not pitched in restricted period.</li>
+      <li><b>Likely incumbents:</b> public-record FPDS data, used for win/loss analysis only.</li>
+      <li><b>Likely teaming partners:</b> approachable through normal teaming outreach with a mutual NDA.</li>
+    </ul>
+    <p style="margin-top:10px"><b>Outreach must follow FAR, agency instructions, and procurement communication windows.</b> SourceDeck&rsquo;s capture-action prompts are FAR-aware: if a solicitation is in restricted communication, the recommended action is &ldquo;submit through the official mechanism,&rdquo; not &ldquo;email the CO.&rdquo;</p>
+  </div>
+
+  <div class="ds-cta">
+    <div style="font-size:16px;font-weight:700;color:#fff;margin-bottom:6px">Reviewing for procurement?</div>
+    <p style="font-size:13px;color:var(--sub)">See the <a href="/federal/" style="color:var(--accent2);font-weight:600">federal posture page</a> for what we claim and don&rsquo;t claim, and the <a href="/methodology/" style="color:var(--accent2);font-weight:600">methodology page</a> for how SourceDeck should be evaluated.</p>
+    <a href="/request-access/">Contact sales &rarr;</a>
+  </div>
+
+</div>
+
+<footer class="sd-foot">SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">&middot;</span> &copy; 2026 Ariel&rsquo;s River Contracting Group LLC</footer>
+</body>
+</html>

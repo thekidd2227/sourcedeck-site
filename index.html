@@ -444,7 +444,7 @@ a{text-decoration:none;color:inherit}
     <a href="/federal/">Federal</a>
     <a href="/resources/">Resources</a>
     <a href="#pricing">Pricing</a>
-    <a href="mailto:info@arivergroup.com?subject=SourceDeck%20access%20request" class="nav-cta">Request access</a>
+    <a href="/request-access/" class="nav-cta">Request access</a>
   </div>
 </nav>
 
@@ -459,7 +459,7 @@ a{text-decoration:none;color:inherit}
   <p class="lede">SourceDeck takes a SAM.gov opportunity and produces a sourced summary, a bid/no-bid score, a compliance matrix, draft response sections, and a capture follow-up plan &mdash; in one workflow built for small and mid-sized GovCon teams.</p>
   <div class="hero-actions">
     <a href="/sample-source-deck/" class="btn btn-primary">See a sample SourceDeck &rarr;</a>
-    <a href="mailto:info@arivergroup.com?subject=SourceDeck%20-%20analyze%20one%20opportunity" class="btn btn-secondary">Analyze one opportunity</a>
+    <a href="/request-access/" class="btn btn-secondary">Analyze one opportunity</a>
   </div>
   <div class="hero-trust" aria-label="Platform attributes">
     <span class="chip">Source-backed outputs</span>
@@ -898,19 +898,43 @@ a{text-decoration:none;color:inherit}
   <div class="sp-metric" style="font-size:12px;color:var(--muted);font-weight:500"><a href="/federal/" style="color:var(--accent2);text-decoration:none">Federal posture &amp; security &rarr;</a></div>
 </section>
 
-<!-- Product video slot -->
-<section class="sd-video">
-  <div class="vwrap">
-    <div class="vinner" id="sd-vid" onclick="sdPlayVideo()">
-      <div class="vposter">
-        <div class="vplay" aria-label="Play product walkthrough"></div>
-        <div class="vmeta"><div class="vt">60-second product walkthrough</div><div class="vd">FUNNEL · CAMPAIGNS · REVENUE</div></div>
-      </div>
-      <!-- Replace src with live Loom/YouTube/Vimeo URL when shipped -->
-      <iframe title="SourceDeck walkthrough" allow="autoplay; encrypted-media" allowfullscreen loading="lazy" data-src="about:blank"></iframe>
+<!-- Sample workflow — static product proof (replaces prior video placeholder) -->
+<section class="sd-workflow" id="sample-workflow" aria-label="Sample workflow">
+  <div class="swf-wrap">
+    <div class="sd-eyebrow" style="display:inline-flex"><span class="dot"></span> Sample workflow</div>
+    <h2>From a SAM.gov URL to a defensible bid in seven stages.</h2>
+    <p class="swf-lede">No demo video required &mdash; the artifact is the demo. Each card below maps to a real workflow stage. The full worked example is on the <a href="/sample-source-deck/">sample SourceDeck page</a>.</p>
+    <div class="swf-grid">
+      <div class="swf-step"><div class="n">01</div><div class="t">Paste or import a SAM.gov opportunity</div><div class="d">Solicitation, attachments, amendments &mdash; normalized into one workspace record.</div></div>
+      <div class="swf-step"><div class="n">02</div><div class="t">Extract requirements and deadlines</div><div class="d">Section L instructions, Section M evaluation factors, Q&amp;A window, submission deadline &mdash; all parsed.</div></div>
+      <div class="swf-step"><div class="n">03</div><div class="t">Score fit (NAICS, set-aside, agency, timing, past performance)</div><div class="d">Bid/no-bid score 0&ndash;100 with written rationale per dimension.</div></div>
+      <div class="swf-step"><div class="n">04</div><div class="t">Generate a source-backed capture deck</div><div class="d">One-page sourced summary &mdash; agency, scope, evaluation factors, ceiling, set-aside, decision notes &mdash; with citations to the source document.</div></div>
+      <div class="swf-step"><div class="n">05</div><div class="t">Build a compliance matrix starter</div><div class="d">Section L &harr; Section M mapped, with response location, owner, and evidence per requirement. Exports to Word with traceability preserved.</div></div>
+      <div class="swf-step"><div class="n">06</div><div class="t">Draft proposal sections</div><div class="d">Response sections grounded in your past-performance library. Compliance matrix stays linked as the draft evolves.</div></div>
+      <div class="swf-step"><div class="n">07</div><div class="t">Assign capture actions and follow-up</div><div class="d">Stakeholder graph with FAR-aware contact posture. Q&amp;A windows, amendment dates, and color-team review dates on a tracked calendar.</div></div>
+    </div>
+    <div class="swf-cta">
+      <a class="btn btn-primary" href="/sample-source-deck/" style="display:inline-block;padding:13px 26px">Open the worked sample &rarr;</a>
+      <a class="btn btn-secondary" href="/request-access/" style="display:inline-block;padding:13px 26px;margin-left:8px">Analyze one opportunity</a>
     </div>
   </div>
 </section>
+<style>
+.sd-workflow{position:relative;z-index:1;max-width:1200px;margin:18px auto 8px;padding:36px 24px 24px}
+.swf-wrap{text-align:center}
+.sd-workflow h2{font-size:clamp(24px,3.4vw,36px);font-weight:800;letter-spacing:-0.025em;line-height:1.1;color:#fff;margin:10px 0 8px}
+.swf-lede{font-size:14.5px;color:var(--sub);max-width:620px;line-height:1.6;margin:0 auto 24px}
+.swf-lede a{color:var(--accent2);font-weight:600;text-decoration:none}
+.swf-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;text-align:left;max-width:1100px;margin:0 auto}
+@media(max-width:980px){.swf-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:540px){.swf-grid{grid-template-columns:1fr}}
+.swf-step{background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px 16px;transition:border-color 0.15s,transform 0.15s}
+.swf-step:hover{border-color:rgba(212,168,67,0.3);transform:translateY(-1px)}
+.swf-step .n{font:700 11px 'JetBrains Mono',monospace;color:var(--gold);letter-spacing:0.12em;margin-bottom:6px}
+.swf-step .t{font-size:13.5px;font-weight:700;color:#fff;letter-spacing:-0.005em;line-height:1.3;margin-bottom:6px}
+.swf-step .d{font-size:12px;color:var(--sub);line-height:1.55}
+.swf-cta{margin-top:22px}
+</style>
 
 <!-- Cost of inaction strip removed during media-workflow repositioning;
      prior framing was lead-gen-specific and contradicted the new positioning. -->
@@ -1254,8 +1278,8 @@ a{text-decoration:none;color:inherit}
 <section class="cta">
   <h2>Run your media pipeline like a workspace, not an inbox.</h2>
   <p>One workspace for queries, pitches, sources, and coverage.</p>
-  <a href="mailto:info@arivergroup.com?subject=SourceDeck%20enterprise%20demo" class="btn btn-primary" style="font-size:17px;padding:14px 36px">Request Enterprise Demo</a>
-  <a href="mailto:info@arivergroup.com?subject=SourceDeck%20access%20request" class="btn btn-secondary" style="font-size:15px;padding:12px 28px;margin-left:8px">Request Access</a>
+  <a href="/request-access/" class="btn btn-primary" style="font-size:17px;padding:14px 36px">Request Enterprise Demo</a>
+  <a href="/request-access/" class="btn btn-secondary" style="font-size:15px;padding:12px 28px;margin-left:8px">Request Access</a>
   <div class="support">Blank workspace by default. No auto-loaded data.</div>
 </section>
 
@@ -1353,35 +1377,8 @@ document.querySelectorAll('.preview-chart').forEach(c => observer.observe(c));
   render();
 })();
 
-// ── Product video play handler ──
-// Behavior contract:
-//   - If a real video URL is configured (iframe[data-src]), play it inline.
-//   - If no URL is configured, render an inline "coming soon" message
-//     INSIDE the player frame. NEVER redirect away from the homepage —
-//     redirecting away on a video click breaks user trust + analytics.
-function sdPlayVideo(){
-  const wrap = document.querySelector('.sd-video');
-  if (!wrap) return;
-  const iframe = wrap.querySelector('iframe');
-  const src = iframe && iframe.dataset.src;
-  if (iframe && src && src !== 'about:blank' && src !== '') {
-    iframe.src = src;
-    wrap.classList.add('playing');
-    return;
-  }
-  // No video URL configured. Render an inline placeholder; do not redirect.
-  const inner = wrap.querySelector('.vinner');
-  if (!inner || inner.dataset.placeholderShown === '1') return;
-  inner.dataset.placeholderShown = '1';
-  const note = document.createElement('div');
-  note.setAttribute('role', 'status');
-  note.style.cssText = 'position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:24px;background:radial-gradient(ellipse 60% 45% at 50% 40%,rgba(212,168,67,0.18) 0%,transparent 60%),#05070d;color:#f5f5f7;z-index:3';
-  note.innerHTML =
-    '<div style="font:600 11px \'JetBrains Mono\',monospace;letter-spacing:0.14em;color:#e8c66a;text-transform:uppercase">Walkthrough video</div>' +
-    '<div style="font-size:18px;font-weight:700;letter-spacing:-0.01em">Coming soon.</div>' +
-    '<div style="font-size:13px;color:rgba(245,245,247,0.7);max-width:380px;line-height:1.55">Want a walkthrough? <a href="mailto:info@arivergroup.com?subject=SourceDeck%20walkthrough%20request" style="color:#e8c66a;font-weight:600;text-decoration:underline">Request a guided walkthrough</a> from our team.</div>';
-  inner.appendChild(note);
-}
+// (Retired) sdPlayVideo handler removed alongside the video placeholder.
+// The homepage now uses a static seven-stage workflow proof section.
 </script>
 
 <script>

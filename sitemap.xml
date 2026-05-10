@@ -4,6 +4,9 @@
   <!-- Marketing surfaces -->
   <url><loc>https://sourcedeck.app/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
   <url><loc>https://sourcedeck.app/sample-source-deck/</loc><changefreq>monthly</changefreq><priority>0.95</priority></url>
+  <url><loc>https://sourcedeck.app/request-access/</loc><changefreq>monthly</changefreq><priority>0.95</priority></url>
+  <url><loc>https://sourcedeck.app/methodology/</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://sourcedeck.app/data-sources/</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://sourcedeck.app/agents/</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://sourcedeck.app/integrations/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://sourcedeck.app/federal/</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
@@ -35,8 +38,29 @@
   <url><loc>https://sourcedeck.app/resources/color-team-review-guide/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sourcedeck.app/resources/govcon-proposal-timeline-checklist/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 
-  <!-- Operational + supporting -->
-  <url><loc>https://sourcedeck.app/changelog/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://sourcedeck.app/status/</loc><changefreq>daily</changefreq><priority>0.5</priority></url>
+  <!-- Agencies hub -->
+  <url><loc>https://sourcedeck.app/agencies/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://sourcedeck.app/agencies/department-of-defense/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sourcedeck.app/agencies/general-services-administration/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sourcedeck.app/agencies/department-of-veterans-affairs/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sourcedeck.app/agencies/department-of-homeland-security/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sourcedeck.app/agencies/department-of-health-and-human-services/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- NAICS hub -->
+  <url><loc>https://sourcedeck.app/naics/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://sourcedeck.app/naics/541511/</loc><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://sourcedeck.app/naics/541512/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://sourcedeck.app/naics/541519/</loc><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://sourcedeck.app/naics/561210/</loc><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://sourcedeck.app/naics/561720/</loc><changefreq>monthly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://sourcedeck.app/naics/238320/</loc><changefreq>monthly</changefreq><priority>0.65</priority></url>
+
+  <!-- Set-asides hub -->
+  <url><loc>https://sourcedeck.app/set-asides/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://sourcedeck.app/set-asides/sdvosb/</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://sourcedeck.app/set-asides/8a/</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://sourcedeck.app/set-asides/wosb/</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://sourcedeck.app/set-asides/hubzone/</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://sourcedeck.app/set-asides/small-business/</loc><changefreq>monthly</changefreq><priority>0.75</priority></url>
 
 </urlset>

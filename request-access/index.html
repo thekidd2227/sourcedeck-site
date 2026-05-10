@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SourceDeck &mdash; Request access / Analyze one opportunity</title>
+<meta name="description" content="Request access to SourceDeck or send us one opportunity to analyze. Tell us your team size, current GovCon tools, and primary capture goal &mdash; we route the request to the operator who handles it.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://sourcedeck.app/request-access/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Request access to SourceDeck">
+<meta property="og:description" content="Tell us your team size, current GovCon tools, and primary capture goal. We route the request to the operator who handles it.">
+<meta property="og:url" content="https://sourcedeck.app/request-access/">
+<script src="/assets/sd-config.js" defer></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sd-theme.css">
+<style>
+.ra-wrap{max-width:880px;margin:0 auto;padding:48px 22px 80px;position:relative;z-index:1}
+.ra-h1{font-size:clamp(28px,4vw,42px);font-weight:800;letter-spacing:-0.025em;line-height:1.08;color:#fff;margin-bottom:14px}
+.ra-lede{font-size:15px;color:var(--sub);max-width:720px;line-height:1.65;margin-bottom:28px}
+.ra-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:18px}
+@media(max-width:880px){.ra-grid{grid-template-columns:1fr}}
+.ra-card{background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:22px 24px}
+.ra-card h2{font-size:16px;font-weight:700;color:#fff;letter-spacing:-0.005em;margin-bottom:6px}
+.ra-card p, .ra-card li{font-size:13px;color:var(--sub);line-height:1.65}
+.ra-card ul{list-style:none;padding:0;margin:8px 0}
+.ra-card ul li{padding-left:14px;position:relative}
+.ra-card ul li::before{content:'\b7';position:absolute;left:4px;color:var(--gold);font-weight:800;font-size:18px;line-height:1}
+.ra-form .row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.ra-form .full{grid-column:1/-1}
+@media(max-width:560px){.ra-form .row{grid-template-columns:1fr}}
+.ra-form label{display:block;font:600 11px 'JetBrains Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.ra-form input[type=text], .ra-form input[type=email], .ra-form input[type=url], .ra-form select, .ra-form textarea{width:100%;background:rgba(255,255,255,0.03);border:0.5px solid rgba(255,255,255,0.12);border-radius:8px;padding:10px 12px;color:#fff;font:14px/1.5 'Inter',sans-serif;outline:none;transition:border-color 0.15s}
+.ra-form input:focus, .ra-form select:focus, .ra-form textarea:focus{border-color:var(--accent2)}
+.ra-form textarea{min-height:90px;resize:vertical}
+.ra-form .checkbox-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;margin-top:6px}
+@media(max-width:560px){.ra-form .checkbox-grid{grid-template-columns:1fr}}
+.ra-form .checkbox-grid label{font:500 12.5px/1.4 'Inter',sans-serif;text-transform:none;letter-spacing:0;color:var(--sub);display:flex;align-items:center;gap:8px;cursor:pointer}
+.ra-form .checkbox-grid input[type=checkbox]{width:14px;height:14px;accent-color:var(--gold)}
+.ra-form .submit-row{margin-top:18px}
+.ra-form button[type=submit]{width:100%;padding:14px 22px;border-radius:10px;background:linear-gradient(135deg,#d4a843,#b68a2e);color:#0a0d14;font-weight:700;font-size:14.5px;border:0;cursor:pointer;transition:filter 0.15s}
+.ra-form button[type=submit]:hover{filter:brightness(1.05)}
+.ra-form .meta{font-size:11.5px;color:var(--muted);margin-top:12px;line-height:1.6}
+.ra-side h3{font:700 11px 'JetBrains Mono',monospace;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.ra-side h2{font-size:14.5px;font-weight:700;color:#fff;margin-bottom:6px}
+.ra-side p{font-size:12.5px;color:var(--sub);line-height:1.65}
+.ra-side .step{display:grid;grid-template-columns:24px 1fr;gap:10px;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)}
+.ra-side .step:last-child{border-bottom:none}
+.ra-side .step .n{font:700 11px 'JetBrains Mono',monospace;color:var(--gold);padding-top:1px}
+.ra-side .step .t{font-size:12.5px;color:var(--sub);line-height:1.55}
+.honeypot{position:absolute;left:-9999px}
+</style>
+</head>
+<body>
+<div class="sd-bg"></div><div class="sd-grid"></div>
+
+<nav class="sd-nav">
+  <a class="sd-brand" href="/"><img src="/assets/sourcedeck-mark.svg" alt="SourceDeck logo" width="26" height="26" style="display:block;vertical-align:middle;margin-right:6px"> SourceDeck</a>
+  <div class="links">
+    <a href="/">Home</a>
+    <a href="/sample-source-deck/">Sample deck</a>
+    <a href="/federal/">Federal</a>
+    <a href="/compare/">Compare</a>
+    <a href="/methodology/">Methodology</a>
+    <a class="cta" href="#form">Request access</a>
+  </div>
+</nav>
+
+<div class="ra-wrap">
+
+  <div class="sd-eyebrow"><span class="dot"></span> Request access &middot; Analyze one opportunity</div>
+  <h1 class="ra-h1">Tell us your capture context. We&rsquo;ll route the right next step.</h1>
+  <p class="ra-lede">SourceDeck is access-controlled. Send us a SAM.gov URL or a short description of one opportunity, and we&rsquo;ll produce a SourceDeck on it as part of the access conversation. No SDR queue &mdash; the operator who handles it reads the form.</p>
+
+  <div class="ra-grid">
+
+    <!-- LEFT: Form -->
+    <div class="ra-card" id="form">
+      <h2>Request access</h2>
+      <p style="margin-bottom:14px">Required fields marked with *. We respond within one business day.</p>
+
+      <!-- LIVE: Basin endpoint shared across the site, distinguished by _form_source. -->
+      <form class="ra-form sd-form" action="https://usebasin.com/f/c60baae0eef17516eca2bea81e419768" method="POST" accept-charset="UTF-8">
+        <input type="hidden" name="_form_source" value="request-access">
+        <input type="hidden" name="_subject" value="SourceDeck &mdash; access request">
+        <input type="hidden" name="_redirect" value="https://sourcedeck.app/thanks/?src=request-access">
+        <input type="hidden" name="_source_page" value="/request-access/">
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="honeypot">
+
+        <div class="row">
+          <div>
+            <label for="ra-name">Name *</label>
+            <input id="ra-name" name="name" type="text" required>
+          </div>
+          <div>
+            <label for="ra-email">Work email *</label>
+            <input id="ra-email" name="email" type="email" required>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="ra-company">Company *</label>
+            <input id="ra-company" name="company" type="text" required>
+          </div>
+          <div>
+            <label for="ra-website">Website</label>
+            <input id="ra-website" name="website" type="url" placeholder="https://">
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="ra-team">Team size</label>
+            <select id="ra-team" name="team_size">
+              <option value="">Select...</option>
+              <option>Solo (1 user)</option>
+              <option>Small (2&ndash;10)</option>
+              <option>Mid (11&ndash;50)</option>
+              <option>Large (51&ndash;250)</option>
+              <option>Enterprise (250+)</option>
+            </select>
+          </div>
+          <div>
+            <label for="ra-revenue">GovCon revenue band</label>
+            <select id="ra-revenue" name="govcon_revenue">
+              <option value="">Select...</option>
+              <option>Pre-revenue / pursuing first awards</option>
+              <option>Under $1M annual GovCon revenue</option>
+              <option>$1M&ndash;$10M</option>
+              <option>$10M&ndash;$50M</option>
+              <option>$50M&ndash;$250M</option>
+              <option>$250M+</option>
+              <option>Prefer not to say</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="full" style="margin-bottom:12px">
+          <label for="ra-goal">Primary goal *</label>
+          <select id="ra-goal" name="primary_goal" required>
+            <option value="">Select primary goal...</option>
+            <option>Discover opportunities</option>
+            <option>Qualify bid/no-bid</option>
+            <option>Build compliance matrix</option>
+            <option>Draft proposal sections</option>
+            <option>Improve capture workflow</option>
+            <option>Map stakeholders</option>
+            <option>Track pipeline</option>
+          </select>
+        </div>
+
+        <div class="full" style="margin-bottom:14px">
+          <label>Current tools used</label>
+          <div class="checkbox-grid">
+            <label><input type="checkbox" name="tools" value="SAM.gov"> SAM.gov</label>
+            <label><input type="checkbox" name="tools" value="GovWin IQ"> GovWin IQ</label>
+            <label><input type="checkbox" name="tools" value="HigherGov"> HigherGov</label>
+            <label><input type="checkbox" name="tools" value="GovTribe"> GovTribe</label>
+            <label><input type="checkbox" name="tools" value="BGOV"> BGOV</label>
+            <label><input type="checkbox" name="tools" value="CRM (HubSpot/Salesforce/etc.)"> CRM (HubSpot / Salesforce / etc.)</label>
+            <label><input type="checkbox" name="tools" value="Spreadsheets"> Spreadsheets</label>
+            <label><input type="checkbox" name="tools" value="Other"> Other</label>
+          </div>
+        </div>
+
+        <div class="full" style="margin-bottom:12px">
+          <label for="ra-opp">One opportunity URL or description (optional)</label>
+          <input id="ra-opp" name="opportunity" type="text" placeholder="SAM.gov URL or one-line description">
+        </div>
+
+        <div class="full" style="margin-bottom:6px">
+          <label for="ra-msg">Message (what are you trying to accomplish?)</label>
+          <textarea id="ra-msg" name="message" placeholder="Team context, current capture pain, timeline, anything else we should know."></textarea>
+        </div>
+
+        <div class="submit-row">
+          <button type="submit">Request access &rarr;</button>
+          <p class="meta">By submitting, you agree to be contacted by a SourceDeck operator about your request. We do not sell or share your information. We respond within one business day. See our <a href="/security/" style="color:var(--accent2)">security &amp; trust</a> page.</p>
+        </div>
+      </form>
+    </div>
+
+    <!-- RIGHT: What happens next -->
+    <div class="ra-card ra-side">
+      <h3>What happens next</h3>
+      <h2>One operator reads your form &mdash; not an SDR queue.</h2>
+      <div class="step"><div class="n">01</div><div class="t">An operator reads the form within one business day.</div></div>
+      <div class="step"><div class="n">02</div><div class="t">If you sent an opportunity URL, we run a SourceDeck on it (or send back a clear &ldquo;not a fit, here&rsquo;s why&rdquo; in writing).</div></div>
+      <div class="step"><div class="n">03</div><div class="t">We schedule a 20&ndash;30 minute working session to walk the deck and your capture pain together.</div></div>
+      <div class="step"><div class="n">04</div><div class="t">If we both agree it&rsquo;s a fit, we provision a workspace and start with one real pursuit.</div></div>
+
+      <h3 style="margin-top:22px">Other formats</h3>
+      <p>Prefer to read first? <a href="/sample-source-deck/" style="color:var(--accent2);font-weight:600">Open the sample SourceDeck &rarr;</a></p>
+      <p style="margin-top:6px">Comparing tools? <a href="/compare/" style="color:var(--accent2);font-weight:600">SourceDeck vs GovDash, Sweetspot, McCarren, HigherGov, GovWin, GovTribe, BGOV &rarr;</a></p>
+      <p style="margin-top:6px">Federal review process? <a href="/federal/" style="color:var(--accent2);font-weight:600">Read the federal posture &rarr;</a></p>
+    </div>
+
+  </div>
+
+</div>
+
+<footer class="sd-foot">SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">&middot;</span> &copy; 2026 Ariel&rsquo;s River Contracting Group LLC</footer>
+</body>
+</html>
