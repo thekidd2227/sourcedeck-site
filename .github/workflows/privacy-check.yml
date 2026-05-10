@@ -1,0 +1,45 @@
+name: Privacy Guardrail
+
+# Runs the SourceDeck PII-leak guardrails on every PR and every push
+# to main. Fails the build if banned owner/personal literals or risky
+# contact patterns appear in user-facing surfaces, or if the demo and
+# its download mirror drift out of byte-for-byte parity.
+#
+# Scope: read-only static checks. Does not touch IBM Cloud, Vercel,
+# Stripe, DNS, billing, or any deployment configuration.
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  privacy:
+    name: Privacy + parity check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: server/package-lock.json
+
+      - name: Install server dependencies
+        working-directory: server
+        run: npm ci
+
+      - name: Run server test suite (chains check:privacy)
+        working-directory: server
+        run: npm test
+
+      - name: Run private-data scanner from repo root
+        run: node scripts/check-private-data.js
+
+      - name: Run demo-parity check from repo root
+        run: node scripts/check-demo-parity.js
