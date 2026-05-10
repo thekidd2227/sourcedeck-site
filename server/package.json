@@ -12,7 +12,7 @@
     "dev":               "node --env-file=.env --watch server.js",
     "dev:nodotenv":      "node --watch server.js",
     "start":             "node server.js",
-    "test":              "node --test 'test/*.test.js' && npm run check:privacy",
+    "test":              "node --test test/*.test.js && npm run check:privacy",
     "lint":              "node --check server.js && find src test -name '*.js' -exec node --check {} +",
     "verify:watsonx":    "node --env-file=.env scripts/verify-watsonx.mjs",
     "verify:agents":     "node --env-file=.env scripts/verify-watsonx.mjs",
