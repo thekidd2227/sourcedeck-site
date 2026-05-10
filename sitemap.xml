@@ -21,6 +21,8 @@
   <url><loc>https://sourcedeck.app/inbound/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sourcedeck.app/packs/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sourcedeck.app/compliance/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://sourcedeck.app/enterprise/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://sourcedeck.app/security/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://sourcedeck.app/m/</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
   <url><loc>https://sourcedeck.app/status/</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
   <url><loc>https://sourcedeck.app/changelog/</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SourceDeck · AI Agents Library</title>
-<meta name="description" content="Production AI agents that run through the SourceDeck AI Gateway: Reply Classifier, Lead Scorer, Proposal Drafter, Bounce Guard, Meeting Summarizer, RFP Responder, Denial Predictor, Follow-Up Engine, SLA Watcher. All powered by IBM watsonx.ai.">
+<meta name="description" content="AI agents that run through the SourceDeck AI Gateway: Reply Classifier, Lead Scorer, Proposal Drafter, Bounce Guard, Meeting Summarizer, RFP Responder, Denial Predictor, Follow-Up Engine, SLA Watcher. AI features available where configured.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/sd-theme.css">
@@ -50,8 +50,8 @@
 
 <section class="sd-hero">
   <div class="sd-eyebrow"><span class="dot"></span> AI Agents library · live</div>
-  <h1>Production agents, powered by watsonx.</h1>
-  <p class="lede">Each card below runs through the SourceDeck AI Gateway and is backed by a real <code>POST /api/v1/agents/:id/run</code> endpoint. Governed agents (saved deliverables, compliance work) execute on watsonx only. Drafting agents (triage, suggestions) are watsonx-default with optional BYOK on Business+ tiers.</p>
+  <h1>AI agents, gateway-routed.</h1>
+  <p class="lede">Each card below is backed by a real <code>POST /api/v1/agents/:id/run</code> endpoint. AI execution routes through the SourceDeck AI Gateway. Governed workflows (saved deliverables) are pinned to a single configured provider; drafting workflows allow BYOK on Business+ tiers. <strong>Live IBM watsonx runtime association is configuration-pending</strong> — see <a href="/security/" style="color:var(--accent2)">Security</a>.</p>
 </section>
 
 <div class="ag-wrap">

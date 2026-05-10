@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SourceDeck — Security &amp; Trust</title>
+<meta name="description" content="SourceDeck is designed around blank workspaces, user-controlled data, and safer media workflow management for teams.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#0a0a0a">
+<meta property="og:title" content="SourceDeck — Security &amp; Trust">
+<meta property="og:description" content="Blank workspace by default. User-controlled data. Authentication-aware access. Honest about what we have and don't have yet.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sd-theme.css">
+<style>
+.sec-wrap{max-width:980px;margin:0 auto;padding:50px 24px 80px;position:relative;z-index:1}
+.sec-h1{font-size:clamp(30px,4.4vw,46px);font-weight:800;letter-spacing:-0.03em;line-height:1.06;background:linear-gradient(180deg,#fff 30%,rgba(245,245,247,0.6));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:14px}
+.sec-lede{font-size:clamp(14.5px,1.5vw,16.5px);color:var(--sub);max-width:720px;line-height:1.6;margin-bottom:34px}
+.sec-h2{font-size:18px;font-weight:700;color:#fff;letter-spacing:-0.01em;margin:30px 0 8px}
+.sec-card{background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:18px 22px;margin-bottom:10px}
+.sec-card h3{font-size:14px;font-weight:700;color:#fff;letter-spacing:-0.005em;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.sec-card .pill{font:600 9.5px 'JetBrains Mono',monospace;letter-spacing:0.12em;text-transform:uppercase;padding:3px 7px;border-radius:4px;display:inline-flex;align-items:center;gap:4px}
+.sec-card .pill::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor}
+.sec-card .pill.shipped{color:var(--green);background:rgba(48,209,88,0.10)}
+.sec-card .pill.partial{color:var(--gold);background:rgba(212,168,67,0.10)}
+.sec-card .pill.planned{color:var(--muted);background:rgba(255,255,255,0.05)}
+.sec-card p{font-size:12.5px;color:var(--sub);line-height:1.6}
+.sec-card a{color:var(--accent2);font-weight:600;text-decoration:none}
+.sec-block{background:linear-gradient(180deg,rgba(212,168,67,0.05),rgba(212,168,67,0.01));border:0.5px solid rgba(212,168,67,0.18);border-radius:14px;padding:18px 22px;margin-top:24px}
+.sec-block h2{margin-top:0;font-size:15px;font-weight:700;color:#fff;letter-spacing:-0.005em;margin-bottom:8px}
+.sec-block p{font-size:12.5px;color:var(--sub);line-height:1.6;margin-bottom:6px}
+ul.sec-list{list-style:none;padding:0;margin:6px 0}
+ul.sec-list li{font-size:12.5px;color:var(--sub);line-height:1.6;padding-left:14px;position:relative}
+ul.sec-list li::before{content:'·';position:absolute;left:4px;color:#d4a843;font-weight:800;font-size:18px;line-height:1}
+</style>
+</head>
+<body>
+<div class="sd-bg"></div><div class="sd-grid"></div>
+
+<nav class="sd-nav">
+  <a class="sd-brand" href="/"><img src="/assets/sourcedeck-mark.svg" alt="SourceDeck logo" width="26" height="26" style="display:block;vertical-align:middle;margin-right:6px"> SourceDeck</a>
+  <div class="links">
+    <a href="/">Home</a>
+    <a href="/enterprise/">Enterprise</a>
+    <a href="/security/">Security</a>
+    <a class="cta" href="mailto:sales@arivergrop.com?subject=SourceDeck%20Enterprise%20Demo">Book Demo</a>
+  </div>
+</nav>
+
+<div class="sec-wrap">
+
+  <div class="sd-eyebrow"><span class="dot"></span> Security &amp; Trust</div>
+  <h1 class="sec-h1">Honest about what we have. Honest about what we don't.</h1>
+  <p class="sec-lede">SourceDeck is in active development. This page is the single source of truth for what's shipped, what's partial, and what's planned. We don't claim certifications we don't hold.</p>
+
+  <h2 class="sec-h2">What is shipped today</h2>
+
+  <div class="sec-card">
+    <h3>Blank workspace by default <span class="pill shipped">shipped</span></h3>
+    <p>First-time users see an empty workspace. No personal information, no seeded contacts, no demo records auto-load. Demo data loads only after an explicit user action.</p>
+  </div>
+
+  <div class="sec-card">
+    <h3>User-controlled workspace data <span class="pill shipped">shipped</span></h3>
+    <p>Your sources, queries, pitches, and notes stay in your workspace. The static client never carries one operator's personal data into another tenant's bundle.</p>
+  </div>
+
+  <div class="sec-card">
+    <h3>Authentication-aware access <span class="pill shipped">shipped</span></h3>
+    <p>Logged-out users see no saved data. Logged-in users see only data scoped to their authenticated identity. If ownership cannot be verified, the workspace fails closed and shows blank.</p>
+  </div>
+
+  <div class="sec-card">
+    <h3>No cross-user data leakage <span class="pill shipped">shipped</span></h3>
+    <p>Storage keys are scoped per (tenant, user). The codebase does not reuse a single global key that could cause one user's data to surface in another user's session.</p>
+  </div>
+
+  <div class="sec-card">
+    <h3>PWA delivery with safe caching <span class="pill shipped">shipped</span></h3>
+    <p>Service worker caches the public marketing shell only. Authenticated paths (<code>/api/</code>, <code>/app/</code>, <code>/auth/callback/</code>, <code>/settings/</code>, <code>/checkout/</code>) are explicitly never cached.</p>
+  </div>
+
+  <h2 class="sec-h2">Partial / configuration-pending</h2>
+
+  <div class="sec-card">
+    <h3>IBM watsonx integration <span class="pill partial">configuration pending</span></h3>
+    <p>watsonx.ai integration is under configuration review. Code-side adapters and tests are in place; live runtime association is not yet verified. We will represent watsonx as production-ready only after runtime association and live smoke testing succeed.</p>
+  </div>
+
+  <div class="sec-card">
+    <h3>Enterprise SSO / full RBAC <span class="pill partial">scaffolded</span></h3>
+    <p>OIDC middleware foundation is built. A live SSO/IAM identity provider is not yet wired. Roles (<code>owner / admin / analyst / viewer</code>) are enforced server-side at the route layer.</p>
+  </div>
+
+  <div class="sec-card">
+    <h3>Audit / governance metadata <span class="pill partial">structural</span></h3>
+    <p>Every state-changing AI call emits a structured event with model id, prompt version, and token usage. Document content and raw prompts are never persisted. Export to a SIEM is documented; live forwarding is not yet wired.</p>
+  </div>
+
+  <h2 class="sec-h2">Not claimed (and not certified)</h2>
+
+  <div class="sec-card">
+    <h3>Compliance certifications <span class="pill planned">not held</span></h3>
+    <p>SourceDeck is <b>not</b> SOC 2, HIPAA, FedRAMP, ISO 27001, CMMC, or HITRUST certified. We are happy to participate in customer security reviews and to track concrete commitments toward formal certification when a paying enterprise contract requires it.</p>
+  </div>
+
+  <div class="sec-card">
+    <h3>Encryption-specific guarantees <span class="pill planned">not claimed</span></h3>
+    <p>We do not currently claim "end-to-end encrypted" or "zero data retention" because those terms have specific technical meanings we have not implemented. Data in transit uses TLS via the hosting provider. Data at rest is stored by the configured backend (default: local browser storage; optional cloud backends available where configured).</p>
+  </div>
+
+  <h2 class="sec-h2">Data deletion &amp; contact</h2>
+
+  <div class="sec-card">
+    <h3>Delete or export your data</h3>
+    <p>Email <a href="mailto:sales@arivergrop.com?subject=SourceDeck%20data%20deletion%20request">sales@arivergrop.com</a> with the email address tied to your workspace. We will respond within one business day.</p>
+  </div>
+
+  <div class="sec-card">
+    <h3>Responsible disclosure</h3>
+    <p>If you find a security issue, email <a href="mailto:sales@arivergrop.com?subject=SourceDeck%20security%20disclosure">sales@arivergrop.com</a> with subject "security disclosure." We respond within one business day for acknowledgement and within five business days for triage. Please don't open public GitHub issues for security reports.</p>
+  </div>
+
+  <div class="sec-block">
+    <h2>Roadmap (no commitment dates)</h2>
+    <ul class="sec-list">
+      <li>Live IBM watsonx runtime association &amp; smoke test</li>
+      <li>OIDC IdP wiring (Okta / IBM IAM / Auth0 — customer-driven)</li>
+      <li>Postgres-backed tenant policy + Redis usage metering in production</li>
+      <li>Audit forwarding to customer SIEM (LogDNA / Splunk / OpenSearch)</li>
+      <li>SOC 2 Type II — opened only when a paying enterprise contract requires it</li>
+    </ul>
+    <p style="margin-top:10px">We add to this list when something becomes a real customer commitment, not before.</p>
+  </div>
+
+</div>
+
+<footer class="sd-foot">SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">·</span> &copy; 2026 Ariel's River Contracting Group LLC</footer>
+</body>
+</html>

@@ -85,12 +85,12 @@
 <script>
 // Demo queue — in production this reads from the approvals API per workspace
 const DEMO = [
-  { id:'a1', type:'proposal',    title:'Proposal signature · Hargrove Property Services',     meta:'Pro tier · $4,188/yr · 11 days since sent', owner:'JC', sla:'overdue', severity:'blocked' },
-  { id:'a2', type:'deliverable', title:'Milestone signoff · Q2 Turnover Clean',                meta:'Job J-2031 · Acme Commercial · ready for client review', owner:'PM', sla:'24h', severity:'wait-client' },
-  { id:'a3', type:'invoice',     title:'INV-0219 · Halcyon Federal Services',                  meta:'$7,988 · draft · J-2024 complete', owner:'Finance', sla:'48h', severity:'warning' },
+  { id:'a1', type:'proposal',    title:'Proposal signature · Client A — property mgmt',     meta:'Pro tier · $4,188/yr · 11 days since sent', owner:'JC', sla:'overdue', severity:'blocked' },
+  { id:'a2', type:'deliverable', title:'Milestone signoff · Q2 Turnover Clean',                meta:'Job J-2031 · Client K — commercial · ready for client review', owner:'PM', sla:'24h', severity:'wait-client' },
+  { id:'a3', type:'invoice',     title:'INV-0219 · Client G — federal services',                  meta:'$7,988 · draft · J-2024 complete', owner:'Finance', sla:'48h', severity:'warning' },
   { id:'a4', type:'post',        title:'LinkedIn post · Q3 feature-release announcement',      meta:'Pro · approval_required=true · 2-step chain', owner:'Marketing', sla:'72h', severity:'wait-internal' },
-  { id:'a5', type:'step',        title:'Playbook step · Subcontractor COI verified',           meta:'Dispatch · J-4421 · RiverTide Property Mgmt', owner:'DL', sla:'4h', severity:'escalated' },
-  { id:'a6', type:'proposal',    title:'MSA countersign · Meridian Realty Partners',           meta:'Operator tier · DocuSign sent 4 days ago', owner:'JC', sla:'overdue', severity:'wait-client' },
+  { id:'a5', type:'step',        title:'Playbook step · Subcontractor COI verified',           meta:'Dispatch · J-4421 · Client B — property mgmt', owner:'DL', sla:'4h', severity:'escalated' },
+  { id:'a6', type:'proposal',    title:'MSA countersign · Client C — realty',           meta:'Operator tier · DocuSign sent 4 days ago', owner:'JC', sla:'overdue', severity:'wait-client' },
   { id:'a7', type:'post',        title:'X thread · Pricing page refresh',                      meta:'Pro · approval_required=true', owner:'Marketing', sla:'24h', severity:'wait-internal' }
 ];
 const LS = 'sd_approvals_decided';

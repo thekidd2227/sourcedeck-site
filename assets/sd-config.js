@@ -50,15 +50,17 @@
     },
 
     /* Outbound funnel — SourceDeck Pricing Diagnosis Funnel (4-step).
-       Drives cold outreach into /pricing/ via the Instantly campaign
-       named below. Referenced by LCC outbound tooling. */
+       The sender is configured by the workspace owner in /settings/, not
+       hard-coded here. The static client must never carry one operator's
+       personal email into another tenant's bundle.
+       Internal/operator outbound tooling reads sender + campaign id from
+       the workspace's runtime settings, not from this file. */
     FUNNEL: {
       name:           'SourceDeck | Pricing Diagnosis Funnel | 4-step',
       pricing_url:    'https://sourcedeck.app/#pricing',
-      sender:         'charlie@digiarcgsystems.com',
+      sender:         null,                                  // workspace-configured
       daily_cap:      25,
-      /* Live Instantly campaign — 4-step diagnosis → pricing funnel. */
-      instantly_campaign_id: 'e1d2d2e5-b3cd-4ee1-8dc5-9cc1a254bbe4'
+      instantly_campaign_id: null                            // workspace-configured
     },
 
     /* Commercial posture.
