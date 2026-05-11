@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SourceDeck demo walkthrough &mdash; one opportunity, end-to-end (synthetic data)</title>
+<meta name="description" content="See how SourceDeck turns one SAM.gov opportunity into a working capture deck: import, extract deadlines and NAICS, score bid/no-bid fit, build source-backed summary, generate compliance matrix, map stakeholders safely, draft proposal sections, assign capture actions. Static walkthrough, synthetic data.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://sourcedeck.app/demo-walkthrough/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="SourceDeck demo walkthrough &mdash; one opportunity, end-to-end">
+<meta property="og:description" content="Eight stages on a synthetic SAM.gov opportunity: import, qualify, source deck, compliance matrix, stakeholders, proposal draft, capture actions. No video required &mdash; the artifacts are the demo.">
+<meta property="og:url" content="https://sourcedeck.app/demo-walkthrough/">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sd-theme.css">
+<link rel="stylesheet" href="/assets/product-preview.css">
+<style>
+.dw-wrap{max-width:1100px;margin:0 auto;padding:48px 22px 80px;position:relative;z-index:1}
+.dw-h1{font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-0.025em;line-height:1.08;color:#fff;margin:8px 0 14px}
+.dw-lede{font-size:15.5px;color:var(--sub);max-width:780px;line-height:1.65;margin-bottom:14px}
+.dw-banner{padding:14px 18px;background:linear-gradient(180deg,rgba(212,168,67,0.06),rgba(212,168,67,0.02));border:0.5px solid rgba(212,168,67,0.28);border-radius:12px;margin:18px 0 30px;font-size:13px;color:var(--sub);line-height:1.6}
+.dw-banner b{color:#fff}
+.dw-step{margin:32px 0 0;padding:24px 22px 22px;background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px}
+.dw-step-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:12px}
+.dw-step-num{flex:0 0 48px;width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#f3d684,#d4a843 55%,#a07b2a);color:#0a0a0a;font:800 18px/1 'Inter',sans-serif;display:flex;align-items:center;justify-content:center;letter-spacing:-0.02em}
+.dw-step-h{font-size:18px;font-weight:700;color:#fff;letter-spacing:-0.01em;margin-bottom:4px}
+.dw-step-d{font-size:13px;color:var(--sub);line-height:1.6}
+.dw-mock{margin-top:14px;background:#0c1016;border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;overflow:hidden}
+.dw-mock-bar{padding:9px 14px;border-bottom:0.5px solid rgba(255,255,255,0.06);background:linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01));display:flex;align-items:center;justify-content:space-between;gap:10px}
+.dw-mock-bar .left{display:flex;align-items:center;gap:10px}
+.dw-mock-bar .dots{display:flex;gap:5px}
+.dw-mock-bar .dots span{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.18)}
+.dw-mock-bar .crumb{font:500 11.5px/1 'JetBrains Mono',monospace;color:rgba(245,245,247,0.55);letter-spacing:0.04em}
+.dw-mock-bar .pill{font:600 9.5px 'JetBrains Mono',monospace;letter-spacing:0.14em;text-transform:uppercase;padding:3px 7px;border-radius:4px;background:rgba(48,209,88,0.10);color:#30d158}
+.dw-mock-bar .pill.warn{background:rgba(212,168,67,0.10);color:#d4a843}
+.dw-mock-body{padding:16px 18px;font-size:13px;color:var(--sub);line-height:1.6}
+.dw-mock-body code{font:12.5px 'JetBrains Mono',monospace;background:rgba(255,255,255,0.04);padding:2px 6px;border-radius:4px;color:#e8c66a}
+.dw-why{margin-top:12px;padding:10px 14px;background:rgba(41,151,255,0.04);border-left:2px solid var(--accent2);border-radius:6px;font-size:12.5px;color:var(--sub);line-height:1.6}
+.dw-why b{color:var(--accent2);font-weight:700;display:block;font:600 10px 'JetBrains Mono',monospace;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:4px}
+.dw-cta-row{margin:40px 0 0;padding:26px 28px;background:linear-gradient(180deg,rgba(212,168,67,0.05),rgba(212,168,67,0.01));border:0.5px solid rgba(212,168,67,0.22);border-radius:16px;text-align:center}
+.dw-cta-row h2{font-size:20px;font-weight:700;color:#fff;letter-spacing:-0.01em;margin-bottom:8px}
+.dw-cta-row p{font-size:13.5px;color:var(--sub);line-height:1.6;margin-bottom:16px;max-width:560px;margin-left:auto;margin-right:auto}
+.dw-cta-row .btn{display:inline-block;padding:13px 26px;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none;margin:0 4px}
+.dw-cta-row .btn.primary{background:linear-gradient(135deg,#d4a843,#b68a2e);color:#0a0d14}
+.dw-cta-row .btn.ghost{background:transparent;color:var(--accent2);border:0.5px solid rgba(41,151,255,0.3)}
+.dw-stake-row{display:grid;grid-template-columns:170px 1fr 110px;gap:8px 12px;font-size:12px;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)}
+.dw-stake-row:last-of-type{border-bottom:none}
+.dw-stake-row .role{color:rgba(245,245,247,0.4);font:600 10px 'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:0.08em}
+.dw-stake-row .name{color:#fff;font-weight:600}
+.dw-stake-row .name small{color:rgba(245,245,247,0.55);font-weight:400;display:block;margin-top:2px;font-size:10.5px;line-height:1.5}
+.dw-stake-row .badge{font:600 10px 'JetBrains Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;text-align:right;padding-top:1px}
+.dw-stake-row .badge.research{color:#d4a843}
+.dw-stake-row .badge.ok{color:#30d158}
+.dw-stake-row .badge.restricted{color:#ff453a}
+table.dw-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:6px}
+table.dw-tbl th, table.dw-tbl td{padding:8px 10px;text-align:left;border-bottom:0.5px solid rgba(255,255,255,0.06);vertical-align:top;color:var(--sub)}
+table.dw-tbl th{font:700 10px 'JetBrains Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;color:rgba(245,245,247,0.4)}
+table.dw-tbl td b{color:#fff;font-weight:600}
+.dw-pill{display:inline-block;font:600 10px 'JetBrains Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;padding:3px 7px;border-radius:4px}
+.dw-pill.draft{background:rgba(212,168,67,0.10);color:#d4a843}
+.dw-pill.ready{background:rgba(48,209,88,0.10);color:#30d158}
+.dw-pill.open{background:rgba(255,255,255,0.05);color:rgba(245,245,247,0.5)}
+</style>
+</head>
+<body>
+<div class="sd-bg"></div><div class="sd-grid"></div>
+
+<nav class="sd-nav">
+  <a class="sd-brand" href="/"><img src="/assets/sourcedeck-mark.svg" alt="SourceDeck logo" width="26" height="26" style="display:block;vertical-align:middle;margin-right:6px"> SourceDeck</a>
+  <div class="links">
+    <a href="/">Home</a>
+    <a href="/sample-source-deck/">Sample deck</a>
+    <a href="/methodology/">Methodology</a>
+    <a href="/data-sources/">Data sources</a>
+    <a class="cta" href="/request-access/">Request access</a>
+  </div>
+</nav>
+
+<div class="dw-wrap">
+
+  <div class="sd-eyebrow"><span class="dot"></span> Demo walkthrough &middot; synthetic data</div>
+  <h1 class="dw-h1">See how SourceDeck turns one opportunity into a working capture deck.</h1>
+  <p class="dw-lede">Eight stages, one synthetic VA SDVOSB facilities-support opportunity, end-to-end. No video required &mdash; the artifacts are the demo. Layouts, fields, and traceability mirror what SourceDeck produces on a real opportunity in your workspace.</p>
+
+  <div class="dw-banner">
+    <span class="pp-syn" style="margin-bottom:0">Synthetic data</span> &nbsp; <b>Disclaimer:</b> SourceDeck has not pulled any restricted, private, or attributed-to-real-agency data on this page. All names, contract numbers, and contact references are illustrative. The underlying record is in <a href="/assets/demo-opportunity.json" style="color:var(--accent2);font-weight:600">/assets/demo-opportunity.json</a>.
+  </div>
+
+  <!-- ===== STEP 1 ===== -->
+  <div class="dw-step">
+    <div class="dw-step-head">
+      <div class="dw-step-num">01</div>
+      <div>
+        <div class="dw-step-h">Import or paste opportunity</div>
+        <p class="dw-step-d">Paste a SAM.gov URL or upload a solicitation PDF. Solicitation, attachments, and amendments are normalized into one workspace record. The source documents stay cited downstream.</p>
+      </div>
+    </div>
+    <div class="dw-mock">
+      <div class="dw-mock-bar"><div class="left"><div class="dots"><span></span><span></span><span></span></div><div class="crumb">SourceDeck &middot; Intake</div></div><div class="pill warn">Imported &middot; needs review</div></div>
+      <div class="dw-mock-body">
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:12.5px">
+          <div style="color:var(--muted);font:600 10.5px 'JetBrains Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;padding-top:2px">Source URL</div><div style="color:#fff"><code>sam.gov/opp/<span style="color:var(--gold)">VA-SYNTH-2026-FSS-001</span></code></div>
+          <div style="color:var(--muted);font:600 10.5px 'JetBrains Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;padding-top:2px">Title</div><div style="color:#fff">Facilities Support Services &mdash; Synthetic Opportunity</div>
+          <div style="color:var(--muted);font:600 10.5px 'JetBrains Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;padding-top:2px">Attachments</div><div style="color:#fff">Solicitation.pdf &middot; Amendment-001.pdf &middot; PWS.pdf</div>
+        </div>
+      </div>
+    </div>
+    <div class="dw-why"><b>Why this matters</b>Source documents are preserved verbatim, so every downstream output (deck, matrix, draft) cites back to the actual paragraph &mdash; not a paraphrase.</div>
+  </div>
+
+  <!-- ===== STEP 2 ===== -->
+  <div class="dw-step">
+    <div class="dw-step-head">
+      <div class="dw-step-num">02</div>
+      <div>
+        <div class="dw-step-h">Extract deadlines, NAICS, set-aside, contract type, and submission rules</div>
+        <p class="dw-step-d">SourceDeck reads the solicitation header and synopsis. Submission rules (page limits, font size, file format) and amendment cadence are parsed and added to the workspace calendar.</p>
+      </div>
+    </div>
+    <div class="dw-mock">
+      <div class="dw-mock-bar"><div class="left"><div class="dots"><span></span><span></span><span></span></div><div class="crumb">SourceDeck &middot; Extracted</div></div><div class="pill">Parsed</div></div>
+      <div class="dw-mock-body">
+        <div style="display:grid;grid-template-columns:140px 1fr;gap:6px 12px;font-size:12.5px">
+          <div style="color:var(--muted);font:600 10.5px 'JetBrains Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;padding-top:2px">Agency</div><div style="color:#fff">Department of Veterans Affairs &mdash; VHA Region 5</div>
+          <div style="color:var(--muted);font:600 10.5px 'JetBrains Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;padding-top:2px">NAICS</div><div style="color:#fff">561210 &mdash; Facilities Support Services</div>
+          <div style="color:var(--muted);font:600 10.5px 'JetBrains Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;padding-top:2px">Set-aside</div><div style="color:#fff">SDVOSB total set-aside <span style="color:var(--muted)">(FAR 19.14)</span></div>
+          <div style="color:var(--muted);font:600 10.5px 'JetBrains Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;padding-top:2px">Contract type</div><div style="color:#fff">FFP &middot; base + 4 option years</div>
+          <div style="color:var(--muted);font:600 10.5px 'JetBrains Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;padding-top:2px">Q&amp;A close</div><div style="color:#fff">2026-06-05 17:00 ET</div>
+          <div style="color:var(--muted);font:600 10.5px 'JetBrains Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;padding-top:2px">Proposal due</div><div style="color:#fff">2026-06-19 17:00 ET</div>
+        </div>
+      </div>
+    </div>
+    <div class="dw-why"><b>Why this matters</b>The most expensive proposal mistake is a Section L compliance miss &mdash; wrong format, wrong page count, wrong file type. Catching submission rules at intake makes that miss preventable.</div>
+  </div>
+
+  <!-- ===== STEP 3 ===== -->
+  <div class="dw-step">
+    <div class="dw-step-head">
+      <div class="dw-step-num">03</div>
+      <div>
+        <div class="dw-step-h">Score bid/no-bid fit</div>
+        <p class="dw-step-d">A 0&ndash;100 score across configurable dimensions: NAICS / PSC fit, set-aside eligibility, agency history, contract type, deadline runway, capacity, past-performance match. Returns a written rationale you can defend in a bid review.</p>
+      </div>
+    </div>
+    <div class="dw-mock">
+      <div class="dw-mock-bar"><div class="left"><div class="dots"><span></span><span></span><span></span></div><div class="crumb">SourceDeck &middot; Fit Score</div></div><div class="pill">Bid recommended</div></div>
+      <div class="dw-mock-body">
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center">
+          <div style="font-size:54px;font-weight:800;color:#d4a843;letter-spacing:-0.03em;line-height:1">82<span style="font-size:18px;color:var(--muted);font-weight:500;margin-left:4px">/100</span></div>
+          <div>
+            <span class="dw-pill draft" style="background:rgba(48,209,88,0.10);color:#30d158">Recommendation: BID</span>
+            <p style="font-size:11.5px;color:var(--muted);margin-top:6px;line-height:1.55">Strengths: SDVOSB fit, facilities past performance, recurring service scope. Risks: short response window, incumbent unknown, staffing assumptions need a sub teaming partner.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dw-why"><b>Why this matters</b>Bid/no-bid is the single highest-leverage decision in capture. A defensible written score &mdash; not a gut call &mdash; survives turnover and scales across pursuits.</div>
+  </div>
+
+  <!-- ===== STEP 4 ===== -->
+  <div class="dw-step">
+    <div class="dw-step-head">
+      <div class="dw-step-num">04</div>
+      <div>
+        <div class="dw-step-h">Build source-backed opportunity summary</div>
+        <p class="dw-step-d">A one-page sourced summary: agency, scope, evaluation factors, period of performance, ceiling, set-aside, decision notes. Every claim links back to the source document. The full sample is on the <a href="/sample-source-deck/" style="color:var(--accent2);font-weight:600">sample SourceDeck page</a>.</p>
+      </div>
+    </div>
+    <div class="dw-mock">
+      <div class="dw-mock-bar"><div class="left"><div class="dots"><span></span><span></span><span></span></div><div class="crumb">SourceDeck &middot; Source Deck</div></div><div class="pill">Cited</div></div>
+      <div class="dw-mock-body">
+        <p style="margin:0 0 8px"><b style="color:#fff">Tier 1 facilities support &mdash; recurring custodial and grounds work</b> at the VA Medical Center, base + 4 option years, SDVOSB total set-aside <span style="color:var(--accent2)">[L.2, p. 7]</span>. Weighted heavily toward technical approach and past performance <span style="color:var(--accent2)">[M.1, M.2]</span>. Single-shift staffing core with on-call for after-hours work orders <span style="color:var(--accent2)">[PWS &sect;3.2]</span>.</p>
+        <p style="font-size:11px;color:var(--muted);margin-top:6px">Citations link into the cached solicitation PDF in the live workspace.</p>
+      </div>
+    </div>
+    <div class="dw-why"><b>Why this matters</b>Citations turn a deck from a one-shot writeup into an audit trail. A reviewer can see exactly which paragraph drove every claim &mdash; and that&rsquo;s how a deck survives a procurement review.</div>
+  </div>
+
+  <!-- ===== STEP 5 ===== -->
+  <div class="dw-step">
+    <div class="dw-step-head">
+      <div class="dw-step-num">05</div>
+      <div>
+        <div class="dw-step-h">Generate compliance matrix starter</div>
+        <p class="dw-step-d">Section L requirements paired with Section M evaluation factors. Each requirement mapped to a response location, an owner, and an evidence artifact. Exports to Word with traceability preserved.</p>
+      </div>
+    </div>
+    <div class="dw-mock">
+      <div class="dw-mock-bar"><div class="left"><div class="dots"><span></span><span></span><span></span></div><div class="crumb">SourceDeck &middot; Compliance Matrix</div></div><div class="pill warn">In progress</div></div>
+      <div class="dw-mock-body">
+        <table class="dw-tbl">
+          <thead><tr><th>Section L</th><th>Requirement</th><th>Section M</th><th>Owner</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>L.3.1</td><td><b>Technical approach</b> &mdash; staffing model + shift coverage</td><td>M.1 (40%)</td><td>Capture lead</td><td><span class="dw-pill draft">draft</span></td></tr>
+            <tr><td>L.3.2</td><td><b>Past performance</b> &mdash; 3 contracts within 5 years</td><td>M.2 (25%)</td><td>Proposal lead</td><td><span class="dw-pill ready">ready</span></td></tr>
+            <tr><td>L.3.4</td><td><b>Section 889 representation</b></td><td>M.4 (10%)</td><td>Compliance</td><td><span class="dw-pill ready">ready</span></td></tr>
+            <tr><td>L.3.5</td><td><b>Price</b> &mdash; FFP rate per FTE per month</td><td>M.3 (25%)</td><td>Finance</td><td><span class="dw-pill open">open</span></td></tr>
+            <tr><td>L.3.6</td><td><b>SDVOSB self-performance</b> &mdash; FAR 52.219-14</td><td>M.4 (10%)</td><td>Compliance</td><td><span class="dw-pill ready">ready</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="dw-why"><b>Why this matters</b>The compliance matrix is the document that keeps a proposal from being thrown out on a technicality. Building it on day one &mdash; not on day twenty &mdash; changes the proposal&rsquo;s economics.</div>
+  </div>
+
+  <!-- ===== STEP 6 ===== -->
+  <div class="dw-step">
+    <div class="dw-step-head">
+      <div class="dw-step-num">06</div>
+      <div>
+        <div class="dw-step-h">Map stakeholder categories safely</div>
+        <p class="dw-step-d">The buying constellation around the opportunity, with FAR-aware contact posture per role. Reference intelligence only. SourceDeck does not recommend mass outreach or contact during restricted communication windows.</p>
+      </div>
+    </div>
+    <div class="dw-mock">
+      <div class="dw-mock-bar"><div class="left"><div class="dots"><span></span><span></span><span></span></div><div class="crumb">SourceDeck &middot; Stakeholder Graph</div></div><div class="pill warn">FAR-aware</div></div>
+      <div class="dw-mock-body">
+        <div class="dw-stake-row"><span class="role">Contracting office</span><span class="name">Synthetic CO<small>Communications restricted to official Q&amp;A mechanism.</small></span><span class="badge restricted">restricted</span></div>
+        <div class="dw-stake-row"><span class="role">Program / mission</span><span class="name">VHA Region 5 facilities lead<small>Approachable through industry days only.</small></span><span class="badge research">research</span></div>
+        <div class="dw-stake-row"><span class="role">Small Business Spec.</span><span class="name">VA SBS, Region 5<small>Standard pre-RFP capability outreach OK.</small></span><span class="badge ok">approachable</span></div>
+        <div class="dw-stake-row"><span class="role">Likely incumbent</span><span class="name">Public-record FPDS award<small>Win/loss analysis only.</small></span><span class="badge research">research</span></div>
+        <div class="dw-stake-row"><span class="role">Teaming partner</span><span class="name">SDVOSB facilities sub &mdash; night shift<small>Mutual NDA standard.</small></span><span class="badge ok">candidate</span></div>
+      </div>
+    </div>
+    <div class="dw-why"><b>Why this matters</b>Stakeholder intelligence is reference intelligence, not a contact list. SourceDeck&rsquo;s posture follows FAR rules and solicitation-imposed communication windows. See <a href="/data-sources/" style="color:var(--accent2);font-weight:600">/data-sources/</a> for the full posture.</div>
+  </div>
+
+  <!-- ===== STEP 7 ===== -->
+  <div class="dw-step">
+    <div class="dw-step-head">
+      <div class="dw-step-num">07</div>
+      <div>
+        <div class="dw-step-h">Draft proposal sections for human review</div>
+        <p class="dw-step-d">Response sections drafted against your past-performance library and the parsed compliance matrix. <b>AI draft &middot; human review required.</b> Reviewer notes call out assumptions to verify before submission.</p>
+      </div>
+    </div>
+    <div class="dw-mock">
+      <div class="dw-mock-bar"><div class="left"><div class="dots"><span></span><span></span><span></span></div><div class="crumb">SourceDeck &middot; Proposal Draft</div></div><div class="pill warn">AI draft &middot; review required</div></div>
+      <div class="dw-mock-body">
+        <p style="margin:0 0 8px;font-size:12px;color:var(--muted)"><b style="color:#fff;font-size:13px">Section: Technical approach</b> &mdash; status: AI draft, human review required</p>
+        <div style="font:13px/1.65 'Inter',sans-serif;color:rgba(245,245,247,0.78);background:rgba(255,255,255,0.02);border:0.5px solid rgba(255,255,255,0.06);border-radius:8px;padding:12px 14px;margin:6px 0">
+          <div style="font:600 10px 'JetBrains Mono',monospace;letter-spacing:0.1em;color:#d4a843;text-transform:uppercase;margin-bottom:8px">[Sample excerpt &mdash; synthetic data, AI draft, human review required]</div>
+          Our approach to facilities support at the VA Medical Center is built on three principles: a stable on-site staffing model with named shift leads, a documented escalation path for after-hours work orders, and continuous-improvement reporting tied to the agency&rsquo;s SLAs. We propose a single-shift core team augmented by an SDVOSB sub-partner for night and weekend coverage, ensuring SDVOSB self-performance compliance under FAR 52.219-14.
+        </div>
+        <ul style="list-style:none;padding:0;margin:6px 0 0;font-size:11.5px;color:var(--sub);line-height:1.6">
+          <li style="padding-left:16px;position:relative"><span style="position:absolute;left:0;color:#d4a843;font-weight:800">!</span>Verify staffing assumptions before submission.</li>
+          <li style="padding-left:16px;position:relative"><span style="position:absolute;left:0;color:#d4a843;font-weight:800">!</span>Confirm sub MOU is signed before referencing it in the FAR 52.219-14 attestation.</li>
+          <li style="padding-left:16px;position:relative"><span style="position:absolute;left:0;color:#d4a843;font-weight:800">!</span>Cross-check Section L paragraph references against the live solicitation amendment.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="dw-why"><b>Why this matters</b>An AI draft is a starting point, not a deliverable. Every saved deliverable is reviewed by a named human owner before it leaves the workspace &mdash; see <a href="/methodology/" style="color:var(--accent2);font-weight:600">methodology</a>.</div>
+  </div>
+
+  <!-- ===== STEP 8 ===== -->
+  <div class="dw-step">
+    <div class="dw-step-head">
+      <div class="dw-step-num">08</div>
+      <div>
+        <div class="dw-step-h">Assign capture actions and follow-up</div>
+        <p class="dw-step-d">Capture-action plan tied to the actual solicitation calendar. Q&amp;A windows, amendment dates, color-team review dates. Owners assigned, FAR-aware contact posture preserved.</p>
+      </div>
+    </div>
+    <div class="dw-mock">
+      <div class="dw-mock-bar"><div class="left"><div class="dots"><span></span><span></span><span></span></div><div class="crumb">SourceDeck &middot; Capture Actions</div></div><div class="pill">Scheduled</div></div>
+      <div class="dw-mock-body">
+        <table class="dw-tbl">
+          <thead><tr><th>Day</th><th>Action</th><th>Owner</th></tr></thead>
+          <tbody>
+            <tr><td>D-21</td><td>Review solicitation in full; flag ambiguities</td><td>Capture lead</td></tr>
+            <tr><td>D-19</td><td>Submit Q&amp;A through SAM.gov interest list</td><td>Proposal lead</td></tr>
+            <tr><td>D-18</td><td>Identify night-shift sub teaming partner</td><td>BD lead</td></tr>
+            <tr><td>D-12</td><td>Draft technical approach + management plan</td><td>Proposal team</td></tr>
+            <tr><td>D-7</td><td>Cost narrative + price workbook complete</td><td>Finance</td></tr>
+            <tr><td>D-2</td><td>Final compliance check against Section L</td><td>Compliance lead</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="dw-why"><b>Why this matters</b>Most pursuits don&rsquo;t fail at the proposal &mdash; they fail in the gap between &ldquo;saw it&rdquo; and &ldquo;wrote it.&rdquo; A scheduled action calendar with named owners closes that gap.</div>
+  </div>
+
+  <!-- CTA -->
+  <div class="dw-cta-row">
+    <h2>Run SourceDeck on one of your real opportunities.</h2>
+    <p>Send a SAM.gov URL or a solicitation PDF. We&rsquo;ll produce a SourceDeck on it as part of the access conversation. No SDR queue.</p>
+    <a class="btn primary" href="/request-access/">Analyze one opportunity &rarr;</a>
+    <a class="btn ghost" href="/sample-source-deck/">View sample SourceDeck</a>
+  </div>
+
+</div>
+
+<footer class="sd-foot">SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">&middot;</span> &copy; 2026 Ariel&rsquo;s River Contracting Group LLC</footer>
+</body>
+</html>

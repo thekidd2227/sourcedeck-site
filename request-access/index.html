@@ -50,6 +50,7 @@
 .ra-side .step .t{font-size:12.5px;color:var(--sub);line-height:1.55}
 .honeypot{position:absolute;left:-9999px}
 </style>
+<link rel="stylesheet" href="/assets/product-preview.css">
 </head>
 <body>
 <div class="sd-bg"></div><div class="sd-grid"></div>
@@ -62,6 +63,7 @@
     <a href="/federal/">Federal</a>
     <a href="/compare/">Compare</a>
     <a href="/methodology/">Methodology</a>
+    <a href="/demo-walkthrough/">Walkthrough</a>
     <a class="cta" href="#form">Request access</a>
   </div>
 </nav>
@@ -197,6 +199,136 @@
     </div>
 
   </div>
+
+<!-- ============================================================
+     PRODUCT PREVIEW (synthetic data — see /assets/demo-opportunity.json)
+     Reusable block. Mirrors the homepage / sample / request-access /
+     demo-walkthrough layouts. All values illustrative.
+     ============================================================ -->
+<section class="pp-section" aria-label="Product preview — synthetic data">
+  <div class="pp-eye">Product preview</div>
+  <h2 class="pp-h2">What SourceDeck looks like on a real opportunity.</h2>
+  <p class="pp-lede">Five surfaces from one pursued opportunity. Layouts, fields, and traceability are real; every value below is synthetic for illustration only.</p>
+  <span class="pp-syn">Synthetic data</span>
+
+  <div class="pp-grid">
+
+    <!-- 01 · Opportunity Intake -->
+    <div class="pp-card span-7">
+      <div class="pp-bar"><div class="left"><div class="dots"><span></span><span></span><span></span></div><div class="crumb">SourceDeck &middot; Opportunity Intake</div></div><div class="pill warn">Imported &middot; needs review</div></div>
+      <div class="pp-body">
+        <h3 class="pp-h3">Facilities Support Services &mdash; Synthetic Opportunity</h3>
+        <p class="pp-sub" style="margin-bottom:12px">Solicitation parsed from SAM.gov. Synopsis, attachments, and any amendments normalized into one workspace record &mdash; cited downstream.</p>
+        <div class="pp-kvp">
+          <div class="k">Solicitation</div><div class="v">VA-SYNTH-2026-FSS-001 <small>synthetic</small></div>
+          <div class="k">Agency</div><div class="v">Department of Veterans Affairs <small>VHA &mdash; Region 5</small></div>
+          <div class="k">NAICS</div><div class="v">561210 &mdash; Facilities Support Services</div>
+          <div class="k">PSC</div><div class="v">S203 &mdash; Housekeeping / Custodial Janitorial</div>
+          <div class="k">Set-aside</div><div class="v">SDVOSB total set-aside <small>FAR 19.14</small></div>
+          <div class="k">Contract type</div><div class="v">FFP &middot; base + 4 option years</div>
+          <div class="k">Place of performance</div><div class="v">VA Medical Center &mdash; synthetic location, region 5</div>
+          <div class="k">Q&amp;A close</div><div class="v">2026-06-05 17:00 ET</div>
+          <div class="k">Proposal due</div><div class="v">2026-06-19 17:00 ET</div>
+          <div class="k">Ceiling estimate</div><div class="v">$6.2M total contract value <small>illustrative</small></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 · Fit Score -->
+    <div class="pp-card span-5">
+      <div class="pp-bar"><div class="left"><div class="dots"><span></span><span></span><span></span></div><div class="crumb">SourceDeck &middot; Fit Score</div></div><div class="pill">Bid recommended</div></div>
+      <div class="pp-body">
+        <div class="pp-fit">
+          <div class="num">82<small>/100</small></div>
+          <div class="meta">
+            <span class="tag">Recommendation: BID</span>
+            <p>Above 70 = bid &middot; 50&ndash;70 = consider &middot; below 50 = decline. Threshold configurable per workspace.</p>
+          </div>
+        </div>
+        <div class="pp-bars">
+          <div class="row"><span class="lbl">NAICS / PSC fit</span><span class="bar"><span class="fill" style="width:95%"></span></span><span class="num">95</span></div>
+          <div class="row"><span class="lbl">Set-aside eligible</span><span class="bar"><span class="fill" style="width:100%"></span></span><span class="num">100</span></div>
+          <div class="row"><span class="lbl">Past performance</span><span class="bar"><span class="fill" style="width:80%"></span></span><span class="num">80</span></div>
+          <div class="row"><span class="lbl">Agency history</span><span class="bar"><span class="fill" style="width:78%"></span></span><span class="num">78</span></div>
+          <div class="row"><span class="lbl">Capacity vs PoP</span><span class="bar"><span class="fill" style="width:70%"></span></span><span class="num">70</span></div>
+          <div class="row"><span class="lbl">Deadline runway</span><span class="bar"><span class="fill" style="width:60%"></span></span><span class="num">60</span></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px">
+          <div>
+            <div style="font:700 10px 'JetBrains Mono',monospace;letter-spacing:0.12em;color:#30d158;text-transform:uppercase;margin-bottom:4px">Strengths</div>
+            <ul class="pp-list">
+              <li>SDVOSB fit &mdash; VetCert verified</li>
+              <li>Facilities past performance &mdash; 3 CPARS</li>
+              <li>Recurring service scope</li>
+            </ul>
+          </div>
+          <div>
+            <div style="font:700 10px 'JetBrains Mono',monospace;letter-spacing:0.12em;color:#d4a843;text-transform:uppercase;margin-bottom:4px">Risks</div>
+            <ul class="pp-list risks">
+              <li>Short response window</li>
+              <li>Incumbent unknown</li>
+              <li>Staffing assumptions</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 · Compliance Matrix -->
+    <div class="pp-card span-7">
+      <div class="pp-bar"><div class="left"><div class="dots"><span></span><span></span><span></span></div><div class="crumb">SourceDeck &middot; Compliance Matrix</div></div><div class="pill warn">In progress</div></div>
+      <div class="pp-body">
+        <p class="pp-sub" style="margin-bottom:6px">Section L &harr; Section M extracted from the synthetic solicitation. Each requirement linked to a response location, an owner, and an evidence artifact.</p>
+        <table class="pp-matrix">
+          <thead><tr><th>Section L</th><th>Requirement</th><th>Section M</th><th>Owner</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>L.3.1</td><td><b>Technical approach</b> &mdash; staffing model + shift coverage</td><td>M.1 (40%)</td><td>Capture lead</td><td><span class="stat draft">draft</span></td></tr>
+            <tr><td>L.3.2</td><td><b>Past performance</b> &mdash; 3 contracts within 5 years</td><td>M.2 (25%)</td><td>Proposal lead</td><td><span class="stat ready">ready</span></td></tr>
+            <tr><td>L.3.3</td><td><b>Management plan</b> &mdash; transition + risk mitigation</td><td>M.1 (40%)</td><td>Operations</td><td><span class="stat draft">draft</span></td></tr>
+            <tr><td>L.3.4</td><td><b>Section 889 representation</b></td><td>M.4 (10%)</td><td>Compliance</td><td><span class="stat ready">ready</span></td></tr>
+            <tr><td>L.3.5</td><td><b>Price</b> &mdash; FFP rate per FTE per month</td><td>M.3 (25%)</td><td>Finance</td><td><span class="stat open">open</span></td></tr>
+            <tr><td>L.3.6</td><td><b>SDVOSB self-performance</b> &mdash; FAR 52.219-14</td><td>M.4 (10%)</td><td>Compliance</td><td><span class="stat ready">ready</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 04 · Stakeholder Graph -->
+    <div class="pp-card span-5">
+      <div class="pp-bar"><div class="left"><div class="dots"><span></span><span></span><span></span></div><div class="crumb">SourceDeck &middot; Stakeholder Graph</div></div><div class="pill warn">FAR-aware</div></div>
+      <div class="pp-body">
+        <p class="pp-sub" style="margin-bottom:8px">Buying constellation around the opportunity. Reference intelligence only.</p>
+        <div class="pp-stake"><span class="role">Contracting office</span><span class="name">Synthetic CO<small>Communications restricted to official Q&amp;A mechanism.</small></span><span class="badge restricted">restricted</span></div>
+        <div class="pp-stake"><span class="role">Program / mission</span><span class="name">VHA Region 5 facilities lead<small>Approachable through industry days only.</small></span><span class="badge research">research</span></div>
+        <div class="pp-stake"><span class="role">Small Business Spec.</span><span class="name">VA SBS, Region 5<small>Standard pre-RFP capability outreach OK.</small></span><span class="badge ok">approachable</span></div>
+        <div class="pp-stake"><span class="role">Likely incumbent</span><span class="name">Public-record FPDS award<small>Win/loss analysis only.</small></span><span class="badge research">research</span></div>
+        <div class="pp-stake"><span class="role">Teaming partner</span><span class="name">SDVOSB facilities sub &mdash; night shift<small>Mutual NDA standard.</small></span><span class="badge ok">candidate</span></div>
+        <div class="pp-warn"><b>Safety:</b> Follow solicitation instructions and communication windows. SourceDeck does not recommend direct outreach to a contracting officer during a restricted communication window. See <a href="/federal/" style="color:#2997ff">/federal/</a> and <a href="/data-sources/" style="color:#2997ff">/data-sources/</a>.</div>
+      </div>
+    </div>
+
+    <!-- 05 · Proposal Draft -->
+    <div class="pp-card span-12">
+      <div class="pp-bar"><div class="left"><div class="dots"><span></span><span></span><span></span></div><div class="crumb">SourceDeck &middot; Proposal Draft</div></div><div class="pill warn">AI draft &middot; human review required</div></div>
+      <div class="pp-body pp-draft">
+        <div class="meta-row">
+          <span class="label">Section</span><b style="color:#fff;font-size:13px">Technical approach</b>
+          <span class="label" style="margin-left:14px">Status</span><span class="stat">AI draft &middot; review required</span>
+        </div>
+        <div class="excerpt"><p>Our approach to facilities support at the VA Medical Center is built on three principles: a stable on-site staffing model with named shift leads, a documented escalation path for after-hours work orders, and continuous-improvement reporting tied to the agency&rsquo;s SLAs. We propose a single-shift core team augmented by an SDVOSB sub-partner for night and weekend coverage, ensuring SDVOSB self-performance compliance under FAR 52.219-14.</p></div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px">
+          <div style="padding:10px 12px;background:rgba(212,168,67,0.05);border:0.5px solid rgba(212,168,67,0.18);border-radius:8px;font-size:11.5px;color:rgba(245,245,247,0.7);line-height:1.55"><b style="color:#d4a843">Reviewer note 1.</b><br>Verify staffing assumptions before submission.</div>
+          <div style="padding:10px 12px;background:rgba(212,168,67,0.05);border:0.5px solid rgba(212,168,67,0.18);border-radius:8px;font-size:11.5px;color:rgba(245,245,247,0.7);line-height:1.55"><b style="color:#d4a843">Reviewer note 2.</b><br>Confirm sub MOU is signed before referencing it in the FAR 52.219-14 attestation.</div>
+          <div style="padding:10px 12px;background:rgba(212,168,67,0.05);border:0.5px solid rgba(212,168,67,0.18);border-radius:8px;font-size:11.5px;color:rgba(245,245,247,0.7);line-height:1.55"><b style="color:#d4a843">Reviewer note 3.</b><br>Cross-check Section L paragraph references against the live solicitation amendment.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="pp-foot">All five surfaces above use synthetic data from <a href="/assets/demo-opportunity.json"><code>/assets/demo-opportunity.json</code></a>. Walk the same opportunity end-to-end on the <a href="/demo-walkthrough/">demo walkthrough</a>, or send us a real one via <a href="/request-access/">request access</a>.</p>
+</section>
+
 
 </div>
 

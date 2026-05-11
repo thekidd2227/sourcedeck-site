@@ -1,0 +1,77 @@
+{
+  "_synthetic": true,
+  "_disclaimer": "This file contains synthetic data only. No real solicitation, agency relationship, contract, customer, or contact is represented. Names, addresses, contract numbers, and contact roles are illustrative.",
+  "opportunity": {
+    "title": "Facilities Support Services — Synthetic Opportunity",
+    "solicitation_number": "VA-SYNTH-2026-FSS-001",
+    "agency": "Department of Veterans Affairs",
+    "sub_agency": "Veterans Health Administration",
+    "naics": "561210",
+    "naics_label": "Facilities Support Services",
+    "psc": "S203 — Housekeeping/Custodial Janitorial Services",
+    "set_aside": "SDVOSB total set-aside (FAR 19.14)",
+    "contract_type": "FFP, base + 4 option years",
+    "place_of_performance": "VA Medical Center — synthetic location, region 5",
+    "due_date": "2026-06-19T17:00:00-04:00",
+    "qa_window_close": "2026-06-05T17:00:00-04:00",
+    "ceiling_estimate_usd": 6200000,
+    "status": "Imported · needs review"
+  },
+  "fit_score": {
+    "score": 82,
+    "max": 100,
+    "recommendation": "BID",
+    "strengths": [
+      "SDVOSB set-aside fit — VetCert verified",
+      "Facilities past performance — three CPARS-rated VA contracts in last 36 months",
+      "Recurring service scope — fits operational profile"
+    ],
+    "risks": [
+      "Short response window — 14 days from RFP release",
+      "Incumbent unknown — needs FPDS lookup before color team",
+      "Staffing assumptions — sub partner needed for night-shift coverage"
+    ],
+    "dimensions": [
+      {"label": "NAICS / PSC fit",     "score": 95},
+      {"label": "Set-aside eligible",   "score": 100},
+      {"label": "Past performance",     "score": 80},
+      {"label": "Agency history",       "score": 78},
+      {"label": "Capacity vs PoP",      "score": 70},
+      {"label": "Deadline runway",      "score": 60}
+    ]
+  },
+  "compliance_matrix": [
+    {"req_id": "L.3.1", "requirement": "Technical approach — staffing model and shift coverage", "section_m": "M.1 Technical (40%)", "owner": "Capture lead", "status": "draft", "evidence": "Org chart + key personnel resumes"},
+    {"req_id": "L.3.2", "requirement": "Past performance — 3 contracts within 5 years",          "section_m": "M.2 Past Perf (25%)", "owner": "Proposal lead", "status": "ready", "evidence": "3 CPARS records + POC permission"},
+    {"req_id": "L.3.3", "requirement": "Management plan — transition + risk mitigation",         "section_m": "M.1 Technical (40%)", "owner": "Operations", "status": "draft", "evidence": "30/60/90 transition plan"},
+    {"req_id": "L.3.4", "requirement": "Section 889 representation",                              "section_m": "M.4 Compliance (10%)", "owner": "Compliance",   "status": "ready", "evidence": "889 rep on file"},
+    {"req_id": "L.3.5", "requirement": "Price — FFP rate per FTE per month",                      "section_m": "M.3 Price (25%)",      "owner": "Finance",      "status": "open",  "evidence": "Cost narrative + B&P workbook"},
+    {"req_id": "L.3.6", "requirement": "SDVOSB self-performance attestation (FAR 52.219-14)",     "section_m": "M.4 Compliance (10%)", "owner": "Compliance",   "status": "ready", "evidence": "Self-perf attestation + sub MOU"}
+  ],
+  "stakeholder_graph": [
+    {"role": "Contracting officer",    "label": "Synthetic CO",                       "posture": "reference only · communications restricted to official Q&A mechanism"},
+    {"role": "Program / mission owner","label": "VHA Region 5 facilities lead",       "posture": "research target · approachable through industry days only"},
+    {"role": "Small Business Specialist","label": "VA SBS, Region 5",                  "posture": "approachable · standard pre-RFP capability outreach"},
+    {"role": "Likely incumbent",       "label": "Public-record FPDS award",            "posture": "research target · win/loss analysis only"},
+    {"role": "Potential teaming partner","label": "SDVOSB facilities sub — night shift","posture": "outreach candidate · mutual NDA standard"}
+  ],
+  "stakeholder_safety_note": "Follow solicitation instructions and communication windows. SourceDeck does not recommend direct outreach to a contracting officer during a restricted communication window. See /federal/ and /data-sources/.",
+  "proposal_draft": {
+    "section": "Technical approach",
+    "status": "AI draft · human review required",
+    "reviewer_notes": [
+      "Verify staffing assumptions before submission.",
+      "Confirm sub MOU is signed before referencing in self-performance attestation.",
+      "Cross-check Section L paragraph references against the live solicitation amendment."
+    ],
+    "draft_excerpt": "[SAMPLE] Our approach to facilities support at the VA Medical Center is built on three principles: a stable on-site staffing model with named shift leads, a documented escalation path for after-hours work orders, and continuous-improvement reporting tied to the agency's SLAs. We propose a single-shift core team augmented by an SDVOSB sub-partner for night and weekend coverage, ensuring SDVOSB self-performance compliance under FAR 52.219-14."
+  },
+  "capture_actions": [
+    {"day": "D-21", "action": "Review solicitation in full; flag ambiguities", "owner": "Capture lead"},
+    {"day": "D-19", "action": "Submit Q&A through SAM.gov interest list",      "owner": "Proposal lead"},
+    {"day": "D-18", "action": "Identify night-shift sub teaming partner",       "owner": "BD lead"},
+    {"day": "D-12", "action": "Draft technical approach + management plan",     "owner": "Proposal team"},
+    {"day": "D-7",  "action": "Cost narrative + price workbook complete",       "owner": "Finance"},
+    {"day": "D-2",  "action": "Final compliance check against Section L",       "owner": "Compliance lead"}
+  ]
+}

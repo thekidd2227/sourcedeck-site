@@ -1,0 +1,114 @@
+/* product-preview.css
+   Reusable static product-proof block for SourceDeck.
+   All data shown is synthetic; see /assets/demo-opportunity.json
+   for the underlying record. Inlined into homepage, sample-source-deck,
+   request-access, and demo-walkthrough.
+*/
+
+.pp-section{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:48px 24px 32px}
+.pp-eye{display:inline-flex;align-items:center;gap:8px;font:600 11px 'JetBrains Mono',ui-monospace,monospace;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold,#d4a843);margin-bottom:10px}
+.pp-eye::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold,#d4a843);box-shadow:0 0 8px rgba(212,168,67,0.6)}
+.pp-h2{font-size:clamp(24px,3.4vw,36px);font-weight:800;letter-spacing:-0.025em;line-height:1.1;color:#fff;margin:6px 0 8px;max-width:780px}
+.pp-lede{font-size:14.5px;color:rgba(245,245,247,0.7);line-height:1.6;max-width:680px;margin-bottom:8px}
+.pp-syn{display:inline-flex;align-items:center;gap:6px;font:600 10px 'JetBrains Mono',monospace;letter-spacing:0.14em;text-transform:uppercase;padding:3px 8px;border-radius:4px;color:#d4a843;background:rgba(212,168,67,0.10);border:0.5px solid rgba(212,168,67,0.25);margin-top:6px;margin-bottom:18px}
+.pp-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;align-items:start}
+@media(max-width:980px){.pp-grid{grid-template-columns:repeat(6,1fr)}}
+@media(max-width:640px){.pp-grid{grid-template-columns:1fr}}
+
+/* Card chrome */
+.pp-card{
+  position:relative;background:#0c1016;
+  border:0.5px solid rgba(255,255,255,0.10);border-radius:14px;
+  padding:0;overflow:hidden;
+  box-shadow:0 14px 40px -16px rgba(0,0,0,0.7);
+}
+.pp-card.span-7{grid-column:span 7}
+.pp-card.span-5{grid-column:span 5}
+.pp-card.span-6{grid-column:span 6}
+.pp-card.span-12{grid-column:span 12}
+@media(max-width:980px){.pp-card.span-7,.pp-card.span-5,.pp-card.span-6{grid-column:span 6}}
+@media(max-width:640px){.pp-card.span-7,.pp-card.span-5,.pp-card.span-6{grid-column:span 1}}
+
+/* Window-bar header on cards (looks like an app pane) */
+.pp-bar{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:9px 14px;border-bottom:0.5px solid rgba(255,255,255,0.06);
+  background:linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01));
+}
+.pp-bar .left{display:flex;align-items:center;gap:8px;min-width:0}
+.pp-bar .dots{display:flex;gap:5px}
+.pp-bar .dots span{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.18)}
+.pp-bar .crumb{font:500 11.5px/1 'JetBrains Mono',monospace;color:rgba(245,245,247,0.55);letter-spacing:0.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pp-bar .pill{font:600 9.5px 'JetBrains Mono',monospace;letter-spacing:0.14em;text-transform:uppercase;padding:3px 7px;border-radius:4px;background:rgba(48,209,88,0.10);color:#30d158;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.pp-bar .pill::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor}
+.pp-bar .pill.warn{background:rgba(212,168,67,0.10);color:#d4a843}
+
+.pp-body{padding:16px 18px}
+
+/* Field rows */
+.pp-kvp{display:grid;grid-template-columns:130px 1fr;gap:6px 12px}
+.pp-kvp .k{color:rgba(245,245,247,0.4);font:600 10.5px 'JetBrains Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;padding-top:2px}
+.pp-kvp .v{color:#fff;font-size:12.5px;font-weight:500;line-height:1.5}
+.pp-kvp .v small{color:rgba(245,245,247,0.4);font-weight:400;font-size:11px;display:block;margin-top:2px}
+
+/* Card titles inside body */
+.pp-h3{font-size:13.5px;font-weight:700;color:#fff;letter-spacing:-0.005em;margin:0 0 6px}
+.pp-sub{font-size:12px;color:rgba(245,245,247,0.55);line-height:1.55}
+
+/* Fit score visual */
+.pp-fit{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;padding:6px 4px 10px}
+.pp-fit .num{font-size:54px;font-weight:800;color:#d4a843;letter-spacing:-0.03em;line-height:1}
+.pp-fit .num small{font-size:18px;color:rgba(245,245,247,0.4);font-weight:500;margin-left:4px}
+.pp-fit .meta .tag{display:inline-block;font:600 10px 'JetBrains Mono',monospace;letter-spacing:0.14em;text-transform:uppercase;padding:3px 8px;border-radius:4px;background:rgba(48,209,88,0.10);color:#30d158;margin-bottom:6px}
+.pp-fit .meta p{font-size:11.5px;color:rgba(245,245,247,0.55);line-height:1.55;margin:0}
+
+.pp-bars{display:grid;grid-template-columns:1fr;gap:5px;margin-top:6px}
+.pp-bars .row{display:grid;grid-template-columns:120px 1fr 36px;align-items:center;gap:10px;font-size:11.5px}
+.pp-bars .row .lbl{color:rgba(245,245,247,0.55)}
+.pp-bars .row .bar{height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden}
+.pp-bars .row .fill{height:100%;background:linear-gradient(90deg,#d4a843,#b68a2e);border-radius:3px}
+.pp-bars .row .num{text-align:right;font:600 11.5px 'JetBrains Mono',monospace;color:#fff}
+
+/* Lists for strengths/risks */
+.pp-list{list-style:none;padding:0;margin:8px 0 4px;display:flex;flex-direction:column;gap:5px}
+.pp-list li{font-size:12px;color:rgba(245,245,247,0.65);line-height:1.55;padding-left:14px;position:relative}
+.pp-list li::before{content:'+';position:absolute;left:2px;color:#30d158;font-weight:800}
+.pp-list.risks li::before{content:'!';color:#d4a843}
+
+/* Compliance matrix table */
+.pp-matrix{width:100%;border-collapse:collapse;font-size:11.5px;margin-top:4px}
+.pp-matrix th, .pp-matrix td{padding:8px 10px;text-align:left;border-bottom:0.5px solid rgba(255,255,255,0.06);vertical-align:top}
+.pp-matrix th{font:700 9.5px 'JetBrains Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;color:rgba(245,245,247,0.4);background:rgba(255,255,255,0.02)}
+.pp-matrix td{color:rgba(245,245,247,0.7);line-height:1.5}
+.pp-matrix td b{color:#fff;font-weight:600}
+.pp-matrix .stat{font:600 9.5px 'JetBrains Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;padding:2px 6px;border-radius:3px}
+.pp-matrix .stat.draft{background:rgba(212,168,67,0.10);color:#d4a843}
+.pp-matrix .stat.ready{background:rgba(48,209,88,0.10);color:#30d158}
+.pp-matrix .stat.open{background:rgba(255,255,255,0.05);color:rgba(245,245,247,0.5)}
+
+/* Stakeholder rows */
+.pp-stake{display:grid;grid-template-columns:160px 1fr 110px;gap:8px 12px;font-size:11.5px;padding:8px 0;border-bottom:0.5px solid rgba(255,255,255,0.05)}
+.pp-stake:last-child{border-bottom:none}
+.pp-stake .role{color:rgba(245,245,247,0.4);font:600 10px 'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:0.08em}
+.pp-stake .name{color:#fff;font-weight:600}
+.pp-stake .name small{color:rgba(245,245,247,0.55);font-weight:400;display:block;margin-top:2px;font-size:10.5px;line-height:1.5}
+.pp-stake .badge{font-size:10px;text-align:right;padding-top:1px;font:600 10px 'JetBrains Mono',monospace;letter-spacing:0.08em;text-transform:uppercase}
+.pp-stake .badge.research{color:#d4a843}
+.pp-stake .badge.ok{color:#30d158}
+.pp-stake .badge.restricted{color:#ff453a}
+@media(max-width:540px){.pp-stake{grid-template-columns:1fr;gap:4px}.pp-stake .badge{text-align:left}}
+
+.pp-warn{margin-top:10px;padding:10px 12px;background:rgba(255,69,58,0.04);border:0.5px solid rgba(255,69,58,0.18);border-radius:8px;font-size:11px;color:rgba(245,245,247,0.7);line-height:1.55}
+.pp-warn b{color:#ff7a6e;font-weight:600}
+
+/* Proposal draft block */
+.pp-draft{margin-top:6px}
+.pp-draft .meta-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.pp-draft .meta-row .label{font:600 10px 'JetBrains Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;color:rgba(245,245,247,0.4)}
+.pp-draft .meta-row .stat{font:600 10px 'JetBrains Mono',monospace;letter-spacing:0.12em;text-transform:uppercase;padding:3px 8px;border-radius:4px;background:rgba(212,168,67,0.10);color:#d4a843}
+.pp-draft .excerpt{font:13px/1.65 'Inter',sans-serif;color:rgba(245,245,247,0.78);background:rgba(255,255,255,0.02);border:0.5px solid rgba(255,255,255,0.06);border-radius:8px;padding:12px 14px;margin:6px 0 10px}
+.pp-draft .excerpt::before{content:'[SAMPLE EXCERPT — synthetic data, AI draft, human review required]';display:block;font:600 10px 'JetBrains Mono',monospace;letter-spacing:0.1em;color:#d4a843;text-transform:uppercase;margin-bottom:8px}
+.pp-draft .excerpt p{margin:0}
+
+.pp-foot{margin-top:18px;font-size:11.5px;color:rgba(245,245,247,0.4);line-height:1.6;text-align:center}
+.pp-foot a{color:#2997ff;font-weight:600;text-decoration:none}
