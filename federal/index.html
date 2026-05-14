@@ -3,161 +3,67 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SourceDeck &mdash; Federal posture, security, and FAR-aware capture</title>
-<meta name="description" content="SourceDeck&rsquo;s federal-readiness statement: source-backed outputs, user-controlled data, no false certification claims, FAR-aware capture posture, CUI caution, and security review support.">
-<meta name="robots" content="index,follow">
+<title>SourceDeck — Federal posture and data handling</title>
+<meta name="description" content="What SourceDeck claims, what it does not claim, and how it handles government data, CUI, and solicitation communication rules.">
 <link rel="canonical" href="https://sourcedeck.app/federal/">
+<meta name="robots" content="index,follow">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<meta property="og:title" content="SourceDeck &mdash; Federal posture &amp; security">
-<meta property="og:description" content="What we claim, what we don&rsquo;t, and how SourceDeck supports federal customer security reviews and FAR-aware capture.">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/sd-theme.css">
-<style>
-.fed-wrap{max-width:980px;margin:0 auto;padding:50px 24px 80px;position:relative;z-index:1}
-.fed-h1{font-size:clamp(30px,4.4vw,46px);font-weight:800;letter-spacing:-0.03em;line-height:1.06;background:linear-gradient(180deg,#fff 30%,rgba(245,245,247,0.6));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:14px}
-.fed-lede{font-size:clamp(14.5px,1.5vw,16.5px);color:var(--sub);max-width:720px;line-height:1.6;margin-bottom:34px}
-.fed-h2{font-size:18px;font-weight:700;color:#fff;letter-spacing:-0.01em;margin:32px 0 8px}
-.fed-card{background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:18px 22px;margin-bottom:10px}
-.fed-card h3{font-size:14px;font-weight:700;color:#fff;letter-spacing:-0.005em;margin-bottom:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.fed-card .pill{font:600 9.5px 'JetBrains Mono',monospace;letter-spacing:0.12em;text-transform:uppercase;padding:3px 7px;border-radius:4px;display:inline-flex;align-items:center;gap:4px}
-.fed-card .pill::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor}
-.fed-card .pill.shipped{color:var(--green);background:rgba(48,209,88,0.10)}
-.fed-card .pill.partial{color:var(--gold);background:rgba(212,168,67,0.10)}
-.fed-card .pill.planned{color:var(--muted);background:rgba(255,255,255,0.05)}
-.fed-card p{font-size:12.5px;color:var(--sub);line-height:1.6}
-.fed-card a{color:var(--accent2);font-weight:600;text-decoration:none}
-.fed-block{background:linear-gradient(180deg,rgba(212,168,67,0.05),rgba(212,168,67,0.01));border:0.5px solid rgba(212,168,67,0.18);border-radius:14px;padding:18px 22px;margin-top:24px}
-.fed-block h2{margin-top:0;font-size:15px;font-weight:700;color:#fff;letter-spacing:-0.005em;margin-bottom:8px}
-.fed-block p{font-size:12.5px;color:var(--sub);line-height:1.6;margin-bottom:6px}
-ul.fed-list{list-style:none;padding:0;margin:6px 0}
-ul.fed-list li{font-size:12.5px;color:var(--sub);line-height:1.65;padding-left:14px;position:relative}
-ul.fed-list li::before{content:'\b7';position:absolute;left:4px;color:var(--gold);font-weight:800;font-size:18px;line-height:1}
-</style>
 </head>
 <body>
 <div class="sd-bg"></div><div class="sd-grid"></div>
-
 <nav class="sd-nav">
   <a class="sd-brand" href="/"><img src="/assets/sourcedeck-mark.svg" alt="SourceDeck logo" width="26" height="26" style="display:block;vertical-align:middle;margin-right:6px"> SourceDeck</a>
   <div class="links">
-    <a href="/">Home</a>
-    <a href="/security/">Security</a>
-    <a href="/sample-source-deck/">Sample deck</a>
-    <a class="cta" href="/request-access/">Request security review</a>
+    <a href="/sample-source-deck/">Sample</a>
+    <a href="/pricing/">Pricing</a>
+    <a href="/resources/">Resources</a>
+    <a class="cta" href="/request-access/">Request access</a>
   </div>
 </nav>
-
-<div class="fed-wrap">
-
+<div style="max-width:780px;margin:0 auto;padding:64px 24px 80px;position:relative;z-index:1">
   <div class="sd-eyebrow"><span class="dot"></span> Federal posture</div>
-  <h1 class="fed-h1">What we claim. What we don&rsquo;t. What we support.</h1>
-  <p class="fed-lede">SourceDeck is built for small and mid-sized GovCon teams. We do not overclaim certifications. We do support the security review, due-diligence, and controlled-rollout requirements those buyers routinely face. This page is the single place we keep that posture honest.</p>
+  <h1 style="font-size:clamp(26px,3.8vw,40px);font-weight:800;letter-spacing:-0.025em;margin-bottom:10px">Careful by design.</h1>
+  <p style="font-size:15px;color:var(--sub);max-width:580px;line-height:1.6;margin-bottom:36px">SourceDeck is built for GovCon teams that operate carefully. This page states what we claim, what we do not claim, and how the platform handles government data.</p>
 
-  <h2 class="fed-h2">What is true today</h2>
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="background:var(--card);border:0.5px solid rgba(48,209,88,0.2);border-radius:14px;padding:22px 24px">
+      <div style="font:700 10px 'JetBrains Mono',monospace;color:var(--green);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:8px">What we claim</div>
+      <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:6px">
+        <li style="font-size:13.5px;color:var(--sub);display:flex;gap:10px;line-height:1.5"><span style="color:var(--green);flex-shrink:0">&#10003;</span> AI-assisted capture workflow for GovCon teams</li>
+        <li style="font-size:13.5px;color:var(--sub);display:flex;gap:10px;line-height:1.5"><span style="color:var(--green);flex-shrink:0">&#10003;</span> Bid/no-bid scoring with written rationale</li>
+        <li style="font-size:13.5px;color:var(--sub);display:flex;gap:10px;line-height:1.5"><span style="color:var(--green);flex-shrink:0">&#10003;</span> Compliance matrix from Section L/M extraction</li>
+        <li style="font-size:13.5px;color:var(--sub);display:flex;gap:10px;line-height:1.5"><span style="color:var(--green);flex-shrink:0">&#10003;</span> Proposal draft sections requiring human review</li>
+        <li style="font-size:13.5px;color:var(--sub);display:flex;gap:10px;line-height:1.5"><span style="color:var(--green);flex-shrink:0">&#10003;</span> FAR-aware stakeholder research guidance</li>
+      </ul>
+    </div>
 
-  <div class="fed-card">
-    <h3>Source-backed outputs <span class="pill shipped">shipped</span></h3>
-    <p>Every claim in a SourceDeck deck links back to a source &mdash; the solicitation document, your past-performance library, or a public registration record (SAM, FPDS, USAspending). Outputs without a source are flagged. This is the foundation of <a href="/sample-source-deck/">our sample deck</a>.</p>
+    <div style="background:var(--card);border:0.5px solid rgba(255,107,107,0.2);border-radius:14px;padding:22px 24px">
+      <div style="font:700 10px 'JetBrains Mono',monospace;color:#ff6b6b;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:8px">What we do not claim</div>
+      <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:6px">
+        <li style="font-size:13.5px;color:var(--sub);display:flex;gap:10px;line-height:1.5"><span style="color:#ff6b6b;flex-shrink:0">&times;</span> SOC 2, FedRAMP, CMMC, ISO, HIPAA, or HITRUST certification</li>
+        <li style="font-size:13.5px;color:var(--sub);display:flex;gap:10px;line-height:1.5"><span style="color:#ff6b6b;flex-shrink:0">&times;</span> Guaranteed win rates or scoring outcomes</li>
+        <li style="font-size:13.5px;color:var(--sub);display:flex;gap:10px;line-height:1.5"><span style="color:#ff6b6b;flex-shrink:0">&times;</span> CUI-authorized storage (do not submit CUI data)</li>
+        <li style="font-size:13.5px;color:var(--sub);display:flex;gap:10px;line-height:1.5"><span style="color:#ff6b6b;flex-shrink:0">&times;</span> Set-aside certification eligibility determination</li>
+        <li style="font-size:13.5px;color:var(--sub);display:flex;gap:10px;line-height:1.5"><span style="color:#ff6b6b;flex-shrink:0">&times;</span> Recommendation to contact a CO during restricted communication windows</li>
+      </ul>
+    </div>
+
+    <div style="background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:22px 24px">
+      <div style="font:700 10px 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:8px">Data handling</div>
+      <p style="font-size:13.5px;color:var(--sub);line-height:1.65;margin-bottom:8px">SourceDeck processes publicly available SAM.gov solicitation data and user-supplied past-performance records. Do not submit CUI, classified information, or proprietary agency data. Your private credentials (API keys, DUNS, CAGE) are not logged by default.</p>
+      <p style="font-size:13.5px;color:var(--sub);line-height:1.65">AI outputs are generated by third-party models. Review all drafts before use. Citations reference the source solicitation; verify against the live document before submission.</p>
+    </div>
+
+    <div style="background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:22px 24px">
+      <div style="font:700 10px 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:8px">Communication rules</div>
+      <p style="font-size:13.5px;color:var(--sub);line-height:1.65">SourceDeck does not recommend direct contact with contracting officers during restricted communication windows. Stakeholder research identifies contacts for reference; always follow the solicitation's communication instructions and FAR Part 15 restrictions. Q&amp;A submissions are the buyer's responsibility.</p>
+    </div>
   </div>
 
-  <div class="fed-card">
-    <h3>User-controlled workspace data <span class="pill shipped">shipped</span></h3>
-    <p>Your opportunities, capture notes, past-performance records, and proposal drafts stay in your workspace. The static client never carries one customer&rsquo;s data into another tenant&rsquo;s bundle.</p>
-  </div>
-
-  <div class="fed-card">
-    <h3>Authentication-aware access <span class="pill shipped">shipped</span></h3>
-    <p>Logged-out users see no workspace data. Logged-in users see only data scoped to their authenticated identity. If ownership cannot be verified, the workspace fails closed and shows blank.</p>
-  </div>
-
-  <div class="fed-card">
-    <h3>FAR-aware capture posture <span class="pill shipped">shipped</span></h3>
-    <p>SourceDeck&rsquo;s stakeholder graph identifies who is in a buying constellation and what role they play. It does <b>not</b> recommend mass outreach to contracting officers, contact during restricted communication windows, or solicitation-restricted pitching. Capture actions respect FAR 3.104 procurement integrity, agency-specific instructions, and solicitation-imposed communication windows.</p>
-  </div>
-
-  <div class="fed-card">
-    <h3>No cross-user data leakage <span class="pill shipped">shipped</span></h3>
-    <p>Storage keys are scoped per (tenant, user). The codebase does not reuse a single global key that could cause one user&rsquo;s data to surface in another user&rsquo;s session. Verified by an automated guardrail in CI.</p>
-  </div>
-
-  <h2 class="fed-h2">What we explicitly do not claim</h2>
-
-  <div class="fed-card">
-    <h3>Compliance certifications <span class="pill planned">not held</span></h3>
-    <p>SourceDeck is <b>not</b> SOC 2, FedRAMP, ISO 27001, CMMC, HIPAA, or HITRUST certified. We will not represent ourselves as certified until and unless those certifications are completed and current. We will participate in customer security reviews and document a concrete certification trajectory when a paying customer&rsquo;s contract requires it.</p>
-  </div>
-
-  <div class="fed-card">
-    <h3>CUI / classified data handling <span class="pill planned">not in scope</span></h3>
-    <p>SourceDeck is <b>not</b> currently approved for storing or processing CUI, FCI marked CUI, or classified data. Solicitation packages routinely contain CUI; do not paste CUI-marked sections into a SourceDeck workspace until a CUI-capable deployment is in place. We will support a CUI-capable deployment path as a customer-driven enterprise commitment.</p>
-  </div>
-
-  <div class="fed-card">
-    <h3>Encryption-specific guarantees <span class="pill planned">not claimed</span></h3>
-    <p>We do not claim &ldquo;end-to-end encrypted&rdquo; or &ldquo;zero data retention&rdquo; because those terms have specific technical meanings we have not implemented at the level the federal market expects. Data in transit uses TLS via the hosting provider. Data at rest is stored by the configured backend.</p>
-  </div>
-
-  <h2 class="fed-h2">What we support today for federal buyers</h2>
-
-  <div class="fed-card">
-    <h3>Security review &amp; due-diligence questionnaires <span class="pill shipped">supported</span></h3>
-    <p>We respond to vendor security questionnaires, customer-supplied DPAs, and procurement reviews. Send the questionnaire to <a href="/request-access/">contact sales</a>; we typically return a first response within five business days.</p>
-  </div>
-
-  <div class="fed-card">
-    <h3>Controlled rollout &amp; private deployment <span class="pill partial">scoped</span></h3>
-    <p>Enterprise scoping includes options for dedicated tenancy, customer-controlled subprocessor list, and SSO (Okta / Azure AD / Google Workspace). On-premises and air-gapped deployments are scoped per customer.</p>
-  </div>
-
-  <div class="fed-card">
-    <h3>FAR clause flow-down readiness <span class="pill partial">on request</span></h3>
-    <p>We can review and flow down standard FAR clauses (Section 889, anti-trafficking, equal opportunity, small-business subcontracting reps where applicable) on request. We are not a defense-articles producer; ITAR/EAR posture is &ldquo;not in scope&rdquo; pending a customer-driven case.</p>
-  </div>
-
-  <div class="fed-card">
-    <h3>Section 889 representation <span class="pill shipped">true</span></h3>
-    <p>SourceDeck does not use covered telecommunications equipment or services from Huawei, ZTE, Hytera, Hikvision, Dahua, or their subsidiaries. We can sign the standard Section 889 representation as part of a customer agreement.</p>
-  </div>
-
-  <h2 class="fed-h2">Subprocessors</h2>
-
-  <div class="fed-card">
-    <p>The current production subprocessor list is available on request as part of a security review. Core categories: hosting and CDN, AI inference (configurable per workspace, including BYO-key options), email delivery for transactional notifications, error monitoring. We notify customers of material subprocessor changes in advance per a standard DPA.</p>
-  </div>
-
-  <h2 class="fed-h2">Data residency</h2>
-
-  <div class="fed-card">
-    <p>Production hosting is US-based. We do not currently use offshore subprocessors for the customer-data path. If a deployment requires a specific data-residency posture (US-only, GovCloud-equivalent, EU-only, sovereign), this is part of Enterprise scoping.</p>
-  </div>
-
-  <div class="fed-block">
-    <h2>Roadmap (no commitment dates)</h2>
-    <ul class="fed-list">
-      <li>SOC 2 Type II &mdash; opened only when a paying enterprise contract requires it</li>
-      <li>FedRAMP Tailored or Moderate &mdash; opened only on a customer-driven case</li>
-      <li>CMMC Level 1 self-assessment posture statement &mdash; on the roadmap</li>
-      <li>CUI-capable deployment path (separate tenancy or partner-hosted) &mdash; on the roadmap</li>
-      <li>Subprocessor list published on this page &mdash; on the roadmap</li>
-      <li>Public DPA + customer-customizable DPA template &mdash; on the roadmap</li>
-    </ul>
-    <p style="margin-top:10px">We add to this list when something becomes a real customer commitment, not before. We will not announce certifications we are not pursuing.</p>
-  </div>
-
-  <h2 class="fed-h2">Contact</h2>
-
-  <div class="fed-card">
-    <h3>Security review or vendor due diligence</h3>
-    <p>Email <a href="/request-access/">contact sales</a> with your questionnaire or DPA. We respond within one business day for acknowledgement.</p>
-  </div>
-
-  <div class="fed-card">
-    <h3>Responsible disclosure</h3>
-    <p>If you find a security issue, email <a href="/request-access/">contact sales</a> with subject &ldquo;security disclosure.&rdquo; We respond within one business day for acknowledgement and within five business days for triage. Please don&rsquo;t open public GitHub issues for security reports.</p>
-  </div>
-
+  <p style="font-size:12.5px;color:var(--muted);margin-top:24px;line-height:1.65">See also: <a href="/data-sources/" style="color:var(--accent2)">Data sources</a> &middot; <a href="/methodology/" style="color:var(--accent2)">Methodology</a> &middot; <a href="/security/" style="color:var(--accent2)">Security &amp; trust</a></p>
 </div>
-
-<footer class="sd-foot">SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">&middot;</span> &copy; 2026 Ariel&rsquo;s River Contracting Group LLC</footer>
+<footer class="sd-foot">SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product &middot; &copy; 2026</footer>
 </body>
 </html>

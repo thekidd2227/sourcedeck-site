@@ -3,201 +3,56 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SourceDeck &mdash; AI agents for GovCon discover, qualify, capture, and propose</title>
-<meta name="description" content="SourceDeck&rsquo;s AI agents organized by GovCon workflow stage: opportunity intake, bid/no-bid scoring, source-deck drafting, compliance matrix extraction, proposal section drafting, outreach triage, and capture follow-up. Source-backed outputs.">
+<title>SourceDeck — Capture workflow agents</title>
+<meta name="description" content="SourceDeck workflow agents: Discover, Qualify, Propose, and Track. Each group produces a concrete GovCon capture artifact.">
 <link rel="canonical" href="https://sourcedeck.app/agents/">
-<meta property="og:title" content="SourceDeck &mdash; AI agents for GovCon">
-<meta property="og:description" content="AI agents organized by the GovCon workflow: discover, qualify, capture, propose, outreach, pipeline.">
+<meta name="robots" content="index,follow">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/sd-theme.css">
-<style>
-.ag-wrap{max-width:1200px;margin:0 auto;padding:40px 24px 80px;position:relative;z-index:1}
-.ag-banner{background:linear-gradient(135deg,rgba(212,168,67,0.07),rgba(212,168,67,0.02));border:0.5px solid rgba(212,168,67,0.25);border-radius:14px;padding:18px 22px;margin-bottom:22px;display:flex;gap:14px;align-items:flex-start}
-.ag-banner .ic{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#f3d684,#a07b2a);display:flex;align-items:center;justify-content:center;flex:0 0 32px;color:#0a0a0a;font-weight:800}
-.ag-banner .t{font-size:14.5px;font-weight:700;color:#fff;letter-spacing:-0.01em;margin-bottom:4px}
-.ag-banner .d{font-size:12.5px;color:var(--sub);line-height:1.55}
-.ag-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-@media(max-width:900px){.ag-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:620px){.ag-grid{grid-template-columns:1fr}}
-.ag-card{background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:10px;position:relative;transition:all 0.22s}
-.ag-card:hover{transform:translateY(-2px);border-color:rgba(212,168,67,0.35);box-shadow:0 16px 40px rgba(212,168,67,0.10)}
-.ag-head{display:flex;align-items:center;gap:12px;margin-bottom:4px}
-.ag-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex:0 0 40px;background:linear-gradient(135deg,rgba(212,168,67,0.20),rgba(212,168,67,0.08));border:0.5px solid rgba(212,168,67,0.25)}
-.ag-name{font-size:15px;font-weight:700;color:#fff;letter-spacing:-0.01em}
-.ag-meta{font:500 9.5px/1.2 'JetBrains Mono',monospace;color:var(--muted);letter-spacing:0.14em;text-transform:uppercase;margin-top:3px}
-.ag-desc{font-size:12.5px;color:var(--sub);line-height:1.6;flex:1}
-.ag-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px}
-.ag-tag{font:500 9.5px/1.2 'JetBrains Mono',monospace;padding:3px 8px;border-radius:4px;background:rgba(255,255,255,0.04);color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;border:0.5px solid rgba(255,255,255,0.06)}
-.ag-tag.governed{background:rgba(212,168,67,0.10);color:#e8c66a;border-color:rgba(212,168,67,0.25)}
-.ag-btn{display:block;text-align:center;padding:9px 14px;border-radius:10px;font-size:12.5px;font-weight:700;background:linear-gradient(135deg,#f3d684,#d4a843 55%,#a07b2a);color:#0a0a0a;border:0;text-decoration:none;cursor:pointer;transition:all 0.15s;margin-top:6px}
-.ag-btn:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(212,168,67,0.30)}
-.ag-status{position:absolute;top:14px;right:14px;font:600 9px/1.2 'JetBrains Mono',monospace;letter-spacing:0.12em;padding:3px 7px;border-radius:4px}
-.ag-status.live{background:rgba(48,209,88,0.12);color:var(--green)}
-.ag-loading{opacity:0.5;pointer-events:none}
-</style>
 </head>
 <body>
 <div class="sd-bg"></div><div class="sd-grid"></div>
-
 <nav class="sd-nav">
   <a class="sd-brand" href="/"><img src="/assets/sourcedeck-mark.svg" alt="SourceDeck logo" width="26" height="26" style="display:block;vertical-align:middle;margin-right:6px"> SourceDeck</a>
   <div class="links">
-    <a href="/">Home</a>
-    <a href="/sample-source-deck/">Sample deck</a>
-    <a href="/demo-walkthrough/">Walkthrough</a>
-    <a href="/integrations/">Integrations</a>
-    <a href="/compare/">Compare</a>
-    <a href="/federal/">Federal</a>
+    <a href="/sample-source-deck/">Sample</a>
+    <a href="/pricing/">Pricing</a>
+    <a href="/resources/">Resources</a>
     <a class="cta" href="/request-access/">Request access</a>
   </div>
 </nav>
-
-<section class="sd-hero">
-  <div class="sd-eyebrow"><span class="dot"></span> Agents &middot; organized by GovCon workflow stage</div>
-  <h1>The agents that turn an opportunity into a deck, a matrix, and a draft.</h1>
-  <p class="lede">SourceDeck&rsquo;s agents are grouped by the stage of the GovCon workflow they run inside: <b>Discover &middot; Qualify &middot; Capture &middot; Propose &middot; Outreach &middot; Pipeline</b>. Outputs are source-backed; saved deliverables emit a full audit chain (provider, model id, prompt version, token usage). See <a href="/federal/" style="color:var(--accent2)">Federal posture</a> for what we do and don&rsquo;t claim.</p>
-</section>
-
-<div class="ag-wrap">
-
-  <div class="ag-banner">
-    <div class="ic">i</div>
-    <div>
-      <div class="t">Agents grouped by GovCon workflow stage.</div>
-      <div class="d">Each card maps a SourceDeck agent to the stage of the workflow it runs in. Saved deliverables emit a full audit chain (provider, model id, prompt version, token usage). Public catalog: <code>GET /api/v1/agents</code>. See <a href="/sample-source-deck/" style="color:var(--accent2)">the sample SourceDeck</a> to see what these agents produce together.</div>
+<div style="max-width:900px;margin:0 auto;padding:64px 24px 80px;position:relative;z-index:1">
+  <div class="sd-eyebrow"><span class="dot"></span> Agents</div>
+  <h1 style="font-size:clamp(26px,3.8vw,42px);font-weight:800;letter-spacing:-0.025em;margin-bottom:10px">Four agent groups. One capture workflow.</h1>
+  <p style="font-size:15px;color:var(--sub);max-width:560px;line-height:1.6;margin-bottom:40px">Each group runs a specific stage of the GovCon capture process and produces a concrete artifact your team can use.</p>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px">
+    <div style="background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:16px;padding:24px">
+      <div style="font:700 10px 'JetBrains Mono',monospace;color:var(--accent2);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:10px">Discover</div>
+      <div style="font-size:18px;font-weight:700;color:#fff;margin-bottom:6px">Opportunity discovery</div>
+      <div style="font-size:13px;color:var(--sub);line-height:1.6">Pulls SAM.gov opportunities matching your NAICS, set-aside, and agency filters. Normalizes the solicitation package into one workspace record.</div>
+    </div>
+    <div style="background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:16px;padding:24px">
+      <div style="font:700 10px 'JetBrains Mono',monospace;color:var(--gold);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:10px">Qualify</div>
+      <div style="font-size:18px;font-weight:700;color:#fff;margin-bottom:6px">Bid/no-bid scoring</div>
+      <div style="font-size:13px;color:var(--sub);line-height:1.6">Scores fit 0&ndash;100 across NAICS, set-aside eligibility, past performance, agency history, capacity, and deadline runway. Produces a written rationale.</div>
+    </div>
+    <div style="background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:16px;padding:24px">
+      <div style="font:700 10px 'JetBrains Mono',monospace;color:var(--green);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:10px">Propose</div>
+      <div style="font-size:18px;font-weight:700;color:#fff;margin-bottom:6px">Compliance &amp; drafting</div>
+      <div style="font-size:13px;color:var(--sub);line-height:1.6">Extracts Section L/M requirements, builds the compliance matrix, and generates proposal sections grounded in your past-performance library. All AI drafts require human review.</div>
+    </div>
+    <div style="background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:16px;padding:24px">
+      <div style="font:700 10px 'JetBrains Mono',monospace;color:var(--purple);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:10px">Track</div>
+      <div style="font-size:18px;font-weight:700;color:#fff;margin-bottom:6px">Capture follow-up</div>
+      <div style="font-size:13px;color:var(--sub);line-height:1.6">Assigns Q&amp;A windows, amendment dates, stakeholder research tasks, and capture actions. FAR-aware contact posture. No outreach recommendations during restricted communication windows.</div>
     </div>
   </div>
-
-  <h2 style="font:700 12px 'JetBrains Mono',monospace;color:var(--gold);letter-spacing:0.14em;text-transform:uppercase;margin:22px 0 10px">Discover &amp; Qualify</h2>
-  <div class="ag-grid">
-    <div class="ag-card"><span class="ag-status live">LIVE</span>
-      <div class="ag-head"><div class="ag-icon">&#128269;</div><div><div class="ag-name">Opportunity Intake</div><div class="ag-meta">workflow &middot; opportunity_intake</div></div></div>
-      <div class="ag-desc">Pulls or accepts pasted SAM.gov solicitations (Sources Sought, RFI, RFP, RFQ, IDIQ task orders, BPA call orders). Normalizes the synopsis, attachments, and amendments into one workspace record.</div>
-      <div class="ag-tags"><span class="ag-tag">Discover</span><span class="ag-tag">SAM.gov</span></div>
-      <a class="ag-btn" href="/request-access/">Request access</a>
-    </div>
-
-    <div class="ag-card"><span class="ag-status live">LIVE</span>
-      <div class="ag-head"><div class="ag-icon">&#9878;</div><div><div class="ag-name">Opportunity Fit Scoring</div><div class="ag-meta">workflow &middot; lead_score &rarr; opportunity_fit</div></div></div>
-      <div class="ag-desc">Bid/no-bid score 0&ndash;100. Evaluates NAICS / PSC fit, agency history, set-aside eligibility, contract type, deadline runway, capacity vs PoP, and past-performance match. Returns a tier and a written rationale. <strong>Governed.</strong></div>
-      <div class="ag-tags"><span class="ag-tag">Qualify</span><span class="ag-tag governed">Governed</span></div>
-      <a class="ag-btn" href="/request-access/">Request access</a>
-    </div>
-
-    <div class="ag-card"><span class="ag-status live">LIVE</span>
-      <div class="ag-head"><div class="ag-icon">&#128196;</div><div><div class="ag-name">Source Deck Drafter</div><div class="ag-meta">workflow &middot; source_deck</div></div></div>
-      <div class="ag-desc">Produces a one-page sourced summary of the opportunity: agency, scope, evaluation factors, period of performance, ceiling, set-aside, why it&rsquo;s a fit, risks, decision notes &mdash; with citations to the source document. <strong>Governed.</strong></div>
-      <div class="ag-tags"><span class="ag-tag">Qualify</span><span class="ag-tag governed">Governed</span></div>
-      <a class="ag-btn" href="/request-access/">Request access</a>
-    </div>
-  </div>
-
-  <h2 style="font:700 12px 'JetBrains Mono',monospace;color:var(--gold);letter-spacing:0.14em;text-transform:uppercase;margin:30px 0 10px">Capture &amp; Propose</h2>
-  <div class="ag-grid">
-    <div class="ag-card"><span class="ag-status live">LIVE</span>
-      <div class="ag-head"><div class="ag-icon">&#9745;</div><div><div class="ag-name">Compliance Matrix Extractor</div><div class="ag-meta">workflow &middot; rfp_response &rarr; compliance_matrix</div></div></div>
-      <div class="ag-desc">Parses Section L instructions and Section M evaluation factors. Maps each requirement to a response location, an owner, and an evidence artifact. Exportable to Word with traceability preserved. <strong>Governed.</strong></div>
-      <div class="ag-tags"><span class="ag-tag">Capture</span><span class="ag-tag governed">Governed</span></div>
-      <a class="ag-btn" href="/request-access/">Request access</a>
-    </div>
-
-    <div class="ag-card"><span class="ag-status live">LIVE</span>
-      <div class="ag-head"><div class="ag-icon">&#128279;</div><div><div class="ag-name">Stakeholder Graph</div><div class="ag-meta">workflow &middot; stakeholder_graph</div></div></div>
-      <div class="ag-desc">Builds the buying constellation: CO, COR, PCO, Small Business Specialist, program lead, likely incumbents, likely teaming partners. <b>FAR-aware capture posture</b> &mdash; respects restricted communication windows. See <a href="/federal/" style="color:var(--accent2)">Federal posture</a>.</div>
-      <div class="ag-tags"><span class="ag-tag">Capture</span><span class="ag-tag">FAR-aware</span></div>
-      <a class="ag-btn" href="/request-access/">Request access</a>
-    </div>
-
-    <div class="ag-card"><span class="ag-status live">LIVE</span>
-      <div class="ag-head"><div class="ag-icon">&#128221;</div><div><div class="ag-name">Proposal Section Drafter</div><div class="ag-meta">workflow &middot; proposal_draft</div></div></div>
-      <div class="ag-desc">Drafts response sections grounded in your past-performance library. Compliance matrix stays linked to the draft. Output formatted for Word; cost-narrative scaffolding optional. <strong>Governed &mdash; saved deliverables.</strong></div>
-      <div class="ag-tags"><span class="ag-tag">Propose</span><span class="ag-tag governed">Governed</span></div>
-      <a class="ag-btn" href="/request-access/">Request access</a>
-    </div>
-
-    <div class="ag-card"><span class="ag-status live">LIVE</span>
-      <div class="ag-head"><div class="ag-icon">&#128202;</div><div><div class="ag-name">pWin / Loss Predictor</div><div class="ag-meta">workflow &middot; denial_predict &rarr; pwin_loss</div></div></div>
-      <div class="ag-desc">Estimates probability of win on a pursued opportunity. Surfaces specific weakness signals (past-performance gaps, set-aside risk, staffing depth shortfalls) before color-team review. <strong>Governed.</strong></div>
-      <div class="ag-tags"><span class="ag-tag">Propose</span><span class="ag-tag governed">Governed</span></div>
-      <a class="ag-btn" href="/request-access/">Request access</a>
-    </div>
-  </div>
-
-  <h2 style="font:700 12px 'JetBrains Mono',monospace;color:var(--gold);letter-spacing:0.14em;text-transform:uppercase;margin:30px 0 10px">Outreach, Pipeline, Operations</h2>
-  <div class="ag-grid">
-    <div class="ag-card"><span class="ag-status live">LIVE</span>
-      <div class="ag-head"><div class="ag-icon">&#128231;</div><div><div class="ag-name">Outreach Response Triage</div><div class="ag-meta">workflow &middot; reply_classify</div></div></div>
-      <div class="ag-desc">Classifies inbound replies on capture outreach (small business specialists, teaming-partner conversations, post-Q&amp;A clarifications) as positive / question / objection / out-of-office. Returns next-action.</div>
-      <div class="ag-tags"><span class="ag-tag">Outreach</span></div>
-      <a class="ag-btn" href="/request-access/">Request access</a>
-    </div>
-
-    <div class="ag-card"><span class="ag-status live">LIVE</span>
-      <div class="ag-head"><div class="ag-icon">&#128204;</div><div><div class="ag-name">Capture Meeting Notes</div><div class="ag-meta">workflow &middot; meeting_summary</div></div></div>
-      <div class="ag-desc">Ingests teaming-call / industry-day / capture-conversation transcripts. Outputs 5-line summary, action items with owners, next-touch recommendation written back to the opportunity.</div>
-      <div class="ag-tags"><span class="ag-tag">Capture</span></div>
-      <a class="ag-btn" href="/request-access/">Request access</a>
-    </div>
-
-    <div class="ag-card"><span class="ag-status live">LIVE</span>
-      <div class="ag-head"><div class="ag-icon">&#128257;</div><div><div class="ag-name">Capture Follow-Up</div><div class="ag-meta">workflow &middot; followup_draft</div></div></div>
-      <div class="ag-desc">Detects gaps in capture follow-up (Q&amp;A windows closing, amendment-response deadlines, teaming-partner silence). Drafts a context-aware, FAR-aware nudge and routes to the owner.</div>
-      <div class="ag-tags"><span class="ag-tag">Outreach</span><span class="ag-tag">FAR-aware</span></div>
-      <a class="ag-btn" href="/request-access/">Request access</a>
-    </div>
-
-    <div class="ag-card"><span class="ag-status live">LIVE</span>
-      <div class="ag-head"><div class="ag-icon">&#9201;</div><div><div class="ag-name">Pipeline / SLA Watch</div><div class="ag-meta">workflow &middot; sla_watch</div></div></div>
-      <div class="ag-desc">Watches the proposal calendar: Q&amp;A submission, amendment publication, color-team review windows, submission deadline. Flags slippage, recommends owner escalation, drafts the customer-facing note. <strong>Governed.</strong></div>
-      <div class="ag-tags"><span class="ag-tag">Pipeline</span><span class="ag-tag governed">Governed</span></div>
-      <a class="ag-btn" href="/request-access/">Request access</a>
-    </div>
-
-    <div class="ag-card"><span class="ag-status live">LIVE</span>
-      <div class="ag-head"><div class="ag-icon">&#128737;</div><div><div class="ag-name">Email Deliverability Guard</div><div class="ag-meta">workflow &middot; bounce_guard</div></div></div>
-      <div class="ag-desc">Operations support: monitors deliverability on capture-outreach campaigns. Recommends pause/severity, surfaces failing addresses, suggests remediation. <span style="color:var(--muted)">Operational support tool, not a primary capture stage.</span></div>
-      <div class="ag-tags"><span class="ag-tag">Operations</span></div>
-      <a class="ag-btn" href="/request-access/">Request access</a>
-    </div>
+  <div style="margin-top:40px;text-align:center">
+    <a href="/sample-source-deck/" style="display:inline-block;padding:12px 24px;border-radius:10px;background:var(--accent);color:#fff;font-size:14px;font-weight:700;text-decoration:none;margin-right:10px">See the workflow in a sample</a>
+    <a href="/request-access/" style="display:inline-block;padding:12px 24px;border-radius:10px;border:0.5px solid rgba(255,255,255,0.18);color:var(--text);font-size:14px;font-weight:600;text-decoration:none">Request access</a>
   </div>
 </div>
-
-<footer class="sd-foot">
-  SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">·</span> &copy; 2026 Ariel's River Contracting Group LLC
-</footer>
-
-<!-- Live catalog refresh — when the API is reachable from this origin,
-     replace the static cards with the live registry. Degrades silently. -->
-<script>
-(async function () {
-  const apiBase = window.SOURCEDECK_API_BASE || '';
-  if (!apiBase) return;
-  try {
-    const r = await fetch(apiBase + '/api/v1/agents');
-    if (!r.ok) return;
-    const { items } = await r.json();
-    const grid = document.getElementById('ag-grid');
-    if (!grid || !Array.isArray(items) || !items.length) return;
-    grid.innerHTML = items.map(a => `
-      <div class="ag-card"><span class="ag-status live">LIVE</span>
-        <div class="ag-head"><div class="ag-icon">${a.icon || '⚙️'}</div>
-          <div><div class="ag-name">${escapeHtml(a.name)}</div>
-            <div class="ag-meta">workflow · ${escapeHtml(a.workflowType)}</div></div></div>
-        <div class="ag-desc">${escapeHtml(a.description)}</div>
-        <div class="ag-tags">${(a.tags || []).map(t =>
-          `<span class="ag-tag${/governed/i.test(t) ? ' governed' : ''}">${escapeHtml(t)}</span>`).join('')}</div>
-        <a class="ag-btn" href="/app/#pricing" data-agent="${escapeHtml(a.id)}">Run agent</a>
-      </div>`).join('');
-  } catch (_) { /* silent */ }
-  function escapeHtml(s) {
-    return String(s ?? '').replace(/[&<>"']/g, c => ({
-      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-    }[c]));
-  }
-})();
-</script>
-
-<script src="//code.tidio.co/80d20949327f4c7c81e2295df563dc46.js" async></script>
+<footer class="sd-foot">SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product &middot; &copy; 2026</footer>
 </body>
 </html>

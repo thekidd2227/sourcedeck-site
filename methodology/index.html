@@ -3,129 +3,57 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SourceDeck &mdash; Methodology: how to evaluate the workflow</title>
-<meta name="description" content="How SourceDeck should be evaluated: opportunity intake, source-backed summarization, fit scoring, bid/no-bid reasoning, compliance matrix generation, proposal drafting support, stakeholder graph research, human review, audit and export readiness. What SourceDeck does not replace.">
-<meta name="robots" content="index,follow">
+<title>SourceDeck — GovCon capture methodology</title>
+<meta name="description" content="How SourceDeck works: intake, bid/no-bid score, compliance matrix, proposal draft, human review, and audit trail. Six stages, six artifacts.">
 <link rel="canonical" href="https://sourcedeck.app/methodology/">
+<meta name="robots" content="index,follow">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<meta property="og:title" content="SourceDeck methodology">
-<meta property="og:description" content="How to evaluate SourceDeck. What SourceDeck does. What SourceDeck does not replace. AI output policy.">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/sd-theme.css">
-<style>
-.mt-wrap{max-width:880px;margin:0 auto;padding:48px 22px 80px;position:relative;z-index:1}
-.mt-h1{font-size:clamp(28px,4vw,42px);font-weight:800;letter-spacing:-0.025em;line-height:1.08;color:#fff;margin-bottom:14px}
-.mt-lede{font-size:15px;color:var(--sub);max-width:740px;line-height:1.65;margin-bottom:30px}
-.mt-h2{font-size:18px;font-weight:700;color:#fff;letter-spacing:-0.01em;margin:32px 0 10px}
-.mt-card{background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:18px 22px;margin-bottom:10px}
-.mt-card h3{font-size:14.5px;font-weight:700;color:#fff;margin-bottom:6px}
-.mt-card p, .mt-card li{font-size:13px;color:var(--sub);line-height:1.65}
-.mt-card ul{list-style:none;padding:0;margin:6px 0}
-.mt-card ul li{padding-left:14px;position:relative}
-.mt-card ul li::before{content:'\b7';position:absolute;left:4px;color:var(--gold);font-weight:800;font-size:18px;line-height:1}
-.mt-block{padding:18px 22px;background:linear-gradient(180deg,rgba(212,168,67,0.05),rgba(212,168,67,0.01));border:0.5px solid rgba(212,168,67,0.22);border-radius:14px;margin-top:18px}
-.mt-block h2{font-size:15px;font-weight:700;color:#fff;margin-bottom:8px}
-.mt-block p{font-size:13px;color:var(--sub);line-height:1.65}
-.mt-cta{margin-top:30px;padding:20px 22px;background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;text-align:center}
-.mt-cta a{display:inline-block;padding:12px 22px;background:linear-gradient(135deg,#d4a843,#b68a2e);color:#0a0d14;border-radius:10px;font-weight:700;font-size:13.5px;text-decoration:none;margin-top:8px}
-</style>
 </head>
 <body>
 <div class="sd-bg"></div><div class="sd-grid"></div>
-
 <nav class="sd-nav">
   <a class="sd-brand" href="/"><img src="/assets/sourcedeck-mark.svg" alt="SourceDeck logo" width="26" height="26" style="display:block;vertical-align:middle;margin-right:6px"> SourceDeck</a>
   <div class="links">
-    <a href="/">Home</a>
-    <a href="/sample-source-deck/">Sample deck</a>
-    <a href="/data-sources/">Data sources</a>
-    <a href="/federal/">Federal</a>
+    <a href="/sample-source-deck/">Sample</a>
+    <a href="/pricing/">Pricing</a>
+    <a href="/resources/">Resources</a>
     <a class="cta" href="/request-access/">Request access</a>
   </div>
 </nav>
-
-<div class="mt-wrap">
-
+<div style="max-width:780px;margin:0 auto;padding:64px 24px 80px;position:relative;z-index:1">
   <div class="sd-eyebrow"><span class="dot"></span> Methodology</div>
-  <h1 class="mt-h1">How SourceDeck should be evaluated.</h1>
-  <p class="mt-lede">SourceDeck is a capture, qualification, compliance, and proposal-support workflow for GovCon teams. This page describes what each stage does, what it does <i>not</i> replace, and the AI output policy that applies to every saved deliverable. If you are running a procurement vendor review, this is the page to start on.</p>
-
-  <h2 class="mt-h2">How the workflow runs</h2>
-
-  <div class="mt-card">
-    <h3>01 &middot; Opportunity intake</h3>
-    <p>Pull or paste a SAM.gov opportunity (Sources Sought, RFI, RFP, RFQ, IDIQ task order, BPA call order). The synopsis, attachments, and amendments are normalized into one workspace record. Source documents are preserved verbatim so every downstream output can cite back.</p>
+  <h1 style="font-size:clamp(26px,3.8vw,40px);font-weight:800;letter-spacing:-0.025em;margin-bottom:10px">Six stages. Six artifacts.</h1>
+  <p style="font-size:15px;color:var(--sub);max-width:560px;line-height:1.6;margin-bottom:36px">Each stage of the SourceDeck workflow produces a concrete output your team can use, cite, or export.</p>
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <div style="background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px 22px;display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:start">
+      <div style="font:800 13px 'JetBrains Mono',monospace;color:var(--accent2);padding-top:1px">01</div>
+      <div><div style="font-size:16px;font-weight:700;color:#fff;margin-bottom:4px">Intake</div><div style="font-size:13.5px;color:var(--sub);line-height:1.6">Paste a SAM.gov URL or upload solicitation text. SourceDeck normalizes the package &mdash; synopsis, attachments, amendments &mdash; into one workspace record.</div></div>
+    </div>
+    <div style="background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px 22px;display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:start">
+      <div style="font:800 13px 'JetBrains Mono',monospace;color:var(--gold);padding-top:1px">02</div>
+      <div><div style="font-size:16px;font-weight:700;color:#fff;margin-bottom:4px">Score</div><div style="font-size:13.5px;color:var(--sub);line-height:1.6">Bid/no-bid score 0&ndash;100. Dimensions: NAICS/PSC fit, set-aside eligibility, past performance, agency history, capacity vs period of performance, deadline runway. Written rationale per dimension.</div></div>
+    </div>
+    <div style="background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px 22px;display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:start">
+      <div style="font:800 13px 'JetBrains Mono',monospace;color:var(--green);padding-top:1px">03</div>
+      <div><div style="font-size:16px;font-weight:700;color:#fff;margin-bottom:4px">Matrix</div><div style="font-size:13.5px;color:var(--sub);line-height:1.6">Section L vs Section M extraction. Every requirement mapped to a response location, owner, and evidence artifact. Exportable to Word with traceability preserved.</div></div>
+    </div>
+    <div style="background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px 22px;display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:start">
+      <div style="font:800 13px 'JetBrains Mono',monospace;color:var(--purple);padding-top:1px">04</div>
+      <div><div style="font-size:16px;font-weight:700;color:#fff;margin-bottom:4px">Draft</div><div style="font-size:13.5px;color:var(--sub);line-height:1.6">AI-generated proposal sections grounded in your past-performance library. Compliance matrix stays linked as the draft evolves. All AI drafts require human review before submission.</div></div>
+    </div>
+    <div style="background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px 22px;display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:start">
+      <div style="font:800 13px 'JetBrains Mono',monospace;color:#ff9f43;padding-top:1px">05</div>
+      <div><div style="font-size:16px;font-weight:700;color:#fff;margin-bottom:4px">Review</div><div style="font-size:13.5px;color:var(--sub);line-height:1.6">Reviewer notes flag assumptions, missing evidence, and FAR references that require verification. Color-team reviews assigned with calendar deadlines.</div></div>
+    </div>
+    <div style="background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px 22px;display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:start">
+      <div style="font:800 13px 'JetBrains Mono',monospace;color:#ff6b6b;padding-top:1px">06</div>
+      <div><div style="font-size:16px;font-weight:700;color:#fff;margin-bottom:4px">Audit</div><div style="font-size:13.5px;color:var(--sub);line-height:1.6">Bid decisions, compliance matrix edits, and draft versions are logged with timestamps. Who decided what, and why, is preserved for bid review and lessons learned.</div></div>
+    </div>
   </div>
-
-  <div class="mt-card">
-    <h3>02 &middot; Source-backed summarization</h3>
-    <p>SourceDeck produces a one-page sourced summary of the opportunity: agency, scope, evaluation factors, period of performance, ceiling, set-aside, decision notes. Every claim links back to a source location in the solicitation. Outputs without a source are flagged.</p>
-  </div>
-
-  <div class="mt-card">
-    <h3>03 &middot; Fit scoring</h3>
-    <p>Bid/no-bid score 0&ndash;100 across configurable dimensions: NAICS / PSC fit, set-aside eligibility, agency history, contract type, deadline runway, capacity vs period of performance, and past-performance match. Thresholds are workspace-configurable.</p>
-  </div>
-
-  <div class="mt-card">
-    <h3>04 &middot; Bid/no-bid reasoning</h3>
-    <p>The fit score comes with a written rationale: why the score is what it is, which dimensions drove it, what mitigations would change the call. Bid/no-bid decisions become defensible in a bid review &mdash; and reusable across the next similar opportunity.</p>
-  </div>
-
-  <div class="mt-card">
-    <h3>05 &middot; Compliance matrix generation</h3>
-    <p>Section L (instructions to offerors) and Section M (evaluation factors) are extracted from the solicitation. Every requirement is mapped to a response location, an owner, and an evidence artifact. The matrix exports to Word with traceability preserved.</p>
-  </div>
-
-  <div class="mt-card">
-    <h3>06 &middot; Proposal drafting support</h3>
-    <p>Response sections are drafted against your past-performance library and the parsed compliance matrix. Drafts are starting points, not final copy &mdash; they make the first 60% of the work disappear and keep the matrix linked to the draft as it evolves.</p>
-  </div>
-
-  <div class="mt-card">
-    <h3>07 &middot; Stakeholder graph research</h3>
-    <p>The buying constellation around an opportunity is identified: contracting officer, COR, PCO, Small Business Specialist, program lead, likely incumbents, likely teaming partners. Reference intelligence only &mdash; with FAR-aware contact posture per role. See <a href="/data-sources/" style="color:var(--accent2)">Data sources</a> for the procurement-safe stakeholder language.</p>
-  </div>
-
-  <div class="mt-card">
-    <h3>08 &middot; Human review</h3>
-    <p>Every saved deliverable is reviewed by a named human owner before it leaves the workspace. SourceDeck routes drafts to owners; it does not auto-publish capture artifacts.</p>
-  </div>
-
-  <div class="mt-card">
-    <h3>09 &middot; Audit and export readiness</h3>
-    <p>Each saved deliverable emits a structured audit event: provider, model id, prompt version, token usage. Exports preserve traceability between the source document, the matrix, the draft, and the owner who approved it. This trail is what a bid review or a procurement reviewer will want to see.</p>
-  </div>
-
-  <h2 class="mt-h2">What SourceDeck does <i>not</i> replace</h2>
-
-  <div class="mt-card">
-    <ul>
-      <li><b>Legal counsel.</b> SourceDeck does not provide legal advice. Contract terms, FAR clause flow-down, ITAR/EAR posture, ethics questions, and procurement integrity issues are for your counsel.</li>
-      <li><b>Contracting officer instructions.</b> The CO&rsquo;s instructions on a solicitation override anything SourceDeck infers. If a solicitation amendment changes a requirement, the amendment governs.</li>
-      <li><b>Final human proposal review.</b> SourceDeck&rsquo;s drafts and matrices are starting points. Color-team review (pink, red, gold) and a final responsible signer remain on the human owner.</li>
-      <li><b>Official SAM.gov or agency records.</b> SourceDeck reads and cites public solicitation data. The official source of truth remains SAM.gov, FPDS-NG, USAspending, and the issuing agency&rsquo;s contracting office.</li>
-      <li><b>Compliance responsibility.</b> SourceDeck supports compliance work. It does not transfer regulatory or contractual responsibility from the contractor to the tool.</li>
-    </ul>
-  </div>
-
-  <h2 class="mt-h2">AI output policy</h2>
-
-  <div class="mt-block">
-    <h2>Three rules that apply to every AI output in SourceDeck.</h2>
-    <p><b>1. AI drafts require human review.</b> No AI-generated section, matrix, or stakeholder note leaves the workspace without a named human owner reviewing it. SourceDeck routes drafts to owners; it does not auto-publish capture artifacts.</p>
-    <p style="margin-top:8px"><b>2. SourceDeck surfaces uncertainty.</b> Where the model is unsure, the output says so. Outputs that are inferred (rather than directly cited) are marked. We would rather an output say &ldquo;not enough source material&rdquo; than fabricate a citation.</p>
-    <p style="margin-top:8px"><b>3. Users remain responsible for solicitation compliance.</b> Validating solicitation requirements, FAR clauses, deadlines, page limits, font sizes, and submission instructions is the contractor&rsquo;s responsibility. SourceDeck assists; it does not absolve.</p>
-  </div>
-
-  <div class="mt-cta">
-    <div style="font-size:16px;font-weight:700;color:#fff;margin-bottom:6px">Want to evaluate SourceDeck on one of your opportunities?</div>
-    <p style="font-size:13px;color:var(--sub)">Send us a SAM.gov URL or solicitation PDF. We&rsquo;ll produce a SourceDeck on it as part of the access conversation.</p>
-    <a href="/request-access/">Analyze one opportunity &rarr;</a>
-  </div>
-
+  <p style="font-size:12.5px;color:var(--muted);margin-top:24px;line-height:1.65">See the methodology on a real example: <a href="/sample-source-deck/" style="color:var(--accent2)">Open the sample SourceDeck</a> &middot; <a href="/federal/" style="color:var(--accent2)">Federal posture</a></p>
 </div>
-
-<footer class="sd-foot">SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product <span class="sep">&middot;</span> &copy; 2026 Ariel&rsquo;s River Contracting Group LLC</footer>
+<footer class="sd-foot">SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product &middot; &copy; 2026</footer>
 </body>
 </html>
