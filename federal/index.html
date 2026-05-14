@@ -10,17 +10,73 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/sd-theme.css">
+<style id="sd-nav-tabs-css">
+/* ── tabbed nav ─────────────────────────────── */
+.sd-nav{position:fixed;top:0;left:0;right:0;z-index:200;height:52px;padding:0 max(20px,calc((100vw - 1200px)/2));display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,0.78);backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(255,255,255,0.08)}
+.sd-brand{display:flex;align-items:center;gap:7px;font-weight:700;font-size:15px;letter-spacing:-0.01em;color:#fff;text-decoration:none;flex-shrink:0}
+.sd-tabs{display:flex;align-items:center;gap:4px}
+.sd-tab-group{position:relative}
+.sd-tab-btn{background:none;border:none;color:rgba(245,245,247,0.72);font:500 13px/1 'Inter',system-ui,sans-serif;padding:8px 12px;cursor:pointer;border-radius:8px;display:flex;align-items:center;gap:5px;transition:color 0.15s,background 0.15s;white-space:nowrap}
+.sd-tab-btn:hover,.sd-tab-group:focus-within .sd-tab-btn{color:#fff;background:rgba(255,255,255,0.07)}
+.sd-chevron{font-size:11px;opacity:0.6;transition:transform 0.2s;display:inline-block}
+.sd-tab-group:hover .sd-chevron,.sd-tab-group:focus-within .sd-chevron{transform:rotate(180deg)}
+.sd-dropdown{position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);min-width:180px;background:#111;border:0.5px solid rgba(255,255,255,0.1);border-radius:12px;padding:6px;box-shadow:0 16px 40px rgba(0,0,0,0.6);opacity:0;pointer-events:none;transition:opacity 0.15s,transform 0.15s;transform:translateX(-50%) translateY(-4px)}
+.sd-tab-group:hover .sd-dropdown,.sd-tab-group:focus-within .sd-dropdown{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+.sd-dropdown a{display:block;padding:9px 12px;font-size:13px;color:rgba(245,245,247,0.75);text-decoration:none;border-radius:8px;transition:background 0.12s,color 0.12s;white-space:nowrap}
+.sd-dropdown a:hover{background:rgba(255,255,255,0.07);color:#fff}
+.sd-nav-cta{padding:8px 18px;border-radius:980px;font-size:12.5px;font-weight:700;letter-spacing:0.01em;background:linear-gradient(135deg,#f3d684,#d4a843 55%,#a07b2a);color:#0a0a0a;text-decoration:none;transition:all 0.2s;white-space:nowrap;margin-left:8px;box-shadow:0 4px 14px rgba(212,168,67,0.25)}
+.sd-nav-cta:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(212,168,67,0.45)}
+.sd-hamburger{display:none;background:none;border:none;color:#fff;font-size:20px;cursor:pointer;padding:6px;line-height:1}
+/* mobile */
+@media(max-width:768px){
+  .sd-tabs{display:none;flex-direction:column;position:fixed;top:52px;left:0;right:0;background:#0a0a0a;border-bottom:0.5px solid rgba(255,255,255,0.1);padding:12px 16px 16px;gap:0}
+  .sd-nav.open .sd-tabs{display:flex}
+  .sd-tab-group{width:100%}
+  .sd-tab-btn{width:100%;justify-content:space-between;padding:12px 8px;border-bottom:0.5px solid rgba(255,255,255,0.06);border-radius:0}
+  .sd-tab-btn:hover{background:none;color:#fff}
+  .sd-dropdown{position:static;transform:none;opacity:1;pointer-events:auto;background:transparent;border:none;box-shadow:none;padding:0 0 0 12px;display:none;min-width:unset}
+  .sd-tab-group:focus-within .sd-dropdown,.sd-tab-group:hover .sd-dropdown{display:block;transform:none}
+  .sd-dropdown a{padding:9px 8px;border-bottom:0.5px solid rgba(255,255,255,0.04)}
+  .sd-nav-cta{margin:12px 0 0;width:100%;text-align:center;padding:12px;border-radius:10px}
+  .sd-hamburger{display:block}
+  .sd-chevron{pointer-events:none}
+}
+</style>
 </head>
 <body>
 <div class="sd-bg"></div><div class="sd-grid"></div>
 <nav class="sd-nav">
   <a class="sd-brand" href="/"><img src="/assets/sourcedeck-mark.svg" alt="SourceDeck logo" width="26" height="26" style="display:block;vertical-align:middle;margin-right:6px"> SourceDeck</a>
-  <div class="links">
-    <a href="/sample-source-deck/">Sample</a>
-    <a href="/pricing/">Pricing</a>
-    <a href="/resources/">Resources</a>
-    <a class="cta" href="/request-access/">Request access</a>
+  <div class="sd-tabs">
+    <div class="sd-tab-group">
+      <button class="sd-tab-btn" aria-haspopup="true">Product <span class="sd-chevron">&#8964;</span></button>
+      <div class="sd-dropdown">
+        <a href="/sample-source-deck/">Sample SourceDeck</a>
+        <a href="/demo-walkthrough/">Demo walkthrough</a>
+        <a href="/pricing/">Pricing</a>
+      </div>
+    </div>
+    <div class="sd-tab-group">
+      <button class="sd-tab-btn" aria-haspopup="true">Trust <span class="sd-chevron">&#8964;</span></button>
+      <div class="sd-dropdown">
+        <a href="/federal/">Federal posture</a>
+        <a href="/methodology/">Methodology</a>
+        <a href="/data-sources/">Data sources</a>
+        <a href="/security/">Security</a>
+      </div>
+    </div>
+    <div class="sd-tab-group">
+      <button class="sd-tab-btn" aria-haspopup="true">Learn <span class="sd-chevron">&#8964;</span></button>
+      <div class="sd-dropdown">
+        <a href="/resources/">Resources</a>
+        <a href="/compare/">Compare</a>
+        <a href="/agents/">Agents</a>
+        <a href="/integrations/">Integrations</a>
+      </div>
+    </div>
+    <a href="/request-access/" class="sd-nav-cta">Request access &rarr;</a>
   </div>
+  <button class="sd-hamburger" aria-label="Open menu" onclick="this.closest('nav').classList.toggle('open')">&#9776;</button>
 </nav>
 <div style="max-width:780px;margin:0 auto;padding:64px 24px 80px;position:relative;z-index:1">
   <div class="sd-eyebrow"><span class="dot"></span> Federal posture</div>
