@@ -91,6 +91,29 @@ Defined in `server/src/services/ai/tiers.js`.
 Usage caps (`requestsPerDay`, `maxInputChars`) are config; replace with
 real metering before billing tie-in.
 
+### Public Tier Mapping
+
+Public website tier names map to internal policy tiers as follows:
+
+| Public tier | Internal policy tier |
+|-------------|----------------------|
+| Core | `starter` |
+| Pro | `pro` |
+| Operator | `business` |
+| Enterprise | `enterprise` |
+| Government | `government` |
+
+Premium Content Agent full access is available only on
+Operator / Enterprise-level plans, subject to entitlement configuration.
+Core and Pro do not include the full agent. Pro may include limited
+teaser templates only if an upsell preview is explicitly approved later.
+If final pricing later makes Enterprise the only highest commercial
+tier, the full agent should be documented and wired to Enterprise only.
+
+Premium Content Agent copy must not claim auto-posting, live private
+repository ingestion, or production watsonx-powered agent availability
+unless implementation confirms those capabilities.
+
 ## 5. BYOK rules
 
 > Operator runbook for the IBM Cloud Secrets Manager adapter:

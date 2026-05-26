@@ -83,6 +83,32 @@ government   ← watsonx ONLY, no BYOK ever, governance ready,
 
 Source of truth: `server/src/services/ai/tiers.js` (`TIER_POLICY`).
 
+### Public Tier Mapping
+
+Public website tier names map to internal policy tiers as follows:
+
+| Public tier | Internal policy tier |
+|-------------|----------------------|
+| Core | `starter` |
+| Pro | `pro` |
+| Operator | `business` |
+| Enterprise | `enterprise` |
+| Government | `government` |
+
+Premium Content Agent full access is available only on
+Operator / Enterprise-level plans, subject to entitlement configuration.
+Core and Pro do not include the full agent. Pro may include limited
+teaser templates only if an upsell preview is explicitly approved later.
+If final pricing later makes Enterprise the only highest commercial
+tier, the full agent should be documented and wired to Enterprise only.
+
+The Premium Content Agent drafts and recommends content from approved
+business evidence; the user reviews and approves before anything is
+scheduled or published. Do not claim auto-posting, live private repo
+ingestion, production watsonx-powered agent availability, or live
+TikTok / YouTube scheduling unless implementation confirms those
+capabilities.
+
 ## 5. Standard AI request shape
 
 ```ts
