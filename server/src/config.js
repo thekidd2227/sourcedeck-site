@@ -2,6 +2,11 @@
 // Environment-driven config loader with validation. No hardcoded secrets.
 // Fails fast in production when required variables are missing.
 
+import {
+  normalizeDeploymentMode,
+  canUseManagedIbmWatson
+} from '../../packages/core/src/deploymentMode.js';
+
 const REQUIRED_PROD = [
   'SESSION_SECRET',
   'JWT_SECRET'
@@ -51,6 +56,11 @@ export function loadConfig(env = process.env) {
   const cfg = {
     appEnv:        APP_ENV,
     isProduction:  isProd,
+    deploymentMode: normalizeDeploymentMode(env.SOURCEDECK_DEPLOYMENT_MODE),
+    userTier:       (env.SOURCEDECK_USER_TIER || 'commercial').toLowerCase(),
+    entitlements: {
+      ibm_watson_managed: env.SOURCEDECK_ENTITLEMENT_IBM_WATSON_MANAGED === 'true'
+    },
     appBaseUrl:    env.APP_BASE_URL || 'http://localhost:8080',
     port:          pickInt(env, 'PORT', 8080),
     sessionSecret: env.SESSION_SECRET || (isProd ? null : 'dev-only-session-secret-change-me'),
@@ -124,6 +134,12 @@ export function loadConfig(env = process.env) {
       codeEngineApp:    env.IBM_CODE_ENGINE_APP_NAME || null
     }
   };
+
+  cfg.ai.managedIbmWatsonAllowed = canUseManagedIbmWatson({
+    deploymentMode: cfg.deploymentMode,
+    userTier: cfg.userTier,
+    entitlements: cfg.entitlements
+  });
 
   // Provider sanity warnings (don't crash dev — warn).
   if (cfg.ai.provider === 'watsonx' && !cfg.ai.watsonx.apiKey) {

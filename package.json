@@ -1,0 +1,13 @@
+{
+  "name": "sourcedeck-commercial",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "test": "npm --prefix packages/core test && npm --prefix apps/web test && node --test test/*.test.mjs",
+    "build": "npm --prefix apps/web run build",
+    "commercial:check": "node scripts/commercial-release-check.mjs",
+    "web:dev": "npm --prefix apps/web run dev",
+    "web:build": "npm --prefix apps/web run build",
+    "server:test": "npm --prefix server test"
+  }
+}

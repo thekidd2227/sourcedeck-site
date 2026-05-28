@@ -25,21 +25,17 @@
    - **Widget color:** `#0071e3` (matches site CTA blue) — or `#C9941A` (ARCG gold) if you prefer the gold brand.
    - **Reply time:** `A few minutes`
 3. Click **Create Inbox**.
-4. Chatwoot shows your **Website Token** — a string like `abc123XYZdef456`. Copy it.
+4. Chatwoot shows your **Website Token**. Copy it into your deployment secret/config system.
 
-### Step 3 — Paste the token into the widget loader
+### Step 3 — Inject the token at deploy time
 
-Open `/assets/chatwoot.js` and replace:
-
-```js
-var CHATWOOT_TOKEN = 'PASTE_YOUR_WEBSITE_TOKEN_HERE';
-```
-
-with your real token:
+Commercial source should keep `/assets/chatwoot.js` blank:
 
 ```js
-var CHATWOOT_TOKEN = 'abc123XYZdef456';  // replace with your actual token
+var CHATWOOT_TOKEN = window.SOURCEDECK_CHATWOOT_TOKEN || '';
 ```
+
+Set `window.SOURCEDECK_CHATWOOT_TOKEN` through a deployment-specific config script or hosting secret. Do not commit the token.
 
 If self-hosting, also change:
 

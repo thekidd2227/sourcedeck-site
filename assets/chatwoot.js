@@ -8,7 +8,7 @@
  *   1. Create a Chatwoot account at https://app.chatwoot.com (free tier) or self-host.
  *   2. Create a Website inbox in Chatwoot → Settings → Inboxes → Add Inbox → Website.
  *   3. Copy the "Website Token" from the inbox config page.
- *   4. Paste it below as CHATWOOT_TOKEN.
+ *   4. Provide the token through a deployment-specific config injection.
  *   5. If self-hosting, change CHATWOOT_BASE to your instance URL.
  *   6. Push this file — every page loads it automatically.
  *
@@ -24,8 +24,8 @@
 
 (function () {
   // ──────────────────────────────────────────────
-  // CONFIG — edit these two values after Chatwoot setup
-  var CHATWOOT_TOKEN = 'YpLcRBqSnmqrQKvQLVnc8tgN';
+  // CONFIG — commercial builds ship blank. Inject per deployment.
+  var CHATWOOT_TOKEN = window.SOURCEDECK_CHATWOOT_TOKEN || '';
   var CHATWOOT_BASE  = 'https://app.chatwoot.com';
   // ──────────────────────────────────────────────
 

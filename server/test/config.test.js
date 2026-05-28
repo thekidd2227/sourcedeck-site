@@ -5,10 +5,25 @@ import { loadConfig } from '../src/config.js';
 test('config: dev defaults', () => {
   const cfg = loadConfig({});
   assert.equal(cfg.appEnv, 'development');
+  assert.equal(cfg.deploymentMode, 'commercial');
   assert.equal(cfg.storage.provider, 'local');
   assert.equal(cfg.ai.provider, 'mock');
+  assert.equal(cfg.ai.managedIbmWatsonAllowed, false);
   assert.equal(cfg.upload.maxMb, 25);
   assert.ok(cfg.upload.allowedTypes.includes('application/pdf'));
+});
+
+test('config: managed IBM Watson is entitlement gated', () => {
+  assert.equal(loadConfig({
+    SOURCEDECK_DEPLOYMENT_MODE: 'commercial',
+    SOURCEDECK_USER_TIER: 'federal',
+    SOURCEDECK_ENTITLEMENT_IBM_WATSON_MANAGED: 'true'
+  }).ai.managedIbmWatsonAllowed, false);
+  assert.equal(loadConfig({
+    SOURCEDECK_DEPLOYMENT_MODE: 'federal_managed',
+    SOURCEDECK_USER_TIER: 'federal',
+    SOURCEDECK_ENTITLEMENT_IBM_WATSON_MANAGED: 'true'
+  }).ai.managedIbmWatsonAllowed, true);
 });
 
 test('config: production requires secrets', () => {
