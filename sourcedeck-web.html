@@ -2867,8 +2867,8 @@ RULES (BINDING):
    public LinkedIn profile, a public directory listing, or an equivalent
    public source.
 2. The email domain MUST match the verified company website domain.
-   - If website = roseassociates.com, the only valid email domain
-     is @roseassociates.com. An email @rose.associates, @roseassoc.com,
+   - If website = example.com, the only valid email domain
+     is @example.com. An email @example.org, @example.net,
      or any other variant is INVALID unless you can cite a real, currently
      reachable public page that explicitly shows that alternate-domain email.
 3. Do NOT swap, shorten, split, re-TLD, or creatively derive email domains
@@ -2879,8 +2879,8 @@ RULES (BINDING):
    infinitely better than a hallucinated email that burns the sender's
    reputation.
 5. contact_quality_reason MUST name the exact page where the email was
-   displayed (e.g. "Email arose@roseassociates.com found on
-   https://www.roseassociates.com/team"). A bare claim without a specific
+   displayed (e.g. "Email contact@example.com found on
+   https://www.example.com/team"). A bare claim without a specific
    page URL is not sufficient — downstream validation will reject it.
 6. source_urls MUST include the page that showed the email. If source_urls
    does not contain a plausible email-source page, the lead will be
@@ -2894,17 +2894,17 @@ RULES (BINDING):
 DIRECT-EMAIL EXAMPLE:
 
 CORRECT:
-  website: "https://www.roseassociates.com"
-  verified_email: "arose@roseassociates.com"
-  contact_quality_reason: "Email arose@roseassociates.com found on
-    https://www.roseassociates.com/team — Amy Rose listed as CEO with
+  website: "https://www.example.com"
+  verified_email: "contact@example.com"
+  contact_quality_reason: "Email contact@example.com found on
+    https://www.example.com/team — Sample Contact listed as CEO with
     direct email on the same page."
-  source_urls: ["https://www.roseassociates.com/team", ...]
+  source_urls: ["https://www.example.com/team", ...]
 
 WRONG — DO NOT EMIT:
-  website: "https://www.roseassociates.com"
-  verified_email: "arose@rose.associates"
-  (WRONG: email domain rose.associates ≠ website domain roseassociates.com.
+  website: "https://www.example.com"
+  verified_email: "contact@example.org"
+  (WRONG: email domain example.org ≠ website domain example.com.
    No public source cited showing the alternate domain. This email was
    invented by pattern inference, not found on a real page.)
 
@@ -3179,22 +3179,22 @@ EXAMPLES — CORRECT vs WRONG LEAD CLASSIFICATIONS
 Study these. Any output that matches the WRONG pattern will be rejected downstream.
 
 CORRECT — Direct Decision-Maker Email:
-  verified_contact_name: "Amy Rose"
-  verified_email: "arose@rose.associates"
+  verified_contact_name: "Sample Contact"
+  verified_email: "contact@example.org"
   contact_quality: "Direct Decision-Maker Email"
   generic_inbox_fallback: false
   preferred_outreach_channel: "email"
-  contact_quality_reason: "Found Amy Rose listed as CEO on https://www.rose.associates/team with direct email on the same page. Did not need fallback."
+  contact_quality_reason: "Found Sample Contact listed as CEO on https://www.example.org/team with direct email on the same page. Did not need fallback."
 
 WRONG — DO NOT EMIT (misclassified generic inbox as direct):
   verified_contact_name: ""
-  verified_email: "info@rose.associates"
+  verified_email: "info@example.org"
   contact_quality: "Direct Decision-Maker Email"       (WRONG: info@ is NOT a decision-maker email)
   generic_inbox_fallback: false                         (WRONG: MUST be true for any info@/contact@/etc.)
 
 CORRECT — Generic Inbox Fallback with alternate path:
   verified_contact_name: ""
-  verified_email: "info@rose.associates"
+  verified_email: "info@example.org"
   contact_quality: "Generic Inbox Fallback"
   generic_inbox_fallback: true
   preferred_outreach_channel: "linkedin"
@@ -3202,10 +3202,10 @@ CORRECT — Generic Inbox Fallback with alternate path:
   contact_quality_reason: "Searched /team, /about, /leadership, LinkedIn company + people pages, Hunter.io, ZoomInfo, Facebook — no named decision-maker publicly listed. Only info@ available. Verified LinkedIn company page as alternate path."
 
 CORRECT — No Verified Email (Lane B):
-  verified_contact_name: "Sarah Saltzberg"
+  verified_contact_name: "Sample Person"
   verified_email: ""
   verified_phone: ""
-  linkedin_url: "https://www.linkedin.com/in/sarah-saltzberg/"
+  linkedin_url: "https://www.linkedin.com/in/example-contact/"
   contact_quality: "No Verified Email"
   generic_inbox_fallback: false
   preferred_outreach_channel: "linkedin"
@@ -3353,8 +3353,8 @@ Return only verified leads from real, publicly accessible sources. If you cannot
         // For leads classified as Direct/Named/Team/Departmental (the email-eligible
         // tiers), verify the email domain matches the company website domain.
         // If they don't match, the email is suspicious (likely hallucinated via
-        // alternate-TLD inference — e.g. arose@rose.associates when the website is
-        // roseassociates.com). Allow it only if explicit public-source evidence
+        // alternate-TLD inference — e.g. contact@example.org when the website is
+        // example.com). Allow it only if explicit public-source evidence
         // supports the alternate domain. Otherwise demote.
         const EMAIL_TIERS = ['Direct Decision-Maker Email','Named Employee / Team Email','Departmental / Functional Inbox'];
         if(EMAIL_TIERS.includes(l.contact_quality) && l.email && l.email.includes('@') && !l._demoted){
@@ -4832,7 +4832,7 @@ window.getLeadTruthBadge = getLeadTruthBadge;
 // Catches hallucinated emails whose domain doesn't match the company website.
 // Conservative: if in doubt, returns "mismatch" and lets the caller decide.
 
-// extractWebsiteDomain('https://www.roseassociates.com/team') → 'roseassociates.com'
+// extractWebsiteDomain('https://www.example.com/team') → 'example.com'
 function extractWebsiteDomain(website){
   if(!website) return '';
   try {
@@ -4843,14 +4843,14 @@ function extractWebsiteDomain(website){
   } catch(e){ return ''; }
 }
 
-// extractEmailDomain('arose@rose.associates') → 'rose.associates'
+// extractEmailDomain('contact@example.org') → 'example.org'
 function extractEmailDomain(email){
   if(!email || !email.includes('@')) return '';
   return email.trim().toLowerCase().split('@')[1] || '';
 }
 
-// doEmailDomainMatch('roseassociates.com', 'roseassociates.com') → true
-// doEmailDomainMatch('roseassociates.com', 'rose.associates') → false
+// doEmailDomainMatch('example.com', 'example.com') → true
+// doEmailDomainMatch('example.com', 'example.org') → false
 // Exact match only — no fuzzy matching, no subdomain tolerance.
 function doEmailDomainMatch(websiteDomain, emailDomain){
   if(!websiteDomain || !emailDomain) return false;
@@ -4861,7 +4861,7 @@ function doEmailDomainMatch(websiteDomain, emailDomain){
 // Returns true ONLY if explicit evidence supports the alternate domain.
 // "Explicit evidence" means source_urls contains a URL whose hostname
 // includes the alternate email domain (e.g. source_urls has
-// "https://rose.associates/team" and email is @rose.associates).
+// "https://example.org/team" and email is @example.org).
 // OR contact_quality_reason contains the exact alternate domain string
 // together with a URL-like citation. Both signals must be present.
 // Conservative: if in doubt, returns false.
@@ -4899,7 +4899,7 @@ window.checkEmailDomainConsistency = checkEmailDomainConsistency;
 // ── GENERIC INBOX DETECTOR — fallback-only classifier ──
 // Detects the conventional "mailbox role" generic addresses that should never
 // ride the verified-email lane. Normalizes the local-part before matching so
-// "Info@ROSE.associates" and " info@rose.associates " both match.
+// "Info@EXAMPLE.org" and " info@example.org " both match.
 // Keep this list in sync with the ENFORCEMENT block in the generator sysPrompt.
 function isGenericInboxEmail(email){
   if(!email) return false;
@@ -4920,10 +4920,10 @@ window.isGenericInboxEmail = isGenericInboxEmail;
 // Rejects any NANP phone whose 7-digit subscriber block matches 555-01xx or 555-1xxx.
 // Normalizes input to digits first so formatting (parentheses, dashes, country code, spaces,
 // plus signs, unicode dashes, extensions) doesn't bypass the rule.
-//   Examples rejected:  (212) 555-0634  |  212-555-1543  |  +1-809-555-1234  |  6465551932
-//   Examples allowed:   (212) 555-2486  is REJECTED (5552486 matches 5552xxx? no — 5550/5551 only)
-//                       (212) 489-1200  PASSES (non-555 exchange)
-//                       (212) 555-2000  PASSES (not in 5550xxx/5551xxx block)
+//   Examples rejected:  (555) 555-0163  |  212-555-1543  |  +1-809-555-1234  |  6465551932
+//   Examples allowed:   (555) 555-0186  is REJECTED (5552486 matches 5552xxx? no — 5550/5551 only)
+//                       (555) 555-0120  PASSES (non-555 exchange)
+//                       (555) 555-0100  PASSES (not in 5550xxx/5551xxx block)
 // Returns true if the phone is fictional / should be rejected. Empty/missing phone returns false.
 function isFictionalPhone(phone){
   if(!phone) return false;
@@ -5089,8 +5089,8 @@ RULES (BINDING):
    public LinkedIn profile, a public directory listing, or an equivalent
    public source.
 2. The email domain MUST match the verified company website domain.
-   - If website = roseassociates.com, the only valid email domain
-     is @roseassociates.com. An email @rose.associates, @roseassoc.com,
+   - If website = example.com, the only valid email domain
+     is @example.com. An email @example.org, @example.net,
      or any other variant is INVALID unless you can cite a real, currently
      reachable public page that explicitly shows that alternate-domain email.
 3. Do NOT swap, shorten, split, re-TLD, or creatively derive email domains
@@ -5101,8 +5101,8 @@ RULES (BINDING):
    infinitely better than a hallucinated email that burns the sender's
    reputation.
 5. contact_quality_reason MUST name the exact page where the email was
-   displayed (e.g. "Email arose@roseassociates.com found on
-   https://www.roseassociates.com/team"). A bare claim without a specific
+   displayed (e.g. "Email contact@example.com found on
+   https://www.example.com/team"). A bare claim without a specific
    page URL is not sufficient — downstream validation will reject it.
 6. source_urls MUST include the page that showed the email. If source_urls
    does not contain a plausible email-source page, the lead will be
@@ -5116,17 +5116,17 @@ RULES (BINDING):
 DIRECT-EMAIL EXAMPLE:
 
 CORRECT:
-  website: "https://www.roseassociates.com"
-  verified_email: "arose@roseassociates.com"
-  contact_quality_reason: "Email arose@roseassociates.com found on
-    https://www.roseassociates.com/team — Amy Rose listed as CEO with
+  website: "https://www.example.com"
+  verified_email: "contact@example.com"
+  contact_quality_reason: "Email contact@example.com found on
+    https://www.example.com/team — Sample Contact listed as CEO with
     direct email on the same page."
-  source_urls: ["https://www.roseassociates.com/team", ...]
+  source_urls: ["https://www.example.com/team", ...]
 
 WRONG — DO NOT EMIT:
-  website: "https://www.roseassociates.com"
-  verified_email: "arose@rose.associates"
-  (WRONG: email domain rose.associates ≠ website domain roseassociates.com.
+  website: "https://www.example.com"
+  verified_email: "contact@example.org"
+  (WRONG: email domain example.org ≠ website domain example.com.
    No public source cited showing the alternate domain. This email was
    invented by pattern inference, not found on a real page.)
 
@@ -5401,22 +5401,22 @@ EXAMPLES — CORRECT vs WRONG LEAD CLASSIFICATIONS
 Study these. Any output that matches the WRONG pattern will be rejected downstream.
 
 CORRECT — Direct Decision-Maker Email:
-  verified_contact_name: "Amy Rose"
-  verified_email: "arose@rose.associates"
+  verified_contact_name: "Sample Contact"
+  verified_email: "contact@example.org"
   contact_quality: "Direct Decision-Maker Email"
   generic_inbox_fallback: false
   preferred_outreach_channel: "email"
-  contact_quality_reason: "Found Amy Rose listed as CEO on https://www.rose.associates/team with direct email on the same page. Did not need fallback."
+  contact_quality_reason: "Found Sample Contact listed as CEO on https://www.example.org/team with direct email on the same page. Did not need fallback."
 
 WRONG — DO NOT EMIT (misclassified generic inbox as direct):
   verified_contact_name: ""
-  verified_email: "info@rose.associates"
+  verified_email: "info@example.org"
   contact_quality: "Direct Decision-Maker Email"       (WRONG: info@ is NOT a decision-maker email)
   generic_inbox_fallback: false                         (WRONG: MUST be true for any info@/contact@/etc.)
 
 CORRECT — Generic Inbox Fallback with alternate path:
   verified_contact_name: ""
-  verified_email: "info@rose.associates"
+  verified_email: "info@example.org"
   contact_quality: "Generic Inbox Fallback"
   generic_inbox_fallback: true
   preferred_outreach_channel: "linkedin"
@@ -5424,10 +5424,10 @@ CORRECT — Generic Inbox Fallback with alternate path:
   contact_quality_reason: "Searched /team, /about, /leadership, LinkedIn company + people pages, Hunter.io, ZoomInfo, Facebook — no named decision-maker publicly listed. Only info@ available. Verified LinkedIn company page as alternate path."
 
 CORRECT — No Verified Email (Lane B):
-  verified_contact_name: "Sarah Saltzberg"
+  verified_contact_name: "Sample Person"
   verified_email: ""
   verified_phone: ""
-  linkedin_url: "https://www.linkedin.com/in/sarah-saltzberg/"
+  linkedin_url: "https://www.linkedin.com/in/example-contact/"
   contact_quality: "No Verified Email"
   generic_inbox_fallback: false
   preferred_outreach_channel: "linkedin"
