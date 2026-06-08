@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SourceDeck — Pricing for GovCon teams</title>
-<meta name="description" content="SourceDeck pricing: subscription seats plus optional one-time implementation. Solo $79/mo, Team $349/mo, Enterprise from $999/mo.">
+<meta name="description" content="SourceDeck pricing: recurring GovCon Capture OS plus optional one-time implementation services. Solo Capture $149/mo, GovCon Operator $499/mo, Operator Plus $997/mo, Enterprise custom.">
 <link rel="canonical" href="https://sourcedeck.app/pricing/">
 <meta name="robots" content="index,follow">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -131,100 +131,107 @@
   <h1 style="font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-0.025em;margin-bottom:8px">Simple tiers for lean teams.</h1>
   <p style="font-size:15px;color:var(--sub);max-width:600px;line-height:1.6;margin-bottom:32px">Subscription seats are separate from optional one-time implementation fees. Start with one seat; add team workflow when capture volume grows.</p>
 
-  <!-- SUBSCRIPTION TIERS -->
-  <div class="sd-eyebrow" style="font:600 10px 'JetBrains Mono',monospace;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Subscription &mdash; per seat per month</div>
+  <!-- SUBSCRIPTION TIERS — Phase 22A-P V3 canonical pricing
+       (see sourcedeck-app docs/product/pricing-source-of-truth.md) -->
+  <div class="sd-eyebrow" style="font:600 10px 'JetBrains Mono',monospace;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Recurring GovCon Capture OS</div>
   <div class="pr-grid">
     <div class="pr-card">
-      <div class="pr-eyebrow">Solo</div>
-      <div class="pr-name">Solo</div>
-      <div class="pr-price">$79 <small>/ seat / mo</small></div>
-      <div class="pr-sub">One user. Full capture workflow.</div>
+      <div class="pr-eyebrow">Solo Capture</div>
+      <div class="pr-name">Solo Capture</div>
+      <div class="pr-price">$149 <small>/ month</small></div>
+      <div class="pr-sub">One operator. First 1&ndash;3 pursuits. 1 NAICS profile.</div>
       <ul class="pr-features">
-        <li>SAM.gov intake &amp; parsing</li>
-        <li>Bid/no-bid scoring</li>
-        <li>Compliance matrix</li>
-        <li>Proposal draft sections</li>
-        <li>Follow-up task tracking</li>
+        <li>SAM Sprint (Free entitlement: 1 NAICS)</li>
+        <li>Daily Rhythm tab</li>
+        <li>Basic outreach drafts (human approval required)</li>
+        <li>Basic deadline alerts</li>
+        <li>Response Desk (import-first)</li>
       </ul>
-      <a href="/request-access/" class="pr-cta outline">Get started</a>
+      <a href="/request-access/" class="pr-cta outline">Request access</a>
     </div>
     <div class="pr-card featured">
       <div class="pr-badge">RECOMMENDED</div>
-      <div class="pr-eyebrow">Team</div>
-      <div class="pr-name">Team</div>
-      <div class="pr-price">$349 <small>/ seat / mo</small></div>
-      <div class="pr-sub">Shared workspace for capture and proposal teams.</div>
+      <div class="pr-eyebrow">GovCon Operator</div>
+      <div class="pr-name">GovCon Operator</div>
+      <div class="pr-price">$499 <small>/ month &nbsp;&middot;&nbsp; $4,990 / year</small></div>
+      <div class="pr-sub">Active SMB primes. Multi-NAICS. Up to 3 users.</div>
       <ul class="pr-features">
-        <li>Everything in Solo</li>
-        <li>Shared pursuit workspace</li>
-        <li>Stakeholder graph &amp; assignments</li>
-        <li>Amendment &amp; Q&amp;A calendar</li>
-        <li>BYOK AI inference option</li>
+        <li>Everything in Solo Capture</li>
+        <li>Solicitation Workspace (Section L / M / B / C / H / K shred)</li>
+        <li>Compliance Matrix generator</li>
+        <li>Past Performance Library</li>
+        <li>Deadline &amp; Q&amp;A Calendar</li>
+        <li>Capability Statement Studio</li>
       </ul>
-      <a href="/request-access/" class="pr-cta primary">Request Team access</a>
+      <a href="/request-access/" class="pr-cta primary">Request access</a>
     </div>
     <div class="pr-card premium">
-      <div class="pr-badge gold">ENTERPRISE</div>
-      <div class="pr-eyebrow">Enterprise</div>
-      <div class="pr-name">Enterprise</div>
-      <div class="pr-price" style="font-size:28px">From $999 <small>/ seat / mo</small></div>
-      <div class="pr-sub">Custom workflow, data handling, and support.</div>
+      <div class="pr-badge gold">OPERATOR PLUS</div>
+      <div class="pr-eyebrow">Operator Plus</div>
+      <div class="pr-name">Operator Plus</div>
+      <div class="pr-price">$997 <small>/ month &nbsp;&middot;&nbsp; $9,970 / year</small></div>
+      <div class="pr-sub">BD-as-a-service operators. Up to 5 users.</div>
       <ul class="pr-features">
-        <li>Everything in Team</li>
-        <li>Custom NAICS / agency filters</li>
-        <li>CUI-aware data handling</li>
-        <li>Dedicated support</li>
-        <li>Volume pricing available</li>
+        <li>Everything in GovCon Operator</li>
+        <li>Submission Readiness Gate</li>
+        <li>Submission Package Export Bundle</li>
+        <li>Teaming Workspace (Prime + Sub + Middleman-Fit + Stakeholder Graph)</li>
+        <li>Multi-client switching</li>
       </ul>
-      <a href="/request-access/" class="pr-cta gold">Contact sales</a>
+      <a href="/quote/operator/" class="pr-cta gold">Request Operator Plus</a>
     </div>
   </div>
 
+  <div class="impl-note" style="margin-top:18px"><strong>Enterprise / Government &mdash; custom.</strong> Private deployment, security review, tenant policy, custom workflows, governed AI provider rules. <a href="/quote/operator/" style="color:var(--accent2)">Contact sales</a>.</div>
+
   <div class="pr-divider"></div>
 
-  <!-- IMPLEMENTATION TIERS -->
-  <div class="sd-eyebrow" style="font:600 10px 'JetBrains Mono',monospace;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Optional one-time implementation</div>
-  <div class="impl-note"><strong>Implementation is optional and separate from the subscription.</strong> Choose it only if you want help standing up the workflow against your existing past-performance library and pursuit pipeline. You enter your own private credentials where required.</div>
+  <!-- IMPLEMENTATION SERVICES (one-time, optional) — Phase 22A-P V3 -->
+  <div class="sd-eyebrow" style="font:600 10px 'JetBrains Mono',monospace;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Implementation services (one-time, optional)</div>
+  <div class="impl-note"><strong>Implementation services are separate from the recurring product.</strong> Choose a service only if you want help standing up the workflow against your existing past-performance library and pursuit pipeline. A buyer purchasing the recurring product does not need to purchase a service tier.</div>
   <div class="pr-grid">
     <div class="pr-card">
-      <div class="pr-eyebrow">Self-install</div>
-      <div class="pr-name">Core</div>
-      <div class="pr-price">$997 <small>one-time</small></div>
-      <div class="pr-sub">System access, install docs, and setup walkthroughs.</div>
+      <div class="pr-eyebrow">Self-Install</div>
+      <div class="pr-name">Self-Install Implementation</div>
+      <div class="pr-price">$1,497 <small>one-time</small></div>
+      <div class="pr-sub">User-led configuration with install documentation and setup walkthroughs.</div>
       <ul class="pr-features">
-        <li>Full install documentation</li>
-        <li>Setup walkthrough access</li>
-        <li>Core workflow assets</li>
+        <li>Setup checklist + install documentation</li>
+        <li>Basic GovCon workflow templates</li>
+        <li>Basic prompt library</li>
+        <li>User-led configuration</li>
       </ul>
-      <a href="/quote/pro/?tier=core" class="pr-cta outline">Get Core</a>
+      <a href="/quote/pro/?tier=self-install" class="pr-cta outline">Request Self-Install</a>
     </div>
     <div class="pr-card featured">
-      <div class="pr-eyebrow">Guided onboarding</div>
-      <div class="pr-name">Growth</div>
-      <div class="pr-price">$2,497 <small>one-time</small></div>
-      <div class="pr-sub">Everything in Core plus guided setup and connection.</div>
+      <div class="pr-eyebrow">Guided</div>
+      <div class="pr-name">Guided Implementation</div>
+      <div class="pr-price">$3,497 <small>one-time</small></div>
+      <div class="pr-sub">Operator-led setup so you start with less friction.</div>
       <ul class="pr-features">
-        <li>Everything in Core</li>
-        <li>Live onboarding session</li>
-        <li>Tool connection guidance</li>
-        <li>Core workflow test during onboarding</li>
+        <li>Self-Install included</li>
+        <li>Guided GovCon Operating Profile setup</li>
+        <li>SAM / API onboarding support</li>
+        <li>Basic workflow testing</li>
+        <li>Walkthrough and handoff</li>
       </ul>
-      <a href="/quote/pro/?tier=growth" class="pr-cta primary">Choose Growth</a>
+      <a href="/quote/pro/?tier=guided" class="pr-cta primary">Request Guided</a>
     </div>
     <div class="pr-card premium">
       <div class="pr-badge gold">DONE-FOR-YOU</div>
-      <div class="pr-eyebrow">Full implementation</div>
-      <div class="pr-name">White-Glove</div>
-      <div class="pr-price">$4,997 <small>one-time</small></div>
-      <div class="pr-sub">Installed, connected, tested, and handed over ready to run.</div>
+      <div class="pr-eyebrow">DFY</div>
+      <div class="pr-name">DFY Implementation</div>
+      <div class="pr-price">$5,997 <small>one-time</small></div>
+      <div class="pr-sub">Done-for-you implementation against your pursuit pipeline.</div>
       <ul class="pr-features">
-        <li>Everything in Growth</li>
-        <li>Full environment setup</li>
-        <li>Past-performance library integration</li>
-        <li>Workflow configuration &amp; test</li>
-        <li>Handover session</li>
+        <li>Business profile setup</li>
+        <li>Capability statement review</li>
+        <li>NAICS / PSC / certification setup</li>
+        <li>SAM / API / AI credential onboarding support</li>
+        <li>Capture Suite + Outreach Agent + Prime Partner Finder setup</li>
+        <li>QA and handoff</li>
       </ul>
-      <a href="/quote/pro/?tier=white-glove" class="pr-cta gold">Get White-Glove</a>
+      <a href="/quote/pro/?tier=dfy" class="pr-cta gold">Request DFY</a>
     </div>
   </div>
 

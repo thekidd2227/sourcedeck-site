@@ -77,8 +77,8 @@
       'Convierte leads, oportunidades y solicitudes en flujos de trabajo para equipos de GovCon, ventas, salud, staffing e inmuebles.',
     'SourceDeck — Simple pricing for lean teams':
       'SourceDeck — Precios simples para equipos ágiles',
-    'Subscription seats from $79 / mo. Optional one-time implementation from $997. No PO-based payment.':
-      'Asientos de suscripción desde $79/mes. Implementación opcional única desde $997. No aceptamos pagos basados en órdenes de compra.',
+    'Recurring GovCon Capture OS from $149 / mo. Optional one-time implementation services from $1,497. No PO-based payment.':
+      'GovCon Capture OS recurrente desde $149/mes. Servicios opcionales de implementación única desde $1,497. No aceptamos pagos basados en órdenes de compra.',
     'SourceDeck — Request access':
       'SourceDeck — Solicitar acceso',
     'SourceDeck is access-controlled. No public demo, no self-serve sign-up, and no public download.':
@@ -87,8 +87,8 @@
     'SourceDeck is available by request. There is no public demo or self-serve sign-up. Contact sales to learn more or request access.':
       'SourceDeck está disponible bajo solicitud. No hay demo público ni registro autoservicio. Contacta ventas para conocer más o solicitar acceso.',
     'SourceDeck — Pricing for GovCon teams': 'SourceDeck — Precios para equipos GovCon',
-    'SourceDeck pricing: subscription seats plus optional one-time implementation. Solo $79/mo, Team $349/mo, Enterprise from $999/mo.':
-      'Precios de SourceDeck: asientos de suscripción más implementación opcional única. Solo $79/mes, Team $349/mes, Enterprise desde $999/mes.',
+    'SourceDeck pricing: recurring GovCon Capture OS plus optional one-time implementation services. Solo Capture $149/mo, GovCon Operator $499/mo, Operator Plus $997/mo, Enterprise custom.':
+      'Precios de SourceDeck: GovCon Capture OS recurrente más servicios opcionales de implementación única. Solo Capture $149/mes, GovCon Operator $499/mes, Operator Plus $997/mes, Enterprise personalizado.',
     'SourceDeck — Onboarding': 'SourceDeck — Onboarding',
     'SourceDeck · Set up your workspace': 'SourceDeck · Configura tu espacio de trabajo',
     'SourceDeck — Request access': 'SourceDeck — Solicitar acceso',
@@ -813,7 +813,7 @@
     'Request Team access': 'Solicitar acceso Team',
     'ENTERPRISE': 'ENTERPRISE',
     'Enterprise': 'Enterprise',
-    'From $999': 'Desde $999',
+    'From $997': 'Desde $997',
     'Custom workflow, data handling, and support.':
       'Flujo de trabajo, manejo de datos y soporte personalizados.',
     'Everything in Team': 'Todo lo de Team',
