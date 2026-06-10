@@ -28,18 +28,28 @@
       operator: 'prod_UL6HphbFYbXHfG'
     },
 
-    /* LIVE pricing (v2 — outcome-based $79 / $349 / $999).
-       Legacy v1 IDs preserved in STRIPE_PRICES_LEGACY for any
-       grandfathered checkouts that reference them. */
+    /* Stripe Price IDs — V2 (legacy, GRANDFATHERED SERVER-SIDE ONLY).
+       These IDs remain valid for existing subscriptions that were
+       created at V2 amounts ($79 / $349 / $999). They are NOT the
+       current published pricing. Live published pricing is V3:
+       Solo Capture $149/mo · GovCon Operator $499/mo or $4,990/yr ·
+       Operator Plus $997/mo or $9,970/yr · Enterprise custom.
+       Authoritative source:
+       sourcedeck-app/docs/product/pricing-source-of-truth.md
+       (Phase 22A-P V3 canonical).
+       New checkouts that flip self-serve must use NEW V3 Stripe
+       Price IDs created by the operator in the Stripe dashboard.
+       These V2 IDs must not be exposed on /pricing/ or any
+       new buyer-facing CTA. */
     STRIPE_PRICES: {
-      core_monthly:     'price_1TMTKWGwsCHM3Ft22HGtJC8s',   // $79/mo
-      pro_monthly:      'price_1TMTKXGwsCHM3Ft2tlG5n600',   // $349/mo
-      pro_annual:       'price_1TMQ5tGwsCHM3Ft2O3jCnbce',   // legacy annual — still valid
-      operator_monthly: 'price_1TMTKZGwsCHM3Ft2UQuF06fe'    // $999/mo
+      core_monthly:     'price_1TMTKWGwsCHM3Ft22HGtJC8s',   // V2 $79/mo — grandfathered server-side only
+      pro_monthly:      'price_1TMTKXGwsCHM3Ft2tlG5n600',   // V2 $349/mo — grandfathered server-side only
+      pro_annual:       'price_1TMQ5tGwsCHM3Ft2O3jCnbce',   // legacy annual — grandfathered server-side only
+      operator_monthly: 'price_1TMTKZGwsCHM3Ft2UQuF06fe'    // V2 $999/mo — grandfathered server-side only
     },
     STRIPE_PRICES_LEGACY: {
-      pro_monthly:      'price_1TMQ5ZGwsCHM3Ft215bvDkQv',   // $49/mo — do not delete, legacy subs
-      operator_monthly: 'price_1TMQ6CGwsCHM3Ft2sNO1UyzL'    // $149/mo — do not delete, legacy subs
+      pro_monthly:      'price_1TMQ5ZGwsCHM3Ft215bvDkQv',   // V1 $49/mo — grandfathered, do not delete
+      operator_monthly: 'price_1TMQ6CGwsCHM3Ft2sNO1UyzL'    // V1 $149/mo — grandfathered, do not delete
     },
 
     /* If the publishable key is missing, these interim pages take over. */
