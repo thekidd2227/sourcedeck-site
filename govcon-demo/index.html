@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SourceDeck — GovCon Capture OS demo clips</title>
+<meta name="description" content="Short demo clips of the SourceDeck GovCon Capture OS workflow — opportunity capture, solicitation, compliance, pricing, readiness, and internal review export. Sample data only.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://sourcedeck.app/govcon-demo/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="SourceDeck GovCon Capture OS — demo clips">
+<meta property="og:description" content="GovCon capture workflow, sample data only. SourceDeck does not submit bids, quotes, emails, or portal uploads.">
+<meta property="og:url" content="https://sourcedeck.app/govcon-demo/">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/sd-theme.css">
+<style>
+.gd-wrap{max-width:1100px;margin:0 auto;padding:48px 22px 80px;position:relative;z-index:1}
+.gd-h1{font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-0.025em;line-height:1.08;color:#fff;margin:8px 0 10px}
+.gd-lede{font-size:15px;color:var(--sub);max-width:700px;line-height:1.6;margin-bottom:10px}
+.gd-banner{padding:12px 16px;background:rgba(212,168,67,0.05);border:0.5px solid rgba(212,168,67,0.22);border-radius:10px;margin:14px 0 28px;font-size:12.5px;color:var(--muted);line-height:1.55}
+.gd-banner b{color:#fff}
+.gd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
+.gd-card{background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+/* Poster/video slot. Real clips are added later (see comment below). Until
+   then this is a captioned placeholder — no media is shipped. */
+.gd-slot{aspect-ratio:16/9;background:#0c1016;border-bottom:0.5px solid rgba(255,255,255,0.06);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:16px}
+.gd-slot .num{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#f3d684,#d4a843 55%,#a07b2a);color:#0a0a0a;font:800 15px/1 'Inter',sans-serif;display:flex;align-items:center;justify-content:center}
+.gd-slot .status{font:600 9px/1 'JetBrains Mono',monospace;letter-spacing:0.12em;text-transform:uppercase;color:#d4a843;background:rgba(212,168,67,0.10);padding:3px 8px;border-radius:5px}
+.gd-slot .file{font:500 10.5px/1.3 'JetBrains Mono',monospace;color:rgba(245,245,247,0.4);word-break:break-all}
+.gd-body{padding:14px 16px}
+.gd-body .h{font-size:14px;font-weight:700;color:#fff;letter-spacing:-0.01em;margin-bottom:4px}
+.gd-body .cap{font-size:12.5px;color:var(--sub);line-height:1.5}
+.gd-cta-row{margin-top:40px;text-align:center;padding:28px 20px;background:var(--card);border:0.5px solid rgba(255,255,255,0.08);border-radius:16px}
+.gd-cta-row h2{font-size:22px;font-weight:800;color:#fff;letter-spacing:-0.02em;margin:0 0 14px}
+.gd-btn{display:inline-block;padding:12px 24px;border-radius:10px;font-size:14px;font-weight:700;text-decoration:none;margin:4px}
+.gd-btn.primary{background:linear-gradient(135deg,#f3d684,#d4a843 55%,#a07b2a);color:#0a0a0a}
+.gd-btn.ghost{background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.14);color:var(--text)}
+@media (prefers-reduced-motion: reduce){.gd-btn{transition:none}}
+</style>
+<script src="/assets/sd-i18n-dict.js" defer></script>
+<script src="/assets/sd-i18n.js" defer></script>
+</head>
+<body>
+<div class="sd-bg"></div><div class="sd-grid"></div>
+
+<nav class="sd-nav">
+  <a class="sd-brand" href="/"><img src="/assets/sourcedeck-mark.svg" alt="SourceDeck logo" width="26" height="26" style="display:block;vertical-align:middle;margin-right:6px"> SourceDeck</a>
+  <div class="sd-tabs">
+    <div class="sd-tab-group">
+      <button class="sd-tab-btn" aria-haspopup="true">Product <span class="sd-chevron">&#8964;</span></button>
+      <div class="sd-dropdown">
+        <a href="/sample-source-deck/">Sample SourceDeck</a>
+        <a href="/demo-walkthrough/">Demo walkthrough</a>
+        <a href="/govcon-demo/">GovCon demo clips</a>
+        <a href="/pricing/">Pricing</a>
+      </div>
+    </div>
+    <a href="/request-access/" class="sd-nav-cta">Request access &rarr;</a>
+  </div>
+  <button class="sd-hamburger" aria-label="Open menu" onclick="this.closest('nav').classList.toggle('open')">&#9776;</button>
+</nav>
+
+<main class="gd-wrap">
+  <div class="sd-eyebrow"><span class="dot"></span> GovCon Capture OS &middot; sample data</div>
+  <h1 class="gd-h1">GovCon Capture OS — demo clips</h1>
+  <p class="gd-lede">Short clips of the SourceDeck GovCon capture workflow: find an opportunity, triage the solicitation, line up vendor pricing, prove past performance, and prepare an internal-review package — human-approved at every step.</p>
+
+  <!-- Required Phase 23J disclaimer (verbatim) — must stay legible near the clips. -->
+  <div class="gd-banner"><b>Demo uses sample data.</b> SourceDeck does not submit bids, quotes, emails, or portal uploads. Exports are for internal review unless separately submitted by the user.</div>
+
+  <!--
+    CLIP STATUS: final buyer-facing video clips are NOT yet recorded.
+    The eight slots below are captioned placeholders. When the operator
+    records the approved clips (Phase 23J canonical set, clean profile,
+    unsigned-build caveat narrated), replace each .gd-slot with, e.g.:
+
+      <video class="gd-slot" muted playsinline controls preload="none"
+             poster="/assets/govcon-demo/00-cold-open-poster.jpg"
+             aria-label="GovCon Capture OS cold open">
+        <source src="/assets/govcon-demo/sourcedeck-govcon-00-cold-open.webm" type="video/webm">
+        <source src="/assets/govcon-demo/sourcedeck-govcon-00-cold-open.mp4"  type="video/mp4">
+        <track kind="captions" src="/assets/govcon-demo/00-cold-open.vtt" srclang="en" label="English" default>
+      </video>
+
+    No autoplay-with-sound. Lazy/`preload="none"`. Captions + poster + aria-label required.
+  -->
+  <div class="gd-grid">
+
+    <div class="gd-card">
+      <div class="gd-slot" role="img" aria-label="Placeholder for GovCon Capture OS cold open clip — recording in progress">
+        <div class="num">00</div><div class="status">Recording in progress</div>
+        <div class="file">sourcedeck-govcon-00-cold-open</div>
+      </div>
+      <div class="gd-body"><div class="h">Cold open — GovCon Capture OS</div><div class="cap">Opens to the capture workflow, not a generic CRM.</div></div>
+    </div>
+
+    <div class="gd-card">
+      <div class="gd-slot" role="img" aria-label="Placeholder for Load Sample Demo Data clip — recording in progress">
+        <div class="num">01</div><div class="status">Recording in progress</div>
+        <div class="file">sourcedeck-govcon-01-load-sample-data</div>
+      </div>
+      <div class="gd-body"><div class="h">Load sample demo data</div><div class="cap">Every section populates with data tagged as a demo; real data replaces it.</div></div>
+    </div>
+
+    <div class="gd-card">
+      <div class="gd-slot" role="img" aria-label="Placeholder for Capture Command Center clip — recording in progress">
+        <div class="num">02</div><div class="status">Recording in progress</div>
+        <div class="file">sourcedeck-govcon-02-capture-command-center</div>
+      </div>
+      <div class="gd-body"><div class="h">Capture Command Center</div><div class="cap">Active pursuits, deadlines, approvals — where the day starts.</div></div>
+    </div>
+
+    <div class="gd-card">
+      <div class="gd-slot" role="img" aria-label="Placeholder for Solicitation Workspace clip — recording in progress">
+        <div class="num">03</div><div class="status">Recording in progress</div>
+        <div class="file">sourcedeck-govcon-03-solicitation-workspace</div>
+      </div>
+      <div class="gd-body"><div class="h">Solicitation workspace + compliance</div><div class="cap">Section L / M, PWS, required forms, and a 10-column compliance matrix.</div></div>
+    </div>
+
+    <div class="gd-card">
+      <div class="gd-slot" role="img" aria-label="Placeholder for Compliance Matrix clip — recording in progress">
+        <div class="num">04</div><div class="status">Recording in progress</div>
+        <div class="file">sourcedeck-govcon-04-compliance-matrix</div>
+      </div>
+      <div class="gd-body"><div class="h">Compliance matrix detail</div><div class="cap">Mandatory-vs-optional is verb-driven; status defaults to Draft — Not Reviewed.</div></div>
+    </div>
+
+    <div class="gd-card">
+      <div class="gd-slot" role="img" aria-label="Placeholder for Vendor and Pricing clip — recording in progress">
+        <div class="num">05</div><div class="status">Recording in progress</div>
+        <div class="file">sourcedeck-govcon-05-vendor-pricing</div>
+      </div>
+      <div class="gd-body"><div class="h">Vendor quotes + pricing worksheet</div><div class="cap">Quotes are "requested manually"; pricing is an advisory estimate. None of it is submitted.</div></div>
+    </div>
+
+    <div class="gd-card">
+      <div class="gd-slot" role="img" aria-label="Placeholder for Submission Readiness clip — recording in progress">
+        <div class="num">06</div><div class="status">Recording in progress</div>
+        <div class="file">sourcedeck-govcon-06-submission-readiness</div>
+      </div>
+      <div class="gd-body"><div class="h">Submission readiness gate</div><div class="cap">Advisory readiness score and checklist. "Ready for Human Review" only when every required item is reviewed.</div></div>
+    </div>
+
+    <div class="gd-card">
+      <div class="gd-slot" role="img" aria-label="Placeholder for Internal Review Export clip — recording in progress">
+        <div class="num">07</div><div class="status">Recording in progress</div>
+        <div class="file">sourcedeck-govcon-07-internal-review-export</div>
+      </div>
+      <div class="gd-body"><div class="h">Internal review export</div><div class="cap">A local Markdown draft headed "Internal Review Draft — Not Submitted," carrying a sample-data warning.</div></div>
+    </div>
+
+  </div>
+
+  <div class="gd-cta-row">
+    <h2>See it on your actual NAICS and past performance.</h2>
+    <a class="gd-btn primary" href="/request-access/">Request access &rarr;</a>
+    <a class="gd-btn ghost" href="/demo-walkthrough/">View the walkthrough</a>
+  </div>
+</main>
+
+<footer class="sd-foot">SourceDeck is an <a href="https://arcgsystems.com" target="_blank" rel="noopener">ARCG Systems</a> product &middot; &copy; 2026</footer>
+</body>
+</html>
