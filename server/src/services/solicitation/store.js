@@ -11,9 +11,10 @@
 let _seq = 0;
 function id(prefix) {
   _seq += 1;
-  // Deterministic-ish, monotonic id (no Math.random/Date in hot path so tests
-  // are stable). Callers may pass createdAt explicitly.
-  return `${prefix}_${_seq.toString(36)}${(_seq * 2654435761 % 0xffffff).toString(36)}`;
+  // Monotonic, process-unique id (no Math.random/Date so tests are stable).
+  // Module-scoped counter → unique across store instances. Callers may pass
+  // createdAt explicitly.
+  return `${prefix}_${_seq.toString(36).padStart(6, '0')}`;
 }
 
 export function createInMemorySolicitationStore() {
