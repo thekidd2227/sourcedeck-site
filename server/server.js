@@ -20,6 +20,8 @@ import { processRouter } from './src/routes/process.js';
 import { resultsRouter } from './src/routes/results.js';
 import { aiRouter }      from './src/routes/ai.js';
 import { agentsRouter }  from './src/routes/agents.js';
+import { solicitationRouter } from './src/routes/solicitation.js';
+import { createInMemorySolicitationStore } from './src/services/solicitation/store.js';
 import { getTenantPolicyRepo, ensureProductionPersistence, autoBindPersistence } from './src/services/persistence/index.js';
 import { autoBindByokStore } from './src/services/ai/byok.js';
 import { createAuthMiddleware } from './src/middleware/oidc.js';
@@ -113,6 +115,15 @@ async function bootstrap() {
   app.use('/api/v1/results',   resultsRouter({ store }));
   app.use('/api/v1/ai',        aiRouter({ gateway: deps.gateway, tenantSettings }));
   app.use('/api/v1/agents',    agentsRouter({ deps, tenantSettings }));
+
+  // Solicitation Intelligence Workspace — additive, feature-flagged. Mounted
+  // only when SOLICITATION_WORKSPACE_ENABLED !== 'false' (default on).
+  if (process.env.SOLICITATION_WORKSPACE_ENABLED !== 'false') {
+    const solicitationStore = createInMemorySolicitationStore();
+    app.use('/api/v1/solicitation',
+      solicitationRouter({ deps, store: solicitationStore, uploadMw }));
+    log.info('solicitation.workspace_mounted', { route: '/api/v1/solicitation' });
+  }
 
   app.use((req, res) => res.status(404).json({ error: 'not_found', path: req.path }));
 
