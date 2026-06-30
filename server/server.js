@@ -21,7 +21,7 @@ import { resultsRouter } from './src/routes/results.js';
 import { aiRouter }      from './src/routes/ai.js';
 import { agentsRouter }  from './src/routes/agents.js';
 import { solicitationRouter } from './src/routes/solicitation.js';
-import { createInMemorySolicitationStore } from './src/services/solicitation/store.js';
+import { planSolicitationMount } from './src/services/solicitation/wiring.js';
 import { getTenantPolicyRepo, ensureProductionPersistence, autoBindPersistence } from './src/services/persistence/index.js';
 import { autoBindByokStore } from './src/services/ai/byok.js';
 import { createAuthMiddleware } from './src/middleware/oidc.js';
@@ -116,13 +116,18 @@ async function bootstrap() {
   app.use('/api/v1/ai',        aiRouter({ gateway: deps.gateway, tenantSettings }));
   app.use('/api/v1/agents',    agentsRouter({ deps, tenantSettings }));
 
-  // Solicitation Intelligence Workspace — additive, feature-flagged. Mounted
-  // only when SOLICITATION_WORKSPACE_ENABLED !== 'false' (default on).
-  if (process.env.SOLICITATION_WORKSPACE_ENABLED !== 'false') {
-    const solicitationStore = createInMemorySolicitationStore();
+  // Solicitation Intelligence Workspace — additive, DEFAULT OFF. Mounts only
+  // when SOLICITATION_WORKSPACE_ENABLED === 'true'. In production, mounting is
+  // refused (startup throws) unless all mandatory dependencies are configured
+  // (persistent repo + object storage + real auth + tenant enforcement +
+  // durable worker). The in-memory store is never used in production.
+  const solicitationPlan = planSolicitationMount(cfg, process.env);
+  if (solicitationPlan.mount) {
     app.use('/api/v1/solicitation',
-      solicitationRouter({ deps, store: solicitationStore, uploadMw }));
+      solicitationRouter({ deps, store: solicitationPlan.store, uploadMw }));
     log.info('solicitation.workspace_mounted', { route: '/api/v1/solicitation' });
+  } else {
+    log.info('solicitation.workspace_not_mounted', { reason: solicitationPlan.reason });
   }
 
   app.use((req, res) => res.status(404).json({ error: 'not_found', path: req.path }));
