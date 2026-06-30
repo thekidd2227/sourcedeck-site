@@ -45,7 +45,12 @@ function classify(filename, text = '') {
 export function runDocumentExtraction(store, tenantId, doc, input, now = null) {
   try {
     store.updateDocument(tenantId, doc.id, { processing_status: 'extracting' });
-    const buffer = input.buffer || Buffer.from(input.normalizedContent ? JSON.stringify(input.normalizedContent) : '');
+    // D2: the normalizedContent sidecar is a TEST/DEV-only injection. In
+    // production, extraction MUST derive from real parsed bytes — a
+    // client/test-provided sidecar can never be authoritative.
+    const allowSidecar = process.env.APP_ENV !== 'production';
+    const sidecar = allowSidecar ? (input.normalizedContent || null) : null;
+    const buffer = input.buffer || Buffer.from(sidecar ? JSON.stringify(sidecar) : '');
     const hash = contentHash(buffer);
 
     const dup = store.findDocumentByHash(tenantId, doc.batch_id, hash);
@@ -61,7 +66,7 @@ export function runDocumentExtraction(store, tenantId, doc, input, now = null) {
     const extraction = extractDocument({
       buffer: input.buffer || Buffer.alloc(0),
       filename: doc.original_filename, mime: doc.content_type,
-      normalizedContent: input.normalizedContent || null
+      normalizedContent: sidecar
     });
     store.putExtraction(tenantId, doc.id, extraction);
 
