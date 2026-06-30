@@ -11,6 +11,8 @@
 //   extraction with an explicit `parser_pending` warning — never fabricated text.
 
 import crypto from 'node:crypto';
+import { parsePdf } from './pdf.js';
+import { parseXlsx } from './xlsx.js';
 
 const TYPE_BY_EXT = {
   pdf: 'pdf', docx: 'docx', doc: 'docx',
@@ -57,7 +59,29 @@ export function extractDocument({ buffer, filename, mime, normalizedContent = nu
     return base({ extractionMethod: 'csv_cell', sheets: [sheet], text, warnings });
   }
 
-  // PDF / DOCX / XLSX / image: use the sidecar a real parser would produce.
+  // Real byte parsing (preferred). Only used when actual bytes are present;
+  // tests/dev without bytes fall through to the sidecar below.
+  if (type === 'pdf' && buffer && buffer.length) {
+    const r = parsePdf(buffer);
+    if (r.pages.length || r.text) {
+      return base({ extractionMethod: 'pdf_text', pages: r.pages, text: r.text,
+        warnings: warnings.concat(r.warnings.map(w => ({ code: 'pdf', message: w }))) });
+    }
+    for (const w of r.warnings) warnings.push({ code: 'pdf', message: w });
+    // image-only PDF → fall through (sidecar in dev, else parser_pending/OCR-B)
+  }
+  if (type === 'xlsx' && buffer && buffer.length) {
+    try {
+      const { sheets } = parseXlsx(buffer);
+      const text = sheets.map(s => `[Sheet: ${s.sheetName}]\n` +
+        Object.entries(s.cells).map(([a, v]) => `${a}=${v}`).join(' ')).join('\n');
+      return base({ extractionMethod: 'xlsx_cell', sheets, text, warnings });
+    } catch (e) {
+      warnings.push({ code: 'xlsx_parse_error', message: e.message });
+    }
+  }
+
+  // DOCX/image (and dev fixtures) — use the sidecar a real parser would produce.
   if (normalizedContent) {
     return base({
       extractionMethod: normalizedContent.extractionMethod || methodForType(type),
